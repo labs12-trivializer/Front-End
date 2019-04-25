@@ -6,6 +6,8 @@ export default class Auth {
   idToken;
   expiresAt;
 
+  // the audience here must match the api audience in our auth0 dashboard
+  // the accessToken we get back will be the one used for restricted api calls
   auth0 = new auth0.WebAuth({
     domain: 'dev-d9y68pfa.auth0.com',
     clientID: 'k6xsJZMJxRo6xrlfua5hWIUS0Dms5w8G',
