@@ -8,7 +8,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'dev-d9y68pfa.auth0.com',
     clientID: 'k6xsJZMJxRo6xrlfua5hWIUS0Dms5w8G',
-    redirectUri: 'http://localhost:3000/callback',
+    redirectUri: process.env.REDIRECT_URI || 'http://localhost:3000/callback',
     audience: 'https://lambda-trivializer.herokuapp.com/',
     responseType: 'token id_token',
     scope: 'openid'
