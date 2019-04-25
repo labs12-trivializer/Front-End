@@ -1,5 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import Reset from './components/Reset';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <div>
+    <Reset />
+    <App />
+  </div>,
+  document.getElementById('root')
+);
