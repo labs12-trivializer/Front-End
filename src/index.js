@@ -1,12 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import Reset from './components/Reset';
+import Root from './components/Root';
+import configureStore from './store';
 
-ReactDOM.render(
-  <div>
-    <Reset />
-    <App />
-  </div>,
-  document.getElementById('root')
-);
+const store = configureStore();
+
+ReactDOM.render(<Root store={store} />, document.getElementById('root'));
