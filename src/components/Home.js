@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Restricted from './Restricted';
 
-// const username = localStorage.getItem('username');
+import Menu from './Menu';
 
 class Home extends Component {
   constructor(props){
@@ -27,19 +27,16 @@ class Home extends Component {
 
     const { isAuthenticated } = this.props.auth;
 
-    return (
-      <div>{isAuthenticated() ? (
-        <div>{this.state.hasUsername ? (
-          <div>Loading user info...</div>
-          ) : (
-            <div>{`Welcome, ${this.state.username}!`}</div>
-          )}
+    return !isAuthenticated()
+      ? (<div><Restricted login={this.login}/></div>)
+      : (
+        <div>
+          <div>{`Welcome${', ' + this.state.username}!`}</div>
+          <div>
+            <Menu />
+          </div>
         </div>
-      ) 
-      : (<Restricted login={this.login}/>)
-        }
-      </div>
-    );
+      )
   }
 }
 
