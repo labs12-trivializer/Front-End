@@ -1,4 +1,5 @@
 import React from 'react';
+import Restricted from './Restricted';
 
 const Home = ({ auth }) => {
   const login = () => {
@@ -9,16 +10,14 @@ const Home = ({ auth }) => {
 
   return (
     <div>
-      {isAuthenticated() ? (
-        <h4>You are logged in!</h4>
-      ) : (
-        <div>
-          <h4>You are not logged in!</h4>
-          <p>Please <button onClick={login}>Log In</button> to continue.</p>
-        </div>
-      )}
+      {
+        isAuthenticated() 
+          ? (<div>Logged In!</div>) 
+          : (<Restricted login={login}/>)
+      }
     </div>
   );
 };
 
 export default Home;
+
