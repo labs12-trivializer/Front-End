@@ -11,7 +11,7 @@ export default class Auth {
     redirectUri: process.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000/callback',
     audience: 'https://lambda-trivializer.herokuapp.com/',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   login = () => {
@@ -21,7 +21,17 @@ export default class Auth {
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
+        this.auth0.client.userInfo(authResult.accessToken, async (err, profile) => {
+          if (profile) {
+            this.userProfile = { profile };
+            console.log('User Profile:', this.userProfile)
+            // Wait for localStorate to receive username value
+            await this.userProfile.profile.given_name
+              ? localStorage.setItem('username', this.userProfile.profile.given_name)
+              : localStorage.setItem('username', this.userProfile.profile.nickname);
+          }
+          this.setSession(authResult);
+        })
       } else if (err) {
         history.replace('/home');
         console.log(err);
@@ -29,6 +39,7 @@ export default class Auth {
       }
     });
   };
+
 
   getAccessToken = () => this.accessToken;
 
