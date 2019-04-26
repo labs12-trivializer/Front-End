@@ -8,10 +8,12 @@ const NavBar = ({ auth }) => {
     auth.logout();
   };
   
+  const username = localStorage.getItem('username');
 
   return (
     <div>
       <Nav>
+        <NavItem>{username}</NavItem>
         <h4>Trivializer</h4>
         <NavItem onClick={logout}>Log Out</NavItem>
       </Nav>
