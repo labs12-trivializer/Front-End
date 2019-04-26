@@ -1,6 +1,40 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
 
+class App extends Component {
+  goTo = route => {
+    this.props.history.replace(`/${route}`);
+  };
+
+  login = () => {
+    this.props.auth.login();
+  };
+
+  logout = () => {
+    this.props.auth.logout();
+  };
+  
+  render() {
+    const { isAuthenticated } = this.props.auth;
+    
+    return (
+      <AppContainer>
+        <AppHeader>
+          <h1>Trivializer</h1>
+          <AppNav>
+            <button onClick={() => this.goTo('home')}>Home</button>
+            {!isAuthenticated() ? (
+              <button onClick={this.login}>Log In</button>
+              ) : (
+                <button onClick={this.logout}>Log Out</button>
+                )}
+          </AppNav>
+        </AppHeader>
+      </AppContainer>
+    );
+  }
+}
+
 const AppContainer = Styled.div`
   display: flex;
   flex-direction: column;
@@ -51,39 +85,5 @@ const AppNav = Styled.nav`
     }
   }
 `;
-
-class App extends Component {
-  goTo = route => {
-    this.props.history.replace(`/${route}`);
-  };
-
-  login = () => {
-    this.props.auth.login();
-  };
-
-  logout = () => {
-    this.props.auth.logout();
-  };
-
-  render() {
-    const { isAuthenticated } = this.props.auth;
-
-    return (
-      <AppContainer>
-        <AppHeader>
-          <h1>Trivializer</h1>
-          <AppNav>
-            <button onClick={() => this.goTo('home')}>Home</button>
-            {!isAuthenticated() ? (
-              <button onClick={this.login}>Log In</button>
-            ) : (
-              <button onClick={this.logout}>Log Out</button>
-            )}
-          </AppNav>
-        </AppHeader>
-      </AppContainer>
-    );
-  }
-}
 
 export default App;
