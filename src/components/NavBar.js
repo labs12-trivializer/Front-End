@@ -7,13 +7,23 @@ const NavBar = ({ auth }) => {
     console.log('Logging out.. maybe?');
     auth.logout();
   };
+
+  const toggleMenu = () => {
+    // Stuff
+  }
   
+  const username = localStorage.getItem('username');
 
   return (
     <div>
       <Nav>
+        <NavItem onClick={toggleMenu}>Menu</NavItem>
         <h4>Trivializer</h4>
-        <NavItem onClick={logout}>Log Out</NavItem>
+        <Row>
+          <NavItem>{username}</NavItem>
+          <p>|</p>
+          <NavItem onClick={logout}>Log Out</NavItem>
+        </Row> 
       </Nav>
     </div>
   )
@@ -33,11 +43,22 @@ const Nav = Styled.nav`
   color: #19B9E9;
 `;
 
+const Row = Styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    margin: 0 8px;
+  }
+`;
+
 const NavItem = Styled.a`
   display: flex;
   flex-direction: row;
   cursor: pointer;
   color: white;
+
 `;
 
 export default NavBar;
