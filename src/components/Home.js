@@ -1,24 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Restricted from './Restricted';
 
-const Home = ({ auth }) => {
-  const login = () => {
-    auth.login();
+import Menu from './Menu';
+
+class Home extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      username: '',
+      hasUsername: false
+    }
+  }
+
+  login = () => {
+    this.props.auth.login();
   };
+  
+  componentDidMount = () => {
+    this.setState({
+      ...this.state,
+      username: localStorage.getItem('username')
+    })
+  }
+  
+  render() {
 
-  const { isAuthenticated } = auth;
+    const { isAuthenticated } = this.props.auth;
 
-  return (
-    <div>
-      {isAuthenticated() ? (
-        <h4>You are logged in!</h4>
-      ) : (
+    return !isAuthenticated()
+      ? (<div><Restricted login={this.login}/></div>)
+      : (
         <div>
-          <h4>You are not logged in!</h4>
-          <p>Please <button onClick={login}>Log In</button> to continue.</p>
+          <div>{`Welcome${', ' + this.state.username}!`}</div>
+          <div>
+            <Menu />
+          </div>
         </div>
-      )}
-    </div>
-  );
-};
+      )
+  }
+}
 
 export default Home;
+

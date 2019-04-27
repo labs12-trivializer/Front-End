@@ -1,7 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 import Reset from '../styles/reset.css';
+import NavBar from './NavBar';
+// import Menu from './Menu';
 import App from './App';
 import Home from './Home';
 import Callback from './Callback';
@@ -22,7 +24,9 @@ const Root = ({ store }) => {
       <Router history={history}>
         <React.Fragment>
           <Reset />
-          <Route path="/" render={props => <App auth={auth} {...props} />} />
+          <Route exact path="/" render={props => <App auth={auth} {...props} />} />
+          <Route path="/" render={props => <NavBar auth={auth} {...props} />} />
+          {/* <Route path="/" render={props => <Menu auth={auth} {...props} />} /> */}
           <Route path="/home" render={props => <Home auth={auth} {...props} />} />
           <Route
             path="/callback"
