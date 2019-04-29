@@ -1,13 +1,23 @@
 import React from 'react';
 import Styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Menu = ({ auth }) => {
   
   return (
     <MenuContainer>
-      <NavItem>Menu</NavItem>
-      <NavItem>Billing</NavItem>
-      <NavItem>Settings</NavItem>
+      <NavItem>
+        <Link to={`/home`}>Home</Link>
+      </NavItem>
+      <NavItem>
+        <Link to={'/home/games'} >Games</Link>
+      </NavItem>
+      <NavItem>
+        <Link to={'/billing'} >Billing</Link>
+      </NavItem>
+      <NavItem>
+        <Link to={'/settings'} >Settings</Link>
+      </NavItem>
     </MenuContainer>
   )
 }
@@ -23,7 +33,7 @@ const MenuContainer = Styled.div`
   width: 40vw;
 `;
 
-const NavItem = Styled.a`
+const NavItem = Styled.div`
   display: flex;
   flex-direction: row;
   cursor: pointer;

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Restricted from './Restricted';
 
-import Menu from './Menu';
-
 class Home extends Component {
   constructor(props){
     super(props);
@@ -32,9 +30,6 @@ class Home extends Component {
       : (
         <div>
           <div>{`Welcome${', ' + this.state.username}!`}</div>
-          <div>
-            <Menu />
-          </div>
         </div>
       )
   }
