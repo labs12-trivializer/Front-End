@@ -1,17 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router-dom';
-<<<<<<< HEAD
-
-=======
 import { Elements, StripeProvider } from 'react-stripe-elements';
->>>>>>> 255c77e8a5c5d72bf177f61994ed785621571fc4
 import Reset from '../styles/reset.css';
 import NavBar from './NavBar';
 import App from './App';
 import Home from './Home';
-import Menu from './Menu';
-import Games from './Games';
 import Callback from './Callback';
 import Auth from '../auth';
 import history from '../history';
