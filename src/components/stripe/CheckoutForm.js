@@ -23,7 +23,7 @@ class CheckoutForm extends Component {
     //create a new customer account associated with our app on Stripe
     //this uses our backend API to communicate with Stripe
     const customer = await axios.post(
-      'http://localhost:9000/api/billing/customer',
+      'https://lambda-trivializer.herokuapp.com/api/billing/customer',
       {
         name: 'hardcoded testname',
         source: token.id, //using the token returned above as their payment source
@@ -33,7 +33,7 @@ class CheckoutForm extends Component {
 
     //Using backend api, Subscribe customer to one of our two paid plans (silver or gold)
     const subscribe = await axios.post(
-      'http://localhost:9000/api/billing/subscribe',
+      'https://lambda-trivializer.herokuapp.com/api/billing/subscribe',
       {
         customer: customer.data.id, //using customer id returned above.
         plan: 'plan_Eyw9DUPvzcFMvK', //gold plan, silver plan: 'plan_Eyw8BcuV5qyAV2'
