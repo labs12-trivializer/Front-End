@@ -11,8 +11,8 @@ const Menu = ({ auth }) => {
       <NavItem>Billing</NavItem>
       <NavItem>Settings</NavItem>
     </MenuContainer>
-  )
-}
+  );
+};
 
 const MenuContainer = Styled.div`
   display: flex;
@@ -32,5 +32,6 @@ const NavItem = Styled.a`
   color: white;
 
 `;
+
 
 export default Menu;
