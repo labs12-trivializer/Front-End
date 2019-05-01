@@ -1,9 +1,12 @@
 import React from 'react';
 import Styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+
 const Menu = ({ auth }) => {
   return (
     <MenuContainer>
-      <NavItem>Menu</NavItem>
+      <NavLink to="/home">Menu</NavLink>
+      <NavLink to="/games">Games</NavLink>
       <NavItem href="/billing">Billing</NavItem>
       <NavItem>Settings</NavItem>
     </MenuContainer>

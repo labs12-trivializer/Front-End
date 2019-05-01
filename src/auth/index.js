@@ -4,6 +4,7 @@ import history from '../history';
 export default class Auth {
   accessToken;
   idToken;
+  expiresAt;
 
   auth0 = new auth0.WebAuth({
     domain: 'dev-d9y68pfa.auth0.com',
@@ -49,17 +50,35 @@ export default class Auth {
     // Set token flag in localStorage
     localStorage.setItem('token', authResult.accessToken);
 
+    // Set the time that the access token will expire at
+    let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
+    this.expiresAt = expiresAt;
 
     // navigate to the home route
     history.replace('/home');
   }
 
+  renewSession = () => {
+    this.auth0.checkSession({}, (err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        this.setSession(authResult);
+      } else if (err) {
+        this.logout();
+        console.log(err);
+        alert(
+          `Could not get a new token (${err.error}: ${err.error_description}).`
+        );
+      }
+    });
+  };
+
   logout = () => {
     // Remove tokens
     this.accessToken = null;
     this.idToken = null;
+    this.expiresAt = 0;
 
     // Remove token flag from localStorage
     localStorage.removeItem('token');
@@ -67,6 +86,9 @@ export default class Auth {
     this.auth0.logout({
       returnTo: window.location.origin
     });
+
+    // navigate to the home route
+    history.replace('/home');
   };
 
   // Check whether the current time is past the
