@@ -1,26 +1,17 @@
 import React from 'react';
 import Styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Menu = ({ auth }) => {
-  
   return (
     <MenuContainer>
-      <NavItem>
-        <Link to={`/home`}>Home</Link>
-      </NavItem>
-      <NavItem>
-        <Link to={'/home/games'} >Games</Link>
-      </NavItem>
-      <NavItem>
-        <Link to={'/billing'} >Billing</Link>
-      </NavItem>
-      <NavItem>
-        <Link to={'/settings'} >Settings</Link>
-      </NavItem>
+      <NavLink to="/home">Menu</NavLink>
+      <NavLink to="/games">Games</NavLink>
+      <NavItem href="/billing">Billing</NavItem>
+      <NavItem>Settings</NavItem>
     </MenuContainer>
-  )
-}
+  );
+};
 
 const MenuContainer = Styled.div`
   display: flex;
@@ -40,6 +31,5 @@ const NavItem = Styled.div`
   color: white;
 
 `;
-
 
 export default Menu;

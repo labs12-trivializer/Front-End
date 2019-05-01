@@ -2,38 +2,41 @@ import React, { Component } from 'react';
 import Restricted from './Restricted';
 
 class Home extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       username: '',
       hasUsername: false
-    }
+    };
   }
 
   login = () => {
     this.props.auth.login();
   };
-  
+
   componentDidMount = () => {
     this.setState({
       ...this.state,
       username: localStorage.getItem('username')
-    })
-  }
-  
-  render() {
+    });
+  };
 
+  render() {
     const { isAuthenticated } = this.props.auth;
 
-    return !isAuthenticated()
-      ? (<div><Restricted login={this.login}/></div>)
-      : (
+    return !isAuthenticated() ? (
+      <div>
+        <Restricted login={this.login} />
+      </div>
+    ) : (
+      <div>
+        <div>{`Welcome${', ' + this.state.username}!`}</div>
         <div>
-          <div>{`Welcome${', ' + this.state.username}!`}</div>
+          <Menu />
         </div>
-      )
+      </div>
+    );
   }
 }
 
 export default Home;
-
