@@ -39,8 +39,15 @@ const Root = ({ store }) => {
             path="/home"
             render={props => <Home auth={auth} {...props} />}
           />
-          <Route exact path="/games" render={props => <Games auth={auth} {...props} />} />
-          <Route path="/games/:id" render={props => <Game auth={auth} {...props} />} />
+          <Route
+            exact
+            path="/games"
+            render={props => <Games auth={auth} {...props} />}
+          />
+          <Route
+            path="/games/:id"
+            render={props => <Game auth={auth} {...props} />}
+          />
           <Route
             path="/callback"
             render={props => {
