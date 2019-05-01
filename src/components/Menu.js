@@ -1,16 +1,14 @@
 import React from 'react';
 import Styled from 'styled-components';
-
 const Menu = ({ auth }) => {
-  
   return (
     <MenuContainer>
       <NavItem>Menu</NavItem>
-      <NavItem>Billing</NavItem>
+      <NavItem href="/billing">Billing</NavItem>
       <NavItem>Settings</NavItem>
     </MenuContainer>
-  )
-}
+  );
+};
 
 const MenuContainer = Styled.div`
   display: flex;
@@ -30,6 +28,5 @@ const NavItem = Styled.a`
   color: white;
 
 `;
-
 
 export default Menu;
