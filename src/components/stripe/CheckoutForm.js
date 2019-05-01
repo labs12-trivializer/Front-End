@@ -1,23 +1,47 @@
 import React, { Component } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
+import axios from 'axios';
 
 class CheckoutForm extends Component {
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
+    this.state = {
+      source_token: '',
+      customer_id: '',
+      plan: '',
+    };
   }
 
+  //User hits submit after entering credit card info:
   async submit(ev) {
-    console.log('here');
+    // request to stripe API to tokenize credit card information, responds with token
+    //for compliance purposes we do not handle or store the customers credit card info, we use the tokenized version returned by Stripe
     let { token } = await this.props.stripe.createToken({ name: 'Name' });
-    console.log(token);
-    let response = await fetch('http://localhost:9000/api/billing/charge', {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: token.id,
-    });
+    console.log(token.id);
 
-    if (response.ok) console.log('Purchase Complete!');
+    //create a new customer account associated with our app on Stripe
+    //this uses our backend API to communicate with Stripe
+    const customer = await axios.post(
+      'http://localhost:9000/api/billing/customer',
+      {
+        name: 'hardcoded testname',
+        source: token.id, //using the token returned above as their payment source
+      }
+    );
+    console.log('customer', customer);
+
+    //Using backend api, Subscribe customer to one of our two paid plans (silver or gold)
+    const subscribe = await axios.post(
+      'http://localhost:9000/api/billing/subscribe',
+      {
+        customer: customer.data.id, //using customer id returned above.
+        plan: 'plan_Eyw9DUPvzcFMvK', //gold plan, silver plan: 'plan_Eyw8BcuV5qyAV2'
+      }
+    );
+
+    console.log(subscribe.status);
+    if (subscribe.status === 200) console.log('Purchase Complete!');
   }
 
   render() {
