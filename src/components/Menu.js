@@ -24,7 +24,7 @@ const MenuContainer = Styled.div`
   width: 40vw;
 `;
 
-const NavItem = Styled.a`
+const NavItem = Styled.div`
   display: flex;
   flex-direction: row;
   cursor: pointer;

@@ -17,7 +17,7 @@ const NavBar = ({ auth, history }) => {
   }
 
   const toggleMenu = () => {
-    // Stuff
+    // This function will toggle menu to slide on/off screen
   }
 
   const username = localStorage.getItem('username');
