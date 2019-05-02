@@ -23,14 +23,14 @@ class RoundDetails extends Component {
         <ul>{ this.props.round.questions.map(q => {
           const question = this.props.questionsById[q]
           return (
-            <li>
+            <li key={`Question: ${q}`}>
               <strong>{question.text}</strong>
               <strong>Answers:</strong>
               <ol>
                 {question.answers.map(a => {
                   const answer = this.props.answersById[a];
                   return (
-                    <li>{' - ' + answer.text}</li>
+                    <li key={`Answer: ${a}`}>{' - ' + answer.text}</li>
                   )
                 })}
               </ol>
