@@ -18,9 +18,25 @@ class RoundDetails extends Component {
     return (
       <div>
         <p>{this.props.round.game_id}</p>
-        {/* <p>{this.props.round.created_at}</p>
-        <p>{this.props.round.updated_at}</p> */}
-        <ul>{ this.props.round.questions.map(q => <li>{this.props.questionsById[q].text}</li>) }</ul>
+        <p>{this.props.round.created_at}</p>
+        <p>{this.props.round.updated_at}</p>
+        <ul>{ this.props.round.questions.map(q => {
+          const question = this.props.questionsById[q]
+          return (
+            <li>
+              <strong>{question.text}</strong>
+              <strong>Answers:</strong>
+              <ol>
+                {question.answers.map(a => {
+                  const answer = this.props.answersById[a];
+                  return (
+                    <li>{' - ' + answer.text}</li>
+                  )
+                })}
+              </ol>
+            </li>
+          )})
+        }</ul>
       </div>
     )
   }
