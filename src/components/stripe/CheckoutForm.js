@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import CheckBox from './CheckBox';
-import axios from 'axios';
+// import axios from 'axios';
+import serverHandshake from '../../auth/serverHandshake';
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -37,24 +38,18 @@ class CheckoutForm extends Component {
 
     //create a new customer account associated with our app on Stripe
     //this uses our backend API to communicate with Stripe
-    const customer = await axios.post(
-      'https://lambda-trivializer.herokuapp.com/api/billing/customer',
-      {
-        name: 'hardcoded testname',
-        source: token.id, //using the token returned above as their payment source
-      }
-    );
+    const customer = await serverHandshake(true).post('/billing/customer', {
+      name: 'hardcoded testname',
+      source: token.id, //using the token returned above as their payment source
+    });
     console.log('customer', customer);
 
     //Using backend api, Subscribe customer to one of our two paid plans (silver or gold)
 
-    const subscribe = await axios.post(
-      'https://lambda-trivializer.herokuapp.com/api/billing/subscribe',
-      {
-        customer: customer.data.id, //using customer id returned above.
-        plan, //gold plan, silver plan: 'plan_Eyw8BcuV5qyAV2'
-      }
-    );
+    const subscribe = await serverHandshake(true).post('/billing/subscribe', {
+      customer: customer.data.id, //using customer id returned above.
+      plan, //gold plan, silver plan: 'plan_Eyw8BcuV5qyAV2'
+    });
 
     console.log(subscribe.status);
     if (subscribe.status === 200) console.log('Purchase Complete!');
