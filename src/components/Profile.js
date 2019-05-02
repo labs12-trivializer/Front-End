@@ -2,13 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Image } from 'cloudinary-react';
 import { Container, Form, Avatar } from '../styles/profile.css';
+import { editProfile } from '../actions';
 
-const Profile = ({ profile }) => {
+const Profile = ({ profile, editProfile }) => {
   let widget = window.cloudinary.createUploadWidget(
     { cloudName: 'trivializer', uploadPreset: 'ntufdwhu' },
     (err, result) => {
       if (result && result.event === 'success') {
         console.log('Widget upload complete?', result);
+        editProfile({
+          avatar_id: result.info.public_id
+        });
       }
     }
   );
@@ -20,8 +24,8 @@ const Profile = ({ profile }) => {
   return (
     <Container>
       <Avatar>
-        {profile.avatarId ? (
-          <Image cloudName="trivializer" publicId={profile.avatarId} />
+        {profile.avatar_id ? (
+          <Image cloudName="trivializer" publicId={profile.avatar_id} />
         ) : (
           <img src="https://picsum.photos/100" alt="placeholder" />
         )}
@@ -37,11 +41,11 @@ const Profile = ({ profile }) => {
           <input type="text" />
         </div>
         <div>
-          <label htmlFor="profile-oldpass">Old Password</label>
+          <label htmlFor="profile-oldpass">Old Password:  </label>
           <input type="password" />
         </div>
         <div>
-          <label htmlFor="profile-newpass">New Password</label>
+          <label htmlFor="profile-newpass">New Password:  </label>
           <input type="password" />
         </div>
         <button>Save</button>
@@ -52,4 +56,4 @@ const Profile = ({ profile }) => {
 
 const mapStateToProps = ({ profile }) => ({ profile });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, { editProfile })(Profile);

@@ -11,6 +11,8 @@ import Callback from './Callback';
 import Auth from '../auth';
 import history from '../history';
 import CheckoutForm from './stripe/CheckoutForm';
+import PrivateRoute from './PrivateRoute';
+import Profile from './Profile';
 import Games from './Games';
 import Game from './Game';
 
@@ -55,6 +57,7 @@ const Root = ({ store }) => {
               return <Callback {...props} />;
             }}
           />
+          <PrivateRoute path="/profile" component={Profile} />
           <Route
             path="/billing"
             render={props => (
