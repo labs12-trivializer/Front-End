@@ -1,4 +1,10 @@
-import { FETCH_GAMES_SUCCESS, FETCH_GAME_SUCCESS } from '../actions/types';
+import {
+  FETCH_GAMES_SUCCESS,
+  FETCH_GAME_SUCCESS,
+  EDIT_GAME_SUCCESS,
+  ADD_GAME_SUCCESS,
+  DELETE_GAME_SUCCESS
+} from '../actions/types';
 import { combineReducers } from 'redux';
 import game from './game';
 
@@ -15,12 +21,17 @@ const byId = (state = {}, action) => {
       return {
         ...action.payload.entities.games
       };
+    case EDIT_GAME_SUCCESS:
+    case ADD_GAME_SUCCESS:
     case FETCH_GAME_SUCCESS:
       return {
         ...state,
         [action.payload.result]:
           action.payload.entities.games[action.payload.result]
       };
+    case DELETE_GAME_SUCCESS:
+      const { [action.payload.id]: removed, ...newState } = state;
+      return newState;
     default:
       return state;
   }
@@ -29,7 +40,7 @@ const byId = (state = {}, action) => {
 // allIds reducer
 const allIds = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_GAME?':
+    case ADD_GAME_SUCCESS:
       return [...state, action.payload.id];
     case FETCH_GAMES_SUCCESS:
       return Object.keys(action.payload.entities.games);
@@ -37,6 +48,8 @@ const allIds = (state = [], action) => {
       return state.indexOf(action.payload.result) > -1
         ? state
         : [...state, action.payload.result];
+    case DELETE_GAME_SUCCESS:
+      return state.filter(g => g !== action.payload.id);
     default:
       return state;
   }
