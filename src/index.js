@@ -5,4 +5,6 @@ import configureStore from './store';
 
 const store = configureStore();
 
+export { store as default };
+
 ReactDOM.render(<Root store={store} />, document.getElementById('root'));
