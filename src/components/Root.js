@@ -12,6 +12,7 @@ import history from '../history';
 import CheckoutForm from './stripe/CheckoutForm';
 import Games from './Games';
 import Game from './Game';
+import Rounds from './Rounds';
 
 const auth = new Auth();
 
@@ -46,6 +47,11 @@ const Root = ({ store }) => {
           <Route
             path="/games/:id"
             render={props => <Game auth={auth} {...props} />}
+          />
+          <Route
+            exact
+            path="/rounds"
+            render={props => <Rounds auth={auth} {...props} />}
           />
           <Route
             path="/callback"
