@@ -3,15 +3,17 @@ import { combineReducers } from 'redux';
 import answers, * as fromAnswers from './answers';
 import error from './error';
 import games, * as fromGames from './games';
+import profile from './profile';
 import rounds, * as fromRounds from './rounds';
 import questions, * as fromQuestions from './questions';
 
 export default combineReducers({
-  games,
-  rounds,
-  questions,
   answers,
-  error
+  error,
+  games,
+  profile,
+  questions,
+  rounds
 });
 
 export const getAllGames = state => fromGames.getAllGames(state.games);

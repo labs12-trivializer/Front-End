@@ -2,28 +2,36 @@ import React from 'react';
 import Styled from 'styled-components';
 
 
-const NavBar = ({ auth }) => {
+const NavBar = ({ auth, history }) => {
   const logout = () => {
     console.log('Logging out.. maybe?');
     auth.logout();
   };
 
+  const gotoHome = () => {
+    history.push('/home')
+  }
+
+  const gotoProfile = () => {
+    history.push('/profile');
+  }
+
   const toggleMenu = () => {
     // This function will toggle menu to slide on/off screen
   }
-  
+
   const username = localStorage.getItem('username');
 
   return (
     <div>
       <Nav>
         <NavItem onClick={toggleMenu}>Menu</NavItem>
-        <h4>Trivializer</h4>
+        <h4 onClick={gotoHome}>Trivializer</h4>
         <Row>
-          <NavItem>{username}</NavItem>
+          <NavItem onClick={gotoProfile}>{username}</NavItem>
           <p>|</p>
           <NavItem onClick={logout}>Log Out</NavItem>
-        </Row> 
+        </Row>
       </Nav>
     </div>
   )
