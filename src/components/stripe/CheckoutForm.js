@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
+import CheckBox from './CheckBox';
 import axios from 'axios';
 
 class CheckoutForm extends Component {
@@ -7,14 +8,28 @@ class CheckoutForm extends Component {
     super(props);
     this.submit = this.submit.bind(this);
     this.state = {
-      source_token: '',
-      customer_id: '',
-      plan: '',
+      basicPlan: false,
+      premiumPlan: false,
     };
   }
-
+  toggleBasicPlan = e => {
+    this.setState({ basicPlan: !this.state.basicPlan });
+  };
+  togglePremiumPlan = e => {
+    this.setState({ premiumPlan: !this.state.premiumPlan });
+  };
   //User hits submit after entering credit card info:
-  async submit(ev) {
+  async submit(e) {
+    const gold = 'plan_Eyw9DUPvzcFMvK';
+    const silver = 'plan_Eyw8BcuV5qyAV2';
+    let plan = null;
+    if (this.state.premiumPlan && !this.state.basicPlan) {
+      plan = gold;
+    } else if (this.state.basicPlan && !this.state.premiumPlan) {
+      plan = silver;
+    } else {
+      return;
+    }
     // request to stripe API to tokenize credit card information, responds with token
     //for compliance purposes we do not handle or store the customers credit card info, we use the tokenized version returned by Stripe
     let { token } = await this.props.stripe.createToken({ name: 'Name' });
@@ -32,11 +47,12 @@ class CheckoutForm extends Component {
     console.log('customer', customer);
 
     //Using backend api, Subscribe customer to one of our two paid plans (silver or gold)
+
     const subscribe = await axios.post(
       'https://lambda-trivializer.herokuapp.com/api/billing/subscribe',
       {
         customer: customer.data.id, //using customer id returned above.
-        plan: 'plan_Eyw9DUPvzcFMvK', //gold plan, silver plan: 'plan_Eyw8BcuV5qyAV2'
+        plan, //gold plan, silver plan: 'plan_Eyw8BcuV5qyAV2'
       }
     );
 
@@ -49,6 +65,10 @@ class CheckoutForm extends Component {
       <div className="checkout">
         <p>Would you like to complete the purchase?</p>
         <CardElement />
+        <CheckBox
+          toggleBasic={this.toggleBasicPlan}
+          togglePremium={this.togglePremiumPlan}
+        />
         <button onClick={this.submit}>Send</button>
       </div>
     );
