@@ -13,6 +13,7 @@ import CheckoutForm from './stripe/CheckoutForm';
 import Games from './Games';
 import Game from './Game';
 import Rounds from './Rounds';
+import RoundDetails from './RoundDetails';
 
 const auth = new Auth();
 
@@ -52,6 +53,11 @@ const Root = ({ store }) => {
             exact
             path="/rounds"
             render={props => <Rounds auth={auth} {...props} />}
+          />
+          <Route
+            exact
+            path="/rounds/:id"
+            render={props => <RoundDetails auth={auth} {...props} />}
           />
           <Route
             path="/callback"
