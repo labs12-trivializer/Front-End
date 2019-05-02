@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchProfile } from '../actions';
 import Restricted from './Restricted';
 
 import Menu from './Menu';
@@ -17,6 +19,7 @@ class Home extends Component {
   };
 
   componentDidMount = () => {
+    this.props.fetchProfile();
     this.setState({
       ...this.state,
       username: localStorage.getItem('username')
@@ -41,4 +44,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default connect(null, { fetchProfile })(Home);

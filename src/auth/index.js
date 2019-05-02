@@ -1,10 +1,13 @@
 import auth0 from 'auth0-js';
 import history from '../history';
+import store from '../index';
+import { addProfile } from '../actions';
 
 export default class Auth {
   accessToken;
   idToken;
   expiresAt;
+  userProfile;
 
   auth0 = new auth0.WebAuth({
     domain: 'dev-d9y68pfa.auth0.com',
@@ -12,7 +15,7 @@ export default class Auth {
     redirectUri: process.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000/callback',
     audience: 'https://lambda-trivializer.herokuapp.com/',
     responseType: 'token id_token',
-    scope: 'openid profile'
+    scope: 'openid profile email'
   });
 
   login = () => {
@@ -24,12 +27,11 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.auth0.client.userInfo(authResult.accessToken, async (err, profile) => {
           if (profile) {
-            this.userProfile = { profile };
-            console.log('User Profile:', this.userProfile)
+            this.userProfile = profile;
             // Wait for localStorate to receive username value
-            await this.userProfile.profile.given_name
-              ? localStorage.setItem('username', this.userProfile.profile.given_name)
-              : localStorage.setItem('username', this.userProfile.profile.nickname);
+            await this.userProfile.given_name
+              ? localStorage.setItem('username', this.userProfile.given_name)
+              : localStorage.setItem('username', this.userProfile.nickname);
           }
           this.setSession(authResult);
         })
@@ -49,6 +51,12 @@ export default class Auth {
   setSession(authResult) {
     // Set token flag in localStorage
     localStorage.setItem('token', authResult.accessToken);
+
+    console.log('User Profile:', this.userProfile)
+
+    store.dispatch(addProfile({
+      email: this.userProfile.email
+    }));
 
     // Set the time that the access token will expire at
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
