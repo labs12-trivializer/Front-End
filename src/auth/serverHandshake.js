@@ -7,7 +7,7 @@ const serverHandshake = auth => {
 
   if (auth) {
     const token = localStorage.getItem('token');
-    options.headers = { Authorization: token };
+    options.headers = { Authorization: `Bearer ${token}` };
   }
 
   return axios.create(options);
