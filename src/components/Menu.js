@@ -24,12 +24,12 @@ const MenuContainer = Styled.div`
   width: 40vw;
 `;
 
-const NavItem = Styled.a`
-  display: flex;
-  flex-direction: row;
-  cursor: pointer;
-  color: white;
-
-`;
+// const NavItem = Styled.a`
+//   display: flex;
+//   flex-direction: row;
+//   cursor: pointer;
+//   color: white;
+//
+// `;
 
 export default Menu;
