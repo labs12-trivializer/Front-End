@@ -8,7 +8,6 @@ import profile from './profile';
 import rounds, * as fromRounds from './rounds';
 import questions, * as fromQuestions from './questions';
 
-
 export default combineReducers({
   answers,
   error,

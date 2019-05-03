@@ -26,18 +26,19 @@ class Games extends Component {
             </li>
           ))}
         </ul>
+        <Link to="/create">Create New Game</Link>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  games: getAllGames(state)
+  games: getAllGames(state),
 });
 
 export default connect(
   mapStateToProps,
   {
-    fetchGames
+    fetchGames,
   }
 )(Games);
