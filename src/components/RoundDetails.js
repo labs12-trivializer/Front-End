@@ -25,7 +25,7 @@ class RoundDetails extends Component {
           return (
             <li key={`Question: ${q}`}>
               <strong>{question.text}</strong>
-              <strong>Answers:</strong>
+              <div><strong>Answers:</strong></div>
               <ol>
                 {question.answers.map(a => {
                   const answer = this.props.answersById[a];
