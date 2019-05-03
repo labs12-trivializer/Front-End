@@ -27,8 +27,8 @@ class Game extends Component {
         <p>{ this.props.game && this.props.game.name }</p>
         <ul>
           {this.props.game.rounds.map(r => (
-            <li>
-              <Round roundId={r} key={r}/>
+            <li key={`round${r}`}>
+              <Round roundId={r}/>
             </li>
           )
           )}
