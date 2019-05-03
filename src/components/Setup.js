@@ -7,21 +7,21 @@ import { fetchCategories } from '../actions';
 // can be used to load categories into our redux state when
 // users first authenticate
 const mapStateToProps = state => ({
-  haveCategories: state.categories.allIds.length > 0
+  haveCategories: state.categories.allIds.length > 0,
+  haveProfile: state.profile.tier_name ? true : false
 });
 
 // Functional component with destrctured props, wrapped with redux's connect
 export default connect(
   mapStateToProps,
   { fetchCategories }
-)( ({ haveCategories, fetchCategories }) => {
-
+)(({ haveCategories, haveProfile, fetchCategories }) => {
   // useEffect hook which will run onMount
   useEffect(() => {
-    if (!haveCategories && localStorage.getItem('token')) {
+    if (!haveCategories && haveProfile) {
       fetchCategories();
     }
-  }, [haveCategories, fetchCategories]);
+  }, [haveCategories, haveProfile, fetchCategories]);
 
   return null;
 });
