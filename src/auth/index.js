@@ -52,8 +52,6 @@ export default class Auth {
     // Set token flag in localStorage
     localStorage.setItem('token', authResult.accessToken);
 
-    console.log('User Profile:', this.userProfile)
-
     store.dispatch(addProfile({
       email: this.userProfile.email
     }));
