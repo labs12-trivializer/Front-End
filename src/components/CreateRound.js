@@ -15,7 +15,7 @@ class CreateRound extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  queryTriviaDb = e => {
+  queryTriviaDb = () => {
     axios
       .get(
         `https://opentdb.com/api.php?amount=${this.state.questions}&category=${
@@ -45,7 +45,7 @@ class CreateRound extends Component {
         />
         <select name="category" onChange={e => this.handleChanges(e)}>
           {this.props.categories.map(c => (
-            <option value={c.category_id}>{c.name}</option>
+            <option value={c.category_id} key={`category${c.id}`}>{c.name}</option>
           ))}
         </select>
         <select name="difficulty" onChange={e => this.handleChanges(e)}>
