@@ -42,7 +42,7 @@ export default (state, action) => {
     case EDIT_ANSWER_FAILURE:
     case DELETE_ANSWER_FAILURE:
       const { response } = action.payload;
-      return response && response.data && response.data.message || response;
+      return (response && response.data && response.data.message) || (response);
     default:
       return '';
   }
