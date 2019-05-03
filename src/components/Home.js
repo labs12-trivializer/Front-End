@@ -19,7 +19,6 @@ class Home extends Component {
   };
 
   componentDidMount = () => {
-    this.props.fetchProfile();
     this.setState({
       ...this.state,
       username: localStorage.getItem('username')
