@@ -1,7 +1,5 @@
 import auth0 from 'auth0-js';
 import history from '../history';
-import store from '../index';
-import { addProfile } from '../actions';
 
 export default class Auth {
   accessToken;
@@ -52,10 +50,6 @@ export default class Auth {
     // Set token flag in localStorage
     localStorage.setItem('token', authResult.accessToken);
 
-    store.dispatch(addProfile({
-      email: this.userProfile.email
-    }));
-
     // Set the time that the access token will expire at
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     this.accessToken = authResult.accessToken;
@@ -63,7 +57,7 @@ export default class Auth {
     this.expiresAt = expiresAt;
 
     // navigate to the home route
-    history.replace('/home');
+    history.replace('/home', [this.userProfile.email]);
   }
 
   renewSession = () => {

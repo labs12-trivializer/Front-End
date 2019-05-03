@@ -1,25 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchProfile } from '../actions';
 import Restricted from './Restricted';
-
 import Menu from './Menu';
 
+import { addProfile, fetchProfile, fetchCategories } from '../actions';
+
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      hasUsername: false
-    };
-  }
+  state = {
+    username: '',
+    hasUsername: false
+  };
 
   login = () => {
     this.props.auth.login();
   };
 
   componentDidMount = () => {
-    this.props.fetchProfile();
+    const { isAuthenticated } = this.props.auth;
+    const { profile } = this.props;
+
+    if (isAuthenticated() && !profile.id) {
+      const { state } = this.props.history.location;
+
+      (state
+        ? this.props.addProfile({ email: state[0] })
+        : this.props.fetchProfile()
+      ).then(() => {
+        this.props.fetchCategories();
+      });
+    }
+
     this.setState({
       ...this.state,
       username: localStorage.getItem('username')
@@ -44,4 +54,11 @@ class Home extends Component {
   }
 }
 
-export default connect(null, { fetchProfile })(Home);
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  { addProfile, fetchProfile, fetchCategories }
+)(Home);
