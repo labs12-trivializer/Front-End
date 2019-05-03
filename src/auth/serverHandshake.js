@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const serverHandshake = auth => {
   const options = {
-    baseURL: 'https://lambda-trivializer.herokuapp.com/api'
+    baseURL: process.env.REACT_APP_BACKEND_URI || 'http://localhost:9000/api'
   };
 
   if (auth) {

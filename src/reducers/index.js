@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import categories, * as fromCategories from './categories';
 import answers, * as fromAnswers from './answers';
 import error from './error';
 import games, * as fromGames from './games';
@@ -13,7 +14,8 @@ export default combineReducers({
   games,
   profile,
   questions,
-  rounds
+  rounds,
+  categories
 });
 
 export const getAllGames = state => fromGames.getAllGames(state.games);
@@ -25,3 +27,6 @@ export const getAllQuestions = state =>
 
 export const getAllAnswers = state =>
   fromAnswers.getAllAnswers(state.answers);
+
+export const getAllCategories = state =>
+  fromCategories.getAllCategories(state.categories);

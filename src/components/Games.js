@@ -21,23 +21,24 @@ class Games extends Component {
         <Menu />
         <ul>
           {this.props.games.map(g => (
-            <li key={g.id}>
+            <li key={`game${g.id}`}>
               <Link to={`/games/${g.id}`}>{g.name}</Link>
             </li>
           ))}
         </ul>
+        <Link to="/create">Create New Game</Link>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  games: getAllGames(state)
+  games: getAllGames(state),
 });
 
 export default connect(
   mapStateToProps,
   {
-    fetchGames
+    fetchGames,
   }
 )(Games);

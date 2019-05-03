@@ -5,10 +5,10 @@ import { NavLink } from 'react-router-dom';
 const Menu = ({ auth }) => {
   return (
     <MenuContainer>
-      <NavLink to="/home">Menu</NavLink>
-      <NavLink to="/games">Games</NavLink>
-      <NavItem href="/billing">Billing</NavItem>
-      <NavItem>Settings</NavItem>
+      <NavItem>Menu</NavItem>
+      <MenuNavLink to="/games">Games</MenuNavLink>
+      <MenuNavLink to="/billing">Billing</MenuNavLink>
+      <MenuNavLink to="/profile">Settings</MenuNavLink>
     </MenuContainer>
   );
 };
@@ -24,12 +24,19 @@ const MenuContainer = Styled.div`
   width: 40vw;
 `;
 
-const NavItem = Styled.a`
+const NavItem = Styled.div`
+  display: flex;
+  flex-direction: row;
+  color: white;
+  text-decoration: none;
+`;
+
+const MenuNavLink = Styled(NavLink)`
   display: flex;
   flex-direction: row;
   cursor: pointer;
   color: white;
-
+  text-decoration: none;
 `;
 
 export default Menu;

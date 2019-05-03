@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { fetchGame } from '../actions';
 import Menu from './Menu';
+import Round from './Round';
 
 class Game extends Component {
   // constructor(props) {
@@ -15,13 +16,26 @@ class Game extends Component {
   };
 
   render() {
-    return (
-      <div>
+    if (!this.props.game || !this.props.game.rounds){
+      return (<div>Loading...</div>)
+    } else {
+
+      return (
+        <div>
         <Menu />
         <h1>Game</h1>
         <p>{ this.props.game && this.props.game.name }</p>
+        <ul>
+          {this.props.game.rounds.map(r => (
+            <li key={`round${r}`}>
+              <Round roundId={r}/>
+            </li>
+          )
+          )}
+        </ul>
       </div>
     );
+  }
   }
 }
 

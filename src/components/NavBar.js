@@ -17,7 +17,7 @@ const NavBar = ({ auth, history }) => {
   }
 
   const toggleMenu = () => {
-    // Stuff
+    // This function will toggle menu to slide on/off screen
   }
 
   const username = localStorage.getItem('username');
@@ -26,7 +26,7 @@ const NavBar = ({ auth, history }) => {
     <div>
       <Nav>
         <NavItem onClick={toggleMenu}>Menu</NavItem>
-        <h4 onClick={gotoHome}>Trivializer</h4>
+        <AppTitle onClick={gotoHome}>Trivializer</AppTitle>
         <Row>
           <NavItem onClick={gotoProfile}>{username}</NavItem>
           <p>|</p>
@@ -67,6 +67,10 @@ const NavItem = Styled.a`
   cursor: pointer;
   color: white;
 
+`;
+
+const AppTitle = Styled.h4`
+  cursor: pointer;
 `;
 
 export default NavBar;

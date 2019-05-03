@@ -4,7 +4,6 @@ import { Router, Route } from 'react-router-dom';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import Reset from '../styles/reset.css';
 import NavBar from './NavBar';
-// import Menu from './Menu';
 import App from './App';
 import Home from './Home';
 import Callback from './Callback';
@@ -15,6 +14,10 @@ import PrivateRoute from './PrivateRoute';
 import Profile from './Profile';
 import Games from './Games';
 import Game from './Game';
+import Rounds from './Rounds';
+import CreateGame from './CreateGame';
+import RoundDetails from './RoundDetails';
+import Setup from './Setup';
 
 const auth = new Auth();
 
@@ -30,6 +33,7 @@ const Root = ({ store }) => {
       <Router history={history}>
         <React.Fragment>
           <Reset />
+          <Setup />
           <Route
             exact
             path="/"
@@ -51,11 +55,25 @@ const Root = ({ store }) => {
             render={props => <Game auth={auth} {...props} />}
           />
           <Route
+            exact
+            path="/rounds"
+            render={props => <Rounds auth={auth} {...props} />}
+          />
+          <Route
+            exact
+            path="/rounds/:id"
+            render={props => <RoundDetails auth={auth} {...props} />}
+          />
+          <Route
             path="/callback"
             render={props => {
               handleAuthentication(props);
               return <Callback {...props} />;
             }}
+          />
+          <Route
+            path="/create"
+            render={props => <CreateGame auth={auth} {...props} />}
           />
           <PrivateRoute path="/profile" component={Profile} />
           <Route
