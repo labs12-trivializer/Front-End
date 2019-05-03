@@ -4,16 +4,15 @@ import axios from 'axios';
 
 class CreateRound extends Component {
   state = {
-    category: '',
-    questions: '',
-    difficulty: '',
-    type: '',
+    category: 9,
+    questions: 0,
+    difficulty: 'easy',
+    type: 'boolean',
     response: [],
   };
 
   handleChanges = e => {
     this.setState({ [e.target.name]: e.target.value });
-    console.log(this.state);
   };
 
   queryTriviaDb = e => {
