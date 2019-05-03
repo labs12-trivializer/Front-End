@@ -94,4 +94,4 @@ const Root = () => (
   </Provider>
 );
 
-export default Root;
+export {Root as default, persistor};

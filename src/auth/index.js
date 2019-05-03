@@ -1,5 +1,6 @@
 import auth0 from 'auth0-js';
 import history from '../history';
+import { persistor } from '../components/Root';
 
 export default class Auth {
   accessToken;
@@ -74,7 +75,9 @@ export default class Auth {
     });
   };
 
-  logout = () => {
+  logout = async () => {
+    await persistor.purge();
+
     // Remove tokens
     this.accessToken = null;
     this.idToken = null;
