@@ -15,6 +15,7 @@ import Profile from './Profile';
 import Games from './Games';
 import Game from './Game';
 import Rounds from './Rounds';
+import CreateGame from './CreateGame';
 import RoundDetails from './RoundDetails';
 
 const auth = new Auth();
@@ -67,6 +68,10 @@ const Root = ({ store }) => {
               handleAuthentication(props);
               return <Callback {...props} />;
             }}
+          />
+          <Route
+            path="/create"
+            render={props => <CreateGame auth={auth} {...props} />}
           />
           <PrivateRoute path="/profile" component={Profile} />
           <Route
