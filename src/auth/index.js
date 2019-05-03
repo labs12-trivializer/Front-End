@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
 import history from '../history';
 import store from '../index';
-import { addProfile } from '../actions';
+import { addProfile, fetchCategories } from '../actions';
 
 export default class Auth {
   accessToken;
@@ -48,15 +48,18 @@ export default class Auth {
 
   getIdToken = () => this.idToken;
 
-  setSession(authResult) {
+  async setSession(authResult) {
     // Set token flag in localStorage
     localStorage.setItem('token', authResult.accessToken);
 
     console.log('User Profile:', this.userProfile)
 
-    store.dispatch(addProfile({
+    console.log("HEY");
+    await store.dispatch(addProfile({
       email: this.userProfile.email
     }));
+
+    await store.dispatch(fetchCategories());
 
     // Set the time that the access token will expire at
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();

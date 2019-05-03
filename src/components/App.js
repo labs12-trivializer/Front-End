@@ -13,10 +13,10 @@ class App extends Component {
   logout = () => {
     this.props.auth.logout();
   };
-  
+
   render() {
     const { isAuthenticated } = this.props.auth;
-    
+
     return (
       <AppContainer>
         <AppHeader>
@@ -25,9 +25,9 @@ class App extends Component {
             <button onClick={() => this.goTo('home')}>Home</button>
             {!isAuthenticated() ? (
               <button onClick={this.login}>Log In</button>
-              ) : (
-                <button onClick={this.logout}>Log Out</button>
-                )}
+            ) : (
+              <button onClick={this.logout}>Log Out</button>
+            )}
           </AppNav>
         </AppHeader>
       </AppContainer>
