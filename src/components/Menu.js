@@ -7,8 +7,8 @@ const Menu = ({ auth }) => {
     <MenuContainer>
       <NavLink to="/home">Menu</NavLink>
       <NavLink to="/games">Games</NavLink>
-      <NavItem href="/billing">Billing</NavItem>
-      <NavItem>Settings</NavItem>
+      <NavLink to="/billing">Billing</NavLink>
+      <NavLink to="/profile">Settings</NavLink>
     </MenuContainer>
   );
 };
@@ -24,7 +24,7 @@ const MenuContainer = Styled.div`
   width: 40vw;
 `;
 
-const NavItem = Styled.div`
+const NavItem = Styled.a`
   display: flex;
   flex-direction: row;
   cursor: pointer;
