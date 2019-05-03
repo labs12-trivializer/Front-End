@@ -9,7 +9,7 @@ import serverHandshake from '../auth/serverHandshake';
 export const fetchCategories = () => async dispatch => {
   dispatch({ type: FETCH_CATEGORIES_START });
   try {
-    const success = await serverHandshake(true).get('/categories');
+    const success = await serverHandshake(true).get('/categories/normalized');
     dispatch({ type: FETCH_CATEGORIES_SUCCESS, payload: success.data });
     return success;
   } catch (error) {

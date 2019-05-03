@@ -1,25 +1,36 @@
 import {
-  FETCH_CATEGORIES_START,
   FETCH_CATEGORIES_SUCCESS,
-  FETCH_CATEGORIES_FAILURE,
 } from '../actions/types';
 
-const categories = (state = [], action) => {
+import { combineReducers } from 'redux';
+
+// byId reducer
+const byId = (state = {}, action) => {
   switch (action.type) {
-    case FETCH_CATEGORIES_START:
-      return state;
     case FETCH_CATEGORIES_SUCCESS:
-      return [...action.payload];
-    case FETCH_CATEGORIES_FAILURE:
       return {
-        ...state,
-        error: action.payload,
+        ...action.payload.entities.categories
       };
     default:
       return state;
   }
 };
 
-// export const getAllCategories = state => null;
+// allIds reducer
+const allIds = (state = [], action) => {
+  switch (action.type) {
+    case FETCH_CATEGORIES_SUCCESS:
+      return Object.keys(action.payload.entities.categories);
+    default:
+      return state;
+  }
+};
+
+const categories = combineReducers({
+  byId,
+  allIds
+});
+
+export const getAllCategories = state => state.allIds.map(id => state.byId[id]);
 
 export default categories;

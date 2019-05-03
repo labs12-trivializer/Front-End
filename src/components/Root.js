@@ -17,6 +17,7 @@ import Game from './Game';
 import Rounds from './Rounds';
 import CreateGame from './CreateGame';
 import RoundDetails from './RoundDetails';
+import Setup from './Setup';
 
 const auth = new Auth();
 
@@ -32,6 +33,7 @@ const Root = ({ store }) => {
       <Router history={history}>
         <React.Fragment>
           <Reset />
+          <Setup />
           <Route
             exact
             path="/"
