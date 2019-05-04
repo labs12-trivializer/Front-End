@@ -18,7 +18,13 @@ export default connect(
 )(({ haveProfile, fetchProfile, fetchCategories, loginSuccess, loggedIn }) => {
   // useEffect hook which will run onMount
   useEffect(() => {
+
+    // if we're not logged in, check if there's a token
     if (!loggedIn) {
+
+      // if there's a token, consider us loggedIn
+      // if not, we have to dispatch a loginSuccess elsewhere
+      // our auth reducer also counts addProfile as a valid login
       if (localStorage.getItem('token')) {
         loginSuccess();
       }
