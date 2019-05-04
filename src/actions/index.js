@@ -4,6 +4,7 @@ export * from './questions';
 export * from './answers';
 export * from './profile';
 export * from './categories';
+export * from './auth';
 
 export const testAction = (profile) => ({
   type: 'TEST_ACTION',

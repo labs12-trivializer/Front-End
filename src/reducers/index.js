@@ -7,6 +7,7 @@ import games, * as fromGames from './games';
 import profile from './profile';
 import rounds, * as fromRounds from './rounds';
 import questions, * as fromQuestions from './questions';
+import auth from './auth';
 
 export default combineReducers({
   answers,
@@ -15,7 +16,8 @@ export default combineReducers({
   profile,
   questions,
   rounds,
-  categories
+  categories,
+  auth
 });
 
 export const getAllGames = state => fromGames.getAllGames(state.games);
