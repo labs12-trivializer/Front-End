@@ -1,15 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, token, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      (localStorage.getItem('token')
-        ? <Component {...props} />
-        : <Redirect to="/restricted" />)
+      token ? <Component {...props} /> : <Redirect to="/restricted" />
     }
   />
 );
 
-export default PrivateRoute;
+const mapStateToProps = ({ profile: { token } }) => ({ token });
+
+export default connect(mapStateToProps)(PrivateRoute);

@@ -1,58 +1,47 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Restricted from './Restricted';
 import Menu from './Menu';
 
 import { addProfile, fetchProfile, fetchCategories } from '../actions';
 
-class Home extends Component {
-  state = {
-    username: '',
-    hasUsername: false
-  };
+const Home = ({
+  auth,
+  profile,
+  history: { location },
+  addProfile,
+  fetchProfile,
+  fetchCategories
+}) => {
+  const { isAuthenticated } = auth;
+  const { id: profileId, username } = profile;
 
-  login = () => {
-    this.props.auth.login();
-  };
+  useEffect(() => {
+    console.log('running...');
+    if (isAuthenticated() && !profileId) {
+      const { state } = location;
 
-  componentDidMount = () => {
-    const { isAuthenticated } = this.props.auth;
-    const { profile } = this.props;
-
-    if (isAuthenticated() && !profile.id) {
-      const { state } = this.props.history.location;
-
-      (state
-        ? this.props.addProfile({ email: state[0] })
-        : this.props.fetchProfile()
-      ).then(() => {
-        this.props.fetchCategories();
+      (state ? addProfile({ email: state[0] }) : fetchProfile()).then(() => {
+        fetchCategories();
       });
     }
+  });
 
-    this.setState({
-      ...this.state,
-      username: localStorage.getItem('username')
-    });
+  const login = () => {
+    auth.login();
   };
 
-  render() {
-    const { isAuthenticated } = this.props.auth;
-
-    return !isAuthenticated() ? (
+  return !isAuthenticated() ? (
+    <Restricted login={login} />
+  ) : (
+    <div>
+      <p>Welcome {username}!</p>
       <div>
-        <Restricted login={this.login} />
+        <Menu />
       </div>
-    ) : (
-      <div>
-        <div>{`Welcome${', ' + this.state.username}!`}</div>
-        <div>
-          <Menu />
-        </div>
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const mapStateToProps = state => ({
   profile: state.profile
