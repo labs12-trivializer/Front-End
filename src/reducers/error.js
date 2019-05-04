@@ -1,6 +1,4 @@
 import {
-  LOGIN_FAILURE,
-  SIGNUP_FAILURE,
   FETCH_PROFILE_FAILURE,
   ADD_PROFILE_FAILURE,
   EDIT_PROFILE_FAILURE,
@@ -22,8 +20,6 @@ import {
 
 export default (state, action) => {
   switch (action.type) {
-    case LOGIN_FAILURE:
-    case SIGNUP_FAILURE:
     case FETCH_PROFILE_FAILURE:
     case ADD_PROFILE_FAILURE:
     case EDIT_PROFILE_FAILURE:
