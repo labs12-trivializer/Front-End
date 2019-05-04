@@ -1,7 +1,7 @@
 import {
   FETCH_PROFILE_SUCCESS,
   ADD_PROFILE_SUCCESS,
-  EDIT_PROFILE_SUCCESS,
+  EDIT_PROFILE_SUCCESS
 } from '../actions/types';
 
 export default (state = {}, action) => {
@@ -13,4 +13,6 @@ export default (state = {}, action) => {
     default:
       return state;
   }
-}
+};
+
+export const getHasProfile = state => (state.tier_name ? true : false);

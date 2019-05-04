@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getHasProfile } from '../reducers';
 
 const mapStateToProps = state => ({
-  haveProfile: state.profile.tier_name ? true : false
+  haveProfile: getHasProfile(state)
 });
 
 export default Component =>

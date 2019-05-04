@@ -16,4 +16,6 @@ const auth = (state = { loggedIn: false }, action) => {
   }
 };
 
+export const getLoggedIn = state => state.loggedIn;
+
 export default auth;

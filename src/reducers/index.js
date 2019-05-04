@@ -4,10 +4,10 @@ import categories, * as fromCategories from './categories';
 import answers, * as fromAnswers from './answers';
 import error from './error';
 import games, * as fromGames from './games';
-import profile from './profile';
+import profile, * as fromProfile from './profile';
 import rounds, * as fromRounds from './rounds';
 import questions, * as fromQuestions from './questions';
-import auth from './auth';
+import auth, * as fromAuth from './auth';
 
 export default combineReducers({
   answers,
@@ -32,3 +32,9 @@ export const getAllAnswers = state =>
 
 export const getAllCategories = state =>
   fromCategories.getAllCategories(state.categories);
+
+export const getLoggedIn = state =>
+  fromAuth.getLoggedIn(state.auth);
+
+export const getHasProfile = state =>
+  fromProfile.getHasProfile(state.profile);

@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getLoggedIn } from '../reducers';
 
 const mapStateToProps = state => ({
-  loggedIn: state.auth.loggedIn
+  loggedIn: getLoggedIn(state)
 });
 
 export default Component =>
@@ -12,18 +13,3 @@ export default Component =>
     }
     return <Component {...rest} />;
   });
-
-// const PrivateRoute = connect(mapStateToProps)(
-//   ({ component: Component, loggedIn, ...rest }) => {
-//     return (
-//       <Route
-//         {...rest}
-//         render={props =>
-//           loggedIn ? <Component {...props} /> : <Redirect to="/restricted" />
-//         }
-//       />
-//     );
-//   }
-// );
-//
-// export default PrivateRoute;
