@@ -1,46 +1,53 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchProfile } from '../actions';
 import Restricted from './Restricted';
-
 import Menu from './Menu';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      hasUsername: false
-    };
-  }
+import { addProfile, fetchProfile, fetchCategories } from '../actions';
 
-  login = () => {
-    this.props.auth.login();
+const Home = ({
+  auth,
+  profile,
+  history: { location },
+  addProfile,
+  fetchProfile,
+  fetchCategories
+}) => {
+  const { isAuthenticated } = auth;
+  const { id: profileId, username } = profile;
+
+  useEffect(() => {
+    console.log('running...');
+    if (isAuthenticated() && !profileId) {
+      const { state } = location;
+
+      (state ? addProfile({ email: state[0] }) : fetchProfile()).then(() => {
+        fetchCategories();
+      });
+    }
+  });
+
+  const login = () => {
+    auth.login();
   };
 
-  componentDidMount = () => {
-    this.setState({
-      ...this.state,
-      username: localStorage.getItem('username')
-    });
-  };
-
-  render() {
-    const { isAuthenticated } = this.props.auth;
-
-    return !isAuthenticated() ? (
+  return !isAuthenticated() ? (
+    <Restricted login={login} />
+  ) : (
+    <div>
+      <p>Welcome {username}!</p>
       <div>
-        <Restricted login={this.login} />
+        <Menu />
       </div>
-    ) : (
-      <div>
-        <div>{`Welcome${', ' + this.state.username}!`}</div>
-        <div>
-          <Menu />
-        </div>
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default connect(null, { fetchProfile })(Home);
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  { addProfile, fetchProfile, fetchCategories }
+)(Home);

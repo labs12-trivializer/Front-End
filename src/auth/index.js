@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
 import history from '../history';
-import store from '../index';
-import { addProfile } from '../actions';
+import { store, persistor } from '../store';
+import { loginSuccess } from '../actions';
 
 export default class Auth {
   accessToken;
@@ -26,13 +26,7 @@ export default class Auth {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.auth0.client.userInfo(authResult.accessToken, async (err, profile) => {
-          if (profile) {
-            this.userProfile = profile;
-            // Wait for localStorate to receive username value
-            await this.userProfile.given_name
-              ? localStorage.setItem('username', this.userProfile.given_name)
-              : localStorage.setItem('username', this.userProfile.nickname);
-          }
+          if (profile) this.userProfile = profile;
           this.setSession(authResult);
         })
       } else if (err) {
@@ -49,11 +43,10 @@ export default class Auth {
   getIdToken = () => this.idToken;
 
   setSession(authResult) {
-    // Set token flag in localStorage
-    localStorage.setItem('token', authResult.accessToken);
-
-    store.dispatch(addProfile({
-      email: this.userProfile.email
+    // save username and token to persisted state
+    store.dispatch(loginSuccess({
+      token: authResult.accessToken,
+      username: this.userProfile.given_name || this.userProfile.nickname
     }));
 
     // Set the time that the access token will expire at
@@ -63,7 +56,7 @@ export default class Auth {
     this.expiresAt = expiresAt;
 
     // navigate to the home route
-    history.replace('/home');
+    history.replace('/home', [this.userProfile.email]);
   }
 
   renewSession = () => {
@@ -80,7 +73,9 @@ export default class Auth {
     });
   };
 
-  logout = () => {
+  logout = async () => {
+    await persistor.purge();
+
     // Remove tokens
     this.accessToken = null;
     this.idToken = null;
@@ -99,5 +94,5 @@ export default class Auth {
 
   // Check whether the current time is past the
   // access token's expiry time
-  isAuthenticated = () => this.accessToken || localStorage.getItem('token');
+  isAuthenticated = () => this.accessToken || store.getState().profile.token;
 }

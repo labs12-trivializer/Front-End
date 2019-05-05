@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { store } from '../store';
 
 const serverHandshake = auth => {
   const options = {
@@ -6,7 +7,7 @@ const serverHandshake = auth => {
   };
 
   if (auth) {
-    const token = localStorage.getItem('token');
+    const token = store.getState().profile.token;
     options.headers = { Authorization: `Bearer ${token}` };
   }
 

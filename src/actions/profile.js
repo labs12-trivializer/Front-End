@@ -1,4 +1,5 @@
 import {
+  LOGIN_SUCCESS,
   FETCH_PROFILE_START,
   FETCH_PROFILE_SUCCESS,
   FETCH_PROFILE_FAILURE,
@@ -11,6 +12,11 @@ import {
 } from './types';
 
 import serverHandshake from '../auth/serverHandshake';
+
+export const loginSuccess = loginData => ({
+  type: LOGIN_SUCCESS,
+  payload: loginData
+});
 
 export const fetchProfile = () => async dispatch => {
   dispatch({ type: FETCH_PROFILE_START });

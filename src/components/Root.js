@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { Router, Route } from 'react-router-dom';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import Reset from '../styles/reset.css';
@@ -17,7 +18,7 @@ import Game from './Game';
 import Rounds from './Rounds';
 import CreateGame from './CreateGame';
 import RoundDetails from './RoundDetails';
-import Setup from './Setup';
+import { store, persistor } from '../store';
 
 const auth = new Auth();
 
@@ -27,13 +28,12 @@ const handleAuthentication = ({ location }) => {
   }
 };
 
-const Root = ({ store }) => {
-  return (
-    <Provider store={store}>
+const Root = () => (
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <Router history={history}>
         <React.Fragment>
           <Reset />
-          <Setup />
           <Route
             exact
             path="/"
@@ -88,8 +88,8 @@ const Root = ({ store }) => {
           />
         </React.Fragment>
       </Router>
-    </Provider>
-  );
-};
+    </PersistGate>
+  </Provider>
+);
 
 export default Root;

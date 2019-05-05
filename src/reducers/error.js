@@ -1,6 +1,4 @@
 import {
-  LOGIN_FAILURE,
-  SIGNUP_FAILURE,
   FETCH_PROFILE_FAILURE,
   ADD_PROFILE_FAILURE,
   EDIT_PROFILE_FAILURE,
@@ -22,8 +20,6 @@ import {
 
 export default (state, action) => {
   switch (action.type) {
-    case LOGIN_FAILURE:
-    case SIGNUP_FAILURE:
     case FETCH_PROFILE_FAILURE:
     case ADD_PROFILE_FAILURE:
     case EDIT_PROFILE_FAILURE:
@@ -42,7 +38,7 @@ export default (state, action) => {
     case EDIT_ANSWER_FAILURE:
     case DELETE_ANSWER_FAILURE:
       const { response } = action.payload;
-      return (response && response.data && response.data.message) || (response);
+      return (response && response.data && response.data.message) || (action.payload);
     default:
       return '';
   }
