@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Styled from 'styled-components';
 
+const NavBar = ({ auth, history, username }) => {
+  const login = () => {
+    auth.login();
+  }
 
-const NavBar = ({ auth, history }) => {
   const logout = () => {
-    console.log('Logging out.. maybe?');
     auth.logout();
   };
 
@@ -20,7 +23,7 @@ const NavBar = ({ auth, history }) => {
     // This function will toggle menu to slide on/off screen
   }
 
-  const username = localStorage.getItem('username');
+  const isLoggedIn = auth.isAuthenticated();
 
   return (
     <div>
@@ -28,9 +31,13 @@ const NavBar = ({ auth, history }) => {
         <NavItem onClick={toggleMenu}>Menu</NavItem>
         <AppTitle onClick={gotoHome}>Trivializer</AppTitle>
         <Row>
-          <NavItem onClick={gotoProfile}>{username}</NavItem>
-          <p>|</p>
-          <NavItem onClick={logout}>Log Out</NavItem>
+          {isLoggedIn && (
+            <>
+              <NavItem onClick={gotoProfile}>{username}</NavItem>
+              <p>|</p>
+            </>
+          )}
+          <NavItem onClick={isLoggedIn ? logout : login}>Log {isLoggedIn ? 'Out' : 'In'}</NavItem>
         </Row>
       </Nav>
     </div>
@@ -73,4 +80,8 @@ const AppTitle = Styled.h4`
   cursor: pointer;
 `;
 
-export default NavBar;
+const mapStateToProps = state => ({
+  username: state.profile.username
+});
+
+export default connect(mapStateToProps)(NavBar);

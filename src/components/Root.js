@@ -17,7 +17,7 @@ import Games from './Games';
 import Game from './Game';
 import CreateGame from './CreateGame';
 import RoundDetails from './RoundDetails';
-import configureStore from '../configureStore';
+import { store, persistor } from '../store';
 
 const auth = new Auth();
 
@@ -26,8 +26,6 @@ const handleAuthentication = ({ location }) => {
     auth.handleAuthentication();
   }
 };
-
-const { store, persistor } = configureStore();
 
 const Root = () => (
   <Provider store={store}>
