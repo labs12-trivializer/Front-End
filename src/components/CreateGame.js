@@ -10,7 +10,7 @@ class CreateGame extends Component {
       <div>
         <CreateRound categories={this.props.categories} />
 
-        {/* <AddRound /> */}
+        <AddRound />
       </div>
     );
   }
