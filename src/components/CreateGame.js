@@ -6,12 +6,13 @@ import serverHandshake from "../auth/serverHandshake";
 
 class CreateGame extends Component {
   state = {
-    name: "Test Add New Game4",
+    user_id: null,
+    name: "Hardcoded Test Game Name",
     game_id: null,
-    rounds: [],
-    numberOfRounds: 1,
-    questions: [],
-    answers: []
+    rounds_ids: [],
+    nextRoundNumber: 1,
+    questions: {},
+    answers: {}
   };
 
   componentDidMount() {
@@ -19,7 +20,7 @@ class CreateGame extends Component {
     serverHandshake(true)
       .post("/games", { name: this.state.name })
       .then(res => {
-        console.log(res.data);
+        console.log("here", res.data.user_id);
         this.setState({ game_id: res.data.id });
       })
       .catch(err => {
@@ -30,50 +31,92 @@ class CreateGame extends Component {
     serverHandshake(true)
       .post("./rounds", {
         game_id: this.state.game_id,
-        number: this.state.numberOfRounds
+        number: this.state.nextRoundNumber
       })
       .then(res => {
         console.log("newly created round id:", res.data.id);
         this.setState({
-          numberOfRounds: this.state.numberOfRounds + 1,
-          rounds: [...this.state.rounds, res.data.id]
+          nextRoundNumber: this.state.nextRoundNumber + 1,
+          rounds_ids: [...this.state.rounds_ids, res.data.id]
         });
       })
       .catch(err => console.log(err));
   }
 
+  // creates a new round in database based on game_id in state and the current nextRoundNumber in state
   addRoundToDb() {
+    console.log("inside addRoundToDb()");
     serverHandshake(true)
       .post("/rounds", {
         game_id: this.state.game_id,
-        number: this.state.numberOfRounds
+        number: this.state.nextRoundNumber
       })
       .then(res => {
         console.log(res.data);
         this.setState({
-          numberOfRounds: this.state.numberOfRounds + 1,
-          rounds: [...this.state.rounds, res.data.id]
+          nextRoundNumber: this.state.nextRoundNumber + 1,
+          rounds_ids: [...this.state.rounds_ids, res.data.id]
         });
       })
       .catch(err => console.log(err));
   }
 
+  saveQuestionsToDb(openTrivArray, round) {
+    // const { user_id } = this.state;
+    let questionObj = {
+      round_id: round,
+      text: null
+      // user_id: null
+    };
+
+    let correctAnswerObj = {
+      question_id: null,
+      text: null,
+      is_correct: true
+    };
+
+    openTrivArray.forEach(obj => {
+      questionObj.text = obj.question;
+      correctAnswerObj.text = obj.correct_answer;
+
+      //server request to post question
+      serverHandshake(true)
+        .post("/questions", questionObj)
+        .then(res => {
+          console.log("question added successfully");
+          correctAnswerObj.question_id = res.data[0].id;
+
+          //server request to post correct answer using question ID in successful response
+          serverHandshake(true)
+            .post("/answers", correctAnswerObj)
+            .then(res => console.log(res.status))
+            .catch(err => console.log("error posting answer"));
+        })
+        .catch(err => console.log("error adding question"));
+    });
+  }
+
   render() {
-    if (this.state.numberOfRounds === 1) {
+    console.log("array of round_ids: ", this.state.rounds_ids);
+    if (this.state.nextRoundNumber < 1) {
       return (
         <>
-          <h3>Game: {this.state.name}</h3>
-          <CreateRound categories={this.props.categories} />
-          <button onClick={() => this.addRoundToDb()}>Add Another Round</button>
+          <h2>Loading...</h2>
         </>
       );
     } else {
       return (
         <>
           <h3>Game: {this.state.name}</h3>
-          {this.state.rounds.map(item => (
-            <CreateRound categories={this.props.categories} key={item} />
+          {this.state.rounds_ids.map(round_id => (
+            <CreateRound
+              categories={this.props.categories}
+              key={round_id}
+              round_id={round_id}
+              saveQuestionsToDb={this.saveQuestionsToDb}
+            />
           ))}
+          <br />
           <button onClick={() => this.addRoundToDb()}>Add Another Round</button>
         </>
       );
