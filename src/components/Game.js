@@ -12,18 +12,28 @@ class Game extends Component {
   // }
 
   componentDidMount = () => {
+    console.log('Game Info:', this.props.game);
     this.props.fetchGame(this.props.match.params.id);
   };
-
-  handleAddRound = () => {
-    this.props.addRound();
+  
+  // check boolean state property 'showRoundForm'
+  handleShowForm = () => {
+    // set 'showRoundForm: true'
   }
-
+  // Fire on submit of new round form
+  handleSubmitNewRound = () => {
+    this.props.addRound({
+      "game_id": this.props.game.id,
+      "number": `${this.props.game.rounds.length + 1}`
+    });
+  }
+  
   render() {
     if (!this.props.game || !this.props.game.rounds){
       return (<div>Loading...</div>)
     } else {
 
+      console.log('Rounds Info:', this.props.game.rounds);
       return (
         <div>
           <Menu />
@@ -38,7 +48,7 @@ class Game extends Component {
             )}
           </ul>
           <div>
-            <button onClick={this.handleAddRound()}>New Round</button>
+            <button onClick={this.handleSubmitNewRound}>New Round</button>
           </div>
 
       </div>
