@@ -20,7 +20,6 @@ class CreateGame extends Component {
     serverHandshake(true)
       .post("/games", { name: this.state.name })
       .then(res => {
-        console.log("here", res.data.user_id);
         this.setState({ game_id: res.data.id, user_id: res.data.user_id });
       })
       .catch(err => {
@@ -34,7 +33,6 @@ class CreateGame extends Component {
         number: this.state.nextRoundNumber
       })
       .then(res => {
-        console.log("newly created round id:", res.data.id);
         this.setState({
           nextRoundNumber: this.state.nextRoundNumber + 1,
           rounds_ids: [...this.state.rounds_ids, res.data.id]
@@ -45,14 +43,12 @@ class CreateGame extends Component {
 
   // creates a new round in database based on game_id in state and the current nextRoundNumber in state
   addRoundToDb() {
-    console.log("inside addRoundToDb()");
     serverHandshake(true)
       .post("/rounds", {
         game_id: this.state.game_id,
         number: this.state.nextRoundNumber
       })
       .then(res => {
-        console.log(res.data);
         this.setState({
           nextRoundNumber: this.state.nextRoundNumber + 1,
           rounds_ids: [...this.state.rounds_ids, res.data.id]
@@ -96,7 +92,6 @@ class CreateGame extends Component {
   }
 
   render() {
-    console.log("array of round_ids: ", this.state.rounds_ids);
     if (this.state.nextRoundNumber < 1) {
       return (
         <>

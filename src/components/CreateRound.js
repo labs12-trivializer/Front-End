@@ -31,11 +31,10 @@ class CreateRound extends Component {
     axios
       .get(queryString)
       .then(res => {
-        console.log("array of results from OTDB: ", res.data.results);
         this.setState({
           response: res.data.results
         });
-        console.log(this.state.response);
+
         this.props.saveQuestionsToDb(
           this.state.response,
           round,
