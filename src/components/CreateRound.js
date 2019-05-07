@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import ReturnedQuestions from './ReturnedQuestions';
-import axios from 'axios';
+import React, { Component } from "react";
+import ReturnedQuestions from "./ReturnedQuestions";
+import axios from "axios";
 
 class CreateRound extends Component {
   state = {
-    category: 9,
-    questions: 0,
-    difficulty: 'easy',
-    type: 'boolean',
-    response: [],
+    category: "any",
+    amount: 0,
+    difficulty: "any",
+    type: "any",
+    response: []
   };
 
   handleChanges = e => {
@@ -16,12 +16,17 @@ class CreateRound extends Component {
   };
 
   queryTriviaDb = () => {
+    const queryString = `https://opentdb.com/api.php?amount=${
+      this.state.amount
+    }${
+      this.state.category === "any" ? "" : `&category=${this.state.category}`
+    }${
+      this.state.difficulty === "any"
+        ? ""
+        : `&difficulty=${this.state.difficulty}`
+    }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
     axios
-      .get(
-        `https://opentdb.com/api.php?amount=${this.state.questions}&category=${
-          this.state.category
-        }&difficulty=${this.state.difficulty}&type=${this.state.type}`
-      )
+      .get(queryString)
       .then(res => this.setState({ response: res.data.results }))
       .catch(err => console.log(err));
   };
@@ -39,21 +44,26 @@ class CreateRound extends Component {
         <input
           onChange={e => this.handleChanges(e)}
           type="number"
-          name="questions"
+          name="amount"
           min="1"
           max="50"
         />
         <select name="category" onChange={e => this.handleChanges(e)}>
+          <option value="any">Any Category</option>
           {this.props.categories.map(c => (
-            <option value={c.category_id} key={`category${c.id}`}>{c.name}</option>
+            <option value={c.category_id} key={`category${c.id}`}>
+              {c.name}
+            </option>
           ))}
         </select>
         <select name="difficulty" onChange={e => this.handleChanges(e)}>
+          <option value="any">Any Difficulty</option>
           <option value="easy">easy</option>
           <option value="medium">medium</option>
           <option value="hard">hard</option>
         </select>
         <select name="type" onChange={e => this.handleChanges(e)}>
+          <option value="any">Any Type</option>
           <option value="boolean">true/false</option>
           <option value="multiple">multiple choice</option>
         </select>
