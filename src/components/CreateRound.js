@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReturnedQuestions from "./ReturnedQuestions";
+// import ReturnedQuestions from "./ReturnedQuestions";
 import axios from "axios";
 
 class CreateRound extends Component {
@@ -8,14 +8,15 @@ class CreateRound extends Component {
     amount: 0,
     difficulty: "any",
     type: "any",
-    response: []
+    response: {}
   };
 
   handleChanges = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  queryTriviaDb = () => {
+  queryTriviaDb = round => {
+    //generates query string based on dropdowns and number of questions selected
     const queryString = `https://opentdb.com/api.php?amount=${
       this.state.amount
     }${
@@ -25,9 +26,21 @@ class CreateRound extends Component {
         ? ""
         : `&difficulty=${this.state.difficulty}`
     }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
+
+    //make request to openTriviadb based on query string
     axios
       .get(queryString)
-      .then(res => this.setState({ response: res.data.results }))
+      .then(res => {
+        this.setState({
+          response: res.data.results
+        });
+
+        this.props.saveQuestionsToDb(
+          this.state.response,
+          round,
+          this.props.user_id
+        );
+      })
       .catch(err => console.log(err));
   };
 
@@ -40,6 +53,7 @@ class CreateRound extends Component {
       );
     }
     return (
+      //form for specifying question parameters
       <>
         <input
           onChange={e => this.handleChanges(e)}
@@ -67,8 +81,10 @@ class CreateRound extends Component {
           <option value="boolean">true/false</option>
           <option value="multiple">multiple choice</option>
         </select>
-        <button onClick={this.queryTriviaDb}>Get Questions</button>
-        <ReturnedQuestions questions={this.state.response} />
+        <button onClick={() => this.queryTriviaDb(this.props.round_id)}>
+          Get Questions
+        </button>
+        {/* <ReturnedQuestions questions={this.state.response} /> */}
       </>
     );
   }
