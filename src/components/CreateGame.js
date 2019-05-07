@@ -21,7 +21,7 @@ class CreateGame extends Component {
       .post("/games", { name: this.state.name })
       .then(res => {
         console.log("here", res.data.user_id);
-        this.setState({ game_id: res.data.id });
+        this.setState({ game_id: res.data.id, user_id: res.data.user_id });
       })
       .catch(err => {
         console.log(err);
@@ -61,12 +61,11 @@ class CreateGame extends Component {
       .catch(err => console.log(err));
   }
 
-  saveQuestionsToDb(openTrivArray, round) {
-    // const { user_id } = this.state;
+  saveQuestionsToDb(openTrivArray, round, user_id) {
     let questionObj = {
       round_id: round,
-      text: null
-      // user_id: null
+      text: null,
+      user_id
     };
 
     let correctAnswerObj = {
@@ -114,6 +113,7 @@ class CreateGame extends Component {
               key={round_id}
               round_id={round_id}
               saveQuestionsToDb={this.saveQuestionsToDb}
+              user_id={this.state.user_id}
             />
           ))}
           <br />

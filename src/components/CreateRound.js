@@ -36,7 +36,11 @@ class CreateRound extends Component {
           response: res.data.results
         });
         console.log(this.state.response);
-        this.props.saveQuestionsToDb(this.state.response, round);
+        this.props.saveQuestionsToDb(
+          this.state.response,
+          round,
+          this.props.user_id
+        );
       })
       .catch(err => console.log(err));
   };
