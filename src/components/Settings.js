@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Image } from 'cloudinary-react';
-import { Container, Form, Avatar } from '../styles/profile.css';
+import Tilt from 'react-tilt';
+
+import { Container, Form, Avatar } from '../styles/settings.css';
+import { Background } from '../styles/shared.css';
+
 import { editProfile } from '../actions';
 
 const Profile = ({ profile, editProfile }) => {
@@ -23,29 +27,34 @@ const Profile = ({ profile, editProfile }) => {
 
   return (
     <Container>
-      <Avatar>
-        {profile.avatar_id ? (
-          <Image cloudName="trivializer" publicId={profile.avatar_id} />
-        ) : (
-          <img src="https://picsum.photos/100" alt="placeholder" />
-        )}
-        <button onClick={displayWidget}>Upload Photo</button>
-      </Avatar>
+      <Background />
+      <Tilt className="Tilt" options={{ max: 30 }}>
+        <Avatar onClick={displayWidget} className="Tilt-inner" avatar={profile.avatar_id}>
+          {profile.avatar_id ? (
+            <Image cloudName="trivializer" publicId={profile.avatar_id} />
+          ) : (
+            <img src="https://picsum.photos/100" alt="placeholder" />
+          )}
+          <div className="middle">
+            <span className="text">Upload Photo</span>
+          </div>
+        </Avatar>
+      </Tilt>
       <Form>
         <div>
-          <label htmlFor="profile-name">Name:</label>
+          <label htmlFor="profile-name">Name</label>
           <input type="text" />
         </div>
         <div>
-          <label htmlFor="profile-email">Email:</label>
+          <label htmlFor="profile-email">Email</label>
           <input type="text" />
         </div>
         <div>
-          <label htmlFor="profile-oldpass">Old Password:  </label>
+          <label htmlFor="profile-oldpass">Old Password</label>
           <input type="password" />
         </div>
         <div>
-          <label htmlFor="profile-newpass">New Password:  </label>
+          <label htmlFor="profile-newpass">New Password</label>
           <input type="password" />
         </div>
         <button>Save</button>
