@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import auth from '../auth';
 
 // STYLES
 import {
@@ -11,6 +12,9 @@ const Menu = () => {
   const [menu, setMenu] = useState(false);
 
   const toggleMenu = () => setMenu(!menu);
+
+  const logout = () => auth.logout();
+  const isLoggedIn = auth.isAuthenticated();
 
   return (
     <nav>
@@ -33,6 +37,11 @@ const Menu = () => {
         <div>
           <NavLink to="/settings">Settings</NavLink>
         </div>
+        {isLoggedIn && (
+          <div>
+            <button onClick={logout}>Logout</button>
+          </div>
+        )}
       </SideMenu>
     </nav>
   );

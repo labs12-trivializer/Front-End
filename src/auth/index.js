@@ -3,7 +3,7 @@ import history from '../history';
 import { store, persistor } from '../store';
 import { loginSuccess } from '../actions';
 
-export default class Auth {
+export class Auth {
   accessToken;
   idToken;
   expiresAt;
@@ -96,3 +96,7 @@ export default class Auth {
   // access token's expiry time
   isAuthenticated = () => this.accessToken || store.getState().profile.token;
 }
+
+const auth = new Auth();
+
+export default auth;

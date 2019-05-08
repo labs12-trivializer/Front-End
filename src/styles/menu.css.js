@@ -73,5 +73,13 @@ export const SideMenu = styled.div`
       text-decoration: none;
       font-size: 2.5rem;
     }
+
+    > button {
+      border: none;
+      padding: .5em 2em;
+      border-radius: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
   }
 `;
