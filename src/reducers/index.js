@@ -9,6 +9,7 @@ import rounds, * as fromRounds from './rounds';
 import questions, * as fromQuestions from './questions';
 import newRoundQuestions, * as fromNewRoundQuestions from './newRoundQuestions';
 import auth, * as fromAuth from './auth';
+import questionTypes, * as fromQuestionTypes from './questionTypes';
 
 export default combineReducers({
   answers,
@@ -17,7 +18,9 @@ export default combineReducers({
   profile,
   questions,
   newRoundQuestions,
-  rounds, categories,
+  questionTypes,
+  rounds,
+  categories,
   auth
 });
 
@@ -28,17 +31,25 @@ export const getAllRounds = state => fromRounds.getAllRounds(state.rounds);
 export const getAllQuestions = state =>
   fromQuestions.getAllQuestions(state.questions);
 
-export const getAllAnswers = state =>
-  fromAnswers.getAllAnswers(state.answers);
+export const getQuestionById = (state, id) =>
+  fromQuestions.getQuestionById(state.questions, id);
+
+export const getAllAnswers = state => fromAnswers.getAllAnswers(state.answers);
+export const getAnswerById = (state, id) =>
+  fromAnswers.getAnswerById(state.answers, id);
 
 export const getAllCategories = state =>
   fromCategories.getAllCategories(state.categories);
 
-export const getLoggedIn = state =>
-  fromAuth.getLoggedIn(state.auth);
+export const getLoggedIn = state => fromAuth.getLoggedIn(state.auth);
 
-export const getHasProfile = state =>
-  fromProfile.getHasProfile(state.profile);
+export const getHasProfile = state => fromProfile.getHasProfile(state.profile);
 
 export const getNewRoundQuestions = state =>
   fromNewRoundQuestions.getNewRoundQuestions(state.newRoundQuestions);
+
+export const getAllQuestionTypes = state =>
+  fromQuestionTypes.getAllQuestionTypes(state.questionTypes);
+
+export const getQuestionTypeById = (state, id) =>
+  fromQuestionTypes.getQuestionTypeById(state.questionTypes, id);

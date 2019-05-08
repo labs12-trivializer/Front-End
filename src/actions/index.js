@@ -6,6 +6,7 @@ export * from './profile';
 export * from './categories';
 export * from './newRoundQuestions';
 export * from './auth';
+export * from './questionTypes';
 
 export const testAction = (profile) => ({
   type: 'TEST_ACTION',
