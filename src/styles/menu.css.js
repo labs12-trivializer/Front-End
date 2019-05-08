@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const MenuToggle = styled.div`
   cursor: pointer;
   transition: 400ms;
-  position: absolute;
+  position: fixed;
   top: 1rem;
   left: ${props => props.menu
     ? '72%'
@@ -39,7 +39,7 @@ export const MenuToggle = styled.div`
 `;
 
 export const SideMenu = styled.div`
-  position: absolute;
+  position: fixed;
   width: 70%;
   height: 100%;
   left: ${props => props.menu ? 0 : '-70%'};
@@ -47,6 +47,7 @@ export const SideMenu = styled.div`
   transition: 400ms;
   background-color: rgba(31, 71, 115, 0.8);
   backdrop-filter: blur(20px);
+  z-index: 5;
 
   > h1 {
     display: flex;
@@ -60,10 +61,14 @@ export const SideMenu = styled.div`
   }
 
   > div {
-    margin: 3rem 0;
+    margin: 2rem 0;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media (min-height: 600px) {
+      margin: 3rem 0;
+    }
 
     &:first-of-type {
       margin-top: 5rem;
@@ -73,6 +78,10 @@ export const SideMenu = styled.div`
       color: #e5e5e5;
       text-decoration: none;
       font-size: 2.5rem;
+
+      &.active {
+        font-weight: bold;
+      }
     }
 
     > button {

@@ -87,6 +87,7 @@ export const Header = styled.header`
       padding: 1rem;
       border: none;
       border-radius: 1rem;
+      outline: none;
       cursor: pointer;
       width: ${props => props.isLoggedIn ? '90%' : '49%'};
 
