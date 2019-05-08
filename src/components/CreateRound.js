@@ -72,7 +72,7 @@ class CreateRound extends Component {
 
     console.log(requestObj);
     await serverHandshake(true)
-      .post("/rounds/nested", requestObj)
+      .put(`/rounds/nested/${this.props.round_id}`, requestObj)
       .then(res => console.log("great success", res.data))
       .catch(err => console.log(err));
   }
