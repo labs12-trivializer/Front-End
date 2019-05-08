@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import { fetchNewRoundQuestions } from '../actions';
-import { getNewRoundQuestions } from '../reducers';
+import { fetchNewRoundQuestions } from "../actions";
+import { getNewRoundQuestions } from "../reducers";
 // import ReturnedQuestions from "./ReturnedQuestions";
+import serverHandshake from "../auth/serverHandshake";
 
 class CreateRound extends Component {
   state = {
@@ -19,27 +20,66 @@ class CreateRound extends Component {
   };
 
   queryTriviaDb = () => {
-
     this.props.fetchNewRoundQuestions(this.state);
+    // this.saveToDb();
 
-  //   const queryString = `https://opentdb.com/api.php?amount=${
-  //     this.state.amount
-  //   }${
-  //     this.state.category === "any" ? "" : `&category=${this.state.category}`
-  //   }${
-  //     this.state.difficulty === "any"
-  //       ? ""
-  //       : `&difficulty=${this.state.difficulty}`
-  //   }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
-  //   axios
-  //     .get(queryString)
-  //     .then(res => this.setState({ response: res.data.results }))
-  //     .catch(err => console.log(err));
+    //   const queryString = `https://opentdb.com/api.php?amount=${
+    //     this.state.amount
+    //   }${
+    //     this.state.category === "any" ? "" : `&category=${this.state.category}`
+    //   }${
+    //     this.state.difficulty === "any"
+    //       ? ""
+    //       : `&difficulty=${this.state.difficulty}`
+    //   }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
+    //   axios
+    //     .get(queryString)
+    //     .then(res => this.setState({ response: res.data.results }))
+    //     .catch(err => console.log(err));
   };
+
+  async saveQuestionsToDb() {
+    const questionsNested = [];
+    for (let i = 0; i < this.props.unsavedQuestions.length; i++) {
+      let questionObj = {
+        text: null,
+        // question_type_id: 1,
+        // category_id: 1,
+        difficulty: null,
+        answers: [
+          {
+            text: null,
+            is_correct: null
+          }
+        ]
+      };
+
+      questionObj.text = this.props.unsavedQuestions[i].question;
+      questionObj.difficulty = this.props.unsavedQuestions[i].difficulty;
+      questionObj.answers[0].text = this.props.unsavedQuestions[
+        i
+      ].correct_answer;
+      questionObj.answers[0].is_correct = true;
+
+      questionsNested.push(questionObj);
+    }
+
+    let requestObj = {
+      game_id: this.props.game_id,
+      number: this.props.roundNumber,
+      questions: questionsNested
+    };
+
+    console.log(requestObj);
+    await serverHandshake(true)
+      .put(`/rounds/nested/${this.props.round_id}`, requestObj)
+      .then(res => console.log("great success", res.data))
+      .catch(err => console.log(err));
+  }
 
   render() {
     if (this.props.categories.length < 1) {
-      console.log('PROPS: ', this.props);
+      console.log("PROPS: ", this.props);
       return (
         <div>
           <h5>loading...</h5>
@@ -78,6 +118,7 @@ class CreateRound extends Component {
         <button onClick={() => this.queryTriviaDb(this.props.round_id)}>
           Get Questions
         </button>
+        <button onClick={() => this.saveQuestionsToDb()}>Save</button>
         {/* <ReturnedQuestions questions={this.state.response} /> */}
       </>
     );
@@ -85,7 +126,8 @@ class CreateRound extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  newRoundQuestions: getNewRoundQuestions(state)
+  newRoundQuestions: getNewRoundQuestions(state),
+  unsavedQuestions: state.newRoundQuestions
 });
 
 export default connect(
