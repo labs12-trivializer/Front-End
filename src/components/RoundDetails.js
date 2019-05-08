@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import he from 'he';
 
 import { fetchRound } from '../actions';
 import { getAllCategories } from '../reducers';
@@ -10,6 +11,7 @@ class RoundDetails extends Component {
 
   componentDidMount = () => {
     this.props.fetchRound(this.props.match.params.id);
+    console.log('Props: ', this.props)
   }
 
   render(){
@@ -17,32 +19,39 @@ class RoundDetails extends Component {
       return (
         <div>Loading...</div>
       )
-    } else if (this.props.round.questions < 1){
-      return (<CreateRound categories={this.props.categories}/>)
-    }
+    } 
+    // else if (this.props.round.questions < 1){
+    //   console.log('Props: ', this.props)
+    //   return (<CreateRound categories={this.props.categories}/>)
+    // }
 
     return (
       <div>
+        <CreateRound categories={this.props.categories}/>
         <p>{this.props.round.game_id}</p>
         <p>{this.props.round.created_at}</p>
         <p>{this.props.round.updated_at}</p>
-        <ul>{ this.props.round.questions.map(q => {
-          const question = this.props.questionsById[q]
+        <ul>{this.props.newRoundQuestions.map(q => {
+          const question = q;
+          // const decoder = new TextDecoder('utf-8');
           return (
             <li key={`Question: ${q}`}>
-              <strong>{question.text}</strong>
-              <div><strong>Answers:</strong></div>
+              <p>{question.category}</p>
+              <strong>{he.decode(question.question)}</strong>
+              <div><strong>Correct Answers:</strong></div>
+              <p>{` - ${he.decode(question.correct_answer)}`}</p>
+              <div><strong>Wrong Answers:</strong></div>
               <ol>
-                {question.answers.map(a => {
-                  const answer = this.props.answersById[a];
+                {question.incorrect_answers.map(a => {
+                  const answer = he.decode(a)
                   return (
-                    <li key={`Answer: ${a}`}>{' - ' + answer.text}</li>
-                  )
-                })}
+                    <li key={`Answer: ${answer}`}>{' - ' + answer}</li>
+                    )
+                  })}
               </ol>
             </li>
-          )})
-        }</ul>
+          )
+        })}</ul>
       </div>
     )
   }
@@ -52,7 +61,8 @@ const mapStateToProps = (state, ownProps) => ({
   round: state.rounds.byId[ownProps.match.params.id],
   questionsById: state.questions.byId,
   answersById: state.answers.byId,
-  categories: getAllCategories(state)
+  categories: getAllCategories(state),
+  newRoundQuestions: state.newRoundQuestions
 });
 
 export default connect(
