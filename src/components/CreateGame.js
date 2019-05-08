@@ -7,19 +7,21 @@ import serverHandshake from "../auth/serverHandshake";
 class CreateGame extends Component {
   state = {
     user_id: null,
-    name: "Hardcoded Test Game Name",
+    name: "New Game " + Date.now(),
     game_id: null,
     rounds_ids: [],
     nextRoundNumber: 1,
-    questions: {},
-    answers: {}
+    date_to_be_played: ""
   };
 
-  componentDidMount() {
+  //create a new game and the initial round on mount
+  async componentDidMount() {
     // //create game in db
-    serverHandshake(true)
+    console.log("creating new game");
+    await serverHandshake(true)
       .post("/games", { name: this.state.name })
       .then(res => {
+        console.log("create game status", res.status);
         this.setState({ game_id: res.data.id, user_id: res.data.user_id });
       })
       .catch(err => {
@@ -27,18 +29,20 @@ class CreateGame extends Component {
       });
 
     //make initial round in db
-    serverHandshake(true)
+    console.log("create initial round");
+    await serverHandshake(true)
       .post("./rounds", {
         game_id: this.state.game_id,
         number: this.state.nextRoundNumber
       })
       .then(res => {
+        console.log("round created successfully", res);
         this.setState({
           nextRoundNumber: this.state.nextRoundNumber + 1,
           rounds_ids: [...this.state.rounds_ids, res.data.id]
         });
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log("round add failed", err));
   }
 
   // creates a new round in database based on game_id in state and the current nextRoundNumber in state
@@ -57,38 +61,23 @@ class CreateGame extends Component {
       .catch(err => console.log(err));
   }
 
-  saveQuestionsToDb(openTrivArray, round, user_id) {
-    let questionObj = {
-      round_id: round,
-      text: null,
-      user_id
+  //change handler
+  changeHandler = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  //save game with updated info
+  updateGame() {
+    const saveGameObj = {
+      name: this.state.name,
+      date_to_be_played: this.state.date_to_be_played
+      // logo_url: ""
     };
-
-    let correctAnswerObj = {
-      question_id: null,
-      text: null,
-      is_correct: true
-    };
-
-    openTrivArray.forEach(obj => {
-      questionObj.text = obj.question;
-      correctAnswerObj.text = obj.correct_answer;
-
-      //server request to post question
-      serverHandshake(true)
-        .post("/questions", questionObj)
-        .then(res => {
-          console.log("question added successfully");
-          correctAnswerObj.question_id = res.data[0].id;
-
-          //server request to post correct answer using question ID in successful response
-          serverHandshake(true)
-            .post("/answers", correctAnswerObj)
-            .then(res => console.log(res.status))
-            .catch(err => console.log("error posting answer"));
-        })
-        .catch(err => console.log("error adding question"));
-    });
+    console.log(saveGameObj);
+    serverHandshake(true)
+      .put(`/games/${this.state.game_id}`, saveGameObj)
+      .then(res => console.log(res.data))
+      .catch(err => console.log("fail", err));
   }
 
   render() {
@@ -101,18 +90,38 @@ class CreateGame extends Component {
     } else {
       return (
         <>
-          <h3>Game: {this.state.name}</h3>
-          {this.state.rounds_ids.map(round_id => (
+          <h1>Create A Game:</h1>
+          <div>
+            <h3>Game Name:</h3>
+            <input
+              onChange={this.changeHandler}
+              placeholder="Wednesday Night Trivia"
+              name="name"
+              value={this.state.name}
+            />
+          </div>
+          <div>
+            <h3>To Be Played:</h3>
+            <input
+              type="date"
+              name="date_to_be_played"
+              value={this.state.date_to_be_played}
+              onChange={this.changeHandler}
+            />
+          </div>
+          {this.state.rounds_ids.map((round_id, index) => (
             <CreateRound
+              game_id={this.state.game_id}
               categories={this.props.categories}
               key={round_id}
               round_id={round_id}
-              saveQuestionsToDb={this.saveQuestionsToDb}
               user_id={this.state.user_id}
+              roundNumber={index + 1}
             />
           ))}
           <br />
           <button onClick={() => this.addRoundToDb()}>Add Another Round</button>
+          <button onClick={() => this.updateGame()}>Save Game</button>
         </>
       );
     }
