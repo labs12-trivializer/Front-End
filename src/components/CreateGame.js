@@ -11,7 +11,7 @@ class CreateGame extends Component {
     game_id: null,
     rounds_ids: [],
     nextRoundNumber: 1,
-    last_played: null
+    date_to_be_played: ""
   };
 
   //create a new game and the initial round on mount
@@ -66,6 +66,20 @@ class CreateGame extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  //save game with updated info
+  updateGame() {
+    const saveGameObj = {
+      name: this.state.name,
+      date_to_be_played: this.state.date_to_be_played
+      // logo_url: ""
+    };
+    console.log(saveGameObj);
+    serverHandshake(true)
+      .put(`/games/${this.state.game_id}`, saveGameObj)
+      .then(res => console.log(res.data))
+      .catch(err => console.log("fail", err));
+  }
+
   render() {
     if (this.state.nextRoundNumber < 1) {
       return (
@@ -88,7 +102,12 @@ class CreateGame extends Component {
           </div>
           <div>
             <h3>To Be Played:</h3>
-            <input type="date" name="last_played" />
+            <input
+              type="date"
+              name="date_to_be_played"
+              value={this.state.date_to_be_played}
+              onChange={this.changeHandler}
+            />
           </div>
           {this.state.rounds_ids.map((round_id, index) => (
             <CreateRound
@@ -102,7 +121,7 @@ class CreateGame extends Component {
           ))}
           <br />
           <button onClick={() => this.addRoundToDb()}>Add Another Round</button>
-          <button>Save Game</button>
+          <button onClick={() => this.updateGame()}>Save Game</button>
         </>
       );
     }
