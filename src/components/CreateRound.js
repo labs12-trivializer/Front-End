@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from 'react-redux';
 
 import { fetchNewRoundQuestions } from '../actions';
 import { getNewRoundQuestions } from '../reducers';
-import ReturnedQuestions from "./ReturnedQuestions";
+// import ReturnedQuestions from "./ReturnedQuestions";
 
 class CreateRound extends Component {
   state = {
@@ -12,7 +11,7 @@ class CreateRound extends Component {
     amount: 0,
     difficulty: "any",
     type: "any",
-    response: []
+    response: {}
   };
 
   handleChanges = e => {
@@ -48,6 +47,7 @@ class CreateRound extends Component {
       );
     }
     return (
+      //form for specifying question parameters
       <>
         <input
           onChange={e => this.handleChanges(e)}
@@ -75,8 +75,10 @@ class CreateRound extends Component {
           <option value="boolean">true/false</option>
           <option value="multiple">multiple choice</option>
         </select>
-        <button onClick={this.queryTriviaDb}>Get Questions</button>
-        <ReturnedQuestions questions={this.state.response} />
+        <button onClick={() => this.queryTriviaDb(this.props.round_id)}>
+          Get Questions
+        </button>
+        {/* <ReturnedQuestions questions={this.state.response} /> */}
       </>
     );
   }
