@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import axios from "axios";
 import { connect } from 'react-redux';
 
 import { fetchNewRoundQuestions } from '../actions';
@@ -39,7 +40,6 @@ class CreateRound extends Component {
 
   render() {
     if (this.props.categories.length < 1) {
-      console.log('PROPS: ', this.props);
       return (
         <div>
           <h5>loading...</h5>

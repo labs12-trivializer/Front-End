@@ -35,20 +35,20 @@ class RoundDetails extends Component {
           const question = q;
           // const decoder = new TextDecoder('utf-8');
           return (
-            <li key={`Question: ${q}`}>
+            <li key={q.question}>
               <p>{question.category}</p>
               <strong>{he.decode(question.question)}</strong>
-              <div><strong>Correct Answers:</strong></div>
-              <p>{` - ${he.decode(question.correct_answer)}`}</p>
               <div><strong>Wrong Answers:</strong></div>
               <ol>
                 {question.incorrect_answers.map(a => {
                   const answer = he.decode(a)
                   return (
-                    <li key={`Answer: ${answer}`}>{' - ' + answer}</li>
+                    <li key={answer}>{' - ' + answer}</li>
                     )
                   })}
               </ol>
+              <div><strong>Correct Answers:</strong></div>
+              <p>{` - ${he.decode(question.correct_answer)}`}</p>
             </li>
           )
         })}</ul>
