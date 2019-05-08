@@ -15,7 +15,6 @@ import PrivateRoute from './PrivateRoute';
 import Profile from './Profile';
 import Games from './Games';
 import Game from './Game';
-import Rounds from './Rounds';
 import CreateGame from './CreateGame';
 import RoundDetails from './RoundDetails';
 import { store, persistor } from '../store';
@@ -53,11 +52,6 @@ const Root = () => (
           <Route
             path="/games/:id"
             render={props => <Game auth={auth} {...props} />}
-          />
-          <Route
-            exact
-            path="/rounds"
-            render={props => <Rounds auth={auth} {...props} />}
           />
           <Route
             exact

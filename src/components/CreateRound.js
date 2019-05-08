@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+
+import { fetchNewRoundQuestions } from '../actions';
+import { getNewRoundQuestions } from '../reducers';
 // import ReturnedQuestions from "./ReturnedQuestions";
-import axios from "axios";
 
 class CreateRound extends Component {
   state = {
@@ -15,37 +18,28 @@ class CreateRound extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  queryTriviaDb = round => {
-    //generates query string based on dropdowns and number of questions selected
-    const queryString = `https://opentdb.com/api.php?amount=${
-      this.state.amount
-    }${
-      this.state.category === "any" ? "" : `&category=${this.state.category}`
-    }${
-      this.state.difficulty === "any"
-        ? ""
-        : `&difficulty=${this.state.difficulty}`
-    }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
+  queryTriviaDb = () => {
 
-    //make request to openTriviadb based on query string
-    axios
-      .get(queryString)
-      .then(res => {
-        this.setState({
-          response: res.data.results
-        });
+    this.props.fetchNewRoundQuestions(this.state);
 
-        this.props.saveQuestionsToDb(
-          this.state.response,
-          round,
-          this.props.user_id
-        );
-      })
-      .catch(err => console.log(err));
+  //   const queryString = `https://opentdb.com/api.php?amount=${
+  //     this.state.amount
+  //   }${
+  //     this.state.category === "any" ? "" : `&category=${this.state.category}`
+  //   }${
+  //     this.state.difficulty === "any"
+  //       ? ""
+  //       : `&difficulty=${this.state.difficulty}`
+  //   }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
+  //   axios
+  //     .get(queryString)
+  //     .then(res => this.setState({ response: res.data.results }))
+  //     .catch(err => console.log(err));
   };
 
   render() {
     if (this.props.categories.length < 1) {
+      console.log('PROPS: ', this.props);
       return (
         <div>
           <h5>loading...</h5>
@@ -90,4 +84,13 @@ class CreateRound extends Component {
   }
 }
 
-export default CreateRound;
+const mapStateToProps = (state, ownProps) => ({
+  newRoundQuestions: getNewRoundQuestions(state)
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    fetchNewRoundQuestions
+  }
+)(CreateRound);
