@@ -7,7 +7,6 @@ import games, * as fromGames from './games';
 import profile, * as fromProfile from './profile';
 import rounds, * as fromRounds from './rounds';
 import questions, * as fromQuestions from './questions';
-import auth, * as fromAuth from './auth';
 
 export default combineReducers({
   answers,
@@ -15,6 +14,7 @@ export default combineReducers({
   games,
   profile,
   questions,
+  newRoundQuestions,
   rounds,
   categories,
   auth
@@ -38,3 +38,6 @@ export const getLoggedIn = state =>
 
 export const getHasProfile = state =>
   fromProfile.getHasProfile(state.profile);
+
+export const getNewRoundQuestions = state =>
+  fromNewRoundQuestions.getNewRoundQuestions(state.newRoundQuestions);
