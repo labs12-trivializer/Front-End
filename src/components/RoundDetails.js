@@ -35,33 +35,6 @@ class RoundDetails extends Component {
     );
   }
 }
-{
-  /* <div> */
-}
-{
-  /*   <strong>Answers:</strong> */
-}
-{
-  /* </div> */
-}
-{
-  /* <ol> */
-}
-{
-  /*   {question.answers.map(a => { */
-}
-{
-  /*     const answer = this.props.answersById[a]; */
-}
-{
-  /*     return <li key={`Answer: ${a}`}>{' - ' + answer.text}</li>; */
-}
-{
-  /*   })} */
-}
-{
-  /* </ol> */
-}
 
 const mapStateToProps = (state, ownProps) => ({
   round: state.rounds.byId[ownProps.match.params.id],
