@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-import ReturnedQuestions from "./ReturnedQuestions";
 import axios from "axios";
+import { connect } from 'react-redux';
+
+import { fetchNewRoundQuestions } from '../actions';
+import { getNewRoundQuestions } from '../reducers';
+import ReturnedQuestions from "./ReturnedQuestions";
 
 class CreateRound extends Component {
   state = {
@@ -16,23 +20,27 @@ class CreateRound extends Component {
   };
 
   queryTriviaDb = () => {
-    const queryString = `https://opentdb.com/api.php?amount=${
-      this.state.amount
-    }${
-      this.state.category === "any" ? "" : `&category=${this.state.category}`
-    }${
-      this.state.difficulty === "any"
-        ? ""
-        : `&difficulty=${this.state.difficulty}`
-    }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
-    axios
-      .get(queryString)
-      .then(res => this.setState({ response: res.data.results }))
-      .catch(err => console.log(err));
+
+    this.props.fetchNewRoundQuestions(this.state);
+
+  //   const queryString = `https://opentdb.com/api.php?amount=${
+  //     this.state.amount
+  //   }${
+  //     this.state.category === "any" ? "" : `&category=${this.state.category}`
+  //   }${
+  //     this.state.difficulty === "any"
+  //       ? ""
+  //       : `&difficulty=${this.state.difficulty}`
+  //   }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
+  //   axios
+  //     .get(queryString)
+  //     .then(res => this.setState({ response: res.data.results }))
+  //     .catch(err => console.log(err));
   };
 
   render() {
     if (this.props.categories.length < 1) {
+      console.log('PROPS: ', this.props);
       return (
         <div>
           <h5>loading...</h5>
@@ -74,4 +82,13 @@ class CreateRound extends Component {
   }
 }
 
-export default CreateRound;
+const mapStateToProps = (state, ownProps) => ({
+  newRoundQuestions: getNewRoundQuestions(state)
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    fetchNewRoundQuestions
+  }
+)(CreateRound);

@@ -8,12 +8,9 @@ import Menu from './Menu';
 import Round from './Round';
 
 class Game extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rounds: this.props.game.rounds
-    }
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   componentDidMount = () => {
     console.log('Game Info:', this.props.game);

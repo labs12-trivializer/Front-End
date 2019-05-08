@@ -4,6 +4,7 @@ import { store } from '../store';
 const serverHandshake = auth => {
   const options = {
     baseURL: process.env.REACT_APP_BACKEND_URI || 'http://localhost:9000/api'
+    // baseURL: 'https://lambda-trivializer.herokuapp.com/' || 'http://localhost:9000/api'
   };
 
   if (auth) {
