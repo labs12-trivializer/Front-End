@@ -4,6 +4,7 @@ export const MenuToggle = styled.div`
   cursor: pointer;
   transition: 400ms;
   position: absolute;
+  top: 1rem;
   left: ${props => props.menu
     ? '72%'
     : '1.5rem'
@@ -75,6 +76,7 @@ export const SideMenu = styled.div`
     }
 
     > button {
+      outline: none;
       border: none;
       padding: .5em 2em;
       border-radius: 1rem;

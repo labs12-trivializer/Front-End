@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import auth from '../auth';
 
 // STYLES
 import {
@@ -8,7 +7,7 @@ import {
   SideMenu
 } from '../styles/menu.css';
 
-const Menu = () => {
+const Menu = ({ auth }) => {
   const [menu, setMenu] = useState(false);
 
   const toggleMenu = () => setMenu(!menu);

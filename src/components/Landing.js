@@ -1,5 +1,4 @@
 import React from 'react';
-import Menu from './Menu';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-regular-svg-icons';
@@ -14,7 +13,6 @@ const Landing = ({ auth }) => {
   return (
     <Container>
       <Background />
-      {isLoggedIn && <Menu />}
       <Header isLoggedIn={isLoggedIn}>
         <h1>Trivia Games</h1>
         <h2>Tailored to your Bar</h2>

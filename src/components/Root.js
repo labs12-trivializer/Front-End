@@ -4,8 +4,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Router, Route } from 'react-router-dom';
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import Reset from '../styles/reset.css';
-import NavBar from './NavBar';
-import App from './App';
+import GlobalStyles from '../styles/global.css';
+import Menu from './Menu';
+import Landing from './Landing';
 import Home from './Home';
 import Callback from './Callback';
 import Auth from '../auth';
@@ -34,35 +35,12 @@ const Root = () => (
       <Router history={history}>
         <React.Fragment>
           <Reset />
+          <GlobalStyles />
+          <Route path="/" render={props => <Menu auth={auth} {...props} />} />
           <Route
             exact
             path="/"
-            render={props => <App auth={auth} {...props} />}
-          />
-          <Route path="/" render={props => <NavBar auth={auth} {...props} />} />
-          {/* <Route path="/" render={props => <Menu auth={auth} {...props} />} /> */}
-          <Route
-            path="/home"
-            render={props => <Home auth={auth} {...props} />}
-          />
-          <Route
-            exact
-            path="/games"
-            render={props => <Games auth={auth} {...props} />}
-          />
-          <Route
-            path="/games/:id"
-            render={props => <Game auth={auth} {...props} />}
-          />
-          <Route
-            exact
-            path="/rounds"
-            render={props => <Rounds auth={auth} {...props} />}
-          />
-          <Route
-            exact
-            path="/rounds/:id"
-            render={props => <RoundDetails auth={auth} {...props} />}
+            render={props => <Landing auth={auth} {...props} />}
           />
           <Route
             path="/callback"
@@ -71,12 +49,35 @@ const Root = () => (
               return <Callback {...props} />;
             }}
           />
-          <Route
+          <PrivateRoute
+            path="/home"
+            render={props => <Home auth={auth} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path="/games"
+            render={props => <Games auth={auth} {...props} />}
+          />
+          <PrivateRoute
+            path="/games/:id"
+            render={props => <Game auth={auth} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path="/rounds"
+            render={props => <Rounds auth={auth} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path="/rounds/:id"
+            render={props => <RoundDetails auth={auth} {...props} />}
+          />
+          <PrivateRoute
             path="/create"
             render={props => <CreateGame auth={auth} {...props} />}
           />
           <PrivateRoute path="/profile" component={Profile} />
-          <Route
+          <PrivateRoute
             path="/billing"
             render={props => (
               <StripeProvider apiKey="pk_test_rLIPiZV9cJfPy9p4WZgEMCbA00qbhu5zTZ">
