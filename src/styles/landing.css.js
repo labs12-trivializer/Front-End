@@ -55,14 +55,14 @@ export const Header = styled.header`
     padding: 1rem;
     border: none;
     cursor: pointer;
+    margin-top: 3rem;
 
-    &:first-of-type {
-      margin-top: 3rem;
+    &.login {
       background-color: #19b9e9;
       color: #ebecf1;
     }
 
-    &:last-of-type {
+    &.logout {
       background-color: #ebecf1;
       color: #1f4773;
     }

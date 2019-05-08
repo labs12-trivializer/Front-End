@@ -44,8 +44,7 @@ export const SideMenu = styled.div`
   left: ${props => props.menu ? 0 : '-70%'};
   top: 0;
   transition: 400ms;
-  background-color: rgba(31, 71, 115, 0.95);
-  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.25);
+  background-color: rgba(31, 71, 115, 0.8);
   backdrop-filter: blur(20px);
 
   > h1 {

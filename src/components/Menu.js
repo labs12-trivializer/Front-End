@@ -22,6 +22,9 @@ const Menu = () => {
       <SideMenu menu={menu}>
         <h1>TVZ</h1>
         <div>
+          <NavLink to="/">Home</NavLink>
+        </div>
+        <div>
           <NavLink to="/games">Games</NavLink>
         </div>
         <div>

@@ -16,8 +16,8 @@ const Landing = ({ auth }) => {
         <h1>Trivia Games</h1>
         <h2>Tailored to your Bar</h2>
         <p>Trivializer helps bar trivia hosts create their question sets and answer sheets by pulling from a large database of trivia questions.</p>
-        {!isLoggedIn && <button onClick={login}>Log In</button>}
-        <button>Learn More</button>
+        {!isLoggedIn && <button onClick={login} className="login">Log In</button>}
+        {isLoggedIn && <button onClick={logout} className="logout">Log Out</button>}
       </Header>
     </Container>
   );

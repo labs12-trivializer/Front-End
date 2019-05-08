@@ -6,7 +6,7 @@ export default createGlobalStyle`
   }
 
   body {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.6rem;
   }
 `;
