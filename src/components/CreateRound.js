@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import { fetchNewRoundQuestions } from "../actions";
 import { getNewRoundQuestions } from "../reducers";
-// import ReturnedQuestions from "./ReturnedQuestions";
 import serverHandshake from "../auth/serverHandshake";
 
 class CreateRound extends Component {
@@ -118,8 +117,10 @@ class CreateRound extends Component {
         <button onClick={() => this.queryTriviaDb(this.props.round_id)}>
           Get Questions
         </button>
-        <button onClick={() => this.saveQuestionsToDb()}>Save</button>
-        {/* <ReturnedQuestions questions={this.state.response} /> */}
+        <button onClick={() => this.saveQuestionsToDb()}>Save Round</button>
+        <button onClick={() => this.props.deleteRound(this.props.round_id)}>
+          Delete Round
+        </button>
       </>
     );
   }
