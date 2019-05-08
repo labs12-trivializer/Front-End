@@ -11,10 +11,10 @@ class CreateGame extends Component {
     game_id: null,
     rounds_ids: [],
     nextRoundNumber: 1,
-    questions: {},
-    answers: {}
+    last_played: null
   };
 
+  //create a new game and the initial round on mount
   async componentDidMount() {
     // //create game in db
     console.log("creating new game");
@@ -61,6 +61,11 @@ class CreateGame extends Component {
       .catch(err => console.log(err));
   }
 
+  //change handler
+  changeHandler = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
     if (this.state.nextRoundNumber < 1) {
       return (
@@ -71,7 +76,20 @@ class CreateGame extends Component {
     } else {
       return (
         <>
-          <h3>Game: {this.state.name}</h3>
+          <h1>Create A Game:</h1>
+          <div>
+            <h3>Game Name:</h3>
+            <input
+              onChange={this.changeHandler}
+              placeholder="Wednesday Night Trivia"
+              name="name"
+              value={this.state.name}
+            />
+          </div>
+          <div>
+            <h3>To Be Played:</h3>
+            <input type="date" name="last_played" />
+          </div>
           {this.state.rounds_ids.map((round_id, index) => (
             <CreateRound
               game_id={this.state.game_id}
@@ -84,6 +102,7 @@ class CreateGame extends Component {
           ))}
           <br />
           <button onClick={() => this.addRoundToDb()}>Add Another Round</button>
+          <button>Save Game</button>
         </>
       );
     }
