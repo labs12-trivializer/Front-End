@@ -31,10 +31,10 @@ export const formatOpentdbResponse = (response, categories, types) =>
     ]
   }));
 
-// given our categoriesByName object, and our types array,
+// given a params object and arrays of our categories and types,
 // request questions for a given set of parameters and format them
-// to match our database schema
-export const fetchQuestionsFormatted = (params, categoriesByName, types) =>
+// to match our database schema as best as possible
+export const fetchQuestionsFormatted = (params, categories, types) =>
   fetchQuestions(params).then(res =>
-    formatOpentdbResponse(res, categoriesByName, types)
+    formatOpentdbResponse(res, categories, types)
   );
