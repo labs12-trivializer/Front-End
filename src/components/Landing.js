@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-regular-svg-icons';
 import { faPrint, faSyncAlt, faBolt } from '@fortawesome/free-solid-svg-icons';
 
-import { Container, Background, Header } from '../styles/landing.css';
+import { Container, Header } from '../styles/landing.css';
+import { Background } from '../styles/shared.css';
 
 const Landing = ({ auth }) => {
   const login = () => auth.login();

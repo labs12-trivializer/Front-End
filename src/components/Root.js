@@ -13,7 +13,7 @@ import Auth from '../auth';
 import history from '../history';
 import CheckoutForm from './stripe/CheckoutForm';
 import PrivateRoute from './PrivateRoute';
-import Profile from './Profile';
+import Settings from './Settings';
 import Games from './Games';
 import Game from './Game';
 import CreateGame from './CreateGame';
@@ -35,7 +35,14 @@ const Root = () => (
         <React.Fragment>
           <Reset />
           <GlobalStyles />
-          <Route path="/" render={props => <Menu auth={auth} {...props} />} />
+          <Route
+            path="/"
+            render={props =>
+              props.location.pathname !== '/callback' && (
+                <Menu auth={auth} {...props} />
+              )
+            }
+          />
           <Route
             exact
             path="/"
@@ -61,11 +68,11 @@ const Root = () => (
             path="/games/:id"
             render={props => <Game auth={auth} {...props} />}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             exact
             path="/rounds"
             render={props => <Rounds auth={auth} {...props} />}
-          />
+          /> */}
           <PrivateRoute
             exact
             path="/rounds/:id"
@@ -75,7 +82,7 @@ const Root = () => (
             path="/create"
             render={props => <CreateGame auth={auth} {...props} />}
           />
-          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute path="/settings" component={Settings} />
           <PrivateRoute
             path="/billing"
             render={props => (
