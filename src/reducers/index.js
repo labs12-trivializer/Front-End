@@ -7,6 +7,8 @@ import games, * as fromGames from './games';
 import profile, * as fromProfile from './profile';
 import rounds, * as fromRounds from './rounds';
 import questions, * as fromQuestions from './questions';
+import newRoundQuestions, * as fromNewRoundQuestions from './newRoundQuestions';
+import auth, * as fromAuth from './auth';
 
 export default combineReducers({
   answers,
@@ -15,8 +17,7 @@ export default combineReducers({
   profile,
   questions,
   newRoundQuestions,
-  rounds,
-  categories,
+  rounds, categories,
   auth
 });
 
