@@ -4,19 +4,17 @@ import { connect } from 'react-redux';
 import { addProfile, fetchProfile, fetchCategories } from '../actions';
 
 const Home = ({
-  auth,
   profile,
   history: { location },
   addProfile,
   fetchProfile,
   fetchCategories
 }) => {
-  const { isAuthenticated } = auth;
   const { id: profileId, username } = profile;
 
   useEffect(() => {
     console.log('running...');
-    if (isAuthenticated() && !profileId) {
+    if (!profileId) {
       const { state } = location;
 
       (state ? addProfile({ email: state[0] }) : fetchProfile()).then(() => {
