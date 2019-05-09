@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import waitForLogin from './waitForLogin';
 import { getAllGames } from '../reducers';
 import { fetchGames } from '../actions';
 
@@ -32,12 +33,14 @@ class Games extends Component {
 }
 
 const mapStateToProps = state => ({
-  games: getAllGames(state),
+  games: getAllGames(state)
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchGames,
-  }
-)(Games);
+export default waitForLogin(
+  connect(
+    mapStateToProps,
+    {
+      fetchGames
+    }
+  )(Games)
+);

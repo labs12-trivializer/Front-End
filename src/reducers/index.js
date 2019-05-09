@@ -4,10 +4,12 @@ import categories, * as fromCategories from './categories';
 import answers, * as fromAnswers from './answers';
 import error from './error';
 import games, * as fromGames from './games';
-import profile from './profile';
+import profile, * as fromProfile from './profile';
 import rounds, * as fromRounds from './rounds';
 import questions, * as fromQuestions from './questions';
 import newRoundQuestions, * as fromNewRoundQuestions from './newRoundQuestions';
+import auth, * as fromAuth from './auth';
+import questionTypes, * as fromQuestionTypes from './questionTypes';
 
 const appReducer = combineReducers({
   answers,
@@ -16,8 +18,10 @@ const appReducer = combineReducers({
   profile,
   questions,
   newRoundQuestions,
+  questionTypes,
   rounds,
-  categories
+  categories,
+  auth
 });
 
 const rootReducer = (state, action) => {
@@ -38,11 +42,25 @@ export const getAllRounds = state => fromRounds.getAllRounds(state.rounds);
 export const getAllQuestions = state =>
   fromQuestions.getAllQuestions(state.questions);
 
-export const getAllAnswers = state =>
-  fromAnswers.getAllAnswers(state.answers);
+export const getQuestionById = (state, id) =>
+  fromQuestions.getQuestionById(state.questions, id);
+
+export const getAllAnswers = state => fromAnswers.getAllAnswers(state.answers);
+export const getAnswerById = (state, id) =>
+  fromAnswers.getAnswerById(state.answers, id);
 
 export const getAllCategories = state =>
   fromCategories.getAllCategories(state.categories);
 
+export const getLoggedIn = state => fromAuth.getLoggedIn(state.auth);
+
+export const getHasProfile = state => fromProfile.getHasProfile(state.profile);
+
 export const getNewRoundQuestions = state =>
-fromNewRoundQuestions.getNewRoundQuestions(state.newRoundQuestions);
+  fromNewRoundQuestions.getNewRoundQuestions(state.newRoundQuestions);
+
+export const getAllQuestionTypes = state =>
+  fromQuestionTypes.getAllQuestionTypes(state.questionTypes);
+
+export const getQuestionTypeById = (state, id) =>
+  fromQuestionTypes.getQuestionTypeById(state.questionTypes, id);

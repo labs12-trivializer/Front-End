@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import { fetchNewRoundQuestions } from "../actions";
 import { getNewRoundQuestions } from "../reducers";
-// import ReturnedQuestions from "./ReturnedQuestions";
 import serverHandshake from "../auth/serverHandshake";
 
 class CreateRound extends Component {
@@ -21,21 +20,6 @@ class CreateRound extends Component {
 
   queryTriviaDb = () => {
     this.props.fetchNewRoundQuestions(this.state);
-    // this.saveToDb();
-
-    //   const queryString = `https://opentdb.com/api.php?amount=${
-    //     this.state.amount
-    //   }${
-    //     this.state.category === "any" ? "" : `&category=${this.state.category}`
-    //   }${
-    //     this.state.difficulty === "any"
-    //       ? ""
-    //       : `&difficulty=${this.state.difficulty}`
-    //   }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
-    //   axios
-    //     .get(queryString)
-    //     .then(res => this.setState({ response: res.data.results }))
-    //     .catch(err => console.log(err));
   };
 
   async saveQuestionsToDb() {
@@ -118,8 +102,10 @@ class CreateRound extends Component {
         <button onClick={() => this.queryTriviaDb(this.props.round_id)}>
           Get Questions
         </button>
-        <button onClick={() => this.saveQuestionsToDb()}>Save</button>
-        {/* <ReturnedQuestions questions={this.state.response} /> */}
+        <button onClick={() => this.saveQuestionsToDb()}>Save Round</button>
+        <button onClick={() => this.props.deleteRound(this.props.round_id)}>
+          Delete Round
+        </button>
       </>
     );
   }

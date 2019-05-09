@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import CheckBox from './CheckBox';
 import { Elements, StripeProvider } from 'react-stripe-elements';
+import waitForProfile from '../waitForProfile';
 import serverHandshake from '../../auth/serverHandshake';
 
 class CheckoutForm extends Component {
@@ -74,4 +75,4 @@ class CheckoutForm extends Component {
   }
 }
 
-export default injectStripe(CheckoutForm);
+export default waitForProfile(injectStripe(CheckoutForm));

@@ -2,7 +2,8 @@ import {
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTION_SUCCESS,
   FETCH_ROUND_SUCCESS,
-  FETCH_GAME_SUCCESS
+  FETCH_GAME_SUCCESS,
+  EDIT_QUESTION_SUCCESS
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -23,6 +24,7 @@ const byId = (state = {}, action) => {
       return {
         ...action.payload.entities.questions
       };
+    case EDIT_QUESTION_SUCCESS:
     case FETCH_QUESTION_SUCCESS:
       return {
         ...state,
@@ -43,6 +45,7 @@ const allIds = (state = [], action) => {
     case FETCH_ROUND_SUCCESS:
     case FETCH_QUESTIONS_SUCCESS:
       return Object.keys(action.payload.entities.questions);
+    case EDIT_QUESTION_SUCCESS:
     case FETCH_QUESTION_SUCCESS:
       return state.indexOf(action.payload.result) > -1
         ? state
@@ -58,5 +61,6 @@ const questions = combineReducers({
 });
 
 export const getAllQuestions = state => state.allIds.map(id => state.byId[id]);
+export const getQuestionById = (state, id) => state.byId[id];
 
 export default questions;

@@ -16,3 +16,5 @@ export default (state = {}, action) => {
       return state;
   }
 };
+
+export const getHasProfile = state => (state.tier_name ? true : false);
