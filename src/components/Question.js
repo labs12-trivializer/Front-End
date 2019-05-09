@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import he from 'he';
 import {
   getQuestionById,
   getAllCategories,
@@ -44,13 +45,30 @@ const Question = ({
   }
 
   // If no other versions, use the question from state
-  if (!currentVersion) {
+  if (!currentVersion && !question) {
     return (
       <div>
-        <strong>{question.text}</strong>
+        <strong>{he.decode(question.text)}</strong>
         <button onClick={fetchAnotherQuestion}>change</button>
         {question.answers.map(a => (
           <Answer answerId={a} key={`q${question.id}a${a}`} />
+        ))}
+      </div>
+    );
+  }
+  if (question) {
+    let answers = [...question.incorrect_answers, question.correct_answer];
+    console.log('ANSWERS: ', answers)
+    return (
+      <div>
+        <strong>{he.decode(question.question)}</strong>
+        <button onClick={fetchAnotherQuestion}>change</button>
+        {answers.map(a => (
+          <Answer 
+            answerText={he.decode(a)} 
+            answerId={he.decode(a)} 
+            key={`q${he.decode(question.question)}a${he.decode(a)}`} 
+          />
         ))}
       </div>
     );
@@ -59,7 +77,7 @@ const Question = ({
   // Otherwise, use the latest version
   return (
     <div>
-      <strong>{currentVersion.text}</strong>
+      <strong>{he.decode(currentVersion.text)}</strong>
       <button onClick={fetchAnotherQuestion}>change</button>
       <button onClick={undo}>undo</button>
       <button onClick={save}>save</button>
@@ -71,10 +89,14 @@ const Question = ({
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const question = getQuestionById(state, ownProps.questionId);
+  const question = (ownProps.question 
+    ? ownProps.question 
+    : getQuestionById(state, ownProps.questionId));
   const categories = getAllCategories(state);
   const types = getAllQuestionTypes(state);
-  const typeText = getQuestionTypeById(state, question.question_type_id).name;
+  const typeText = (ownProps.question 
+    ? ownProps.question.type 
+    : getQuestionTypeById(state, question.question_type_id).name );
 
   return {
     question,

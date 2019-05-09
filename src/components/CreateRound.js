@@ -21,21 +21,6 @@ class CreateRound extends Component {
 
   queryTriviaDb = () => {
     this.props.fetchNewRoundQuestions(this.state);
-    // this.saveToDb();
-
-    //   const queryString = `https://opentdb.com/api.php?amount=${
-    //     this.state.amount
-    //   }${
-    //     this.state.category === "any" ? "" : `&category=${this.state.category}`
-    //   }${
-    //     this.state.difficulty === "any"
-    //       ? ""
-    //       : `&difficulty=${this.state.difficulty}`
-    //   }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
-    //   axios
-    //     .get(queryString)
-    //     .then(res => this.setState({ response: res.data.results }))
-    //     .catch(err => console.log(err));
   };
 
   async saveQuestionsToDb() {
