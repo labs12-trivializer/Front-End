@@ -80,6 +80,15 @@ class CreateGame extends Component {
       .catch(err => console.log("fail", err));
   }
 
+  //delete round
+  deleteRound = async round_id => {
+    console.log("inside delete round", this.state.rounds_ids, round_id);
+    const removed = this.state.rounds_ids.filter(item => item !== round_id);
+    this.setState({ rounds_ids: removed });
+    const deleted = await serverHandshake(true).delete(`/rounds/${round_id}`);
+    console.log(deleted);
+  };
+
   render() {
     if (this.state.nextRoundNumber < 1) {
       return (
@@ -117,6 +126,7 @@ class CreateGame extends Component {
               round_id={round_id}
               user_id={this.state.user_id}
               roundNumber={index + 1}
+              deleteRound={this.deleteRound}
             />
           ))}
           <br />
