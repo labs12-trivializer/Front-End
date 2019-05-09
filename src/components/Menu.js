@@ -22,7 +22,7 @@ const Menu = ({ auth }) => {
         <div className="bar" />
         <div className="bar" />
       </MenuToggle>
-      <SideMenu menu={menu}>
+      <SideMenu menu={menu} onClick={toggleMenu}>
         <h1>TVZ</h1>
         <div>
           <NavLink exact to="/">Home</NavLink>
@@ -34,7 +34,7 @@ const Menu = ({ auth }) => {
           <NavLink to="/billing">Billing</NavLink>
         </div>
         <div>
-          <NavLink to="/settings">Settings</NavLink>
+          <NavLink to="/profile">Profile</NavLink>
         </div>
         {isLoggedIn && (
           <div>

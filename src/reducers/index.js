@@ -12,7 +12,7 @@ import auth, * as fromAuth from './auth';
 import questionTypes, * as fromQuestionTypes from './questionTypes';
 import createGame from './createGame';
 
-export default combineReducers({
+const appReducer = combineReducers({
   answers,
   error,
   games,
@@ -25,6 +25,17 @@ export default combineReducers({
   auth,
   createGame
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    localStorage.removeItem('persist:root');
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+}
+
+export default rootReducer;
 
 export const getAllGames = state => fromGames.getAllGames(state.games);
 
@@ -49,6 +60,9 @@ export const getHasProfile = state => fromProfile.getHasProfile(state.profile);
 
 export const getNewRoundQuestions = state =>
   fromNewRoundQuestions.getNewRoundQuestions(state.newRoundQuestions);
+
+export const clearNewRoundQuestions = state =>
+  fromNewRoundQuestions.clearNewRoundQuestions(state.newRoundQuestions);
 
 export const getAllQuestionTypes = state =>
   fromQuestionTypes.getAllQuestionTypes(state.questionTypes);

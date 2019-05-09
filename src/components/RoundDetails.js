@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import he from 'he';
 
-import { fetchRound } from '../actions';
+import { fetchRound, clearNewRoundQuestions } from '../actions';
 import { getAllCategories } from '../reducers';
 import Question from './Question';
 // import { Link } from 'react-router-dom';
@@ -19,7 +19,9 @@ class RoundDetails extends Component {
   };
 
   componentWillUnmount = () => {
+    console.log('UNMOUNTING COMPONENT...')
     // Dispatch action to remove 'newRoundQuestions' from Redux store
+    this.props.clearNewRoundQuestions()
   }
 
   render() {
@@ -35,7 +37,8 @@ class RoundDetails extends Component {
           <ul>{this.props.newRoundQuestions.map(q => (
             <Question 
               question={q}
-              questionId={he.decode(q.question)} 
+              questionId={he.decode(q.question)}
+              category={he.decode(q.category)}
               key={`q${he.decode(q.question)}`} 
             />
           ))}</ul>
@@ -43,7 +46,7 @@ class RoundDetails extends Component {
       )
     }
 
-    console.log('QUESTIONS', this.props.round.questions);
+    // console.log('QUESTIONS', this.props.round.questions);
     return (
       <div>
         <p>{this.props.round.game_id}</p>
@@ -72,6 +75,7 @@ export default connect(
   mapStateToProps,
   { 
     fetchRound,
+    clearNewRoundQuestions,
     // fetchQuestion,
     // fetchQuestions
   }
