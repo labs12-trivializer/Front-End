@@ -11,7 +11,7 @@ import newRoundQuestions, * as fromNewRoundQuestions from './newRoundQuestions';
 import auth, * as fromAuth from './auth';
 import questionTypes, * as fromQuestionTypes from './questionTypes';
 
-export default combineReducers({
+const appReducer = combineReducers({
   answers,
   error,
   games,
@@ -23,6 +23,17 @@ export default combineReducers({
   categories,
   auth
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    localStorage.removeItem('persist:root');
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+}
+
+export default rootReducer;
 
 export const getAllGames = state => fromGames.getAllGames(state.games);
 

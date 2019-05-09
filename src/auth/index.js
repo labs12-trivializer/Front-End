@@ -1,6 +1,6 @@
 import auth0 from 'auth0-js';
 import history from '../history';
-import { store, persistor } from '../store';
+import { store } from '../store';
 import { loginSuccess } from '../actions';
 
 export default class Auth {
@@ -30,7 +30,7 @@ export default class Auth {
           this.setSession(authResult);
         })
       } else if (err) {
-        history.replace('/home');
+        history.replace('/');
         console.log(err);
         alert(`Error: ${err.error}. Check the console for further details.`);
       }
@@ -73,23 +73,21 @@ export default class Auth {
     });
   };
 
-  logout = async () => {
-    await persistor.purge();
+  logout = () => {
+    // reset persistent state
+    store.dispatch({ type: 'LOGOUT' });
 
     // Remove tokens
     this.accessToken = null;
     this.idToken = null;
     this.expiresAt = 0;
 
-    // Remove token flag from localStorage
-    localStorage.removeItem('token');
-
     this.auth0.logout({
       returnTo: window.location.origin
     });
 
-    // navigate to the home route
-    history.replace('/home');
+    // navigate to the landing route
+    history.replace('/');
   };
 
   // Check whether the current time is past the
