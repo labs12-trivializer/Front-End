@@ -106,7 +106,7 @@ export const editQuestion = (id, questionData) => async dispatch => {
   dispatch({ type: EDIT_QUESTION_START });
   try {
     const success = await serverHandshake(true).put(
-      `/questions/${id}`,
+      `/questions/nested/${id}`,
       questionData
     );
     dispatch({ type: EDIT_QUESTION_SUCCESS, payload: success.data });

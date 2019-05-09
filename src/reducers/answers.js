@@ -28,7 +28,8 @@ import {
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTION_SUCCESS,
   FETCH_ROUND_SUCCESS,
-  FETCH_GAME_SUCCESS
+  FETCH_GAME_SUCCESS,
+  EDIT_QUESTION_SUCCESS
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -51,6 +52,11 @@ const byId = (state = {}, action) => {
       return {
         ...action.payload.entities.answers
       };
+    case EDIT_QUESTION_SUCCESS:
+      return {
+        ...state,
+        ...action.payload.entities.answers
+      };
     case FETCH_ANSWER_SUCCESS:
       return {
         ...state,
@@ -71,6 +77,12 @@ const allIds = (state = [], action) => {
     case FETCH_ROUND_SUCCESS:
     case FETCH_ANSWERS_SUCCESS:
       return Object.keys(action.payload.entities.answers);
+    case EDIT_QUESTION_SUCCESS:
+      return state.concat(
+        Object.keys(action.payload.entities.answers).filter(
+          a => state.indexOf(a) === -1
+        )
+      );
     case FETCH_ANSWER_SUCCESS:
       return state.indexOf(action.payload.result) > -1
         ? state
@@ -86,5 +98,6 @@ const answers = combineReducers({
 });
 
 export const getAllAnswers = state => state.allIds.map(id => state.byId[id]);
+export const getAnswerById = (state, id) => state.byId[id];
 
 export default answers;

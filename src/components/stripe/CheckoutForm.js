@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import CheckBox from './CheckBox';
 // import axios from 'axios';
+import waitForProfile from '../waitForProfile';
 import serverHandshake from '../../auth/serverHandshake';
 
 class CheckoutForm extends Component {
@@ -10,7 +11,7 @@ class CheckoutForm extends Component {
     this.submit = this.submit.bind(this);
     this.state = {
       basicPlan: false,
-      premiumPlan: false,
+      premiumPlan: false
     };
   }
   toggleBasicPlan = e => {
@@ -40,7 +41,7 @@ class CheckoutForm extends Component {
     //this uses our backend API to communicate with Stripe
     const customer = await serverHandshake(true).post('/billing/customer', {
       name: 'hardcoded testname',
-      source: token.id, //using the token returned above as their payment source
+      source: token.id //using the token returned above as their payment source
     });
     console.log('customer', customer);
 
@@ -48,7 +49,7 @@ class CheckoutForm extends Component {
 
     const subscribe = await serverHandshake(true).post('/billing/subscribe', {
       customer: customer.data.id, //using customer id returned above.
-      plan, //gold plan, silver plan: 'plan_Eyw8BcuV5qyAV2'
+      plan //gold plan, silver plan: 'plan_Eyw8BcuV5qyAV2'
     });
 
     console.log(subscribe.status);
@@ -70,4 +71,4 @@ class CheckoutForm extends Component {
   }
 }
 
-export default injectStripe(CheckoutForm);
+export default waitForProfile(injectStripe(CheckoutForm));
