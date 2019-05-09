@@ -2,7 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Router, Route } from 'react-router-dom';
-import { Elements, StripeProvider } from 'react-stripe-elements';
 import Reset from '../styles/reset.css';
 import GlobalStyles from '../styles/global.css';
 import Menu from './Menu';
@@ -13,7 +12,7 @@ import Auth from '../auth';
 import history from '../history';
 import CheckoutForm from './stripe/CheckoutForm';
 import PrivateRoute from './PrivateRoute';
-import Settings from './Settings';
+import Profile from './Profile';
 import Games from './Games';
 import Game from './Game';
 import CreateGame from './CreateGame';
@@ -57,16 +56,16 @@ const Root = () => (
           />
           <PrivateRoute
             path="/home"
-            render={props => <Home auth={auth} {...props} />}
+            component={Home}
           />
           <PrivateRoute
             exact
             path="/games"
-            render={props => <Games auth={auth} {...props} />}
+            component={Games}
           />
           <PrivateRoute
             path="/games/:id"
-            render={props => <Game auth={auth} {...props} />}
+            component={Game}
           />
           {/* <PrivateRoute
             exact
@@ -76,22 +75,16 @@ const Root = () => (
           <PrivateRoute
             exact
             path="/rounds/:id"
-            render={props => <RoundDetails auth={auth} {...props} />}
+            component={RoundDetails}
           />
           <PrivateRoute
             path="/create"
-            render={props => <CreateGame auth={auth} {...props} />}
+            component={CreateGame}
           />
-          <PrivateRoute path="/settings" component={Settings} />
+          <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute
             path="/billing"
-            render={props => (
-              <StripeProvider apiKey="pk_test_rLIPiZV9cJfPy9p4WZgEMCbA00qbhu5zTZ">
-                <Elements>
-                  <CheckoutForm auth={auth} {...props} />
-                </Elements>
-              </StripeProvider>
-            )}
+            component={CheckoutForm}
           />
         </React.Fragment>
       </Router>
