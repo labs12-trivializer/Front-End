@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { fetchNewRoundQuestions } from '../actions';
-import { getNewRoundQuestions } from '../reducers';
-// import ReturnedQuestions from "./ReturnedQuestions";
-import serverHandshake from '../auth/serverHandshake';
+import { fetchNewRoundQuestions } from "../actions";
+import { getNewRoundQuestions } from "../reducers";
+import serverHandshake from "../auth/serverHandshake";
 
 class CreateRound extends Component {
   state = {
-    category: 'any',
+    category: "any",
     amount: 0,
-    difficulty: 'any',
-    type: 'any',
+    difficulty: "any",
+    type: "any",
     response: {}
   };
 
@@ -21,21 +20,6 @@ class CreateRound extends Component {
 
   queryTriviaDb = () => {
     this.props.fetchNewRoundQuestions(this.state);
-    // this.saveToDb();
-
-    //   const queryString = `https://opentdb.com/api.php?amount=${
-    //     this.state.amount
-    //   }${
-    //     this.state.category === "any" ? "" : `&category=${this.state.category}`
-    //   }${
-    //     this.state.difficulty === "any"
-    //       ? ""
-    //       : `&difficulty=${this.state.difficulty}`
-    //   }${this.state.type === "any" ? "" : `&type=${this.state.type}`}`;
-    //   axios
-    //     .get(queryString)
-    //     .then(res => this.setState({ response: res.data.results }))
-    //     .catch(err => console.log(err));
   };
 
   async saveQuestionsToDb() {
@@ -73,13 +57,13 @@ class CreateRound extends Component {
     console.log(requestObj);
     await serverHandshake(true)
       .put(`/rounds/nested/${this.props.round_id}`, requestObj)
-      .then(res => console.log('great success', res.data))
+      .then(res => console.log("great success", res.data))
       .catch(err => console.log(err));
   }
 
   render() {
     if (this.props.categories.length < 1) {
-      console.log('PROPS: ', this.props);
+      console.log("PROPS: ", this.props);
       return (
         <div>
           <h5>loading...</h5>
@@ -136,9 +120,10 @@ class CreateRound extends Component {
         <button onClick={() => this.queryTriviaDb(this.props.round_id)}>
           Get Questions
         </button>
-        <button onClick={() => this.saveQuestionsToDb()}>Save</button>
-        { this.state.error && <div>{this.state.error}</div>}
-        {/* <ReturnedQuestions questions={this.state.response} /> */}
+        <button onClick={() => this.saveQuestionsToDb()}>Save Round</button>
+        <button onClick={() => this.props.deleteRound(this.props.round_id)}>
+          Delete Round
+        </button>
       </>
     );
   }

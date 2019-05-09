@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Image } from 'cloudinary-react';
 import Tilt from 'react-tilt';
 
-import { Container, Form, Avatar } from '../styles/settings.css';
+import { Container, Form, Avatar } from '../styles/profile.css';
 import { Background } from '../styles/shared.css';
 
-import { editProfile } from '../actions';
+import { fetchProfile, editProfile } from '../actions';
 
-const Profile = ({ profile, editProfile }) => {
+const Profile = ({ profile, fetchProfile, editProfile }) => {
+  useEffect(() => {
+    console.log('avatarid:', profile.avatar_id);
+    if (!profile.avatar_id) fetchProfile();
+  }, [profile.avatar_id, fetchProfile]);
+
   let widget = window.cloudinary.createUploadWidget(
     { cloudName: 'trivializer', uploadPreset: 'ntufdwhu' },
     (err, result) => {
@@ -65,4 +70,4 @@ const Profile = ({ profile, editProfile }) => {
 
 const mapStateToProps = ({ profile }) => ({ profile });
 
-export default connect(mapStateToProps, { editProfile })(Profile);
+export default connect(mapStateToProps, { fetchProfile, editProfile })(Profile);

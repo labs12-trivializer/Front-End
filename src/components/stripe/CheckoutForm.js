@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import CheckBox from './CheckBox';
-// import axios from 'axios';
+import { Elements, StripeProvider } from 'react-stripe-elements';
 import waitForProfile from '../waitForProfile';
 import serverHandshake from '../../auth/serverHandshake';
 
@@ -58,15 +58,19 @@ class CheckoutForm extends Component {
 
   render() {
     return (
-      <div className="checkout">
-        <p>Would you like to complete the purchase?</p>
-        <CardElement />
-        <CheckBox
-          toggleBasic={this.toggleBasicPlan}
-          togglePremium={this.togglePremiumPlan}
-        />
-        <button onClick={this.submit}>Send</button>
-      </div>
+      <StripeProvider apiKey="pk_test_rLIPiZV9cJfPy9p4WZgEMCbA00qbhu5zTZ">
+        <Elements>
+          <div className="checkout">
+            <p>Would you like to complete the purchase?</p>
+            <CardElement />
+            <CheckBox
+              toggleBasic={this.toggleBasicPlan}
+              togglePremium={this.togglePremiumPlan}
+            />
+            <button onClick={this.submit}>Send</button>
+          </div>
+        </Elements>
+      </StripeProvider>
     );
   }
 }
