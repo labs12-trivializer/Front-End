@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { addProfile, fetchProfile, fetchCategories } from '../actions';
+import {
+  addProfile,
+  fetchProfile,
+  fetchCategories,
+  fetchQuestionTypes
+} from '../actions';
 
 const Home = ({
   auth,
@@ -9,7 +14,8 @@ const Home = ({
   history: { location },
   addProfile,
   fetchProfile,
-  fetchCategories
+  fetchCategories,
+  fetchQuestionTypes
 }) => {
   const { isAuthenticated } = auth;
   const { id: profileId, username } = profile;
@@ -21,6 +27,7 @@ const Home = ({
 
       (state ? addProfile({ email: state[0] }) : fetchProfile()).then(() => {
         fetchCategories();
+        fetchQuestionTypes();
       });
     }
   });
@@ -38,5 +45,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addProfile, fetchProfile, fetchCategories }
+  { addProfile, fetchProfile, fetchCategories, fetchQuestionTypes }
 )(Home);
