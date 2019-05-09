@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { fetchNewRoundQuestions } from "../actions";
-import { getNewRoundQuestions } from "../reducers";
+import { fetchNewRoundQuestions } from '../actions';
+import { getNewRoundQuestions } from '../reducers';
 // import ReturnedQuestions from "./ReturnedQuestions";
-import serverHandshake from "../auth/serverHandshake";
+import serverHandshake from '../auth/serverHandshake';
 
 class CreateRound extends Component {
   state = {
-    category: "any",
+    category: 'any',
     amount: 0,
-    difficulty: "any",
-    type: "any",
+    difficulty: 'any',
+    type: 'any',
     response: {}
   };
 
@@ -73,13 +73,13 @@ class CreateRound extends Component {
     console.log(requestObj);
     await serverHandshake(true)
       .put(`/rounds/nested/${this.props.round_id}`, requestObj)
-      .then(res => console.log("great success", res.data))
+      .then(res => console.log('great success', res.data))
       .catch(err => console.log(err));
   }
 
   render() {
     if (this.props.categories.length < 1) {
-      console.log("PROPS: ", this.props);
+      console.log('PROPS: ', this.props);
       return (
         <div>
           <h5>loading...</h5>
@@ -90,11 +90,29 @@ class CreateRound extends Component {
       //form for specifying question parameters
       <>
         <input
-          onChange={e => this.handleChanges(e)}
+          onChange={e => {
+            const value = parseInt(e.target.value);
+            let limit = this.props.questionLimit;
+            if (limit > 50) {
+              limit = 50;
+            }
+            if (value > limit) {
+              this.handleChanges({ target: { name: 'amount', value: limit } });
+              if(this.props.questionLimit > limit) {
+                this.setState({ error: 'Max: 50 questions at a time!'})
+              } else {
+                this.setState({ error: 'Please upgrade for a higher question limit!'})
+              }
+            } else {
+              this.handleChanges(e);
+              this.setState({ error: null});
+            }
+          }}
           type="number"
           name="amount"
           min="1"
-          max="50"
+          max={this.props.questionLimit > 50 ? '50' : this.props.questionLimit}
+          value={this.state.amount}
         />
         <select name="category" onChange={e => this.handleChanges(e)}>
           <option value="any">Any Category</option>
@@ -119,6 +137,7 @@ class CreateRound extends Component {
           Get Questions
         </button>
         <button onClick={() => this.saveQuestionsToDb()}>Save</button>
+        { this.state.error && <div>{this.state.error}</div>}
         {/* <ReturnedQuestions questions={this.state.response} /> */}
       </>
     );
@@ -127,7 +146,8 @@ class CreateRound extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   newRoundQuestions: getNewRoundQuestions(state),
-  unsavedQuestions: state.newRoundQuestions
+  unsavedQuestions: state.newRoundQuestions,
+  questionLimit: state.profile.question_limit
 });
 
 export default connect(
