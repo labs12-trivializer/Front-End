@@ -3,21 +3,17 @@ import {
   FETCH_QUESTION_SUCCESS,
   FETCH_ROUND_SUCCESS,
   FETCH_GAME_SUCCESS,
-  EDIT_QUESTION_SUCCESS
+  EDIT_QUESTION_SUCCESS,
+  DELETE_QUESTION_SUCCESS
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
-import question from './question';
 
 // byId reducer
 const byId = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_QUESTION?':
     case 'SOME_CHANGE_TO_QUESTION':
-      return {
-        ...state,
-        [action.payload.id]: question(state[action.payload.id], action)
-      };
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUND_SUCCESS:
     case FETCH_QUESTIONS_SUCCESS:
@@ -31,6 +27,9 @@ const byId = (state = {}, action) => {
         [action.payload.result]:
           action.payload.entities.questions[action.payload.result]
       };
+    case DELETE_QUESTION_SUCCESS:
+      const { [action.payload]: omit, ...nextState } = state;
+      return nextState;
     default:
       return state;
   }
@@ -50,6 +49,8 @@ const allIds = (state = [], action) => {
       return state.indexOf(action.payload.result) > -1
         ? state
         : [...state, action.payload.result];
+    case DELETE_QUESTION_SUCCESS:
+      return state.filter(id => id !== action.payload);
     default:
       return state;
   }

@@ -8,7 +8,7 @@ import {
   getQuestionTypeById
 } from '../reducers';
 import { fetchQuestionsFormatted } from '../services/opentdb';
-import { editQuestion } from '../actions';
+import { editQuestion, deleteQuestion } from '../actions';
 import Answer from './Answer';
 
 const Question = ({
@@ -18,7 +18,8 @@ const Question = ({
   categories,
   types,
   typeText,
-  categoriesById
+  categoriesById,
+  deleteQuestion
 }) => {
   const [versions, setVersions] = useState([]);
   const currentVersion = versions[versions.length - 1];
@@ -82,6 +83,7 @@ const Question = ({
       <div>
         <strong>{he.decode(question.text)}</strong>
         <button onClick={fetchAnotherQuestion}>change</button>
+        <button onClick={() => deleteQuestion(question.id, question.round_id)}>delete</button>
         {question.answers.map(a => (
           <Answer answerId={a} key={`q${question.id}a${a}`} />
         ))}
@@ -96,6 +98,7 @@ const Question = ({
       <button onClick={fetchAnotherQuestion}>change</button>
       <button onClick={undo}>undo</button>
       <button onClick={save}>save</button>
+      <button onClick={() => deleteQuestion(question.id, question.round_id)}>delete</button>
       {currentVersion.answers.map((a, idx) => (
         <div key={`q${question.id}a${idx}`}>- {a.text}</div>
       ))}
@@ -126,5 +129,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { editQuestion }
+  { editQuestion, deleteQuestion }
 )(Question);
