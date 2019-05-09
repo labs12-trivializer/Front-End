@@ -48,6 +48,9 @@ export const getHasProfile = state => fromProfile.getHasProfile(state.profile);
 export const getNewRoundQuestions = state =>
   fromNewRoundQuestions.getNewRoundQuestions(state.newRoundQuestions);
 
+export const clearNewRoundQuestions = state =>
+  fromNewRoundQuestions.clearNewRoundQuestions(state.newRoundQuestions);
+
 export const getAllQuestionTypes = state =>
   fromQuestionTypes.getAllQuestionTypes(state.questionTypes);
 
