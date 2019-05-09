@@ -2,12 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, token, ...rest }) => (
+const PrivateRoute = ({ render: Render, token, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      token ? <Component {...props} /> : <Redirect to="/restricted" />
-    }
+    render={token ? Render : <Redirect to="/restricted" />}
   />
 );
 

@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import Restricted from './Restricted';
-import Menu from './Menu';
 
 import { addProfile, fetchProfile, fetchCategories } from '../actions';
 
@@ -27,18 +25,9 @@ const Home = ({
     }
   });
 
-  const login = () => {
-    auth.login();
-  };
-
-  return !isAuthenticated() ? (
-    <Restricted login={login} />
-  ) : (
+  return (
     <div>
       <p>Welcome {username}!</p>
-      <div>
-        <Menu />
-      </div>
     </div>
   );
 };

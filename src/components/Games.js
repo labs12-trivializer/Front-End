@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import { getAllGames } from '../reducers';
 import { fetchGames } from '../actions';
-import Menu from './Menu';
 
 class Games extends Component {
   // constructor(props) {
@@ -13,12 +12,12 @@ class Games extends Component {
 
   componentDidMount = () => {
     this.props.fetchGames();
+    console.log(this.props.auth);
   };
 
   render() {
     return (
       <div>
-        <Menu />
         <ul>
           {this.props.games.map(g => (
             <li key={`game${g.id}`}>
