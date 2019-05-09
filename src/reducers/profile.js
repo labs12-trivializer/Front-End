@@ -8,8 +8,6 @@ import {
 export default (state = {}, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      const { token, username } = action.payload;
-      return { ...state, token, username };
     case FETCH_PROFILE_SUCCESS:
     case ADD_PROFILE_SUCCESS:
     case EDIT_PROFILE_SUCCESS:
