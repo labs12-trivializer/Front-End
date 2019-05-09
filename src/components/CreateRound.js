@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { fetchNewRoundQuestions } from '../actions';
@@ -83,14 +84,16 @@ class CreateRound extends Component {
             }
             if (value > limit) {
               this.handleChanges({ target: { name: 'amount', value: limit } });
-              if(this.props.questionLimit > limit) {
-                this.setState({ error: 'Max: 50 questions at a time!'})
+              if (this.props.questionLimit > limit) {
+                this.setState({ error: 'Max: 50 questions at a time!' });
               } else {
-                this.setState({ error: 'Please upgrade for a higher question limit!'})
+                this.setState({
+                  error: 'Please upgrade for a higher question limit!'
+                });
               }
             } else {
               this.handleChanges(e);
-              this.setState({ error: null});
+              this.setState({ error: null });
             }
           }}
           type="number"
@@ -124,6 +127,9 @@ class CreateRound extends Component {
         <button onClick={() => this.saveQuestionsToDb()}>Save Round</button>
         <button onClick={() => this.props.deleteRound(this.props.round_id)}>
           Delete Round
+        </button>
+        <button>
+          <Link to={`/rounds/${this.props.round_id}`}>Review Round </Link>
         </button>
       </>
     );

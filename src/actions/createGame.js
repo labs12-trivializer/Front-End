@@ -55,7 +55,7 @@ export const updateGame = (game, id) => async dispatch => {
 export const deleteRound = id => async dispatch => {
   dispatch({ type: NEW_GAME_DELETE_ROUND_START });
   try {
-    const success = await serverHandshake(true).delete(`/rounds/${id}`);
+    await serverHandshake(true).delete(`/rounds/${id}`);
     dispatch({ type: NEW_GAME_DELETE_ROUND_SUCCESS, payload: id });
   } catch (error) {
     dispatch({ type: NEW_GAME_DELETE_ROUND_FAILURE, payload: error });

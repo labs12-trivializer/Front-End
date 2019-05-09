@@ -1,4 +1,5 @@
 import {
+  CREATE_NEW_GAME_START,
   CREATE_NEW_GAME_SUCCESS,
   CREATE_ROUND_FOR_NEW_GAME_SUCCESS,
   UPDATE_GAME_DETAILS_SUCCESS,
@@ -9,6 +10,8 @@ import { combineReducers } from 'redux';
 
 const allRoundIds = (state = [], action) => {
   switch (action.type) {
+    case CREATE_NEW_GAME_START:
+      return [];
     case CREATE_ROUND_FOR_NEW_GAME_SUCCESS:
       return [...state, action.payload.id];
     case NEW_GAME_DELETE_ROUND_SUCCESS:
@@ -21,6 +24,8 @@ const allRoundIds = (state = [], action) => {
 
 const byRoundId = (state = {}, action) => {
   switch (action.type) {
+    case CREATE_NEW_GAME_START:
+      return {};
     case CREATE_ROUND_FOR_NEW_GAME_SUCCESS:
       return { ...state, [action.payload.id]: action.payload };
     case NEW_GAME_DELETE_ROUND_SUCCESS:
