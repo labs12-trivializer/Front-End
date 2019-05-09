@@ -1,16 +1,17 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { fetchNewRoundQuestions } from "../actions";
-import { getNewRoundQuestions } from "../reducers";
-import serverHandshake from "../auth/serverHandshake";
+import { fetchNewRoundQuestions } from '../actions';
+import { getNewRoundQuestions } from '../reducers';
+import serverHandshake from '../auth/serverHandshake';
+import { deleteRound } from '../actions/createGame';
 
 class CreateRound extends Component {
   state = {
-    category: "any",
+    category: 'any',
     amount: 0,
-    difficulty: "any",
-    type: "any",
+    difficulty: 'any',
+    type: 'any',
     response: {}
   };
 
@@ -57,13 +58,13 @@ class CreateRound extends Component {
     console.log(requestObj);
     await serverHandshake(true)
       .put(`/rounds/nested/${this.props.round_id}`, requestObj)
-      .then(res => console.log("great success", res.data))
+      .then(res => console.log('great success', res.data))
       .catch(err => console.log(err));
   }
 
   render() {
     if (this.props.categories.length < 1) {
-      console.log("PROPS: ", this.props);
+      console.log('PROPS: ', this.props);
       return (
         <div>
           <h5>loading...</h5>
@@ -119,6 +120,7 @@ const mapStateToProps = (state, ownProps) => ({
 export default connect(
   mapStateToProps,
   {
-    fetchNewRoundQuestions
+    fetchNewRoundQuestions,
+    deleteRound
   }
 )(CreateRound);
