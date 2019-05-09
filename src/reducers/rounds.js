@@ -1,7 +1,8 @@
 import {
   FETCH_ROUNDS_SUCCESS,
   FETCH_ROUND_SUCCESS,
-  FETCH_GAME_SUCCESS
+  FETCH_GAME_SUCCESS,
+  DELETE_QUESTION_SUCCESS
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -10,12 +11,13 @@ import round from './round';
 // byId reducer
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case 'ADD_ROUND?':
-    case 'SOME_CHANGE_TO_ROUND':
-      return {
-        ...state,
-        [action.payload.id]: round(state[action.payload.id], action)
-      };
+    case DELETE_QUESTION_SUCCESS:
+      return action.round_id
+        ? {
+            ...state,
+            [action.round_id]: round(state[action.round_id], action)
+          }
+        : state;
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUNDS_SUCCESS:
       return {
