@@ -2,61 +2,77 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import he from 'he';
 
-import { fetchRound, fetchQuestion, fetchQuestions } from '../actions';
+import { fetchRound } from '../actions';
 import { getAllCategories } from '../reducers';
+import Question from './Question';
+// import { Link } from 'react-router-dom';
+
 import CreateRound from './CreateRound';
 
 class RoundDetails extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      allQuestions: {}
-    }
-  }
+  // constructor(props){
+  //   super(props);
+  //   this.state = {
+  //     allQuestions: {}
+  //   }
+  // }
 
-  componentDidMount = async () => {
-    this.props.fetchRound(this.props.match.params.id);
-    let getAllQuestions = await this.props.fetchQuestions();
-    console.log('All Questions: ', getAllQuestions);
-    if(getAllQuestions.data){
-      this.setState({
-        allQuestions: getAllQuestions
-      })
-    }
-  }
+  // componentDidMount = async () => {
+  //   this.props.fetchRound(this.props.match.params.id);
+  //   let getAllQuestions = await this.props.fetchQuestions();
+  //   console.log('All Questions: ', getAllQuestions);
+  //   if(getAllQuestions.data){
+  //     this.setState({
+  //       allQuestions: getAllQuestions
+  //     })
+  //   }
+  // }
 
-  render(){
-    if (!this.props.round || !this.props.round.game_id){
-      return ( <div>Loading...</div> )
-    } else if (this.props.round.questions < 1){
-      return (
-        <div>
-          <CreateRound categories={this.props.categories}/>
-          <p>{this.props.round.game_id}</p>
-          <p>{this.props.round.created_at}</p>
-          <p>{this.props.round.updated_at}</p>
-          <ul>{this.props.newRoundQuestions.map(q => {
-            const question = q;
-            return (
-              <li key={q.question}>
-                <p>{question.category}</p>
-                <strong>{he.decode(question.question)}</strong>
-                <div><strong>Wrong Answers:</strong></div>
-                <ol>
-                  {question.incorrect_answers.map(a => {
-                    const answer = he.decode(a)
-                    return (
-                      <li key={answer}>{' - ' + answer}</li>
-                      )
-                    })}
-                </ol>
-                <div><strong>Correct Answers:</strong></div>
-                <p>{` - ${he.decode(question.correct_answer)}`}</p>
-              </li>
-            )
-          })}</ul>
-        </div>
-      )
+  // render(){
+  //   if (!this.props.round || !this.props.round.game_id){
+  //     return ( <div>Loading...</div> )
+  //   } else if (this.props.round.questions < 1){
+  //     return (
+  //       <div>
+  //         <CreateRound categories={this.props.categories}/>
+  //         <p>{this.props.round.game_id}</p>
+  //         <p>{this.props.round.created_at}</p>
+  //         <p>{this.props.round.updated_at}</p>
+  //         <ul>{this.props.newRoundQuestions.map(q => {
+  //           const question = q;
+  //           return (
+  //             <li key={q.question}>
+  //               <p>{question.category}</p>
+  //               <strong>{he.decode(question.question)}</strong>
+  //               <div><strong>Wrong Answers:</strong></div>
+  //               <ol>
+  //                 {question.incorrect_answers.map(a => {
+  //                   const answer = he.decode(a)
+  //                   return (
+  //                     <li key={answer}>{' - ' + answer}</li>
+  //                     )
+  //                   })}
+  //               </ol>
+  //               <div><strong>Correct Answers:</strong></div>
+  //               <p>{` - ${he.decode(question.correct_answer)}`}</p>
+  //             </li>
+  //           )
+  //         })}</ul>
+  //       </div>
+  //     )
+  
+  componentDidMount = () => {
+    // fetch only if we don't have it
+    if (!this.props.round) {
+      this.props.fetchRound(this.props.match.params.id);
+    }
+  };
+
+  render() {
+    if (!this.props.round || !this.props.round.game_id) {
+      return <div>Loading...</div>;
+    } else if (this.props.round.questions < 1) {
+      return <CreateRound categories={this.props.categories} />;
     }
 
     // console.log('PROPS: ', this.props.round);
@@ -92,8 +108,41 @@ class RoundDetails extends Component {
             </li>
           )})
         }</ul>
+        <ul>
+          {this.props.round.questions.map(q => (
+            <Question questionId={q} key={`q${q}`} />
+          ))}
+        </ul>
       </div>
-    )
+    );
+
+    // return (
+    //   <div>
+    //     <p>{this.props.round.game_id}</p>
+    //     <p>{this.props.round.created_at}</p>
+    //     <p>{this.props.round.updated_at}</p>
+    //     <ul>{questions.filter(q => {
+    //       return this.props.round.id === q.round_id;
+    //     }).map(q => {
+    //       let question = q;
+    //       return (
+    //         <li key={`Question: ${question}`}>
+    //           <strong>{question.text}</strong>
+    //           <div><strong>Answers:</strong></div>
+    //           <ol>
+    //             {/* {question.answers.map(a => {
+    //               const answer = a;
+    //               return (
+    //                 <li key={`Answer: ${a}`}>{' - ' + answer.text}</li>
+    //               )
+    //             })} */}
+    //           </ol>
+    //         </li>
+    //       )})
+    //     }</ul>
+    //   </div>
+    // );
+
   }
 }
 
@@ -109,7 +158,7 @@ export default connect(
   mapStateToProps,
   { 
     fetchRound,
-    fetchQuestion,
-    fetchQuestions
+    // fetchQuestion,
+    // fetchQuestions
   }
 )(RoundDetails);

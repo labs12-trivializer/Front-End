@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 
 import { fetchGame, addRound } from '../actions';
-import Menu from './Menu';
 import Round from './Round';
 
 class Game extends Component {
@@ -16,7 +15,7 @@ class Game extends Component {
     console.log('Game Info:', this.props.game);
     this.props.fetchGame(this.props.match.params.id);
   };
-  
+
   handleAddNewRound = async () => {
     await this.props.addRound({
       "game_id": this.props.game.id,
@@ -25,7 +24,7 @@ class Game extends Component {
       this.props.fetchGame(this.props.match.params.id);
     })
   }
-  
+
   render() {
     if (!this.props.game || !this.props.game.rounds){
       return (<div>Loading...</div>)
@@ -34,7 +33,6 @@ class Game extends Component {
       console.log('Rounds Info:', this.props.game.rounds);
       return (
         <div>
-          <Menu />
           <h1>Game</h1>
           <p>{ this.props.game && this.props.game.name }</p>
           <ul>
@@ -62,7 +60,7 @@ const mapStateToProps = (state, ownProps) => ({
 export default connect(
   mapStateToProps,
   {
-    fetchGame, 
+    fetchGame,
     addRound,
     withRouter
   }
