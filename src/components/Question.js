@@ -14,6 +14,7 @@ import Answer from './Answer';
 const Question = ({
   question,
   editQuestion,
+  category,
   categories,
   types,
   typeText,
@@ -26,11 +27,22 @@ const Question = ({
   const save = () =>
     editQuestion(question.id, currentVersion).then(() => setVersions([]));
 
-  const fetchAnotherQuestion = () =>
+    
+  const fetchAnotherQuestion = () => {
+    console.log('CATEGORIES: ', categories);
+    let categoryId;
+    if (question.correct_answer){
+      categoryId = categories.find(cat => cat.name === question.category).category_id;
+    } else {
+      categoryId = categoriesById[question.category_id].category_id
+    }
+    console.log('CATEGORY: ', category);
+    console.log('CATEGORY ID: ', categoryId);
     fetchQuestionsFormatted(
       {
         amount: 1,
-        category: categoriesById[question.category_id].category_id,
+        category: categoryId,
+        // category: categoriesById[question.category_id].category_id,
         type: ['boolean', 'multiple'].find(
           t => typeText.toLowerCase().indexOf(t) !== -1
         ),
@@ -39,22 +51,10 @@ const Question = ({
       categories,
       types
     ).then(([q]) => setVersions([...versions, q]));
+  }
 
   if (!question) {
     return null;
-  }
-
-  // If no other versions, use the question from state
-  if (!currentVersion || !question) {
-    return (
-      <div>
-        <strong>{he.decode(question.text)}</strong>
-        <button onClick={fetchAnotherQuestion}>change</button>
-        {question.answers.map(a => (
-          <Answer answerId={a} key={`q${question.id}a${a}`} />
-        ))}
-      </div>
-    );
   }
 
   // If question came directly from openTDB query
@@ -71,6 +71,19 @@ const Question = ({
             answerId={he.decode(a)} 
             key={`q${he.decode(question.question)}a${he.decode(a)}`} 
           />
+        ))}
+      </div>
+    );
+  }
+
+  // If no other versions, use the question from state
+  if (!currentVersion || !question) {
+    return (
+      <div>
+        <strong>{he.decode(question.text)}</strong>
+        <button onClick={fetchAnotherQuestion}>change</button>
+        {question.answers.map(a => (
+          <Answer answerId={a} key={`q${question.id}a${a}`} />
         ))}
       </div>
     );
@@ -94,6 +107,7 @@ const mapStateToProps = (state, ownProps) => {
   const question = (ownProps.question 
     ? ownProps.question 
     : getQuestionById(state, ownProps.questionId));
+  const category = ownProps.category;
   const categories = getAllCategories(state);
   const types = getAllQuestionTypes(state);
   const typeText = (ownProps.question 
@@ -102,6 +116,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     question,
+    category,
     categories,
     types,
     typeText,
