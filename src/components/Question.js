@@ -44,19 +44,6 @@ const Question = ({
     return null;
   }
 
-  // If no other versions, use the question from state
-  if (!currentVersion || !question) {
-    return (
-      <div>
-        <strong>{he.decode(question.text)}</strong>
-        <button onClick={fetchAnotherQuestion}>change</button>
-        {question.answers.map(a => (
-          <Answer answerId={a} key={`q${question.id}a${a}`} />
-        ))}
-      </div>
-    );
-  }
-
   // If question came directly from openTDB query
   if (question.correct_answer) {
     let answers = [...question.incorrect_answers, question.correct_answer];
@@ -71,6 +58,19 @@ const Question = ({
             answerId={he.decode(a)} 
             key={`q${he.decode(question.question)}a${he.decode(a)}`} 
           />
+        ))}
+      </div>
+    );
+  }
+
+  // If no other versions, use the question from state
+  if (!currentVersion || !question.correct_answer) {
+    return (
+      <div>
+        <strong>{he.decode(question.text)}</strong>
+        <button onClick={fetchAnotherQuestion}>change</button>
+        {question.answers.map(a => (
+          <Answer answerId={a} key={`q${question.id}a${a}`} />
         ))}
       </div>
     );
