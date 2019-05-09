@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import CreateRound from "./CreateRound";
-import { connect } from "react-redux";
-import { getAllCategories } from "../reducers";
-import serverHandshake from "../auth/serverHandshake";
+import React, { Component } from 'react';
+import CreateRound from './CreateRound';
+import { connect } from 'react-redux';
+import { getAllCategories } from '../reducers';
+import serverHandshake from '../auth/serverHandshake';
+import { createNewGame } from '../actions/createGame';
 
-// ***********************
+// // ***********************
 // async componentDidMount() {
 //   // //create game in db
 //   console.log("creating new game");
@@ -24,48 +25,52 @@ import serverHandshake from "../auth/serverHandshake";
 class CreateGame extends Component {
   state = {
     user_id: null,
-    name: "New Game " + Date.now(),
+    name: 'New Game ' + Date.now(),
     game_id: null,
     rounds_ids: [],
     nextRoundNumber: 1,
-    date_to_be_played: ""
+    date_to_be_played: ''
   };
 
-  //create a new game and the initial round on mount
   async componentDidMount() {
-    // //create game in db
-    console.log("creating new game");
-    await serverHandshake(true)
-      .post("/games", { name: this.state.name })
-      .then(res => {
-        console.log("create game status", res.status);
-        this.setState({ game_id: res.data.id, user_id: res.data.user_id });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    //make initial round in db
-    console.log("create initial round");
-    await serverHandshake(true)
-      .post("./rounds", {
-        game_id: this.state.game_id,
-        number: this.state.nextRoundNumber
-      })
-      .then(res => {
-        console.log("round created successfully", res);
-        this.setState({
-          nextRoundNumber: this.state.nextRoundNumber + 1,
-          rounds_ids: [...this.state.rounds_ids, res.data.id]
-        });
-      })
-      .catch(err => console.log("round add failed", err));
+    await this.props.createNewGame({ name: this.state.name });
   }
+
+  // //create a new game and the initial round on mount
+  // async componentDidMount() {
+  //   // //create game in db
+  //   console.log('creating new game');
+  //   await serverHandshake(true)
+  //     .post('/games', { name: this.state.name })
+  //     .then(res => {
+  //       console.log('create game status', res.status);
+  //       this.setState({ game_id: res.data.id, user_id: res.data.user_id });
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+
+  //   //make initial round in db
+  //   console.log('create initial round');
+  //   await serverHandshake(true)
+  //     .post('./rounds', {
+  //       game_id: this.state.game_id,
+  //       number: this.state.nextRoundNumber
+  //     })
+  //     .then(res => {
+  //       console.log('round created successfully', res);
+  //       this.setState({
+  //         nextRoundNumber: this.state.nextRoundNumber + 1,
+  //         rounds_ids: [...this.state.rounds_ids, res.data.id]
+  //       });
+  //     })
+  //     .catch(err => console.log('round add failed', err));
+  // }
 
   // creates a new round in database based on game_id in state and the current nextRoundNumber in state
   addRoundToDb() {
     serverHandshake(true)
-      .post("/rounds", {
+      .post('/rounds', {
         game_id: this.state.game_id,
         number: this.state.nextRoundNumber
       })
@@ -94,12 +99,12 @@ class CreateGame extends Component {
     serverHandshake(true)
       .put(`/games/${this.state.game_id}`, saveGameObj)
       .then(res => console.log(res.data))
-      .catch(err => console.log("fail", err));
+      .catch(err => console.log('fail', err));
   }
 
   //delete round
   deleteRound = async round_id => {
-    console.log("inside delete round", this.state.rounds_ids, round_id);
+    console.log('inside delete round', this.state.rounds_ids, round_id);
     const removed = this.state.rounds_ids.filter(item => item !== round_id);
     this.setState({ rounds_ids: removed });
     const deleted = await serverHandshake(true).delete(`/rounds/${round_id}`);
@@ -163,5 +168,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  null
+  { createNewGame }
 )(CreateGame);
