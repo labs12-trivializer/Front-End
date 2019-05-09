@@ -9,7 +9,7 @@ import rounds, * as fromRounds from './rounds';
 import questions, * as fromQuestions from './questions';
 import newRoundQuestions, * as fromNewRoundQuestions from './newRoundQuestions';
 
-export default combineReducers({
+const appReducer = combineReducers({
   answers,
   error,
   games,
@@ -19,6 +19,17 @@ export default combineReducers({
   rounds,
   categories
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    localStorage.removeItem('persist:root');
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+}
+
+export default rootReducer;
 
 export const getAllGames = state => fromGames.getAllGames(state.games);
 
