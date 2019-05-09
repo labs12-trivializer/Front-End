@@ -19,7 +19,6 @@ class RoundDetails extends Component {
   };
 
   componentWillUnmount = () => {
-    console.log('UNMOUNTING COMPONENT...')
     // Dispatch action to remove 'newRoundQuestions' from Redux store
     this.props.clearNewRoundQuestions()
   }
@@ -37,9 +36,10 @@ class RoundDetails extends Component {
           <ul>{this.props.newRoundQuestions.map(q => (
             <Question 
               question={q}
-              questionId={he.decode(q.question)}
-              category={he.decode(q.category)}
-              key={`q${he.decode(q.question)}`} 
+              questionId={he.decode(q.text)}
+              category_id={q.category_id}
+              // category={he.decode(q.category)}
+              key={`q${he.decode(q.text)}`} 
             />
           ))}</ul>
         </div>

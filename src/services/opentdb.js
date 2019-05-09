@@ -23,7 +23,7 @@ export const fetchQuestions = params => {
   }${
     params.type === "any" ? "" : `&type=${params.type}`
   }`;
-  console.log('PARAMS: ', params);
+
   return opentdb().get(`/${queryString}`);
 };
 

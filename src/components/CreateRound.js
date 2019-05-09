@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { fetchNewRoundQuestions } from "../actions";
-import { getNewRoundQuestions } from "../reducers";
+import { 
+  getNewRoundQuestions, 
+  getAllCategories,
+  getAllQuestionTypes
+} from "../reducers";
 import serverHandshake from "../auth/serverHandshake";
 
 class CreateRound extends Component {
@@ -19,7 +23,11 @@ class CreateRound extends Component {
   };
 
   queryTriviaDb = () => {
-    this.props.fetchNewRoundQuestions(this.state);
+    const categories = this.props.categories;
+    const types = this.props.types;
+    console.log('Categories: ', categories)
+    console.log('Types: ', types)
+    this.props.fetchNewRoundQuestions(this.state, categories, types);
   };
 
   async saveQuestionsToDb() {
@@ -111,10 +119,19 @@ class CreateRound extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  newRoundQuestions: getNewRoundQuestions(state),
-  unsavedQuestions: state.newRoundQuestions
-});
+const mapStateToProps = (state, ownProps) => {
+  const newRoundQuestions = getNewRoundQuestions(state);
+  const unsavedQuestions = state.newRoundQuestions;
+  const categories = getAllCategories(state);
+  const types = getAllQuestionTypes(state);
+
+  return {
+    newRoundQuestions,
+    unsavedQuestions,
+    categories,
+    types
+  }
+};
 
 export default connect(
   mapStateToProps,
