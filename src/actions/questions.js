@@ -34,13 +34,18 @@ export const fetchQuestions = () => async dispatch => {
   }
 };
 
-export const fetchOpenTDBQuestion = (categoryId, questionType) => async dispatch => {
+export const fetchOpenTDBQuestion = (
+  categoryId,
+  questionType
+) => async dispatch => {
   dispatch({ type: FETCH_OPENTDB_QUESTIONS_START });
   try {
-    const success = await axios.get('https://opentdb.com/api.php', { params: {
-      category: categoryId,
-      questionType: questionType
-    }});
+    const success = await axios.get('https://opentdb.com/api.php', {
+      params: {
+        category: categoryId,
+        questionType: questionType
+      }
+    });
     //{
     //  "response_code": 0,
     //  "results": [
@@ -63,7 +68,6 @@ export const fetchOpenTDBQuestion = (categoryId, questionType) => async dispatch
     //
     // result.category_id = categoryId;
     // result.text = result.question;
-
 
     dispatch({ type: FETCH_OPENTDB_QUESTIONS_SUCCESS, payload: success.data });
     return success;
@@ -117,11 +121,15 @@ export const editQuestion = (id, questionData) => async dispatch => {
   }
 };
 
-export const deleteQuestion = id => async dispatch => {
+export const deleteQuestion = (id, round_id) => async dispatch => {
   dispatch({ type: DELETE_QUESTION_START });
   try {
     const success = await serverHandshake(true).delete(`/questions/${id}`);
-    dispatch({ type: DELETE_QUESTION_SUCCESS, payload: success.data });
+    dispatch({
+      type: DELETE_QUESTION_SUCCESS,
+      payload: success.data.deleted.id,
+      round_id
+    });
     return success;
   } catch (error) {
     dispatch({ type: DELETE_QUESTION_FAILURE, payload: error });
