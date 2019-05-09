@@ -39,26 +39,6 @@ class RoundDetails extends Component {
               key={`q${he.decode(q.question)}`} 
             />
           ))}</ul>
-          {/* <ul>{this.props.newRoundQuestions.map(q => {
-            const question = q;
-            return (
-              <li key={q.question}>
-                <p>{question.category}</p>
-                <strong>{he.decode(question.question)}</strong>
-                <div><strong>Wrong Answers:</strong></div>
-                <ol>
-                  {question.incorrect_answers.map(a => {
-                    const answer = he.decode(a)
-                    return (
-                      <li key={answer}>{' - ' + answer}</li>
-                      )
-                    })}
-                </ol>
-                <div><strong>Correct Answers:</strong></div>
-                <p>{` - ${he.decode(question.correct_answer)}`}</p>
-              </li>
-            )
-          })}</ul> */}
         </div>
       )
     }

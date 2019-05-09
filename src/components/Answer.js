@@ -9,6 +9,7 @@ const Answer = ({ answer, answerText }) => {
     return null;
   }
 
+  // Use 'answerText' for questions from openTDB
   return answerText
     ? <div>- {he.decode(answerText)}</div>
     : <div>- {he.decode(answer.text)}</div>
