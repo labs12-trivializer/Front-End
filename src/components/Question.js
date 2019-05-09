@@ -45,7 +45,7 @@ const Question = ({
   }
 
   // If no other versions, use the question from state
-  if (!currentVersion && !question) {
+  if (!currentVersion || !question) {
     return (
       <div>
         <strong>{he.decode(question.text)}</strong>
@@ -56,7 +56,9 @@ const Question = ({
       </div>
     );
   }
-  if (question) {
+
+  // If question came directly from openTDB query
+  if (question.correct_answer) {
     let answers = [...question.incorrect_answers, question.correct_answer];
     console.log('ANSWERS: ', answers)
     return (
