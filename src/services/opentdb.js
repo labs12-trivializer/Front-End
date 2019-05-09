@@ -13,7 +13,18 @@ export default opentdb;
 // return a promse that fetches from opentdb
 // common params: { amount, category, difficulty, type }
 export const fetchQuestions = params => {
-  return opentdb().get('/', { params });
+  // params.amount = Number(params.amount);
+  const queryString = `?amount=${
+    params.amount
+  }${
+    params.category === "any" ? "" : `&category=${params.category}`
+  }${
+    params.difficulty === "any" ? "" : `&difficulty=${params.difficulty}`
+  }${
+    params.type === "any" ? "" : `&type=${params.type}`
+  }`;
+  console.log('PARAMS: ', params);
+  return opentdb().get(`/${queryString}`);
 };
 
 export const formatOpentdbResponse = (response, categories, types) =>
