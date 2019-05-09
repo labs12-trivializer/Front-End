@@ -4,6 +4,23 @@ import { connect } from "react-redux";
 import { getAllCategories } from "../reducers";
 import serverHandshake from "../auth/serverHandshake";
 
+// ***********************
+// async componentDidMount() {
+//   // //create game in db
+//   console.log("creating new game");
+//   await this.props.addGame({ name: this.state.name });
+
+//   // create initial round with game id from above
+//   console.log("creating new round with new game");
+//   // const newestGameId = this.props.game_ids[this.props.game_ids.length - 1];
+//   await this.props.addRound({
+//     game_id: this.props.game_id,
+//     number: this.state.nextRoundNumber
+//   });
+//   //increment nextRoundNumber so that the next round will be the second round
+//   this.setState({ nextRoundNumber: this.state.roundNumber + 1 });
+// }
+
 class CreateGame extends Component {
   state = {
     user_id: null,

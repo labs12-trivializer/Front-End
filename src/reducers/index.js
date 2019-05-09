@@ -10,6 +10,7 @@ import questions, * as fromQuestions from './questions';
 import newRoundQuestions, * as fromNewRoundQuestions from './newRoundQuestions';
 import auth, * as fromAuth from './auth';
 import questionTypes, * as fromQuestionTypes from './questionTypes';
+import createGame from './createGame';
 
 export default combineReducers({
   answers,
@@ -21,7 +22,8 @@ export default combineReducers({
   questionTypes,
   rounds,
   categories,
-  auth
+  auth,
+  createGame
 });
 
 export const getAllGames = state => fromGames.getAllGames(state.games);
