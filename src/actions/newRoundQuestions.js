@@ -12,11 +12,11 @@ export const fetchNewRoundQuestions = ({ amount, category, difficulty, type }) =
     const queryString = `https://opentdb.com/api.php?amount=${
       amount
     }${
-      category === "any" ? "" : `&category=${this.state.category}`
+      category === "any" ? "" : `&category=${category}`
     }${
-      difficulty === "any" ? "" : `&difficulty=${this.state.difficulty}`
+      difficulty === "any" ? "" : `&difficulty=${difficulty}`
     }${
-      type === "any" ? "" : `&type=${this.state.type}`
+      type === "any" ? "" : `&type=${type}`
     }`;
     const success = await axios.get(queryString)
     .then(res => {
