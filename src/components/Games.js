@@ -22,7 +22,9 @@ class Games extends Component {
         <ul>
           {this.props.games.map(g => (
             <li key={`game${g.id}`}>
-              <Link to={`/games/${g.id}`}>{g.name}</Link>
+              <Link to={`/games/${g.id}`}>
+                {g.name} - [{g.num_rounds},{g.num_questions}]
+              </Link>
             </li>
           ))}
         </ul>

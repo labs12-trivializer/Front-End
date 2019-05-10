@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { fetchNewRoundQuestions } from "../actions";
-import { 
-  getNewRoundQuestions, 
+import { fetchNewRoundQuestions } from '../actions';
+import {
+  getNewRoundQuestions,
   getAllCategories,
   getAllQuestionTypes
-} from "../reducers";
-import serverHandshake from "../auth/serverHandshake";
+} from '../reducers';
+import serverHandshake from '../auth/serverHandshake';
 
 class CreateRound extends Component {
   state = {
-    category: "any",
+    category: 'any',
     amount: 0,
-    difficulty: "any",
-    type: "any",
+    difficulty: 'any',
+    type: 'any',
     response: {}
   };
 
@@ -25,8 +25,8 @@ class CreateRound extends Component {
   queryTriviaDb = () => {
     const categories = this.props.categories;
     const types = this.props.types;
-    console.log('Categories: ', categories)
-    console.log('Types: ', types)
+    console.log('Categories: ', categories);
+    console.log('Types: ', types);
     this.props.fetchNewRoundQuestions(this.state, categories, types);
   };
 
@@ -65,13 +65,13 @@ class CreateRound extends Component {
     console.log(requestObj);
     await serverHandshake(true)
       .put(`/rounds/nested/${this.props.round_id}`, requestObj)
-      .then(res => console.log("great success", res.data))
+      .then(res => console.log('great success', res.data))
       .catch(err => console.log(err));
   }
 
   render() {
     if (this.props.categories.length < 1) {
-      console.log("PROPS: ", this.props);
+      console.log('PROPS: ', this.props);
       return (
         <div>
           <h5>loading...</h5>
@@ -90,14 +90,16 @@ class CreateRound extends Component {
             }
             if (value > limit) {
               this.handleChanges({ target: { name: 'amount', value: limit } });
-              if(this.props.questionLimit > limit) {
-                this.setState({ error: 'Max: 50 questions at a time!'})
+              if (this.props.questionLimit > limit) {
+                this.setState({ error: 'Max: 50 questions at a time!' });
               } else {
-                this.setState({ error: 'Please upgrade for a higher question limit!'})
+                this.setState({
+                  error: 'Please upgrade for a higher question limit!'
+                });
               }
             } else {
               this.handleChanges(e);
-              this.setState({ error: null});
+              this.setState({ error: null });
             }
           }}
           type="number"
@@ -150,8 +152,8 @@ const mapStateToProps = (state, ownProps) => {
     categories,
     types,
     questionLimit
-  }
-}
+  };
+};
 
 export default connect(
   mapStateToProps,

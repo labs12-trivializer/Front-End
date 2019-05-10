@@ -28,6 +28,7 @@ import {
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTION_SUCCESS,
   FETCH_ROUND_SUCCESS,
+  EDIT_ROUND_SUCCESS,
   FETCH_GAME_SUCCESS,
   EDIT_QUESTION_SUCCESS,
   GET_NEW_ROUND_QUESTIONS_SUCCESS
@@ -47,6 +48,7 @@ const byId = (state = {}, action) => {
       };
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUND_SUCCESS:
+    case EDIT_ROUND_SUCCESS:
     case FETCH_QUESTIONS_SUCCESS:
     case FETCH_QUESTION_SUCCESS:
     case FETCH_ANSWERS_SUCCESS:
@@ -77,6 +79,7 @@ const allIds = (state = [], action) => {
       return [...state, action.payload.id];
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUND_SUCCESS:
+    case EDIT_ROUND_SUCCESS:
     case FETCH_ANSWERS_SUCCESS:
       return Object.keys(action.payload.entities.answers);
     case EDIT_QUESTION_SUCCESS:
