@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import { deleteRound } from '../actions/createGame';
 import { fetchNewRoundQuestions } from '../actions';
 import {
   getNewRoundQuestions,
@@ -134,6 +135,9 @@ class CreateRound extends Component {
         <button onClick={() => this.props.deleteRound(this.props.round_id)}>
           Delete Round
         </button>
+        <button>
+          <Link to={`/rounds/${this.props.round_id}`}>Review Round </Link>
+        </button>
       </>
     );
   }
@@ -158,6 +162,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   {
-    fetchNewRoundQuestions
+    fetchNewRoundQuestions,
+    deleteRound
   }
 )(CreateRound);

@@ -3,6 +3,7 @@ import {
   FETCH_ROUND_SUCCESS,
   FETCH_GAME_SUCCESS,
   DELETE_QUESTION_SUCCESS,
+  ADD_ROUND_SUCCESS,
   GET_NEW_ROUND_QUESTIONS_SUCCESS,
   EDIT_ROUND_SUCCESS,
   ADD_CUSTOM_QUESTION
@@ -32,6 +33,7 @@ const byId = (state = {}, action) => {
       return {
         ...action.payload.entities.rounds
       };
+    case ADD_ROUND_SUCCESS:
     case EDIT_ROUND_SUCCESS:
     case FETCH_ROUND_SUCCESS:
       return {
@@ -52,6 +54,7 @@ const allIds = (state = [], action) => {
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUNDS_SUCCESS:
       return Object.keys(action.payload.entities.rounds);
+    case ADD_ROUND_SUCCESS:
     case EDIT_ROUND_SUCCESS:
     case FETCH_ROUND_SUCCESS:
       return state.indexOf(action.payload.result) > -1
