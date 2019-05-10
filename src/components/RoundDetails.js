@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { PDFExport } from '@progress/kendo-react-pdf';
 // import he from 'he';
 
 import { fetchRound, clearNewRoundQuestions, editRound } from '../actions';
@@ -22,6 +23,10 @@ class RoundDetails extends Component {
   //   // Dispatch action to remove 'newRoundQuestions' from Redux store
   //   this.props.clearNewRoundQuestions();
   // };
+
+  exportPDF = () => {
+    this.roundPDF.save();
+  }
 
   // Rebuild a nested object for a round, lose properties
   // that the backend doesn't like (can probably be fixed with Joi)
@@ -81,6 +86,16 @@ class RoundDetails extends Component {
     // console.log('QUESTIONS', this.props.round.questions);
     return (
       <div>
+        <PDFExport paperSize={'Letter'}
+          fileName='round.pdf'
+          title='Round'
+          subject='Subject'
+          keywords='Keyworkds'
+          ref={ r => this.roundPDF = r }
+        >
+          <div>Hello, round {this.props.round.id}</div>
+        </PDFExport>
+        <button onClick={this.exportPDF}>download PDF</button>
         {this.props.dbQuestionCount === 0 && (
           <NewQuestionGetter roundId={this.props.round.id} />
         )}
