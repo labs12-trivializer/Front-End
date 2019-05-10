@@ -58,7 +58,7 @@ export const editRound = (id, roundData) => async dispatch => {
   dispatch({ type: EDIT_ROUND_START });
   try {
     const success = await serverHandshake(true).put(
-      `/rounds/${id}`,
+      `/rounds/nested/${id}`,
       roundData
     );
     dispatch({ type: EDIT_ROUND_SUCCESS, payload: success.data });
