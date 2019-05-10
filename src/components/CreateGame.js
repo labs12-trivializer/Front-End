@@ -40,7 +40,7 @@ class CreateGame extends Component {
   };
 
   //save game with updated info
-  saveGame() {
+  updateGame() {
     const saveGameObj = {
       name: this.state.name,
       date_to_be_played: this.state.date_to_be_played
@@ -96,7 +96,7 @@ class CreateGame extends Component {
         ))}
         <br />
         <button onClick={() => this.addRound()}>Add Round</button>
-        <button onClick={() => this.saveGame()}>Save Game</button>
+        <button onClick={() => this.updateGame()}>Save Game</button>
       </>
     );
   }
