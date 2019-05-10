@@ -5,6 +5,7 @@ import {
   FETCH_GAME_SUCCESS,
   EDIT_QUESTION_SUCCESS,
   DELETE_QUESTION_SUCCESS,
+  EDIT_ROUND_SUCCESS,
   GET_NEW_ROUND_QUESTIONS_SUCCESS
 } from '../actions/types';
 
@@ -17,6 +18,7 @@ const byId = (state = {}, action) => {
     case 'SOME_CHANGE_TO_QUESTION':
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUND_SUCCESS:
+    case EDIT_ROUND_SUCCESS:
     case FETCH_QUESTIONS_SUCCESS:
       return {
         ...action.payload.entities.questions
@@ -48,6 +50,7 @@ const allIds = (state = [], action) => {
       return [...state, action.payload.id];
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUND_SUCCESS:
+    case EDIT_ROUND_SUCCESS:
     case FETCH_QUESTIONS_SUCCESS:
       return Object.keys(action.payload.entities.questions);
     case EDIT_QUESTION_SUCCESS:
