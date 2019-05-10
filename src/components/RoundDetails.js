@@ -8,6 +8,7 @@ import Question from './Question';
 // import { Link } from 'react-router-dom';
 
 import NewQuestionGetter from './NewQuestionGetter';
+import CustomQuestionForm from './CustomQuestionForm';
 
 class RoundDetails extends Component {
   componentDidMount = () => {
@@ -38,15 +39,17 @@ class RoundDetails extends Component {
         } = questionsById[q];
         return {
           ...question,
-          answers: question.answers.map(a => {
-            const {
-              fromOtdb: omit1,
-              id: omit2,
-              isCustom: omit3,
-              ...answer
-            } = answersById[a];
-            return answer;
-          })
+          answers: question.answers
+            ? question.answers.map(a => {
+                const {
+                  fromOtdb: omit1,
+                  id: omit2,
+                  isCustom: omit3,
+                  ...answer
+                } = answersById[a];
+                return answer;
+              })
+            : []
         };
       })
     };
@@ -98,6 +101,7 @@ class RoundDetails extends Component {
             <Question questionId={q} key={`q${q}`} />
           ))}
         </ul>
+        <CustomQuestionForm roundId={this.props.round.id} />
       </div>
     );
   }
@@ -105,9 +109,10 @@ class RoundDetails extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const round = getRoundById(state, ownProps.match.params.id);
-  const dbQuestionCount = round.questions.filter(
-    q => !getQuestionById(state, q).fromOtdb
-  ).length;
+  const dbQuestionCount = round.questions.filter(q => {
+    const thisQuestion = getQuestionById(state, q);
+    return !thisQuestion.fromOtdb && !thisQuestion.isCustom;
+  }).length;
   return {
     round,
     dbQuestionCount,

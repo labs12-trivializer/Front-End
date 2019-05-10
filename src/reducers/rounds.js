@@ -4,7 +4,8 @@ import {
   FETCH_GAME_SUCCESS,
   DELETE_QUESTION_SUCCESS,
   GET_NEW_ROUND_QUESTIONS_SUCCESS,
-  EDIT_ROUND_SUCCESS
+  EDIT_ROUND_SUCCESS,
+  ADD_CUSTOM_QUESTION
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -21,6 +22,11 @@ const byId = (state = {}, action) => {
             [action.round_id]: round(state[action.round_id], action)
           }
         : state;
+    case ADD_CUSTOM_QUESTION:
+      return {
+        ...state,
+        [action.payload.round_id]: round(state[action.payload.round_id], action)
+      };
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUNDS_SUCCESS:
       return {
