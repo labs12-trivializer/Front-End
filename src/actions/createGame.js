@@ -26,18 +26,18 @@ export const createNewGame = newGame => async dispatch => {
   }
 };
 
-export const newGameCreateRound = newRound => async dispatch => {
-  dispatch({ type: CREATE_ROUND_FOR_NEW_GAME_START });
-  try {
-    const success = await serverHandshake(true).post('/rounds', newRound);
-    dispatch({
-      type: CREATE_ROUND_FOR_NEW_GAME_SUCCESS,
-      payload: success.data
-    });
-  } catch (error) {
-    dispatch({ type: CREATE_ROUND_FOR_NEW_GAME_FAILURE, payload: error });
-  }
-};
+// export const newGameCreateRound = newRound => async dispatch => {
+//   dispatch({ type: CREATE_ROUND_FOR_NEW_GAME_START });
+//   try {
+//     const success = await serverHandshake(true).post('/rounds', newRound);
+//     dispatch({
+//       type: CREATE_ROUND_FOR_NEW_GAME_SUCCESS,
+//       payload: success.data
+//     });
+//   } catch (error) {
+//     dispatch({ type: CREATE_ROUND_FOR_NEW_GAME_FAILURE, payload: error });
+//   }
+// };
 
 export const updateGame = (game, id) => async dispatch => {
   dispatch({ type: UPDATE_GAME_DETAILS_START });

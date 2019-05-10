@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getAllCategories } from '../reducers';
 import {
   createNewGame,
-  newGameCreateRound,
+  // newGameCreateRound,
   updateGame,
   addRound
 } from '../actions';
@@ -22,9 +22,9 @@ class CreateGame extends Component {
   async componentDidMount() {
     // create game in db
     await this.props.createNewGame({ name: this.state.name });
-    // create initial round associated with game above
   }
 
+  // create initial round associated with game above
   async addRound() {
     await this.props.addRound(
       {
@@ -115,5 +115,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { createNewGame, newGameCreateRound, updateGame, addRound }
+  { createNewGame, updateGame, addRound }
 )(CreateGame);
