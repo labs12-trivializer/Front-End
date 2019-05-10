@@ -81,7 +81,6 @@ class RoundDetails extends Component {
     // console.log('QUESTIONS', this.props.round.questions);
     return (
       <div>
-        <button onClick={this.exportPDF}>download PDF</button>
         {this.props.dbQuestionCount === 0 && (
           <NewQuestionGetter roundId={this.props.round.id} />
         )}
