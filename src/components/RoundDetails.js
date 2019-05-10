@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import he from 'he';
+// import he from 'he';
 
 import { fetchRound, clearNewRoundQuestions } from '../actions';
 import { getAllCategories } from '../reducers';
@@ -19,7 +19,6 @@ class RoundDetails extends Component {
   };
 
   componentWillUnmount = () => {
-    console.log('UNMOUNTING COMPONENT...')
     // Dispatch action to remove 'newRoundQuestions' from Redux store
     this.props.clearNewRoundQuestions()
   }
@@ -36,10 +35,8 @@ class RoundDetails extends Component {
           <p>{this.props.round.updated_at}</p>
           <ul>{this.props.newRoundQuestions.map(q => (
             <Question 
-              question={q}
-              questionId={he.decode(q.question)}
-              category={he.decode(q.category)}
-              key={`q${he.decode(q.question)}`} 
+              questionId={q}
+              key={q} 
             />
           ))}</ul>
         </div>

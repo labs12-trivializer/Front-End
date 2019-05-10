@@ -5,7 +5,7 @@ import {
   FETCH_GAME_SUCCESS,
   EDIT_QUESTION_SUCCESS,
   DELETE_QUESTION_SUCCESS,
-  GET_NEW_OPENTDB_QUESTIONS_SUCCESS
+  GET_NEW_ROUND_QUESTIONS_SUCCESS
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -21,7 +21,7 @@ const byId = (state = {}, action) => {
       return {
         ...action.payload.entities.questions
       };
-    case GET_NEW_OPENTDB_QUESTIONS_SUCCESS:
+    case GET_NEW_ROUND_QUESTIONS_SUCCESS:
       return {
         ...state,
         ...action.payload.entities.questions
@@ -55,7 +55,7 @@ const allIds = (state = [], action) => {
       return state.indexOf(action.payload.result) > -1
         ? state
         : [...state, action.payload.result];
-    case GET_NEW_OPENTDB_QUESTIONS_SUCCESS:
+    case GET_NEW_ROUND_QUESTIONS_SUCCESS:
       return state.concat(
         Object.keys(action.payload.entities.questions).filter(
           a => state.indexOf(a) === -1
