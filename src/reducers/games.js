@@ -45,9 +45,9 @@ const allIds = (state = [], action) => {
     case FETCH_GAMES_SUCCESS:
       return Object.keys(action.payload.entities.games);
     case FETCH_GAME_SUCCESS:
-      return state.indexOf(action.payload.result) > -1
+      return state.indexOf(action.payload.result.toString()) > -1
         ? state
-        : [...state, action.payload.result];
+        : [...state, action.payload.result.toString()];
     case DELETE_GAME_SUCCESS:
       return state.filter(g => g !== action.payload.id);
     default:

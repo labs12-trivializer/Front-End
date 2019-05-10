@@ -31,13 +31,15 @@ const rootReducer = (state, action) => {
   }
 
   return appReducer(state, action);
-}
+};
 
 export default rootReducer;
 
 export const getAllGames = state => fromGames.getAllGames(state.games);
 
 export const getAllRounds = state => fromRounds.getAllRounds(state.rounds);
+export const getRoundById = (state, id) =>
+  fromRounds.getRoundById(state.rounds, id);
 
 export const getAllQuestions = state =>
   fromQuestions.getAllQuestions(state.questions);
@@ -58,6 +60,9 @@ export const getHasProfile = state => fromProfile.getHasProfile(state.profile);
 
 export const getNewRoundQuestions = state =>
   fromNewRoundQuestions.getNewRoundQuestions(state.newRoundQuestions);
+
+export const clearNewRoundQuestions = state =>
+  fromNewRoundQuestions.clearNewRoundQuestions(state.newRoundQuestions);
 
 export const getAllQuestionTypes = state =>
   fromQuestionTypes.getAllQuestionTypes(state.questionTypes);

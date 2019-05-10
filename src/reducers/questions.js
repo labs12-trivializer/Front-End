@@ -3,25 +3,29 @@ import {
   FETCH_QUESTION_SUCCESS,
   FETCH_ROUND_SUCCESS,
   FETCH_GAME_SUCCESS,
-  EDIT_QUESTION_SUCCESS
+  EDIT_QUESTION_SUCCESS,
+  DELETE_QUESTION_SUCCESS,
+  EDIT_ROUND_SUCCESS,
+  GET_NEW_ROUND_QUESTIONS_SUCCESS
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
-import question from './question';
 
 // byId reducer
 const byId = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_QUESTION?':
     case 'SOME_CHANGE_TO_QUESTION':
-      return {
-        ...state,
-        [action.payload.id]: question(state[action.payload.id], action)
-      };
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUND_SUCCESS:
+    case EDIT_ROUND_SUCCESS:
     case FETCH_QUESTIONS_SUCCESS:
       return {
+        ...action.payload.entities.questions
+      };
+    case GET_NEW_ROUND_QUESTIONS_SUCCESS:
+      return {
+        ...state,
         ...action.payload.entities.questions
       };
     case EDIT_QUESTION_SUCCESS:
@@ -31,6 +35,9 @@ const byId = (state = {}, action) => {
         [action.payload.result]:
           action.payload.entities.questions[action.payload.result]
       };
+    case DELETE_QUESTION_SUCCESS:
+      const { [action.payload]: omit, ...nextState } = state;
+      return nextState;
     default:
       return state;
   }
@@ -43,6 +50,7 @@ const allIds = (state = [], action) => {
       return [...state, action.payload.id];
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUND_SUCCESS:
+    case EDIT_ROUND_SUCCESS:
     case FETCH_QUESTIONS_SUCCESS:
       return Object.keys(action.payload.entities.questions);
     case EDIT_QUESTION_SUCCESS:
@@ -50,6 +58,14 @@ const allIds = (state = [], action) => {
       return state.indexOf(action.payload.result) > -1
         ? state
         : [...state, action.payload.result];
+    case GET_NEW_ROUND_QUESTIONS_SUCCESS:
+      return state.concat(
+        Object.keys(action.payload.entities.questions).filter(
+          a => state.indexOf(a) === -1
+        )
+      );
+    case DELETE_QUESTION_SUCCESS:
+      return state.filter(id => id !== action.payload);
     default:
       return state;
   }
