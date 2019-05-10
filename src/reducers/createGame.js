@@ -1,14 +1,14 @@
 import {
   ADD_GAME_START,
   ADD_GAME_SUCCESS,
-  CREATE_NEW_GAME_START,
-  CREATE_NEW_GAME_SUCCESS,
-  CREATE_ROUND_FOR_NEW_GAME_SUCCESS,
-  UPDATE_GAME_DETAILS_SUCCESS,
-  NEW_GAME_DELETE_ROUND_SUCCESS
+  // CREATE_NEW_GAME_START,
+  // CREATE_NEW_GAME_SUCCESS,
+  // CREATE_ROUND_FOR_NEW_GAME_SUCCESS,
+  // UPDATE_GAME_DETAILS_SUCCESS,
+  // NEW_GAME_DELETE_ROUND_SUCCESS
 } from '../actions/types';
 
-import { combineReducers } from 'redux';
+// import { combineReducers } from 'redux';
 
 export default (state = null, action) => {
   switch (action.type) {
