@@ -1,6 +1,7 @@
 import {
   DELETE_QUESTION_SUCCESS,
-  GET_NEW_ROUND_QUESTIONS_SUCCESS
+  GET_NEW_ROUND_QUESTIONS_SUCCESS,
+  ADD_CUSTOM_QUESTION
 } from '../actions/types';
 
 const removeQuestion = (round, questionId) => {
@@ -13,6 +14,11 @@ const removeQuestion = (round, questionId) => {
 // reducer for a single round
 const round = (state, action) => {
   switch (action.type) {
+    case ADD_CUSTOM_QUESTION:
+      return {
+        ...state,
+        questions: [...state.questions, action.payload.id]
+      };
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
       // spread the new question ids into this round's questions
       return {
