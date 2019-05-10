@@ -12,9 +12,9 @@ import NewQuestionGetter from './NewQuestionGetter';
 class RoundDetails extends Component {
   componentDidMount = () => {
     // fetch only if we don't have it
-    // if (!this.props.round) {
-    // }
-    this.props.fetchRound(this.props.match.params.id);
+    if (!this.props.round) {
+      this.props.fetchRound(this.props.match.params.id);
+    }
   };
 
   // componentWillUnmount = () => {
@@ -55,20 +55,6 @@ class RoundDetails extends Component {
   render() {
     if (!this.props.round || !this.props.round.game_id) {
       return <div>Loading...</div>;
-    } else if (this.props.round.questions < 1) {
-      return (
-        <div>
-          <CreateRound categories={this.props.categories} />;
-          <p>{this.props.round.game_id}</p>
-          <p>{this.props.round.created_at}</p>
-          <p>{this.props.round.updated_at}</p>
-          <ul>
-            {this.props.newRoundQuestions.map(q => (
-              <Question questionId={q} key={q} />
-            ))}
-          </ul>
-        </div>
-      );
     }
 
     const newQuestionCount =
