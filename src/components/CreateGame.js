@@ -5,8 +5,9 @@ import { getAllCategories } from '../reducers';
 import {
   createNewGame,
   newGameCreateRound,
-  updateGame
-} from '../actions/createGame';
+  updateGame,
+  addRound
+} from '../actions';
 
 class CreateGame extends Component {
   state = {
@@ -15,7 +16,7 @@ class CreateGame extends Component {
     game_id: null,
     rounds_ids: [],
     nextRoundNumber: 1,
-    date_to_be_played: ''
+    date_to_be_played: ' '
   };
 
   async componentDidMount() {
@@ -25,10 +26,13 @@ class CreateGame extends Component {
   }
 
   async addRound() {
-    await this.props.newGameCreateRound({
-      game_id: this.props.game_id,
-      number: this.props.rounds + 1
-    });
+    await this.props.addRound(
+      {
+        game_id: this.props.game.id,
+        number: this.props.game.rounds.length + 1
+      },
+      this.props.game.id
+    );
   }
 
   //change handler
@@ -43,10 +47,10 @@ class CreateGame extends Component {
       date_to_be_played: this.state.date_to_be_played
       // logo_url: ""
     };
-    this.props.updateGame(saveGameObj, this.props.game_id);
+    this.props.updateGame(saveGameObj, this.props.game.id);
   }
 
-  //delete round
+  // delete round
   // deleteRound = async round_id => {
   //   console.log('inside delete round', this.state.rounds_ids, round_id);
   //   const removed = this.state.rounds_ids.filter(item => item !== round_id);
@@ -56,6 +60,9 @@ class CreateGame extends Component {
   // };
 
   render() {
+    if (!this.props.game) {
+      return <h1>loading...</h1>;
+    }
     return (
       <>
         <h1>Create A Game:</h1>
@@ -77,13 +84,13 @@ class CreateGame extends Component {
             onChange={this.changeHandler}
           />
         </div>
-        {this.props.round_ids.map((round_id, index) => (
+        {this.props.game.rounds.map((round_id, index) => (
           <CreateRound
-            game_id={this.props.game_id}
+            game_id={this.props.game.id}
             categories={this.props.categories}
             key={round_id}
             round_id={round_id}
-            user_id={this.props.user_id}
+            user_id={this.props.game.user_id}
             roundNumber={index + 1}
             deleteRound={this.deleteRound}
           />
@@ -99,14 +106,14 @@ class CreateGame extends Component {
 const mapStateToProps = state => {
   return {
     categories: getAllCategories(state),
-    game_id: state.createGame.game.id,
-    user_id: state.createGame.game.user_id,
-    rounds: state.createGame.allRoundIds.length,
-    round_ids: state.createGame.allRoundIds
+    game: state.games.byId[state.createGame]
+    // user_id: state.createGame.game.user_id,
+    // rounds: state.createGame.allRoundIds.length,
+    // round_ids: state.createGame.allRoundIds
   };
 };
 
 export default connect(
   mapStateToProps,
-  { createNewGame, newGameCreateRound, updateGame }
+  { createNewGame, newGameCreateRound, updateGame, addRound }
 )(CreateGame);

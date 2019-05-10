@@ -10,18 +10,17 @@ import Question from './Question';
 import CreateRound from './CreateRound';
 
 class RoundDetails extends Component {
-  
   componentDidMount = () => {
     // fetch only if we don't have it
-    if (!this.props.round) {
-      this.props.fetchRound(this.props.match.params.id);
-    }
+    // if (!this.props.round) {
+    // }
+    this.props.fetchRound(this.props.match.params.id);
   };
 
   componentWillUnmount = () => {
     // Dispatch action to remove 'newRoundQuestions' from Redux store
-    this.props.clearNewRoundQuestions()
-  }
+    this.props.clearNewRoundQuestions();
+  };
 
   render() {
     if (!this.props.round || !this.props.round.game_id) {
@@ -33,14 +32,13 @@ class RoundDetails extends Component {
           <p>{this.props.round.game_id}</p>
           <p>{this.props.round.created_at}</p>
           <p>{this.props.round.updated_at}</p>
-          <ul>{this.props.newRoundQuestions.map(q => (
-            <Question 
-              questionId={q}
-              key={q} 
-            />
-          ))}</ul>
+          <ul>
+            {this.props.newRoundQuestions.map(q => (
+              <Question questionId={q} key={q} />
+            ))}
+          </ul>
         </div>
-      )
+      );
     }
 
     // console.log('QUESTIONS', this.props.round.questions);
@@ -56,7 +54,6 @@ class RoundDetails extends Component {
         </ul>
       </div>
     );
-
   }
 }
 
@@ -70,9 +67,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default connect(
   mapStateToProps,
-  { 
+  {
     fetchRound,
-    clearNewRoundQuestions,
+    clearNewRoundQuestions
     // fetchQuestion,
     // fetchQuestions
   }

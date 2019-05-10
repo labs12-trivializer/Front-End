@@ -1,7 +1,7 @@
 import {
-  CREATE_NEW_GAME_START,
-  CREATE_NEW_GAME_SUCCESS,
-  CREATE_NEW_GAME_FAILURE,
+  ADD_GAME_START,
+  ADD_GAME_SUCCESS,
+  ADD_GAME_FAILURE,
   CREATE_ROUND_FOR_NEW_GAME_START,
   CREATE_ROUND_FOR_NEW_GAME_SUCCESS,
   CREATE_ROUND_FOR_NEW_GAME_FAILURE,
@@ -15,13 +15,13 @@ import {
 import serverHandshake from '../auth/serverHandshake';
 
 export const createNewGame = newGame => async dispatch => {
-  dispatch({ type: CREATE_NEW_GAME_START });
+  dispatch({ type: ADD_GAME_START });
   try {
-    const success = await serverHandshake(true).post('/games', newGame);
-    dispatch({ type: CREATE_NEW_GAME_SUCCESS, payload: success.data });
+    const success = await serverHandshake(true).post('/games/nested', newGame);
+    dispatch({ type: ADD_GAME_SUCCESS, payload: success.data });
     return success;
   } catch (error) {
-    dispatch({ type: CREATE_NEW_GAME_FAILURE, payload: error });
+    dispatch({ type: ADD_GAME_FAILURE, payload: error });
     return error;
   }
 };

@@ -2,7 +2,8 @@ import {
   FETCH_ROUNDS_SUCCESS,
   FETCH_ROUND_SUCCESS,
   FETCH_GAME_SUCCESS,
-  DELETE_QUESTION_SUCCESS
+  DELETE_QUESTION_SUCCESS,
+  ADD_ROUND_SUCCESS
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -23,6 +24,7 @@ const byId = (state = {}, action) => {
       return {
         ...action.payload.entities.rounds
       };
+    case ADD_ROUND_SUCCESS:
     case FETCH_ROUND_SUCCESS:
       return {
         ...state,
@@ -42,6 +44,7 @@ const allIds = (state = [], action) => {
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUNDS_SUCCESS:
       return Object.keys(action.payload.entities.rounds);
+    case ADD_ROUND_SUCCESS:
     case FETCH_ROUND_SUCCESS:
       return state.indexOf(action.payload.result) > -1
         ? state

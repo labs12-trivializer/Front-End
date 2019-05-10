@@ -30,7 +30,7 @@ export const fetchRounds = () => async dispatch => {
   }
 };
 
-export const fetchRound = (id) => async dispatch => {
+export const fetchRound = id => async dispatch => {
   dispatch({ type: FETCH_ROUND_START });
   try {
     const success = await serverHandshake(true).get(`/rounds/normalized/${id}`);
@@ -42,11 +42,14 @@ export const fetchRound = (id) => async dispatch => {
   }
 };
 
-export const addRound = roundData => async dispatch => {
+export const addRound = (roundData, game_id) => async dispatch => {
   dispatch({ type: ADD_ROUND_START });
   try {
-    const success = await serverHandshake(true).post('/rounds', roundData);
-    dispatch({ type: ADD_ROUND_SUCCESS, payload: success.data });
+    const success = await serverHandshake(true).post(
+      '/rounds/nested',
+      roundData
+    );
+    dispatch({ type: ADD_ROUND_SUCCESS, payload: success.data, game_id });
     return success;
   } catch (error) {
     dispatch({ type: ADD_ROUND_FAILURE, payload: error });
@@ -57,10 +60,7 @@ export const addRound = roundData => async dispatch => {
 export const editRound = (id, roundData) => async dispatch => {
   dispatch({ type: EDIT_ROUND_START });
   try {
-    const success = await serverHandshake(true).put(
-      `/rounds/${id}`,
-      roundData
-    );
+    const success = await serverHandshake(true).put(`/rounds/${id}`, roundData);
     dispatch({ type: EDIT_ROUND_SUCCESS, payload: success.data });
     return success;
   } catch (error) {
