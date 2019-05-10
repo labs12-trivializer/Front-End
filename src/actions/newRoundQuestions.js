@@ -1,4 +1,4 @@
-import { fetchQuestionsFormatted } from '../services/opentdb';
+import { fetchQuestionsNormalized } from '../services/opentdb';
 import {
   GET_NEW_ROUND_QUESTIONS_START,
   GET_NEW_ROUND_QUESTIONS_SUCCESS,
@@ -26,7 +26,7 @@ export const fetchNewRoundQuestions = (params, categories, types) => async dispa
     // Use fetchQuestionsFormatted() instead of this:
 
     // const success = await axios.get(queryString)
-    const success = await fetchQuestionsFormatted(params, categories, types)
+    const success = await fetchQuestionsNormalized(params, categories, types)
       .then(res => {
         // dispatch({ type: GET_NEW_ROUND_QUESTIONS_SUCCESS, payload: res.data.results });
         dispatch({ type: GET_NEW_ROUND_QUESTIONS_SUCCESS, payload: res });
