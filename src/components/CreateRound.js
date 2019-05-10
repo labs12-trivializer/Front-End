@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
-import { fetchNewRoundQuestions } from '../actions';
-import { getNewRoundQuestions } from '../reducers';
-import serverHandshake from '../auth/serverHandshake';
 import { deleteRound } from '../actions/createGame';
+import { fetchNewRoundQuestions } from '../actions';
+import {
+  getNewRoundQuestions,
+  getAllCategories,
+  getAllQuestionTypes
+} from '../reducers';
+import serverHandshake from '../auth/serverHandshake';
 
 class CreateRound extends Component {
   state = {
@@ -21,7 +24,11 @@ class CreateRound extends Component {
   };
 
   queryTriviaDb = () => {
-    this.props.fetchNewRoundQuestions(this.state);
+    const categories = this.props.categories;
+    const types = this.props.types;
+    console.log('Categories: ', categories);
+    console.log('Types: ', types);
+    this.props.fetchNewRoundQuestions(this.state, categories, types);
   };
 
   async saveQuestionsToDb() {
@@ -136,11 +143,21 @@ class CreateRound extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  newRoundQuestions: getNewRoundQuestions(state),
-  unsavedQuestions: state.newRoundQuestions,
-  questionLimit: state.profile.question_limit
-});
+const mapStateToProps = (state, ownProps) => {
+  const newRoundQuestions = getNewRoundQuestions(state);
+  const unsavedQuestions = state.newRoundQuestions;
+  const categories = getAllCategories(state);
+  const types = getAllQuestionTypes(state);
+  const questionLimit = state.profile.question_limit;
+
+  return {
+    newRoundQuestions,
+    unsavedQuestions,
+    categories,
+    types,
+    questionLimit
+  };
+};
 
 export default connect(
   mapStateToProps,

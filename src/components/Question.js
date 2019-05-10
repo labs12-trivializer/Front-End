@@ -30,20 +30,20 @@ const Question = ({
 
     
   const fetchAnotherQuestion = () => {
-    console.log('CATEGORIES: ', categories);
-    let categoryId;
-    if (question.correct_answer){
-      categoryId = categories.find(cat => cat.name === question.category).category_id;
-    } else {
-      categoryId = categoriesById[question.category_id].category_id
-    }
-    console.log('CATEGORY: ', category);
-    console.log('CATEGORY ID: ', categoryId);
+    // console.log('CATEGORIES: ', categories);
+    // let categoryId;
+    // if (question.correct_answer){
+    //   categoryId = categories.find(cat => cat.name === question.category).category_id;
+    // } else {
+    //   categoryId = categoriesById[question.category_id].category_id
+    // }
+    // console.log('CATEGORY: ', category);
+    // console.log('CATEGORY ID: ', categoryId);
     fetchQuestionsFormatted(
       {
         amount: 1,
-        category: categoryId,
-        // category: categoriesById[question.category_id].category_id,
+        // category: categoryId,
+        category: categoriesById[question.category_id].category_id,
         type: ['boolean', 'multiple'].find(
           t => typeText.toLowerCase().indexOf(t) !== -1
         ),
@@ -58,34 +58,15 @@ const Question = ({
     return null;
   }
 
-  // If question came directly from openTDB query
-  if (question.correct_answer) {
-    let answers = [...question.incorrect_answers, question.correct_answer];
-    console.log('ANSWERS: ', answers)
-    return (
-      <div>
-        <strong>{he.decode(question.question)}</strong>
-        <button onClick={fetchAnotherQuestion}>change</button>
-        {answers.map(a => (
-          <Answer 
-            answerText={he.decode(a)} 
-            answerId={he.decode(a)} 
-            key={`q${he.decode(question.question)}a${he.decode(a)}`} 
-          />
-        ))}
-      </div>
-    );
-  }
-
   // If no other versions, use the question from state
-  if (!currentVersion || !question) {
+  if (!currentVersion) {
     return (
       <div>
         <strong>{he.decode(question.text)}</strong>
         <button onClick={fetchAnotherQuestion}>change</button>
         <button onClick={() => deleteQuestion(question.id, question.round_id)}>delete</button>
         {question.answers.map(a => (
-          <Answer answerId={a} key={`q${question.id}a${a}`} />
+          <Answer answerId={a} key={a} />
         ))}
       </div>
     );
@@ -107,15 +88,11 @@ const Question = ({
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const question = (ownProps.question 
-    ? ownProps.question 
-    : getQuestionById(state, ownProps.questionId));
+  const question = getQuestionById(state, ownProps.questionId);
   const category = ownProps.category;
   const categories = getAllCategories(state);
   const types = getAllQuestionTypes(state);
-  const typeText = (ownProps.question 
-    ? ownProps.question.type 
-    : getQuestionTypeById(state, question.question_type_id).name );
+  const typeText = getQuestionTypeById(state, question.question_type_id).name;
 
   return {
     question,
