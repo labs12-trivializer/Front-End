@@ -3,7 +3,6 @@ import CreateRound from './CreateRound';
 import { connect } from 'react-redux';
 import { getAllCategories } from '../reducers';
 import {
-  createNewGame,
   // newGameCreateRound,
   updateGame,
   addRound
@@ -12,7 +11,7 @@ import {
 class CreateGame extends Component {
   state = {
     user_id: null,
-    name: 'New Game ' + Date.now(),
+    name: '',
     game_id: null,
     rounds_ids: [],
     nextRoundNumber: 1,
@@ -21,7 +20,7 @@ class CreateGame extends Component {
 
   async componentDidMount() {
     // create game in db
-    await this.props.createNewGame({ name: this.state.name });
+    // await this.props.createNewGame({ name: this.state.name });
   }
 
   // create initial round associated with game above
@@ -115,5 +114,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { createNewGame, updateGame, addRound }
+  { updateGame, addRound }
 )(CreateGame);
