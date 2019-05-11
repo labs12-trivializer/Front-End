@@ -23,13 +23,19 @@ export const fetchNewRoundQuestions = (
       categories,
       types
     ).then(res => {
+      res.entities.questions = Object.keys(res.entities.questions).reduce(
+        (accu, cur) => ({
+          ...accu,
+          [cur]: { ...res.entities.questions[cur], round_id }
+        }),
+        {}
+      );
       dispatch({
         type: GET_NEW_ROUND_QUESTIONS_SUCCESS,
         payload: res,
         round_id
       });
     });
-    console.log('SUCCESS: ', success);
     return success;
   } catch (err) {
     dispatch({ type: GET_NEW_ROUND_QUESTIONS_FAILURE, payload: err });
@@ -47,4 +53,3 @@ export const clearNewRoundQuestions = () => async dispatch => {
     return err;
   }
 };
-

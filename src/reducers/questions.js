@@ -7,15 +7,37 @@ import {
   DELETE_QUESTION_SUCCESS,
   EDIT_ROUND_SUCCESS,
   GET_NEW_ROUND_QUESTIONS_SUCCESS,
-  ADD_CUSTOM_QUESTION
+  ADD_CUSTOM_QUESTION,
+  ADD_QUESTION_SUCCESS,
+  DELETE_STATE_QUESTION
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
 
+// add question, account for dealing with questions
+// previously only stored in redux (not on backend)
+const addQuestion = (state, action) => {
+  if (action.updateId) {
+    // this question was only in redux, so it has a different id
+    // from our database. Remove the old one, add the new one.
+    const { [action.updateId]: omit, ...newState } = state;
+    return {
+      ...newState,
+      [action.payload.result]:
+        action.payload.entities.questions[action.payload.result]
+    };
+  }
+
+  return {
+    ...state,
+    [action.payload.result]:
+      action.payload.entities.questions[action.payload.result]
+  };
+};
+
 // byId reducer
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case 'ADD_QUESTION?':
     case 'SOME_CHANGE_TO_QUESTION':
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUND_SUCCESS:
@@ -36,11 +58,14 @@ const byId = (state = {}, action) => {
         [action.payload.result]:
           action.payload.entities.questions[action.payload.result]
       };
+    case ADD_QUESTION_SUCCESS:
+      return addQuestion(state, action);
     case ADD_CUSTOM_QUESTION:
       return {
         ...state,
         [action.payload.id]: action.payload
       };
+    case DELETE_STATE_QUESTION:
     case DELETE_QUESTION_SUCCESS:
       const { [action.payload]: omit, ...nextState } = state;
       return nextState;
@@ -72,8 +97,13 @@ const allIds = (state = [], action) => {
       );
     case ADD_CUSTOM_QUESTION:
       return [...state, action.payload.id];
+    case DELETE_STATE_QUESTION:
     case DELETE_QUESTION_SUCCESS:
       return state.filter(id => id !== action.payload);
+    case ADD_QUESTION_SUCCESS:
+      return action.updateId
+        ? [...state.filter(id => id !== action.updateId), action.payload.result]
+        : [...state, action.payload.result];
     default:
       return state;
   }

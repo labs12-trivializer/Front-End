@@ -17,7 +17,8 @@ import {
   FETCH_OPENTDB_QUESTIONS_START,
   FETCH_OPENTDB_QUESTIONS_SUCCESS,
   FETCH_OPENTDB_QUESTIONS_FAILURE,
-  ADD_CUSTOM_QUESTION
+  ADD_CUSTOM_QUESTION,
+  DELETE_STATE_QUESTION
 } from './types';
 
 import axios from 'axios';
@@ -47,29 +48,6 @@ export const fetchOpenTDBQuestion = (
         questionType: questionType
       }
     });
-    //{
-    //  "response_code": 0,
-    //  "results": [
-    //    {
-    //      "category": "Entertainment: Music",
-    //      "type": "multiple",
-    //      "difficulty": "medium",
-    //      "question": "Who is the vocalist and frontman of rock band &quot;Guns N&#039; Roses&quot;?",
-    //      "correct_answer": "Axl Rose",
-    //      "incorrect_answers": [
-    //        "Kurt Cobain",
-    //        "Slash",
-    //        "Bono"
-    //      ]
-    //    }
-    //  ]
-    //}
-
-    // const result = success.data.results[0];
-    //
-    // result.category_id = categoryId;
-    // result.text = result.question;
-
     dispatch({ type: FETCH_OPENTDB_QUESTIONS_SUCCESS, payload: success.data });
     return success;
   } catch (error) {
@@ -92,7 +70,9 @@ export const fetchQuestion = id => async dispatch => {
   }
 };
 
-export const addQuestion = questionData => async dispatch => {
+// add a question to our database
+// if an updateId is provided, that will be passed to the success action
+export const addQuestion = (questionData, updateId) => async dispatch => {
   dispatch({ type: ADD_QUESTION_START });
   try {
     const success = await serverHandshake(true).post(
@@ -100,13 +80,11 @@ export const addQuestion = questionData => async dispatch => {
       questionData
     );
 
-    questionData.isCustom
-      ? dispatch({
-          type: ADD_QUESTION_SUCCESS,
-          payload: success.data,
-          previous_id: questionData.id
-        })
-      : dispatch({ type: ADD_QUESTION_SUCCESS, payload: success.data });
+    dispatch({
+      type: ADD_QUESTION_SUCCESS,
+      payload: success.data,
+      updateId: updateId
+    });
     return success;
   } catch (error) {
     dispatch({ type: ADD_QUESTION_FAILURE, payload: error });
@@ -148,4 +126,10 @@ export const deleteQuestion = (id, round_id) => async dispatch => {
 export const addCustomQuestion = question => ({
   type: ADD_CUSTOM_QUESTION,
   payload: question
+});
+
+export const deleteStateQuestion = (id, round_id) => ({
+  type: DELETE_STATE_QUESTION,
+  payload: id,
+  round_id
 });

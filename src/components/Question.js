@@ -8,40 +8,39 @@ import {
   getQuestionTypeById
 } from '../reducers';
 import { fetchQuestionsFormatted } from '../services/opentdb';
-import { editQuestion, deleteQuestion, addQuestion } from '../actions';
+import {
+  editQuestion,
+  deleteQuestion,
+  deleteStateQuestion,
+  addQuestion
+} from '../actions';
 import Answer from './Answer';
 
 const Question = ({
   question,
   editQuestion,
-  category,
   categories,
   types,
   typeText,
   categoriesById,
   deleteQuestion,
+  deleteStateQuestion,
   addQuestion
 }) => {
   const [versions, setVersions] = useState([]);
   const currentVersion = versions[versions.length - 1];
   const undo = () => setVersions(versions.slice(0, -1));
 
-  const save = () => {
-    question.isCustom
-      ? addQuestion(currentVersion)
+  const save = () =>
+    question.isCustom || question.fromOtdb
+      ? addQuestion(currentVersion, question.id)
       : editQuestion(question.id, currentVersion).then(() => setVersions([]));
-  };
 
+  const remove = () =>
+    question.fromOtdb
+      ? deleteStateQuestion(question.id, question.round_id) // question is only in state
+      : deleteQuestion(question.id, question.round_id); // question is on our backend
   const fetchAnotherQuestion = () => {
-    // console.log('CATEGORIES: ', categories);
-    // let categoryId;
-    // if (question.correct_answer){
-    //   categoryId = categories.find(cat => cat.name === question.category).category_id;
-    // } else {
-    //   categoryId = categoriesById[question.category_id].category_id
-    // }
-    // console.log('CATEGORY: ', category);
-    // console.log('CATEGORY ID: ', categoryId);
     fetchQuestionsFormatted(
       {
         amount: 1,
@@ -67,7 +66,7 @@ const Question = ({
       <div>
         <strong>{he.decode(question.text)}</strong>
         <button onClick={fetchAnotherQuestion}>change</button>
-        <button onClick={() => deleteQuestion(question.id, question.round_id)}>
+        <button onClick={remove}>
           delete
         </button>
         {question.answers &&
@@ -83,9 +82,7 @@ const Question = ({
       <button onClick={fetchAnotherQuestion}>change</button>
       <button onClick={undo}>undo</button>
       <button onClick={save}>save</button>
-      <button onClick={() => deleteQuestion(question.id, question.round_id)}>
-        delete
-      </button>
+      <button onClick={remove}>delete</button>
       {currentVersion.answers.map((a, idx) => (
         <div key={`q${question.id}a${idx}`}>- {a.text}</div>
       ))}
@@ -112,5 +109,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { editQuestion, deleteQuestion, addQuestion }
+  { editQuestion, deleteQuestion, addQuestion, deleteStateQuestion }
 )(Question);
