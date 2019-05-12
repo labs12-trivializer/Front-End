@@ -25,18 +25,26 @@ class RoundDetails extends Component {
 
   // Rebuild a nested object for a round, lose properties
   // that the backend doesn't like (can probably be fixed with Joi)
-  nestedRound() {
+  nestedRound = () => {
     const { round, questionsById, answersById } = this.props;
 
     return {
       ...round,
       questions: round.questions.map(q => {
+        // have to check if the original question had changes
+        // if so, we save use the last change instead
+        const { changes, ...originalQuestion } = questionsById[q];
         const {
           fromOtdb: omit1,
           id: omit2,
           isCustom: omit3,
+          changes: omit4,
           ...question
-        } = questionsById[q];
+        } =
+          changes && changes.length > 0
+            ? questionsById[changes[changes.length - 1]]
+            : originalQuestion;
+
         return {
           ...question,
           answers: question.answers
@@ -53,7 +61,7 @@ class RoundDetails extends Component {
         };
       })
     };
-  }
+  };
 
   render() {
     if (!this.props.round || !this.props.round.game_id) {
@@ -111,7 +119,11 @@ const mapStateToProps = (state, ownProps) => {
   const round = getRoundById(state, ownProps.match.params.id);
   const dbQuestionCount = round.questions.filter(q => {
     const thisQuestion = getQuestionById(state, q);
-    return !thisQuestion.fromOtdb && !thisQuestion.isCustom;
+    return (
+      !thisQuestion.fromOtdb &&
+      !thisQuestion.isCustom &&
+      !(thisQuestion.changes && thisQuestion.changes.length > 0)
+    );
   }).length;
   return {
     round,

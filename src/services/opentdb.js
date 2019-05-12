@@ -67,6 +67,7 @@ export const normalizeNestedResponse = nestedQuestions => {
       // give them an id and flag as fromOtdb
       a.id = shortid.generate();
       a.fromOtdb = true;
+      a.question_id = q.id;
 
       // add them to our entities
       entities.answers[a.id] = a;
