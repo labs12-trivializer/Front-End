@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import he from 'he';
 
 import { fetchRound, clearNewRoundQuestions } from '../actions';
 import { getAllCategories } from '../reducers';
 import Question from './Question';
-// import { Link } from 'react-router-dom';
-
 import CreateRound from './CreateRound';
 
 class RoundDetails extends Component {
