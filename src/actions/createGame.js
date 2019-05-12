@@ -2,9 +2,6 @@ import {
   ADD_GAME_START,
   ADD_GAME_SUCCESS,
   ADD_GAME_FAILURE,
-  CREATE_ROUND_FOR_NEW_GAME_START,
-  CREATE_ROUND_FOR_NEW_GAME_SUCCESS,
-  CREATE_ROUND_FOR_NEW_GAME_FAILURE,
   UPDATE_GAME_DETAILS_START,
   UPDATE_GAME_DETAILS_SUCCESS,
   UPDATE_GAME_DETAILS_FAILURE,
@@ -42,7 +39,10 @@ export const createNewGame = newGame => async dispatch => {
 export const updateGame = (game, id) => async dispatch => {
   dispatch({ type: UPDATE_GAME_DETAILS_START });
   try {
-    const success = await serverHandshake(true).put(`/games/${id}`, game);
+    const success = await serverHandshake(true).put(
+      `/games/nested/${id}`,
+      game
+    );
     dispatch({
       type: UPDATE_GAME_DETAILS_SUCCESS,
       payload: success.data
