@@ -6,7 +6,8 @@ import {
   EDIT_QUESTION_SUCCESS,
   DELETE_QUESTION_SUCCESS,
   EDIT_ROUND_SUCCESS,
-  GET_NEW_ROUND_QUESTIONS_SUCCESS
+  GET_NEW_ROUND_QUESTIONS_SUCCESS,
+  ADD_CUSTOM_QUESTION
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -34,6 +35,11 @@ const byId = (state = {}, action) => {
         ...state,
         [action.payload.result]:
           action.payload.entities.questions[action.payload.result]
+      };
+    case ADD_CUSTOM_QUESTION:
+      return {
+        ...state,
+        [action.payload.id]: action.payload
       };
     case DELETE_QUESTION_SUCCESS:
       const { [action.payload]: omit, ...nextState } = state;
@@ -64,6 +70,8 @@ const allIds = (state = [], action) => {
           a => state.indexOf(a) === -1
         )
       );
+    case ADD_CUSTOM_QUESTION:
+      return [...state, action.payload.id];
     case DELETE_QUESTION_SUCCESS:
       return state.filter(id => id !== action.payload);
     default:
