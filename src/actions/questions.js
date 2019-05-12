@@ -18,11 +18,16 @@ import {
   FETCH_OPENTDB_QUESTIONS_SUCCESS,
   FETCH_OPENTDB_QUESTIONS_FAILURE,
   ADD_CUSTOM_QUESTION,
+  CHANGE_QUESTION_START,
+  CHANGE_QUESTION_SUCCESS,
+  CHANGE_QUESTION_FAILURE,
+  UNDO,
   DELETE_STATE_QUESTION
 } from './types';
 
 import axios from 'axios';
 import serverHandshake from '../auth/serverHandshake';
+import { fetchQuestionsNormalized } from '../services/opentdb';
 
 export const fetchQuestions = () => async dispatch => {
   dispatch({ type: FETCH_QUESTIONS_START });
@@ -123,6 +128,37 @@ export const deleteQuestion = (id, round_id) => async dispatch => {
   }
 };
 
+export const changeQuestion = (
+  params,
+  categories,
+  types,
+  question
+) => async dispatch => {
+  dispatch({ type: CHANGE_QUESTION_START });
+  try {
+    const success = await fetchQuestionsNormalized(params, categories, types);
+    // add a valid round_id to these questions if we
+    // provided one
+    success.entities.questions = Object.keys(success.entities.questions).reduce(
+      (accu, cur) => ({
+        ...accu,
+        [cur]: { ...success.entities.questions[cur], round_id: question.round_id }
+      }),
+      {}
+    );
+    dispatch({
+      type: CHANGE_QUESTION_SUCCESS,
+      payload: success,
+      round_id: question.round_id,
+      originalId: question.id
+    });
+    return success;
+  } catch (err) {
+    dispatch({ type: CHANGE_QUESTION_FAILURE, payload: err });
+    return err;
+  }
+};
+
 export const addCustomQuestion = question => ({
   type: ADD_CUSTOM_QUESTION,
   payload: question
@@ -133,3 +169,9 @@ export const deleteStateQuestion = (id, round_id) => ({
   payload: id,
   round_id
 });
+
+// Undo a question change
+export const undo = originalQuestionId => ({
+  type: UNDO,
+  payload: originalQuestionId
+})

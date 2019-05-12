@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 import {
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTION_SUCCESS,
@@ -9,10 +11,12 @@ import {
   GET_NEW_ROUND_QUESTIONS_SUCCESS,
   ADD_CUSTOM_QUESTION,
   ADD_QUESTION_SUCCESS,
-  DELETE_STATE_QUESTION
+  DELETE_STATE_QUESTION,
+  CHANGE_QUESTION_SUCCESS,
+  UNDO
 } from '../actions/types';
 
-import { combineReducers } from 'redux';
+import question from './question';
 
 // add question, account for dealing with questions
 // previously only stored in redux (not on backend)
@@ -69,6 +73,21 @@ const byId = (state = {}, action) => {
     case DELETE_QUESTION_SUCCESS:
       const { [action.payload]: omit, ...nextState } = state;
       return nextState;
+    case CHANGE_QUESTION_SUCCESS:
+      // add the question, then adjust original question's history
+      return {
+        ...state,
+        ...action.payload.entities.questions,
+        [action.originalId]: question(
+          state[action.originalId],
+          action
+        )
+      };
+    case UNDO:
+      return {
+        ...state,
+        [action.payload]: question(state[action.payload], action)
+      };
     default:
       return state;
   }
@@ -89,6 +108,7 @@ const allIds = (state = [], action) => {
       return state.indexOf(action.payload.result) > -1
         ? state
         : [...state, action.payload.result];
+    case CHANGE_QUESTION_SUCCESS:
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
       return state.concat(
         Object.keys(action.payload.entities.questions).filter(

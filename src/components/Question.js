@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import he from 'he';
 import {
@@ -7,41 +7,50 @@ import {
   getAllQuestionTypes,
   getQuestionTypeById
 } from '../reducers';
-import { fetchQuestionsFormatted } from '../services/opentdb';
 import {
   editQuestion,
   deleteQuestion,
   deleteStateQuestion,
-  addQuestion
+  addQuestion,
+  changeQuestion,
+  undo
 } from '../actions';
 import Answer from './Answer';
 
 const Question = ({
   question,
-  editQuestion,
+  // editQuestion,
   categories,
   types,
   typeText,
   categoriesById,
   deleteQuestion,
   deleteStateQuestion,
-  addQuestion
+  // addQuestion,
+  changeQuestion,
+  questionsById,
+  undo
 }) => {
-  const [versions, setVersions] = useState([]);
-  const currentVersion = versions[versions.length - 1];
-  const undo = () => setVersions(versions.slice(0, -1));
+  // const [versions, setVersions] = useState([]);
+  // const currentVersion = versions[versions.length - 1];
+  // const undo = () => setVersions(versions.slice(0, -1));
+  const canUndo = question.changes && question.changes.length > 0;
+  const currentQuestion = canUndo
+    ? questionsById[question.changes[question.changes.length - 1]]
+    : question;
 
-  const save = () =>
-    question.isCustom || question.fromOtdb
-      ? addQuestion(currentVersion, question.id)
-      : editQuestion(question.id, currentVersion).then(() => setVersions([]));
+  // const save = () =>
+  //   question.isCustom || question.fromOtdb
+  //     ? addQuestion(currentVersion, question.id)
+  //     : editQuestion(question.id, currentVersion).then(() => setVersions([]));
 
   const remove = () =>
-    question.fromOtdb
+    question.fromOtdb || question.isCustom
       ? deleteStateQuestion(question.id, question.round_id) // question is only in state
       : deleteQuestion(question.id, question.round_id); // question is on our backend
+
   const fetchAnotherQuestion = () => {
-    fetchQuestionsFormatted(
+    changeQuestion(
       {
         amount: 1,
         // category: categoryId,
@@ -52,8 +61,9 @@ const Question = ({
         difficulty: question.difficulty
       },
       categories,
-      types
-    ).then(([q]) => setVersions([...versions, q]));
+      types,
+      question
+    );
   };
 
   if (!question) {
@@ -61,30 +71,29 @@ const Question = ({
   }
 
   // If no other versions, use the question from state
-  if (!currentVersion) {
-    return (
-      <div>
-        <strong>{he.decode(question.text)}</strong>
-        <button onClick={fetchAnotherQuestion}>change</button>
-        <button onClick={remove}>
-          delete
-        </button>
-        {question.answers &&
-          question.answers.map(a => <Answer answerId={a} key={a} />)}
-      </div>
-    );
-  }
+  // if (!currentVersion) {
+  //   return (
+  //     <div>
+  //       <strong>{he.decode(question.text)}</strong>
+  //       <button onClick={fetchAnotherQuestion}>change</button>
+  //       <button onClick={remove}>delete</button>
+  //       {question.answers &&
+  //         question.answers.map(a => <Answer answerId={a} key={a} />)}
+  //     </div>
+  //   );
+  // }
 
   // Otherwise, use the latest version
   return (
     <div>
-      <strong>{he.decode(currentVersion.text)}</strong>
+      <strong>{he.decode(currentQuestion.text)}</strong>
       <button onClick={fetchAnotherQuestion}>change</button>
-      <button onClick={undo}>undo</button>
-      <button onClick={save}>save</button>
+      {canUndo && <button onClick={() => undo(question.id)}>undo</button>}
+      {/* <button onClick={save}>save</button> */}
       <button onClick={remove}>delete</button>
-      {currentVersion.answers.map((a, idx) => (
-        <div key={`q${question.id}a${idx}`}>- {a.text}</div>
+      {currentQuestion.answers && currentQuestion.answers.map(a => (
+        <Answer answerId={a} key={a}/>
+        //<div key={`q${question.id}a${idx}`}>- {a.text}</div>
       ))}
     </div>
   );
@@ -103,11 +112,19 @@ const mapStateToProps = (state, ownProps) => {
     categories,
     types,
     typeText,
-    categoriesById: state.categories.byId
+    categoriesById: state.categories.byId,
+    questionsById: state.questions.byId
   };
 };
 
 export default connect(
   mapStateToProps,
-  { editQuestion, deleteQuestion, addQuestion, deleteStateQuestion }
+  {
+    changeQuestion,
+    editQuestion,
+    deleteQuestion,
+    addQuestion,
+    deleteStateQuestion,
+    undo
+  }
 )(Question);
