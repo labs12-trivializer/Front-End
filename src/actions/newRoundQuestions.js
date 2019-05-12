@@ -23,6 +23,8 @@ export const fetchNewRoundQuestions = (
       categories,
       types
     ).then(res => {
+      // add a valid round_id to these questions if we
+      // provided one
       res.entities.questions = Object.keys(res.entities.questions).reduce(
         (accu, cur) => ({
           ...accu,
