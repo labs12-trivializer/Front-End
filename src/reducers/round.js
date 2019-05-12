@@ -1,7 +1,9 @@
 import {
   DELETE_QUESTION_SUCCESS,
+  DELETE_STATE_QUESTION,
   GET_NEW_ROUND_QUESTIONS_SUCCESS,
-  ADD_CUSTOM_QUESTION
+  ADD_CUSTOM_QUESTION,
+  ADD_QUESTION_SUCCESS
 } from '../actions/types';
 
 const removeQuestion = (round, questionId) => {
@@ -25,8 +27,19 @@ const round = (state, action) => {
         ...state,
         questions: [...state.questions, ...action.payload.result]
       };
+    case DELETE_STATE_QUESTION:
     case DELETE_QUESTION_SUCCESS:
       return removeQuestion(state, action.payload);
+    case ADD_QUESTION_SUCCESS:
+      return action.updateId
+        ? {
+            ...state,
+            questions: [
+              ...state.questions.filter(id => id !== action.updateId),
+              action.payload.result
+            ]
+          }
+        : { ...state, questions: [...state.questions, action.payload.result] };
     default:
       return state;
   }
