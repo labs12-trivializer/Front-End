@@ -76,6 +76,25 @@ const Question = React.forwardRef(
       );
     };
 
+    const changePosition = (e) => {
+      // console.log('Questions By Id: ', Object.keys(questionsById).map(q => questionsById[q]))
+      let questionsArr = Object.keys(questionsById).map(q => questionsById[q]);
+      const index = questionsArr.findIndex(q => q.id === question.id)
+
+      // console.log('Before: ', questionsArr)
+      
+      if (e.target.innerText === 'Move Up' && index !== 0) {
+        [questionsArr[index], questionsArr[index - 1]] = [questionsArr[index - 1], questionsArr[index]];
+      } else if (e.target.innerText === 'Move Down' && index !== questionsArr.length - 1) {
+        [questionsArr[index], questionsArr[index + 1]] = [questionsArr[index + 1], questionsArr[index]];
+      } else {
+        return null;
+      }
+      
+      questionsArr = Object.assign({}, ...questionsArr.map((q, i) => ({[i]: q})));
+      console.log('TEST: ', questionsArr)
+    }
+
     if (!question) {
       return null;
     }
@@ -88,6 +107,10 @@ const Question = React.forwardRef(
         <button onClick={remove}>delete</button>
         {currentQuestion.answers &&
           currentQuestion.answers.map(a => <Answer answerId={a} key={a} />)}
+        <div>
+          <button onClick={e => changePosition(e)}>Move Up</button>
+          <button onClick={e => changePosition(e)}>Move Down</button>
+        </div>
       </div>
     );
   }
