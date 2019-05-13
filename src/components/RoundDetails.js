@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import { fetchRound, clearNewRoundQuestions, editRound } from '../actions';
 import { getAllCategories, getQuestionById, getRoundById } from '../reducers';
@@ -82,11 +84,13 @@ class RoundDetails extends Component {
         <p>{this.props.round.game_id}</p>
         <p>{this.props.round.created_at}</p>
         <p>{this.props.round.updated_at}</p>
-        <ul>
-          {this.props.round.questions.map(q => (
-            <Question questionId={q} key={`q${q}`} />
-          ))}
-        </ul>
+        <DragDropContextProvider backend={HTML5Backend}>
+          <ul>
+            {this.props.round.questions.map(q => (
+              <Question questionId={q} key={`q${q}`} />
+            ))}
+          </ul>
+        </DragDropContextProvider>
         <CustomQuestionForm roundId={this.props.round.id} />
       </div>
     );
