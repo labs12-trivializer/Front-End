@@ -21,6 +21,7 @@ const byId = (state = {}, action) => {
   switch (action.type) {
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
     case ADD_QUESTION_SUCCESS:
+    case ADD_CUSTOM_QUESTION:
     case DELETE_QUESTION_SUCCESS:
     case DELETE_STATE_QUESTION:
       return action.round_id
@@ -35,7 +36,6 @@ const byId = (state = {}, action) => {
               action
             )
           };
-    case ADD_CUSTOM_QUESTION:
     case DRAG_DROP_QUESTION:
       return {
         ...state,

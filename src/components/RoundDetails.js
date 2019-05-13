@@ -97,7 +97,7 @@ class RoundDetails extends Component {
         <p>{this.props.round.game_id}</p>
         <p>{this.props.round.created_at}</p>
         <p>{this.props.round.updated_at}</p>
-        <ul style={{ width: 400 }}>
+        <ul>
           {this.props.round.questions.map((q, idx) => (
             <Question
               questionId={q}
