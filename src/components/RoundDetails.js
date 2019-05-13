@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import he from 'he';
 
-import { fetchRound, clearNewRoundQuestions, editRound } from '../actions';
+import {
+  fetchRound,
+  clearNewRoundQuestions,
+  editRound,
+  dragDropQuestion
+} from '../actions';
 import { getAllCategories, getQuestionById, getRoundById } from '../reducers';
 import Question from './Question';
-// import { Link } from 'react-router-dom';
 
 import NewQuestionGetter from './NewQuestionGetter';
 import CustomQuestionForm from './CustomQuestionForm';
@@ -18,19 +21,18 @@ class RoundDetails extends Component {
     }
   };
 
-  // componentWillUnmount = () => {
-  //   // Dispatch action to remove 'newRoundQuestions' from Redux store
-  //   this.props.clearNewRoundQuestions();
-  // };
-
   // Rebuild a nested object for a round, lose properties
   // that the backend doesn't like (can probably be fixed with Joi)
   nestedRound = () => {
-    const { round, questionsById, answersById } = this.props;
+    const {
+      round: { dirty: omit, ...round },
+      questionsById,
+      answersById
+    } = this.props;
 
     return {
       ...round,
-      questions: round.questions.map(q => {
+      questions: round.questions.map((q, idx) => {
         // have to check if the original question had changes
         // if so, we save use the last change instead
         const { changes, ...originalQuestion } = questionsById[q];
@@ -47,20 +49,28 @@ class RoundDetails extends Component {
 
         return {
           ...question,
+          position: idx,
           answers: question.answers
-            ? question.answers.map(a => {
+            ? question.answers.map((a, idx) => {
                 const {
                   fromOtdb: omit1,
                   id: omit2,
                   isCustom: omit3,
                   ...answer
                 } = answersById[a];
+                answer.position = idx;
                 return answer;
               })
             : []
         };
       })
     };
+  };
+
+  // call back for when a dragged question hovers another question
+  // questions are both drag targets and drop targets
+  moveQuestion = (dragIndex, hoverIndex) => {
+    this.props.dragDropQuestion(this.props.round.id, dragIndex, hoverIndex);
   };
 
   render() {
@@ -70,29 +80,12 @@ class RoundDetails extends Component {
 
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
-    // if (this.props.round.questions < 1) {
-    //   return (
-    //     <div>
-    //       <NewQuestionGetter roundId={this.props.round.id} />
-    //       <p>{this.props.round.game_id}</p>
-    //       <p>{this.props.round.created_at}</p>
-    //       <p>{this.props.round.updated_at}</p>
-    //       <ul>
-    //         {this.props.newRoundQuestions.map(q => (
-    //           <Question questionId={q} key={q} />
-    //         ))}
-    //       </ul>
-    //     </div>
-    //   );
-    // }
-
-    // console.log('QUESTIONS', this.props.round.questions);
     return (
       <div>
         {this.props.dbQuestionCount === 0 && (
           <NewQuestionGetter roundId={this.props.round.id} />
         )}
-        {newQuestionCount > 0 && (
+        {(newQuestionCount > 0 || this.props.round.dirty) && (
           <button
             onClick={() =>
               this.props.editRound(this.props.round.id, this.nestedRound())
@@ -104,9 +97,14 @@ class RoundDetails extends Component {
         <p>{this.props.round.game_id}</p>
         <p>{this.props.round.created_at}</p>
         <p>{this.props.round.updated_at}</p>
-        <ul>
-          {this.props.round.questions.map(q => (
-            <Question questionId={q} key={`q${q}`} />
+        <ul style={{ width: 400 }}>
+          {this.props.round.questions.map((q, idx) => (
+            <Question
+              questionId={q}
+              key={`q${q}`}
+              index={idx}
+              moveQuestion={this.moveQuestion}
+            />
           ))}
         </ul>
         <CustomQuestionForm roundId={this.props.round.id} />
@@ -140,6 +138,7 @@ export default connect(
   {
     fetchRound,
     clearNewRoundQuestions,
-    editRound
+    editRound,
+    dragDropQuestion
   }
 )(RoundDetails);
