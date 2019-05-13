@@ -30,7 +30,8 @@ const dragDropQuestion = (round, { dragIndex, hoverIndex }) => {
   const newQuestions = arrayMove([...round.questions], dragIndex, hoverIndex);
   return {
     ...round,
-    questions: newQuestions
+    questions: newQuestions,
+    dirty: true
   };
 };
 
