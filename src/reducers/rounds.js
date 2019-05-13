@@ -8,7 +8,8 @@ import {
   EDIT_ROUND_SUCCESS,
   ADD_CUSTOM_QUESTION,
   ADD_QUESTION_SUCCESS,
-  DELETE_STATE_QUESTION
+  DELETE_STATE_QUESTION,
+  DRAG_DROP_QUESTION
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -34,6 +35,7 @@ const byId = (state = {}, action) => {
             )
           };
     case ADD_CUSTOM_QUESTION:
+    case DRAG_DROP_QUESTION:
       return {
         ...state,
         [action.payload.round_id]: round(state[action.payload.round_id], action)

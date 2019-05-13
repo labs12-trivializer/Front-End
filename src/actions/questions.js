@@ -22,7 +22,8 @@ import {
   CHANGE_QUESTION_SUCCESS,
   CHANGE_QUESTION_FAILURE,
   UNDO,
-  DELETE_STATE_QUESTION
+  DELETE_STATE_QUESTION,
+  DRAG_DROP_QUESTION
 } from './types';
 
 import axios from 'axios';
@@ -142,7 +143,10 @@ export const changeQuestion = (
     success.entities.questions = Object.keys(success.entities.questions).reduce(
       (accu, cur) => ({
         ...accu,
-        [cur]: { ...success.entities.questions[cur], round_id: question.round_id }
+        [cur]: {
+          ...success.entities.questions[cur],
+          round_id: question.round_id
+        }
       }),
       {}
     );
@@ -174,4 +178,14 @@ export const deleteStateQuestion = (id, round_id) => ({
 export const undo = originalQuestionId => ({
   type: UNDO,
   payload: originalQuestionId
-})
+});
+
+// Drag/Drop action to reorder questions in state
+export const dragDropQuestion = (round_id, dragIndex, hoverIndex) => ({
+  type: DRAG_DROP_QUESTION,
+  payload: {
+    round_id,
+    dragIndex,
+    hoverIndex
+  }
+});

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { DragDropContextProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 
-import { fetchRound, clearNewRoundQuestions, editRound } from '../actions';
+import {
+  fetchRound,
+  clearNewRoundQuestions,
+  editRound,
+  dragDropQuestion
+} from '../actions';
 import { getAllCategories, getQuestionById, getRoundById } from '../reducers';
 import Question from './Question';
 
@@ -21,7 +24,11 @@ class RoundDetails extends Component {
   // Rebuild a nested object for a round, lose properties
   // that the backend doesn't like (can probably be fixed with Joi)
   nestedRound = () => {
-    const { round, questionsById, answersById } = this.props;
+    const {
+      round: { dirty: omit, ...round },
+      questionsById,
+      answersById
+    } = this.props;
 
     return {
       ...round,
@@ -60,6 +67,12 @@ class RoundDetails extends Component {
     };
   };
 
+  // call back for when a dragged question hovers another question
+  // questions are both drag targets and drop targets
+  moveQuestion = (dragIndex, hoverIndex) => {
+    this.props.dragDropQuestion(this.props.round.id, dragIndex, hoverIndex);
+  };
+
   render() {
     if (!this.props.round || !this.props.round.game_id) {
       return <div>Loading...</div>;
@@ -72,7 +85,7 @@ class RoundDetails extends Component {
         {this.props.dbQuestionCount === 0 && (
           <NewQuestionGetter roundId={this.props.round.id} />
         )}
-        {newQuestionCount > 0 && (
+        {(newQuestionCount > 0 || this.props.round.dirty) && (
           <button
             onClick={() =>
               this.props.editRound(this.props.round.id, this.nestedRound())
@@ -84,13 +97,16 @@ class RoundDetails extends Component {
         <p>{this.props.round.game_id}</p>
         <p>{this.props.round.created_at}</p>
         <p>{this.props.round.updated_at}</p>
-        <DragDropContextProvider backend={HTML5Backend}>
-          <ul>
-            {this.props.round.questions.map(q => (
-              <Question questionId={q} key={`q${q}`} />
-            ))}
-          </ul>
-        </DragDropContextProvider>
+        <ul style={{ width: 400 }}>
+          {this.props.round.questions.map((q, idx) => (
+            <Question
+              questionId={q}
+              key={`q${q}`}
+              index={idx}
+              moveQuestion={this.moveQuestion}
+            />
+          ))}
+        </ul>
         <CustomQuestionForm roundId={this.props.round.id} />
       </div>
     );
@@ -122,6 +138,7 @@ export default connect(
   {
     fetchRound,
     clearNewRoundQuestions,
-    editRound
+    editRound,
+    dragDropQuestion
   }
 )(RoundDetails);
