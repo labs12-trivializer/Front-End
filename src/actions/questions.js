@@ -16,7 +16,8 @@ import {
   DELETE_QUESTION_FAILURE,
   FETCH_OPENTDB_QUESTIONS_START,
   FETCH_OPENTDB_QUESTIONS_SUCCESS,
-  FETCH_OPENTDB_QUESTIONS_FAILURE
+  FETCH_OPENTDB_QUESTIONS_FAILURE,
+  ADD_CUSTOM_QUESTION
 } from './types';
 
 import axios from 'axios';
@@ -95,10 +96,17 @@ export const addQuestion = questionData => async dispatch => {
   dispatch({ type: ADD_QUESTION_START });
   try {
     const success = await serverHandshake(true).post(
-      '/questions',
+      '/questions/nested',
       questionData
     );
-    dispatch({ type: ADD_QUESTION_SUCCESS, payload: success.data });
+
+    questionData.isCustom
+      ? dispatch({
+          type: ADD_QUESTION_SUCCESS,
+          payload: success.data,
+          previous_id: questionData.id
+        })
+      : dispatch({ type: ADD_QUESTION_SUCCESS, payload: success.data });
     return success;
   } catch (error) {
     dispatch({ type: ADD_QUESTION_FAILURE, payload: error });
@@ -136,3 +144,8 @@ export const deleteQuestion = (id, round_id) => async dispatch => {
     return error;
   }
 };
+
+export const addCustomQuestion = question => ({
+  type: ADD_CUSTOM_QUESTION,
+  payload: question
+});

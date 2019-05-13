@@ -7,8 +7,9 @@ export * from './categories';
 export * from './newRoundQuestions';
 export * from './auth';
 export * from './questionTypes';
+export * from './createGame';
 
-export const testAction = (profile) => ({
+export const testAction = profile => ({
   type: 'TEST_ACTION',
   payload: profile
 });

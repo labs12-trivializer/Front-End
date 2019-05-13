@@ -12,16 +12,17 @@ const opentdb = () => {
 export default opentdb;
 
 // return a promse that fetches from opentdb
-// common params: { amount, category, difficulty, type }
-export const fetchQuestions = params => {
-  // params.amount = Number(params.amount);
-  const queryString = `?amount=${params.amount}${
-    params.category === 'any' ? '' : `&category=${params.category}`
-  }${params.difficulty === 'any' ? '' : `&difficulty=${params.difficulty}`}${
-    params.type === 'any' ? '' : `&type=${params.type}`
-  }`;
+// possible params: { amount, category, difficulty, type }
+export const fetchQuestions = ({ amount, category, difficulty, type }) => {
 
-  return opentdb().get(`/${queryString}`);
+  return opentdb().get('/', {
+    params: {
+      amount: amount === 'any' ? null : amount,
+      category: category === 'any' ? null : category,
+      type: type === 'any' ? null : type,
+      difficulty: difficulty === 'any' ? null : difficulty
+    }
+  });
 };
 
 export const formatOpentdbResponse = (response, categories, types) =>
@@ -85,4 +86,6 @@ export const normalizeNestedResponse = nestedQuestions => {
 
 // fetch questions, format them to match our db, normalize the result
 export const fetchQuestionsNormalized = (params, categories, types) =>
-  fetchQuestionsFormatted(params, categories, types).then(normalizeNestedResponse)
+  fetchQuestionsFormatted(params, categories, types).then(
+    normalizeNestedResponse
+  );

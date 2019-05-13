@@ -8,7 +8,7 @@ import {
   getQuestionTypeById
 } from '../reducers';
 import { fetchQuestionsFormatted } from '../services/opentdb';
-import { editQuestion, deleteQuestion } from '../actions';
+import { editQuestion, deleteQuestion, addQuestion } from '../actions';
 import Answer from './Answer';
 
 const Question = ({
@@ -18,14 +18,18 @@ const Question = ({
   types,
   typeText,
   categoriesById,
-  deleteQuestion
+  deleteQuestion,
+  addQuestion
 }) => {
   const [versions, setVersions] = useState([]);
   const currentVersion = versions[versions.length - 1];
   const undo = () => setVersions(versions.slice(0, -1));
 
-  const save = () =>
-    editQuestion(question.id, currentVersion).then(() => setVersions([]));
+  const save = () => {
+    question.isCustom
+      ? addQuestion(currentVersion)
+      : editQuestion(question.id, currentVersion).then(() => setVersions([]));
+  };
 
   const fetchAnotherQuestion = () => {
     fetchQuestionsFormatted(
@@ -38,7 +42,7 @@ const Question = ({
       categories,
       types
     ).then(([q]) => setVersions([...versions, q]));
-  }
+  };
 
   if (!question) {
     return null;
@@ -47,10 +51,11 @@ const Question = ({
       <div>
         <strong>{he.decode(question.text)}</strong>
         <button onClick={fetchAnotherQuestion}>change</button>
-        <button onClick={() => deleteQuestion(question.id, question.round_id)}>delete</button>
-        {question.answers.map(a => (
-          <Answer answerId={a} key={a} />
-        ))}
+        <button onClick={() => deleteQuestion(question.id, question.round_id)}>
+          delete
+        </button>
+        {question.answers &&
+          question.answers.map(a => <Answer answerId={a} key={a} />)}
       </div>
     );
   }
@@ -61,7 +66,9 @@ const Question = ({
       <button onClick={fetchAnotherQuestion}>change</button>
       <button onClick={undo}>undo</button>
       <button onClick={save}>save</button>
-      <button onClick={() => deleteQuestion(question.id, question.round_id)}>delete</button>
+      <button onClick={() => deleteQuestion(question.id, question.round_id)}>
+        delete
+      </button>
       {currentVersion.answers.map((a, idx) => (
         <div key={`q${question.id}a${idx}`}>- {a.text}</div>
       ))}
@@ -86,5 +93,5 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { editQuestion, deleteQuestion }
+  { editQuestion, deleteQuestion, addQuestion }
 )(Question);
