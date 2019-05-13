@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import NewQuestionGetter from './NewQuestionGetter';
 
 import { fetchGame, addRound, updateGame } from '../actions';
-import Round from './Round';
 
 class CreateGame extends Component {
   state = {
@@ -75,9 +75,12 @@ class CreateGame extends Component {
           <p>{this.props.game && this.props.game.name}</p>
           <ul>
             {this.props.game.rounds.map(r => (
-              <li key={`round${r}`}>
-                <Round roundId={r} />
-              </li>
+              <div>
+                <NewQuestionGetter roundId={r} />
+                <Link to={`/rounds/${r}`}>
+                  <button>Review Round</button>
+                </Link>
+              </div>
             ))}
           </ul>
           <div>
