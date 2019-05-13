@@ -1,6 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { Router, Route } from 'react-router-dom';
 import Reset from '../styles/reset.css';
 import GlobalStyles from '../styles/global.css';
@@ -30,64 +32,46 @@ const handleAuthentication = ({ location }) => {
 const Root = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <Router history={history}>
-        <React.Fragment>
-          <Reset />
-          <GlobalStyles />
-          <Route
-            path="/"
-            render={props =>
-              props.location.pathname !== '/callback' && (
-                <Menu auth={auth} {...props} />
-              )
-            }
-          />
-          <Route
-            exact
-            path="/"
-            render={props => <Landing auth={auth} {...props} />}
-          />
-          <Route
-            path="/callback"
-            render={props => {
-              handleAuthentication(props);
-              return <Callback {...props} />;
-            }}
-          />
-          <PrivateRoute
-            path="/home"
-            component={Home}
-          />
-          <PrivateRoute
-            exact
-            path="/games"
-            component={Games}
-          />
-          <PrivateRoute
-            path="/games/:id"
-            component={Game}
-          />
-          {/* <PrivateRoute
+      <DragDropContextProvider backend={HTML5Backend}>
+        <Router history={history}>
+          <React.Fragment>
+            <Reset />
+            <GlobalStyles />
+            <Route
+              path="/"
+              render={props =>
+                props.location.pathname !== '/callback' && (
+                  <Menu auth={auth} {...props} />
+                )
+              }
+            />
+            <Route
+              exact
+              path="/"
+              render={props => <Landing auth={auth} {...props} />}
+            />
+            <Route
+              path="/callback"
+              render={props => {
+                handleAuthentication(props);
+                return <Callback {...props} />;
+              }}
+            />
+            <PrivateRoute path="/home" component={Home} />
+            <PrivateRoute exact path="/games" component={Games} />
+            <PrivateRoute path="/games/:id" component={Game} />
+            {/* <PrivateRoute
             exact
             path="/rounds"
             render={props => <Rounds auth={auth} {...props} />}
           /> */}
-          <PrivateRoute
-            exact
-            path="/rounds/:id"
-            component={RoundDetails}
-          />
-          <PrivateRoute
-            path="/create"
-            component={CreateGame}
-          />
-          <PrivateRoute path="/profile" component={Profile} />
-          <PrivateRoute
-            path="/billing"
-            component={CheckoutForm}
-          />
-        </React.Fragment>
-      </Router>
+            <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
+            <PrivateRoute path="/create" component={CreateGame} />
+            <PrivateRoute path="/profile" component={Profile} />
+            <PrivateRoute path="/billing" component={CheckoutForm} />
+          </React.Fragment>
+        </Router>
+      </DragDropContextProvider>
     </PersistGate>
   </Provider>
 );

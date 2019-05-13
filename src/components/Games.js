@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import waitForLogin from './waitForLogin';
 import { getAllGames } from '../reducers';
-import { fetchGames } from '../actions';
+import { fetchGames, createNewGame } from '../actions';
 
 class Games extends Component {
   // constructor(props) {
@@ -31,7 +31,14 @@ class Games extends Component {
         {this.props.games.length >= this.props.gameLimit ? (
           <Link to="/billing">Upgrade For more games</Link>
         ) : (
-          <Link to="/create">Create New Game</Link>
+          <Link
+            onClick={() =>
+              this.props.createNewGame({ name: 'New Game ' + Date.now() })
+            }
+            to="/create"
+          >
+            Create New Game
+          </Link>
         )}
       </div>
     );
@@ -47,7 +54,8 @@ export default waitForLogin(
   connect(
     mapStateToProps,
     {
-      fetchGames
+      fetchGames,
+      createNewGame
     }
   )(Games)
 );
