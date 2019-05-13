@@ -3,8 +3,13 @@ import {
   FETCH_ROUND_SUCCESS,
   FETCH_GAME_SUCCESS,
   DELETE_QUESTION_SUCCESS,
+  ADD_ROUND_SUCCESS,
   GET_NEW_ROUND_QUESTIONS_SUCCESS,
-  EDIT_ROUND_SUCCESS
+  EDIT_ROUND_SUCCESS,
+  ADD_CUSTOM_QUESTION,
+  ADD_QUESTION_SUCCESS,
+  DELETE_STATE_QUESTION,
+  DRAG_DROP_QUESTION
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -14,18 +19,33 @@ import round from './round';
 const byId = (state = {}, action) => {
   switch (action.type) {
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
+    case ADD_QUESTION_SUCCESS:
     case DELETE_QUESTION_SUCCESS:
+    case DELETE_STATE_QUESTION:
       return action.round_id
         ? {
             ...state,
             [action.round_id]: round(state[action.round_id], action)
           }
-        : state;
+        : {
+            ...state,
+            [action.payload.round_id]: round(
+              state[action.payload.round_id],
+              action
+            )
+          };
+    case ADD_CUSTOM_QUESTION:
+    case DRAG_DROP_QUESTION:
+      return {
+        ...state,
+        [action.payload.round_id]: round(state[action.payload.round_id], action)
+      };
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUNDS_SUCCESS:
       return {
         ...action.payload.entities.rounds
       };
+    case ADD_ROUND_SUCCESS:
     case EDIT_ROUND_SUCCESS:
     case FETCH_ROUND_SUCCESS:
       return {
@@ -46,6 +66,7 @@ const allIds = (state = [], action) => {
     case FETCH_GAME_SUCCESS:
     case FETCH_ROUNDS_SUCCESS:
       return Object.keys(action.payload.entities.rounds);
+    case ADD_ROUND_SUCCESS:
     case EDIT_ROUND_SUCCESS:
     case FETCH_ROUND_SUCCESS:
       return state.indexOf(action.payload.result) > -1

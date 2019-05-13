@@ -1,64 +1,30 @@
-import React, { Component } from "react";
-import CreateRound from "./CreateRound";
-import { connect } from "react-redux";
-import { getAllCategories } from "../reducers";
-import serverHandshake from "../auth/serverHandshake";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+// import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import NewQuestionGetter from './NewQuestionGetter';
+
+import { fetchGame, addRound, updateGame } from '../actions';
 
 class CreateGame extends Component {
   state = {
-    user_id: null,
-    name: "New Game " + Date.now(),
-    game_id: null,
-    rounds_ids: [],
-    nextRoundNumber: 1,
-    date_to_be_played: ""
+    name: '',
+    date_to_be_played: ' '
   };
 
-  //create a new game and the initial round on mount
-  async componentDidMount() {
-    // //create game in db
-    console.log("creating new game");
-    await serverHandshake(true)
-      .post("/games", { name: this.state.name })
-      .then(res => {
-        console.log("create game status", res.status);
-        this.setState({ game_id: res.data.id, user_id: res.data.user_id });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  componentDidMount = () => {
+    console.log('Game Info:', this.props.game);
+    this.props.fetchGame(this.props.game);
+  };
 
-    //make initial round in db
-    console.log("create initial round");
-    await serverHandshake(true)
-      .post("./rounds", {
-        game_id: this.state.game_id,
-        number: this.state.nextRoundNumber
-      })
-      .then(res => {
-        console.log("round created successfully", res);
-        this.setState({
-          nextRoundNumber: this.state.nextRoundNumber + 1,
-          rounds_ids: [...this.state.rounds_ids, res.data.id]
-        });
-      })
-      .catch(err => console.log("round add failed", err));
-  }
-
-  // creates a new round in database based on game_id in state and the current nextRoundNumber in state
-  addRoundToDb() {
-    serverHandshake(true)
-      .post("/rounds", {
-        game_id: this.state.game_id,
-        number: this.state.nextRoundNumber
-      })
-      .then(res => {
-        this.setState({
-          nextRoundNumber: this.state.nextRoundNumber + 1,
-          rounds_ids: [...this.state.rounds_ids, res.data.id]
-        });
-      })
-      .catch(err => console.log(err));
+  //save/update game info
+  updateGame() {
+    const saveGameObj = {
+      name: this.state.name,
+      date_to_be_played: this.state.date_to_be_played
+      // logo_url: ""
+    };
+    this.props.updateGame(saveGameObj, this.props.game.id);
   }
 
   //change handler
@@ -66,40 +32,27 @@ class CreateGame extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  //save game with updated info
-  updateGame() {
-    const saveGameObj = {
-      name: this.state.name,
-      date_to_be_played: this.state.date_to_be_played
-      // logo_url: ""
-    };
-    console.log(saveGameObj);
-    serverHandshake(true)
-      .put(`/games/${this.state.game_id}`, saveGameObj)
-      .then(res => console.log(res.data))
-      .catch(err => console.log("fail", err));
-  }
-
-  //delete round
-  deleteRound = async round_id => {
-    console.log("inside delete round", this.state.rounds_ids, round_id);
-    const removed = this.state.rounds_ids.filter(item => item !== round_id);
-    this.setState({ rounds_ids: removed });
-    const deleted = await serverHandshake(true).delete(`/rounds/${round_id}`);
-    console.log(deleted);
+  handleAddNewRound = async () => {
+    await this.props
+      .addRound(
+        {
+          game_id: this.props.game.id,
+          number: `${this.props.game.rounds.length + 1}`
+        },
+        this.props.game.id
+      )
+      .then(() => {
+        this.props.fetchGame(this.props.game.id);
+      });
   };
 
   render() {
-    if (this.state.nextRoundNumber < 1) {
-      return (
-        <>
-          <h2>Loading...</h2>
-        </>
-      );
+    if (!this.props.game) {
+      return <div>Loading...</div>;
     } else {
+      console.log('Rounds Info:', this.props.game.rounds);
       return (
-        <>
-          <h1>Create A Game:</h1>
+        <div>
           <div>
             <h3>Game Name:</h3>
             <input
@@ -118,33 +71,43 @@ class CreateGame extends Component {
               onChange={this.changeHandler}
             />
           </div>
-          {this.state.rounds_ids.map((round_id, index) => (
-            <CreateRound
-              game_id={this.state.game_id}
-              categories={this.props.categories}
-              key={round_id}
-              round_id={round_id}
-              user_id={this.state.user_id}
-              roundNumber={index + 1}
-              deleteRound={this.deleteRound}
-            />
-          ))}
-          <br />
-          <button onClick={() => this.addRoundToDb()}>Add Another Round</button>
+          <h1>Game</h1>
+          <p>{this.props.game && this.props.game.name}</p>
+          <ul>
+            {this.props.game.rounds.map(r => (
+              <div>
+                <NewQuestionGetter roundId={r} />
+                <Link to={`/rounds/${r}`}>
+                  <button>Review Round</button>
+                </Link>
+              </div>
+            ))}
+          </ul>
+          <div>
+            {this.props.game.rounds.length >= this.props.roundLimit ? (
+              <Link to="/billing">Upgrade to enable more rounds!</Link>
+            ) : (
+              <button onClick={this.handleAddNewRound}>New Round</button>
+            )}
+          </div>
           <button onClick={() => this.updateGame()}>Save Game</button>
-        </>
+        </div>
       );
     }
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    categories: getAllCategories(state)
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  game: state.games.byId[state.createGame],
+  roundLimit: state.profile.round_limit
+});
 
 export default connect(
   mapStateToProps,
-  null
+  {
+    fetchGame,
+    addRound,
+    updateGame
+    // withRouter
+  }
 )(CreateGame);

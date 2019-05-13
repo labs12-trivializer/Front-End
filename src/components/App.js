@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Styled from 'styled-components';
-
 class App extends Component {
   goTo = route => {
     this.props.history.replace(`/${route}`);
