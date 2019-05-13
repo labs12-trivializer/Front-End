@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import he from 'he';
 
 import { fetchRound, clearNewRoundQuestions, editRound } from '../actions';
 import { getAllCategories, getQuestionById, getRoundById } from '../reducers';
 import Question from './Question';
-// import { Link } from 'react-router-dom';
 
 import NewQuestionGetter from './NewQuestionGetter';
 import CustomQuestionForm from './CustomQuestionForm';
@@ -18,11 +16,6 @@ class RoundDetails extends Component {
     }
   };
 
-  // componentWillUnmount = () => {
-  //   // Dispatch action to remove 'newRoundQuestions' from Redux store
-  //   this.props.clearNewRoundQuestions();
-  // };
-
   // Rebuild a nested object for a round, lose properties
   // that the backend doesn't like (can probably be fixed with Joi)
   nestedRound = () => {
@@ -30,7 +23,7 @@ class RoundDetails extends Component {
 
     return {
       ...round,
-      questions: round.questions.map(q => {
+      questions: round.questions.map((q, idx) => {
         // have to check if the original question had changes
         // if so, we save use the last change instead
         const { changes, ...originalQuestion } = questionsById[q];
@@ -47,14 +40,16 @@ class RoundDetails extends Component {
 
         return {
           ...question,
+          position: idx,
           answers: question.answers
-            ? question.answers.map(a => {
+            ? question.answers.map((a, idx) => {
                 const {
                   fromOtdb: omit1,
                   id: omit2,
                   isCustom: omit3,
                   ...answer
                 } = answersById[a];
+                answer.position = idx;
                 return answer;
               })
             : []
@@ -70,23 +65,6 @@ class RoundDetails extends Component {
 
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
-    // if (this.props.round.questions < 1) {
-    //   return (
-    //     <div>
-    //       <NewQuestionGetter roundId={this.props.round.id} />
-    //       <p>{this.props.round.game_id}</p>
-    //       <p>{this.props.round.created_at}</p>
-    //       <p>{this.props.round.updated_at}</p>
-    //       <ul>
-    //         {this.props.newRoundQuestions.map(q => (
-    //           <Question questionId={q} key={q} />
-    //         ))}
-    //       </ul>
-    //     </div>
-    //   );
-    // }
-
-    // console.log('QUESTIONS', this.props.round.questions);
     return (
       <div>
         {this.props.dbQuestionCount === 0 && (
