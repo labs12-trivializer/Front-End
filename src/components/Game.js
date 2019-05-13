@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import { fetchGame, addRound } from '../actions';
+import { fetchGame, addRound, deleteRound } from '../actions';
 import Round from './Round';
 
 class Game extends Component {
@@ -26,6 +26,9 @@ class Game extends Component {
         this.props.fetchGame(this.props.match.params.id);
       });
   };
+  deleteRound = (round_id, game_id) => {
+    this.props.deleteRound(round_id, game_id);
+  };
 
   render() {
     if (!this.props.game || !this.props.game.rounds) {
@@ -40,6 +43,11 @@ class Game extends Component {
             {this.props.game.rounds.map(r => (
               <li key={`round${r}`}>
                 <Round roundId={r} />
+                <button
+                  onClick={() => this.props.deleteRound(r, this.props.game.id)}
+                >
+                  Delete Round
+                </button>
               </li>
             ))}
           </ul>
@@ -66,6 +74,7 @@ export default connect(
   {
     fetchGame,
     addRound,
-    withRouter
+    withRouter,
+    deleteRound
   }
 )(Game);
