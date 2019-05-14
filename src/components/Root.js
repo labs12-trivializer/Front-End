@@ -12,7 +12,8 @@ import Home from './Home';
 import Callback from './Callback';
 import Auth from '../auth';
 import history from '../history';
-import CheckoutForm from './stripe/CheckoutForm';
+// import CheckoutForm from './stripe/CheckoutForm';
+import Stripe from './stripe/CheckoutForm';
 import PrivateRoute from './PrivateRoute';
 import Profile from './Profile';
 import Games from './Games';
@@ -68,7 +69,7 @@ const Root = () => (
             <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
             <PrivateRoute path="/create" component={CreateGame} />
             <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/billing" component={CheckoutForm} />
+            <PrivateRoute path="/billing" component={Stripe} />
           </React.Fragment>
         </Router>
       </DragDropContextProvider>
