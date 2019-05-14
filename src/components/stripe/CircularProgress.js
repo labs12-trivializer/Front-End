@@ -95,11 +95,7 @@ class CircularIntegration extends React.Component {
     return (
       <div className={classes.root}>
         <div className={classes.wrapper}>
-          <Fab
-            color="primary"
-            className={buttonClassname}
-            onClick={this.handleButtonClick}
-          >
+          <Fab color="primary" className={buttonClassname}>
             {success ? <CheckIcon /> : <PaymentIcon />}
           </Fab>
           {loading && (
@@ -114,7 +110,7 @@ class CircularIntegration extends React.Component {
             disabled={loading}
             onClick={this.upgradeTier}
           >
-            Upgrade
+            Pay With Card
           </Button>
           {loading && (
             <CircularProgress size={24} className={classes.buttonProgress} />
