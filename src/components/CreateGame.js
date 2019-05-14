@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import NewQuestionGetter from './NewQuestionGetter';
 
-import { fetchGame, addRound, updateGame, deleteGame } from '../actions';
+import { fetchGame, addRound, updateGame, deleteGame, deleteRound } from '../actions';
 
 class CreateGame extends Component {
   state = {
@@ -51,6 +51,10 @@ class CreateGame extends Component {
       });
   };
 
+  deleteRound = (round_id, game_id) => {
+    this.props.deleteRound(round_id, game_id);
+  };
+
   render() {
     if (!this.props.game) {
       return <div>Loading...</div>;
@@ -85,6 +89,9 @@ class CreateGame extends Component {
                 <Link to={`/rounds/${r}`}>
                   <button>Review Round</button>
                 </Link>
+                <button onClick={() => this.deleteRound(r, this.props.game.id)}>
+                  Delete Round
+                </button>
               </div>
             ))}
           </ul>
@@ -92,7 +99,7 @@ class CreateGame extends Component {
             {this.props.game.rounds.length >= this.props.roundLimit ? (
               <Link to="/billing">Upgrade to enable more rounds!</Link>
             ) : (
-              <button onClick={this.handleAddNewRound}>New Round</button>
+              <button onClick={this.handleAddNewRound}>Add Round</button>
             )}
           </div>
           <button onClick={() => this.updateGame()}>Save Game</button>
@@ -114,7 +121,8 @@ export default connect(
     fetchGame,
     addRound,
     updateGame,
-    deleteGame
+    deleteGame,
+    deleteRound
     // withRouter
   }
 )(CreateGame);

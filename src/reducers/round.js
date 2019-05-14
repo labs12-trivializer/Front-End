@@ -38,11 +38,6 @@ const dragDropQuestion = (round, { dragIndex, hoverIndex }) => {
 // reducer for a single round
 const round = (state, action) => {
   switch (action.type) {
-    case ADD_CUSTOM_QUESTION:
-      return {
-        ...state,
-        questions: [...state.questions, action.payload.id]
-      };
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
       // spread the new question ids into this round's questions
       return {
@@ -52,6 +47,7 @@ const round = (state, action) => {
     case DELETE_STATE_QUESTION:
     case DELETE_QUESTION_SUCCESS:
       return removeQuestion(state, action.payload);
+    case ADD_CUSTOM_QUESTION:
     case ADD_QUESTION_SUCCESS:
       return action.updateId
         ? {

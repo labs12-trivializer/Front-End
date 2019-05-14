@@ -163,9 +163,10 @@ export const changeQuestion = (
   }
 };
 
-export const addCustomQuestion = question => ({
+export const addCustomQuestion = (normalizedQuestion, round_id) => ({
   type: ADD_CUSTOM_QUESTION,
-  payload: question
+  payload: normalizedQuestion,
+  round_id
 });
 
 export const deleteStateQuestion = (id, round_id) => ({

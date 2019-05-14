@@ -62,13 +62,9 @@ const byId = (state = {}, action) => {
         [action.payload.result]:
           action.payload.entities.questions[action.payload.result]
       };
+    case ADD_CUSTOM_QUESTION:
     case ADD_QUESTION_SUCCESS:
       return addQuestion(state, action);
-    case ADD_CUSTOM_QUESTION:
-      return {
-        ...state,
-        [action.payload.id]: action.payload
-      };
     case DELETE_STATE_QUESTION:
     case DELETE_QUESTION_SUCCESS:
       const { [action.payload]: omit, ...nextState } = state;
@@ -115,11 +111,10 @@ const allIds = (state = [], action) => {
           a => state.indexOf(a) === -1
         )
       );
-    case ADD_CUSTOM_QUESTION:
-      return [...state, action.payload.id];
     case DELETE_STATE_QUESTION:
     case DELETE_QUESTION_SUCCESS:
       return state.filter(id => id !== action.payload);
+    case ADD_CUSTOM_QUESTION:
     case ADD_QUESTION_SUCCESS:
       return action.updateId
         ? [...state.filter(id => id !== action.updateId), action.payload.result]

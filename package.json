@@ -12,6 +12,7 @@
     "cloudinary-react": "^1.1.0",
     "he": "^1.2.0",
     "react": "^16.8.6",
+    "react-albus": "^2.0.0",
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.8.6",
