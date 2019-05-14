@@ -13,6 +13,9 @@ import Question from './Question';
 import NewQuestionGetter from './NewQuestionGetter';
 import CustomQuestionForm from './CustomQuestionForm';
 
+import { Background } from '../styles/shared.css';
+import { Container } from '../styles/round.css';
+
 class RoundDetails extends Component {
   componentDidMount = () => {
     // fetch only if we don't have it
@@ -81,7 +84,8 @@ class RoundDetails extends Component {
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
     return (
-      <div>
+      <Container>
+        <Background />
         {this.props.dbQuestionCount === 0 && (
           <NewQuestionGetter roundId={this.props.round.id} />
         )}
@@ -109,7 +113,7 @@ class RoundDetails extends Component {
           ))}
         </ul>
         <CustomQuestionForm roundId={this.props.round.id} />
-      </div>
+      </Container>
     );
   }
 }
