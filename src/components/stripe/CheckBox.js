@@ -38,7 +38,7 @@ function Input(props) {
       </SubscriptionTiers>
     );
   } else {
-    return <h1>You are already a member of the highest tier</h1>;
+    return <div />;
   }
 }
 

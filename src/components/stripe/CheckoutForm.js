@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import CheckBox from './CheckBox';
 import { upgradeTier } from '../../actions';
+import CircularProgress from './CircularProgress';
 
 class _CheckoutForm extends Component {
   constructor(props) {
@@ -38,28 +39,23 @@ class _CheckoutForm extends Component {
   };
 
   render() {
-    if (this.props.profile.tier_name !== 'gold') {
-      return (
-        <div className="checkout">
-          <h2>Current Tier: {this.props.profile.tier_name}</h2>
-          <p>Payment Info:</p>
-          <CardElement />
-          <CheckBox
-            toggleBasic={this.toggleBasicPlan}
-            togglePremium={this.togglePremiumPlan}
-            tier={this.props.profile.tier_name}
-          />
-          <button onClick={this.upgradeTier}>Send</button>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <h2>Current Tier: {this.props.profile.tier_name}</h2>
-          <h1>You are already subscribed to the highest tier plan</h1>
-        </div>
-      );
-    }
+    return (
+      <div className="checkout">
+        <h2>Current Tier: {this.props.profile.tier_name}</h2>
+        <p>Payment Info:</p>
+        <CardElement />
+        <CheckBox
+          toggleBasic={this.toggleBasicPlan}
+          togglePremium={this.togglePremiumPlan}
+          tier={this.props.profile.tier_name}
+        />
+        <CircularProgress
+          basicPlan={this.state.basicPlan}
+          premiumPlan={this.state.premiumPlan}
+          stripe={this.props.stripe}
+        />
+      </div>
+    );
   }
 }
 
