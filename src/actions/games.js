@@ -70,7 +70,7 @@ export const editGame = (id, gameData) => async dispatch => {
 };
 
 export const deleteGame = id => async dispatch => {
-  dispatch({ type: DELETE_GAME_START });
+  dispatch({ type: DELETE_GAME_START, payload: id });
   try {
     const success = await serverHandshake(true).delete(`/games/${id}`);
     dispatch({ type: DELETE_GAME_SUCCESS, payload: success.data });
