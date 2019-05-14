@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import NewQuestionGetter from './NewQuestionGetter';
 
-import { fetchGame, addRound, updateGame, deleteRound } from '../actions';
+import { fetchGame, addRound, updateGame, deleteGame, deleteRound } from '../actions';
 
 class CreateGame extends Component {
   state = {
@@ -25,6 +25,11 @@ class CreateGame extends Component {
       // logo_url: ""
     };
     this.props.updateGame(saveGameObj, this.props.game.id);
+  }
+
+  deleteGame = async () => {
+    await this.props.deleteGame(this.props.game.id);
+    this.props.history.replace('/games');
   }
 
   //change handler
@@ -98,6 +103,7 @@ class CreateGame extends Component {
             )}
           </div>
           <button onClick={() => this.updateGame()}>Save Game</button>
+          <button onClick={() => this.deleteGame()}>Delete Game</button>
         </div>
       );
     }
@@ -115,6 +121,7 @@ export default connect(
     fetchGame,
     addRound,
     updateGame,
+    deleteGame,
     deleteRound
     // withRouter
   }

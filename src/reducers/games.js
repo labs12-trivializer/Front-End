@@ -70,7 +70,8 @@ const allIds = (state = [], action) => {
         ? state
         : [...state, action.payload.result.toString()];
     case DELETE_GAME_SUCCESS:
-      return state.filter(g => g !== action.payload.id);
+      const id = action.payload.id.toString();
+      return state.filter(g => g !== id);
     default:
       return state;
   }
