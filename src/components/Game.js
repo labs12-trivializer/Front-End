@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import { fetchGame, addRound } from '../actions';
+import { fetchGame, deleteGame, addRound, deleteRound } from '../actions';
 import Round from './Round';
 
 class Game extends Component {
@@ -26,6 +26,14 @@ class Game extends Component {
         this.props.fetchGame(this.props.match.params.id);
       });
   };
+  deleteRound = (round_id, game_id) => {
+    this.props.deleteRound(round_id, game_id);
+  };
+
+  deleteGame = async () => {
+    await this.props.deleteGame(this.props.match.params.id);
+    this.props.history.replace('/games');
+  }
 
   render() {
     if (!this.props.game || !this.props.game.rounds) {
@@ -40,6 +48,11 @@ class Game extends Component {
             {this.props.game.rounds.map(r => (
               <li key={`round${r}`}>
                 <Round roundId={r} />
+                <button
+                  onClick={() => this.props.deleteRound(r, this.props.game.id)}
+                >
+                  Delete Round
+                </button>
               </li>
             ))}
           </ul>
@@ -47,7 +60,10 @@ class Game extends Component {
             {this.props.game.rounds.length >= this.props.roundLimit ? (
               <Link to="/billing">Upgrade to enable more rounds!</Link>
             ) : (
-              <button onClick={this.handleAddNewRound}>New Round</button>
+              <div>
+                <button onClick={this.handleAddNewRound}>New Round</button>
+                <button onClick={this.deleteGame}>Delete Game</button>
+              </div>
             )}
           </div>
         </div>
@@ -65,7 +81,9 @@ export default connect(
   mapStateToProps,
   {
     fetchGame,
+    deleteGame,
     addRound,
-    withRouter
+    withRouter,
+    deleteRound
   }
 )(Game);

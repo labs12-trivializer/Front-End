@@ -9,7 +9,8 @@ import {
   ADD_CUSTOM_QUESTION,
   ADD_QUESTION_SUCCESS,
   DELETE_STATE_QUESTION,
-  DRAG_DROP_QUESTION
+  DRAG_DROP_QUESTION,
+  DELETE_ROUND_SUCCESS
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -20,6 +21,7 @@ const byId = (state = {}, action) => {
   switch (action.type) {
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
     case ADD_QUESTION_SUCCESS:
+    case ADD_CUSTOM_QUESTION:
     case DELETE_QUESTION_SUCCESS:
     case DELETE_STATE_QUESTION:
       return action.round_id
@@ -34,7 +36,6 @@ const byId = (state = {}, action) => {
               action
             )
           };
-    case ADD_CUSTOM_QUESTION:
     case DRAG_DROP_QUESTION:
       return {
         ...state,
@@ -53,6 +54,10 @@ const byId = (state = {}, action) => {
         [action.payload.result]:
           action.payload.entities.rounds[action.payload.result]
       };
+    case DELETE_ROUND_SUCCESS:
+      const { [action.payload]: removed, ...newState } = state;
+      return newState;
+
     default:
       return state;
   }
@@ -72,6 +77,9 @@ const allIds = (state = [], action) => {
       return state.indexOf(action.payload.result) > -1
         ? state
         : [...state, action.payload.result];
+    case DELETE_ROUND_SUCCESS:
+      return state.filter(round => round !== action.payload.toString());
+
     default:
       return state;
   }
