@@ -57,18 +57,28 @@ class _CheckoutForm extends Component {
   }
 
   render() {
-    return (
-      <div className="checkout">
-        <h2>Tier: {this.props.tier}</h2>
-        <p>Payment Info:</p>
-        <CardElement />
-        <CheckBox
-          toggleBasic={this.toggleBasicPlan}
-          togglePremium={this.togglePremiumPlan}
-        />
-        <button onClick={this.submit}>Send</button>
-      </div>
-    );
+    if (this.props.tier !== 'gold') {
+      return (
+        <div className="checkout">
+          <h2>Current Tier: {this.props.tier}</h2>
+          <p>Payment Info:</p>
+          <CardElement />
+          <CheckBox
+            toggleBasic={this.toggleBasicPlan}
+            togglePremium={this.togglePremiumPlan}
+            tier={this.props.tier}
+          />
+          <button onClick={this.submit}>Send</button>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h2>Current Tier: {this.props.tier}</h2>
+          <h1>You are already subscribed to the highest tier plan</h1>
+        </div>
+      );
+    }
   }
 }
 
