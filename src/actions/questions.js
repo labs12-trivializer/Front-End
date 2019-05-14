@@ -76,6 +76,20 @@ export const fetchQuestion = id => async dispatch => {
   }
 };
 
+// export const moveQuestion = questionsObject => async dispatch => {
+//   console.log('INSIDE MOVE QUESTION ACTION');
+//   dispatch({ type: MOVE_QUESTION_START });
+//   try {
+//     return dispatch({
+//       type: MOVE_QUESTION_SUCCESS,
+//       payload: questionsObject,
+//     });
+//   } catch (error) {
+//     dispatch({ type: MOVE_QUESTION_FAILURE, payload: error });
+//     return error;
+//   }
+// };
+
 // add a question to our database
 // if an updateId is provided, that will be passed to the success action
 export const addQuestion = (questionData, updateId) => async dispatch => {
