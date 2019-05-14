@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 import { Wizard, Steps, Step } from 'react-albus';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 import { fetchNewRoundQuestions, addCustomQuestion } from '../actions';
 import { getAllCategories, getAllQuestionTypes } from '../reducers';
@@ -15,11 +17,27 @@ const CustomQuestionForm = ({
   addCustomQuestion
 }) => {
   const [errorMsg] = useState(null);
+  const categoryOptions = categories.map(c => ({
+    value: c.id,
+    label: c.name,
+    target: 'test'
+  }));
+  const typeOptions = [
+    {
+      value: types.find(t => t.name.toLowerCase().indexOf('multiple')).id,
+      label: 'multiple choice'
+    },
+    {
+      value: types.find(t => t.name.toLowerCase().indexOf('boolean').id),
+      label: 'true/false'
+    }
+  ];
   const [fields, setFields] = useState({
-    category_id: categories[0].id,
-    question_type_id: types[0].id,
     text: '',
-    round_id: roundId
+    round_id: roundId,
+    category_id: categoryOptions[0],
+    question_type_id: typeOptions[0],
+    difficulty: 'easy'
   });
   const [question, setQuestion] = useState(null);
   const [answerFields, setAnswerFields] = useState({
@@ -27,10 +45,8 @@ const CustomQuestionForm = ({
     text: ''
   });
   const [answers, setAnswers] = useState([]);
-  const handleChanges = e => {
+  const handleChanges = e =>
     setFields({ ...fields, [e.target.name]: e.target.value });
-  };
-
   const handleAnswerChanges = e => {
     setAnswerFields({
       ...answerFields,
@@ -66,7 +82,7 @@ const CustomQuestionForm = ({
   // onFinish, turn our questions nad answers into
   // what looks like a normalized server response
   // then clear our fields
-  const onFinish = e => {
+  const onFinish = () => {
     const entities = {
       answers: answers.reduce(
         (accu, cur) => ({
@@ -78,6 +94,8 @@ const CustomQuestionForm = ({
       questions: {
         [question.id]: {
           ...question,
+          category_id: question.category_id.value,
+          question_type_id: question.question_type_id.value,
           answers: answers.map(a => a.id)
         }
       }
@@ -117,26 +135,22 @@ const CustomQuestionForm = ({
                   value={fields.text}
                   autoComplete="off"
                 />
-                <select
-                  name="category_id"
-                  onChange={handleChanges}
+                <Dropdown
+                  options={categoryOptions}
+                  onChange={c => setFields({ ...fields, category_id: c })}
                   value={fields.category_id}
-                >
-                  {categories.map(c => (
-                    <option value={c.id} key={`c${c.id}`}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="difficulty"
-                  onChange={handleChanges}
+                  placeholder="Pick something!"
+                />
+                <Dropdown
+                  options={['easy', 'medium', 'hard']}
+                  onChange={d => setFields({ ...fields, difficulty: d })}
                   value={fields.difficulty}
-                >
-                  <option value="easy">easy</option>
-                  <option value="medium">medium</option>
-                  <option value="hard">hard</option>
-                </select>
+                />
+                <Dropdown
+                  options={typeOptions}
+                  onChange={t => setFields({ ...fields, question_type_id: t })}
+                  value={fields.question_type_id}
+                />
                 <select
                   name="question_type_id"
                   onChange={handleChanges}
@@ -203,10 +217,14 @@ const CustomQuestionForm = ({
                   <button type="submit">Add Answer</button>
                 </form>
                 <button onClick={previous}>back to question</button>
-                <button onClick={(e) => {
-                  onFinish(e);
-                  push("question");
-                }}>finish</button>
+                <button
+                  onClick={e => {
+                    onFinish(e);
+                    push('question');
+                  }}
+                >
+                  finish
+                </button>
               </>
             )}
           />
