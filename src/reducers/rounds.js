@@ -2,7 +2,6 @@ import {
   FETCH_ROUNDS_SUCCESS,
   FETCH_ROUND_SUCCESS,
   FETCH_GAME_SUCCESS,
-  MOVE_QUESTION_SUCCESS,
   DELETE_QUESTION_SUCCESS,
   ADD_ROUND_SUCCESS,
   GET_NEW_ROUND_QUESTIONS_SUCCESS,
@@ -19,7 +18,6 @@ import round from './round';
 // byId reducer
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case MOVE_QUESTION_SUCCESS:
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
     case ADD_QUESTION_SUCCESS:
     case DELETE_QUESTION_SUCCESS:
