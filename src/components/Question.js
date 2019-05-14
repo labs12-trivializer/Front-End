@@ -9,6 +9,7 @@ import {
   getQuestionTypeById
 } from '../reducers';
 import {
+  // moveQuestion,
   editQuestion,
   deleteQuestion,
   deleteStateQuestion,
@@ -29,7 +30,10 @@ const style = {
 const Question = React.forwardRef(
   (
     {
+      round,
+      moveQuestion,
       question,
+      roundQuestions,
       categories,
       types,
       typeText,
@@ -77,22 +81,17 @@ const Question = React.forwardRef(
     };
 
     const changePosition = (e) => {
-      // console.log('Questions By Id: ', Object.keys(questionsById).map(q => questionsById[q]))
-      let questionsArr = Object.keys(questionsById).map(q => questionsById[q]);
-      const index = questionsArr.findIndex(q => q.id === question.id)
-
-      // console.log('Before: ', questionsArr)
-      
+      const index = roundQuestions.indexOf(question.id);
+      let newIndex;
+      // Swap question up/down by 1 position
       if (e.target.innerText === 'Move Up' && index !== 0) {
-        [questionsArr[index], questionsArr[index - 1]] = [questionsArr[index - 1], questionsArr[index]];
-      } else if (e.target.innerText === 'Move Down' && index !== questionsArr.length - 1) {
-        [questionsArr[index], questionsArr[index + 1]] = [questionsArr[index + 1], questionsArr[index]];
-      } else {
-        return null;
+        newIndex = index - 1;
+      } else if (e.target.innerText === 'Move Down' && index < roundQuestions.length - 1) {
+        newIndex = index + 1;
       }
-      
-      questionsArr = Object.assign({}, ...questionsArr.map((q, i) => ({[i]: q})));
-      console.log('TEST: ', questionsArr)
+      return newIndex >= 0 && newIndex < roundQuestions.length
+        ? moveQuestion(index, newIndex)
+        : null;
     }
 
     if (!question) {
@@ -128,7 +127,8 @@ const mapStateToProps = (state, ownProps) => {
     types,
     typeText,
     categoriesById: state.categories.byId,
-    questionsById: state.questions.byId
+    questionsById: state.questions.byId,
+    roundQuestions: state.rounds.byId[ownProps.round.id].questions
   };
 };
 
@@ -201,6 +201,7 @@ const DragDropQuestion = DropTarget(
 export default connect(
   mapStateToProps,
   {
+    // moveQuestion,
     changeQuestion,
     editQuestion,
     deleteQuestion,

@@ -100,6 +100,7 @@ class RoundDetails extends Component {
         <ul style={{ width: 400 }}>
           {this.props.round.questions.map((q, idx) => (
             <Question
+              round={this.props.round}
               questionId={q}
               key={`q${q}`}
               index={idx}

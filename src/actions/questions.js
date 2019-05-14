@@ -5,6 +5,10 @@ import {
   FETCH_QUESTION_START,
   FETCH_QUESTION_SUCCESS,
   FETCH_QUESTION_FAILURE,
+  // MOVE_QUESTION,
+  // MOVE_QUESTION_START,
+  // MOVE_QUESTION_SUCCESS,
+  // MOVE_QUESTION_FAILURE,
   ADD_QUESTION_START,
   ADD_QUESTION_SUCCESS,
   ADD_QUESTION_FAILURE,
@@ -75,6 +79,20 @@ export const fetchQuestion = id => async dispatch => {
     return error;
   }
 };
+
+// export const moveQuestion = questionsObject => async dispatch => {
+//   console.log('INSIDE MOVE QUESTION ACTION');
+//   dispatch({ type: MOVE_QUESTION_START });
+//   try {
+//     return dispatch({
+//       type: MOVE_QUESTION_SUCCESS,
+//       payload: questionsObject,
+//     });
+//   } catch (error) {
+//     dispatch({ type: MOVE_QUESTION_FAILURE, payload: error });
+//     return error;
+//   }
+// };
 
 // add a question to our database
 // if an updateId is provided, that will be passed to the success action
