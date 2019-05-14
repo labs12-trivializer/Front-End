@@ -6,6 +6,9 @@ import waitForLogin from './waitForLogin';
 import { getAllGames } from '../reducers';
 import { fetchGames, createNewGame } from '../actions';
 
+import { Background } from '../styles/shared.css';
+import { Container, GameList } from '../styles/games.css';
+
 class Games extends Component {
   // constructor(props) {
   //   super(props);
@@ -18,29 +21,35 @@ class Games extends Component {
 
   render() {
     return (
-      <div>
-        <ul>
+      <Container>
+        <Background />
+        <GameList>
           {this.props.games.map(g => (
             <li key={`game${g.id}`}>
               <Link to={`/games/${g.id}`}>
-                {g.name} - [{g.num_rounds},{g.num_questions}]
+                <span>{g.name}</span>
+                <div>
+                  <span>Rounds: {g.num_rounds}</span>
+                  <br />
+                  <span>Questions: {g.num_questions}</span>
+                </div>
               </Link>
             </li>
           ))}
-        </ul>
-        {this.props.games.length >= this.props.gameLimit ? (
-          <Link to="/billing">Upgrade For more games</Link>
-        ) : (
-          <Link
-            onClick={() =>
-              this.props.createNewGame({ name: 'New Game ' + Date.now() })
-            }
-            to="/create"
-          >
-            Create New Game
-          </Link>
-        )}
-      </div>
+          {this.props.games.length >= this.props.gameLimit ? (
+            <Link to="/billing">Upgrade For more games</Link>
+          ) : (
+            <Link
+              onClick={() =>
+                this.props.createNewGame({ name: 'New Game ' + Date.now() })
+              }
+              to="/create"
+            >
+              Create New Game
+            </Link>
+          )}
+        </GameList>
+      </Container>
     );
   }
 }
