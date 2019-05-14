@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import NewQuestionGetter from './NewQuestionGetter';
 
-import { fetchGame, addRound, updateGame } from '../actions';
+import { fetchGame, addRound, updateGame, deleteGame, deleteRound } from '../actions';
 
 class CreateGame extends Component {
   state = {
@@ -27,6 +27,11 @@ class CreateGame extends Component {
     this.props.updateGame(saveGameObj, this.props.game.id);
   }
 
+  deleteGame = async () => {
+    await this.props.deleteGame(this.props.game.id);
+    this.props.history.replace('/games');
+  }
+
   //change handler
   changeHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -44,6 +49,10 @@ class CreateGame extends Component {
       .then(() => {
         this.props.fetchGame(this.props.game.id);
       });
+  };
+
+  deleteRound = (round_id, game_id) => {
+    this.props.deleteRound(round_id, game_id);
   };
 
   render() {
@@ -80,6 +89,9 @@ class CreateGame extends Component {
                 <Link to={`/rounds/${r}`}>
                   <button>Review Round</button>
                 </Link>
+                <button onClick={() => this.deleteRound(r, this.props.game.id)}>
+                  Delete Round
+                </button>
               </div>
             ))}
           </ul>
@@ -87,10 +99,11 @@ class CreateGame extends Component {
             {this.props.game.rounds.length >= this.props.roundLimit ? (
               <Link to="/billing">Upgrade to enable more rounds!</Link>
             ) : (
-              <button onClick={this.handleAddNewRound}>New Round</button>
+              <button onClick={this.handleAddNewRound}>Add Round</button>
             )}
           </div>
           <button onClick={() => this.updateGame()}>Save Game</button>
+          <button onClick={() => this.deleteGame()}>Delete Game</button>
         </div>
       );
     }
@@ -107,7 +120,9 @@ export default connect(
   {
     fetchGame,
     addRound,
-    updateGame
+    updateGame,
+    deleteGame,
+    deleteRound
     // withRouter
   }
 )(CreateGame);

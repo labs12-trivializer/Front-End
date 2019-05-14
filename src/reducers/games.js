@@ -5,7 +5,8 @@ import {
   ADD_GAME_SUCCESS,
   DELETE_GAME_SUCCESS,
   ADD_ROUND_SUCCESS,
-  UPDATE_GAME_DETAILS_SUCCESS
+  UPDATE_GAME_DETAILS_SUCCESS,
+  DELETE_ROUND_SUCCESS
 } from '../actions/types';
 import { combineReducers } from 'redux';
 import game from './game';
@@ -45,6 +46,12 @@ const byId = (state = {}, action) => {
         [action.payload.result]:
           action.payload.entities.games[action.payload.result]
       };
+    case DELETE_ROUND_SUCCESS:
+      console.log('delete', action);
+      return {
+        ...state,
+        [action.game_id]: game(state[action.game_id], action)
+      };
 
     default:
       return state;
@@ -63,7 +70,8 @@ const allIds = (state = [], action) => {
         ? state
         : [...state, action.payload.result.toString()];
     case DELETE_GAME_SUCCESS:
-      return state.filter(g => g !== action.payload.id);
+      const id = action.payload.id.toString();
+      return state.filter(g => g !== id);
     default:
       return state;
   }

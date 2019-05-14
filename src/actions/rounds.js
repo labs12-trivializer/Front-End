@@ -72,11 +72,11 @@ export const editRound = (id, roundData) => async dispatch => {
   }
 };
 
-export const deleteRound = id => async dispatch => {
+export const deleteRound = (round_id, game_id) => async dispatch => {
   dispatch({ type: DELETE_ROUND_START });
   try {
-    const success = await serverHandshake(true).delete(`/rounds/${id}`);
-    dispatch({ type: DELETE_ROUND_SUCCESS, payload: success.data });
+    const success = await serverHandshake(true).delete(`/rounds/${round_id}`);
+    dispatch({ type: DELETE_ROUND_SUCCESS, payload: round_id, game_id });
     return success;
   } catch (error) {
     dispatch({ type: DELETE_ROUND_FAILURE, payload: error });

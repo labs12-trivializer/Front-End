@@ -31,7 +31,10 @@ const indexToLetter = index => String.fromCharCode(index + 64);
 const Question = React.forwardRef(
   (
     {
+      round,
+      moveQuestion,
       question,
+      roundQuestions,
       categories,
       types,
       typeText,
@@ -79,6 +82,20 @@ const Question = React.forwardRef(
       );
     };
 
+    const changePosition = (e) => {
+      const index = roundQuestions.indexOf(question.id);
+      let newIndex;
+      // Swap question up/down by 1 position
+      if (e.target.innerText === 'Move Up' && index !== 0) {
+        newIndex = index - 1;
+      } else if (e.target.innerText === 'Move Down' && index < roundQuestions.length - 1) {
+        newIndex = index + 1;
+      }
+      return newIndex >= 0 && newIndex < roundQuestions.length
+        ? moveQuestion(index, newIndex)
+        : null;
+    }
+
     if (!question) {
       return null;
     }
@@ -94,6 +111,10 @@ const Question = React.forwardRef(
           currentQuestion.answers.map((a, idx) => (
             <Answer answerId={a} key={a} label={indexToLetter(idx + 1) + ')'} />
           ))}
+        <div>
+          <button onClick={e => changePosition(e)}>Move Up</button>
+          <button onClick={e => changePosition(e)}>Move Down</button>
+        </div>
       </div>
     );
   }
@@ -113,7 +134,8 @@ const mapStateToProps = (state, ownProps) => {
     types,
     typeText,
     categoriesById: state.categories.byId,
-    questionsById: state.questions.byId
+    questionsById: state.questions.byId,
+    roundQuestions: state.rounds.byId[ownProps.round.id].questions
   };
 };
 

@@ -5,7 +5,7 @@ import { Elements, StripeProvider } from 'react-stripe-elements';
 import waitForProfile from '../waitForProfile';
 import serverHandshake from '../../auth/serverHandshake';
 
-class CheckoutForm extends Component {
+class _CheckoutForm extends Component {
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
@@ -58,21 +58,37 @@ class CheckoutForm extends Component {
 
   render() {
     return (
-      <StripeProvider apiKey="pk_test_rLIPiZV9cJfPy9p4WZgEMCbA00qbhu5zTZ">
-        <Elements>
-          <div className="checkout">
-            <p>Would you like to complete the purchase?</p>
-            <CardElement />
-            <CheckBox
-              toggleBasic={this.toggleBasicPlan}
-              togglePremium={this.togglePremiumPlan}
-            />
-            <button onClick={this.submit}>Send</button>
-          </div>
-        </Elements>
-      </StripeProvider>
+      <div className="checkout">
+        <p>Would you like to complete the purchase?</p>
+        <CardElement />
+        <CheckBox
+          toggleBasic={this.toggleBasicPlan}
+          togglePremium={this.togglePremiumPlan}
+        />
+        <button onClick={this.submit}>Send</button>
+      </div>
     );
   }
 }
 
-export default waitForProfile(injectStripe(CheckoutForm));
+const CheckoutForm = injectStripe(_CheckoutForm);
+
+class Checkout extends React.Component {
+  render() {
+    return (
+      <Elements>
+        <CheckoutForm />
+      </Elements>
+    );
+  }
+}
+
+const Stripe = () => {
+  return (
+    <StripeProvider apiKey="pk_test_rLIPiZV9cJfPy9p4WZgEMCbA00qbhu5zTZ">
+      <Checkout />
+    </StripeProvider>
+  );
+};
+
+export default waitForProfile(Stripe);
