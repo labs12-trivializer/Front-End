@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import CheckBox from './CheckBox';
-import { Elements, StripeProvider } from 'react-stripe-elements';
-import waitForProfile from '../waitForProfile';
 import serverHandshake from '../../auth/serverHandshake';
 
 class _CheckoutForm extends Component {
@@ -22,6 +21,7 @@ class _CheckoutForm extends Component {
   };
   //User hits submit after entering credit card info:
   async submit(e) {
+    console.log(this.props.tier);
     const gold = 'plan_Eyw9DUPvzcFMvK';
     const silver = 'plan_Eyw8BcuV5qyAV2';
     let plan = null;
@@ -59,7 +59,8 @@ class _CheckoutForm extends Component {
   render() {
     return (
       <div className="checkout">
-        <p>Would you like to complete the purchase?</p>
+        <h2>Tier: {this.props.tier}</h2>
+        <p>Payment Info:</p>
         <CardElement />
         <CheckBox
           toggleBasic={this.toggleBasicPlan}
@@ -73,22 +74,11 @@ class _CheckoutForm extends Component {
 
 const CheckoutForm = injectStripe(_CheckoutForm);
 
-class Checkout extends React.Component {
-  render() {
-    return (
-      <Elements>
-        <CheckoutForm />
-      </Elements>
-    );
-  }
-}
+const mapStateToProps = state => ({
+  tier: state.profile.tier_name
+});
 
-const Stripe = () => {
-  return (
-    <StripeProvider apiKey="pk_test_rLIPiZV9cJfPy9p4WZgEMCbA00qbhu5zTZ">
-      <Checkout />
-    </StripeProvider>
-  );
-};
-
-export default waitForProfile(Stripe);
+export default connect(
+  mapStateToProps,
+  {}
+)(CheckoutForm);

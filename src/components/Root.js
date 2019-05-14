@@ -13,7 +13,7 @@ import Callback from './Callback';
 import Auth from '../auth';
 import history from '../history';
 // import CheckoutForm from './stripe/CheckoutForm';
-import Stripe from './stripe/CheckoutForm';
+import Stripe from './stripe/Stripe';
 import PrivateRoute from './PrivateRoute';
 import Profile from './Profile';
 import Games from './Games';
