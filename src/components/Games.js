@@ -7,7 +7,7 @@ import { getAllGames } from '../reducers';
 import { fetchGames, createNewGame } from '../actions';
 
 import { Background } from '../styles/shared.css';
-import { Container, GameList } from '../styles/games.css';
+import { Container, Title, GameList } from '../styles/games.css';
 
 class Games extends Component {
   // constructor(props) {
@@ -23,6 +23,7 @@ class Games extends Component {
     return (
       <Container>
         <Background />
+        <Title>Games</Title>
         <GameList>
           {this.props.games.map(g => (
             <li key={`game${g.id}`}>

@@ -1,13 +1,22 @@
 import styled from 'styled-components';
-import { darken, lighten } from 'polished';
+import { lighten } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
   padding: 1.5rem;
 `;
 
-export const GameList = styled.ul`
+export const Title = styled.h1`
   margin-top: 8rem;
+  margin-bottom: 4rem;
+  font-family: cursive;
+  font-size: 4rem;
+  letter-spacing: 0.03em;
+  color: #ebecf1;
+  text-align: center;
+`;
+
+export const GameList = styled.ul`
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
