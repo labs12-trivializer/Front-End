@@ -70,8 +70,8 @@ const allIds = (state = [], action) => {
         ? state
         : [...state, action.payload.result.toString()];
     case DELETE_GAME_SUCCESS:
-      const id = action.payload.id.toString();
-      return state.filter(g => g !== id);
+      // eslint-disable-next-line eqeqeq
+      return state.filter(g => g != action.payload.id);
     default:
       return state;
   }
