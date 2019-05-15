@@ -22,7 +22,8 @@ import {
   SaveChanges,
   NoChanges,
   ListContainer,
-  LoadingContainer
+  LoadingContainer,
+  AddCustomQuestion
 } from '../styles/round.css';
 
 class RoundDetails extends Component {
@@ -92,7 +93,7 @@ class RoundDetails extends Component {
       return (
         <LoadingContainer>
           <Background />
-          <Loader
+          <Loader 
             type="Ball-Triangle"
             color="#FFFFFF"
             height="100"
@@ -138,9 +139,9 @@ class RoundDetails extends Component {
             />
           ))}
         </ListContainer>
-        <Button onClick={() => this.setState({ modalShowing: true })}>
+        <AddCustomQuestion onClick={() => this.setState({ modalShowing: true })}>
           Add Custom Question
-        </Button>
+        </AddCustomQuestion>
         {this.state.modalShowing && (
           <Modal onClose={() => this.setState({ modalShowing: false })}>
             <CustomQuestionForm

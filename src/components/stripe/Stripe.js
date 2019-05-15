@@ -16,7 +16,6 @@ const Stripe = () => {
           </Elements>
         </StripeProvider>
       </Card>
-      <Background />
     </>
   );
 };

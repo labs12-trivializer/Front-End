@@ -112,8 +112,8 @@ const Question = React.forwardRef(
           <strong>{index + 1}.</strong>{' ' + he.decode(currentQuestion.text)}
         </QuestionText>
         {currentQuestion.answers &&
-          currentQuestion.answers.map(a => 
-          <Answer answerId={a} key={a} label={indexToLetter(index + 1) + ')'}/>
+          currentQuestion.answers.map((a, idx) => 
+          <Answer answerId={a} key={a} label={indexToLetter(idx + 1) + ')'}/>
         )}
         <ButtonContainer>
           <div>

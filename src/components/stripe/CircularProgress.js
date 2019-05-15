@@ -12,6 +12,7 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import { upgradeTier, fetchProfile } from '../../actions';
 import { ProgressDiv } from '../../styles/billing.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
 
 const styles = theme => ({
   root: {
@@ -60,7 +61,11 @@ class CircularIntegration extends React.Component {
     }
     if (this.props.profile.tier_name === 'gold') {
       toast.info('🎉 You are already subscribed our highest tier plan', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
+        className: css({
+          background: '#19b9e9',
+          textAlign: 'center'
+        })
       });
       this.setState({ loading: false, success: false });
     } else {
@@ -83,14 +88,16 @@ class CircularIntegration extends React.Component {
         .then(res => {
           if (res.status === 402) {
             toast.error('Payment unsuccessful, please try again', {
-              position: toast.POSITION.TOP_RIGHT
+              position: toast.POSITION.TOP_RIGHT,
+              textAlign: 'center'
             });
             this.setState({ loading: false, success: false });
           } else if (res.status === 200) {
             toast.success(
               `Upgrade to ${this.props.profile.tier_name} successful!`,
               {
-                position: toast.POSITION.TOP_RIGHT
+                position: toast.POSITION.TOP_RIGHT,
+                textAlign: 'center'
               }
             );
             this.setState({
