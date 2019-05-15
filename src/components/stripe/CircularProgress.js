@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import green from '@material-ui/core/colors/green';
@@ -8,8 +9,10 @@ import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import CheckIcon from '@material-ui/icons/Check';
 import PaymentIcon from '@material-ui/icons/Payment';
-import { upgradeTier } from '../../actions';
+import { upgradeTier, fetchProfile } from '../../actions';
 import { ProgressDiv } from '../../styles/billing.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -48,10 +51,6 @@ class CircularIntegration extends React.Component {
     success: false
   };
 
-  componentWillUnmount() {
-    clearTimeout(this.timer);
-  }
-
   upgradeTier = async () => {
     if (!this.state.loading) {
       this.setState({
@@ -59,30 +58,52 @@ class CircularIntegration extends React.Component {
         loading: true
       });
     }
-    console.log('here');
-    //create token from payment info
-    let { token } = await this.props.stripe.createToken({
-      name: this.props.profile.username
-    });
-    const gold = 'plan_Eyw9DUPvzcFMvK';
-    const silver = 'plan_Eyw8BcuV5qyAV2';
-    let plan = null;
-    if (this.props.premiumPlan && !this.props.basicPlan) {
-      plan = gold;
-    } else if (this.props.basicPlan && !this.props.premiumPlan) {
-      plan = silver;
+    if (this.props.profile.tier_name === 'gold') {
+      toast.info('🎉 You are already subscribed our highest tier plan', {
+        position: toast.POSITION.TOP_RIGHT
+      });
+      this.setState({ loading: false, success: false });
     } else {
-      return;
-    }
-    this.props
-      .upgradeTier(plan, this.props.profile.username, token)
-      .then(res => {
-        this.setState({
-          loading: false,
-          success: true
+      //create token from payment info
+      let { token } = await this.props.stripe.createToken({
+        name: this.props.profile.username
+      });
+      const gold = 'plan_Eyw9DUPvzcFMvK';
+      const silver = 'plan_Eyw8BcuV5qyAV2';
+      let plan = null;
+      if (this.props.premiumPlan && !this.props.basicPlan) {
+        plan = gold;
+      } else if (this.props.basicPlan && !this.props.premiumPlan) {
+        plan = silver;
+      } else {
+        return;
+      }
+      this.props
+        .upgradeTier(plan, this.props.profile.username, token)
+        .then(res => {
+          if (res.status === 402) {
+            toast.error('Payment unsuccessful, please try again', {
+              position: toast.POSITION.TOP_RIGHT
+            });
+            this.setState({ loading: false, success: false });
+          } else if (res.status === 200) {
+            toast.success(
+              `Upgrade to ${this.props.profile.tier_name} successful!`,
+              {
+                position: toast.POSITION.TOP_RIGHT
+              }
+            );
+            this.setState({
+              loading: false,
+              success: true
+            });
+            this.props.fetchProfile();
+          }
+        })
+        .catch(err => {
+          console.log(err);
         });
-      })
-      .catch(err => console.log(err));
+    }
   };
 
   render() {
@@ -129,5 +150,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { upgradeTier }
+  { upgradeTier, fetchProfile }
 )(withStyles(styles)(CircularIntegration));

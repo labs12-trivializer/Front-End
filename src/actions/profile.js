@@ -88,7 +88,9 @@ export const upgradeTier = (plan, name, token) => async dispatch => {
       type: UPGRADE_TIER_SUCCESS,
       payload: subscribe.data.plan.nickname
     });
+    return { status: 200 };
   } catch (error) {
     dispatch({ type: UPGRADE_TIER_FAILURE });
+    return { status: 402, error };
   }
 };
