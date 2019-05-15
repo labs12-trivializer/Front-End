@@ -24,19 +24,16 @@ import {
  } from '../styles/question.css';
 import Answer from './Answer';
 
-<<<<<<< HEAD
-=======
-const style = {
-  border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
-  backgroundColor: 'white',
-  cursor: 'move'
-};
+// const style = {
+//   border: '1px dashed gray',
+//   padding: '0.5rem 1rem',
+//   marginBottom: '.5rem',
+//   backgroundColor: 'white',
+//   cursor: 'move'
+// };
 
 const indexToLetter = index => String.fromCharCode(index + 64);
 
->>>>>>> d24e1073b0ee2e795660805dd268429b70ea9ec1
 const Question = React.forwardRef(
   (
     {
@@ -110,11 +107,14 @@ const Question = React.forwardRef(
     }
 
     return (
-<<<<<<< HEAD
       <QuestionContainer ref={elementRef}>
-        <QuestionText>{he.decode(currentQuestion.text)}</QuestionText>
+        <QuestionText>
+          <strong>{index + 1}.</strong>{' ' + he.decode(currentQuestion.text)}
+        </QuestionText>
         {currentQuestion.answers &&
-          currentQuestion.answers.map(a => <Answer answerId={a} key={a} />)}
+          currentQuestion.answers.map(a => 
+          <Answer answerId={a} key={a} label={indexToLetter(index + 1) + ')'}/>
+        )}
         <ButtonContainer>
           <div>
             <ActionButton onClick={remove} className="fas fa-trash-alt" />
@@ -129,23 +129,6 @@ const Question = React.forwardRef(
           </div>
         </ButtonContainer>
       </QuestionContainer>
-=======
-      <div ref={elementRef} style={{ ...style, opacity }}>
-        <strong>{index + 1}) </strong>
-        <strong>{he.decode(currentQuestion.text)}</strong>
-        <button onClick={fetchAnotherQuestion}>change</button>
-        {canUndo && <button onClick={() => undo(question.id)}>undo</button>}
-        <button onClick={remove}>delete</button>
-        {currentQuestion.answers &&
-          currentQuestion.answers.map((a, idx) => (
-            <Answer answerId={a} key={a} label={indexToLetter(idx + 1) + ')'} />
-          ))}
-        <div>
-          <button onClick={e => changePosition(e)}>Move Up</button>
-          <button onClick={e => changePosition(e)}>Move Down</button>
-        </div>
-      </div>
->>>>>>> d24e1073b0ee2e795660805dd268429b70ea9ec1
     );
   }
 );
