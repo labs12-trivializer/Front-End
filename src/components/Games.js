@@ -6,8 +6,8 @@ import waitForLogin from './waitForLogin';
 import { getAllGames } from '../reducers';
 import { fetchGames, createNewGame } from '../actions';
 
-import { Background } from '../styles/shared.css';
-import { Container, Title, GameList } from '../styles/games.css';
+import { Container, Background, Title } from '../styles/shared.css';
+import { GameList } from '../styles/games.css';
 
 class Games extends Component {
   // constructor(props) {
