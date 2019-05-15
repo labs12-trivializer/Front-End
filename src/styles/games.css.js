@@ -21,12 +21,14 @@ export const GameList = styled.ul`
     padding: 2rem 4rem;
     border-radius: 1rem;
     margin-bottom: 1rem;
+    transform: perspective(1px) translateZ(0);
     transition: 250ms;
     cursor: pointer;
 
     &:hover {
       background-color: ${lighten(0.2, 'rgba(25, 185, 233, 0.25)')};
       color: ${lighten(0.2, '#19B9E9')};
+      box-shadow: rgba(0,0,0,.6) 0 0 8px;
     }
 
     > a {
@@ -47,14 +49,18 @@ export const GameList = styled.ul`
     padding: 1rem;
     border: 1px solid;
     border-radius: 1rem;
+    box-shadow: transparent 0 0 1px;
     width: 90%;
     text-align: center;
-    transition: 250ms;
+    text-decoration: none;
+    transform: perspective(1px) translateZ(0);
+    transition-duration: 300ms;
     cursor: pointer;
 
     &:hover {
-      background-color: ${darken(0.05, '#0f8898')};
-      color: ${darken(0.05, '#25E1D2')};
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: rgba(0,0,0,.6) 0 0 8px;
     }
   }
 `;
