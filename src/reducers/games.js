@@ -25,6 +25,10 @@ const byId = (state = {}, action) => {
         ...action.payload.entities.games
       };
     case EDIT_GAME_SUCCESS:
+      return {
+        ...state,
+        [action.payload.id]: Object.assign({}, state[action.payload.id], action.payload)
+      }
     case ADD_GAME_SUCCESS:
     case FETCH_GAME_SUCCESS:
       return {
