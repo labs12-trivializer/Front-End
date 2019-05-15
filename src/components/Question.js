@@ -42,7 +42,8 @@ const Question = React.forwardRef(
       undo,
       isDragging,
       connectDragSource,
-      connectDropTarget
+      connectDropTarget,
+      index
     },
     ref
   ) => {
@@ -120,12 +121,14 @@ const Question = React.forwardRef(
 
 const mapStateToProps = (state, ownProps) => {
   const question = getQuestionById(state, ownProps.questionId);
+  const category = ownProps.category;
   const categories = getAllCategories(state);
   const types = getAllQuestionTypes(state);
   const typeText = getQuestionTypeById(state, question.question_type_id).name;
 
   return {
     question,
+    category,
     categories,
     types,
     typeText,

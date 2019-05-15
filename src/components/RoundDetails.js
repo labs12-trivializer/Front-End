@@ -13,6 +13,7 @@ import Question from './Question';
 
 import NewQuestionGetter from './NewQuestionGetter';
 import CustomQuestionForm from './CustomQuestionForm';
+import Modal from './Modal';
 
 import { Background } from '../styles/shared.css';
 import { 
@@ -25,6 +26,8 @@ import {
 } from '../styles/round.css';
 
 class RoundDetails extends Component {
+  state = { modalShowing: false };
+
   componentDidMount = () => {
     // fetch only if we don't have it
     if (!this.props.round) {
@@ -135,7 +138,18 @@ class RoundDetails extends Component {
             />
           ))}
         </ListContainer>
-        <CustomQuestionForm roundId={this.props.round.id} />
+        <button onClick={() => this.setState({ modalShowing: true })}>
+          Add Custom Question
+        </button>
+        {this.state.modalShowing && (
+          <Modal onClose={() => this.setState({ modalShowing: false })}>
+            <CustomQuestionForm
+              roundId={this.props.round.id}
+              onCancel={() => this.setState({ modalShowing: false })}
+              onDone={() => this.setState({ modalShowing: false })}
+            />
+          </Modal>
+        )}
       </RoundContainer>
     );
   }
