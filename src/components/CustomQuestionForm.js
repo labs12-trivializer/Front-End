@@ -29,7 +29,8 @@ const CustomQuestionForm = ({
   categories,
   types,
   addCustomQuestion,
-  onCancel
+  onCancel,
+  onDone
 }) => {
   const [errorMsg] = useState(null);
   const categoryOptions = categories.map(c => ({
@@ -126,6 +127,7 @@ const CustomQuestionForm = ({
     const result = question.id;
     addCustomQuestion({ entities, result }, question.round_id);
     reset();
+    onDone();
   };
 
   return (
