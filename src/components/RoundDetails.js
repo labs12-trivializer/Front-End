@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Loader from 'react-loader-spinner';
 
 import {
   fetchRound,
@@ -13,6 +14,16 @@ import Question from './Question';
 import NewQuestionGetter from './NewQuestionGetter';
 import CustomQuestionForm from './CustomQuestionForm';
 import Modal from './Modal';
+
+import { Background } from '../styles/shared.css';
+import { 
+  RoundContainer, 
+  RoundInfo,
+  SaveChanges,
+  NoChanges,
+  ListContainer,
+  LoadingContainer 
+} from '../styles/round.css';
 
 class RoundDetails extends Component {
   state = { modalShowing: false };
@@ -78,29 +89,45 @@ class RoundDetails extends Component {
 
   render() {
     if (!this.props.round || !this.props.round.game_id) {
-      return <div>Loading...</div>;
+      return (
+        <LoadingContainer>
+          <Background />
+          <Loader 
+            type="Ball-Triangle"
+            color="#FFFFFF"
+            height="100"
+            width="100"
+          />
+        </LoadingContainer>
+      );
     }
+
+    console.log('ROUND INFO: ', this.props.round);
 
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
     return (
-      <div>
+      <RoundContainer>
+        <Background />
+        <RoundInfo>
+          <div>
+            <p>{`ROUND ${this.props.round.number}`}</p>
+          </div>
+          <div>
+            <p>Created On: {this.props.round.created_at}</p>
+            <p>Last Updated: {this.props.round.updated_at}</p>
+          </div>
+        </RoundInfo>
+        {(newQuestionCount > 0 || this.props.round.dirty)
+          ? <SaveChanges 
+              onClick={() => this.props.editRound(this.props.round.id, this.nestedRound())}
+            >Save Changes</SaveChanges>
+          : <NoChanges>Can't Touch This</NoChanges>
+        }
         {this.props.dbQuestionCount === 0 && (
           <NewQuestionGetter roundId={this.props.round.id} />
         )}
-        {(newQuestionCount > 0 || this.props.round.dirty) && (
-          <button
-            onClick={() =>
-              this.props.editRound(this.props.round.id, this.nestedRound())
-            }
-          >
-            Save Round Changes
-          </button>
-        )}
-        <p>{this.props.round.game_id}</p>
-        <p>{this.props.round.created_at}</p>
-        <p>{this.props.round.updated_at}</p>
-        <ul>
+        <ListContainer>
           {this.props.round.questions.map((q, idx) => (
             <Question
               round={this.props.round}
@@ -110,7 +137,7 @@ class RoundDetails extends Component {
               moveQuestion={this.moveQuestion}
             />
           ))}
-        </ul>
+        </ListContainer>
         <button onClick={() => this.setState({ modalShowing: true })}>
           Add Custom Question
         </button>
@@ -123,7 +150,7 @@ class RoundDetails extends Component {
             />
           </Modal>
         )}
-      </div>
+      </RoundContainer>
     );
   }
 }
