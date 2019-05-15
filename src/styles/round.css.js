@@ -25,7 +25,7 @@ export const RoundInfo = styled.div`
   margin: 0;
   border: 1px solid #19B9E9;
   border-radius: .5rem;
-  padding: 1rem .5rem;
+  padding: 1rem;
 
   background-color: rgba(25, 185, 233, 0.25);
 
@@ -61,7 +61,7 @@ export const SaveChanges = styled.button`
   background-color: rgba(25, 185, 233, 0.25);
   color: white;
   cursor: pointer;
-  padding: .5rem;
+  padding: .5rem 1rem;
   margin: 1rem 0;
   align-self: flex-end;
 `;
