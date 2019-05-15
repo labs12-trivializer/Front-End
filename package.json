@@ -15,6 +15,7 @@
     "cloudinary-react": "^1.1.0",
     "glamor": "^2.20.40",
     "he": "^1.2.0",
+    "polished": "^3.3.0",
     "react": "^16.8.6",
     "react-albus": "^2.0.0",
     "react-dnd": "^7.4.5",

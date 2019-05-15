@@ -25,6 +25,10 @@ const byId = (state = {}, action) => {
         ...action.payload.entities.games
       };
     case EDIT_GAME_SUCCESS:
+      return {
+        ...state,
+        [action.payload.id]: Object.assign({}, state[action.payload.id], action.payload)
+      }
     case ADD_GAME_SUCCESS:
     case FETCH_GAME_SUCCESS:
       return {
@@ -70,8 +74,8 @@ const allIds = (state = [], action) => {
         ? state
         : [...state, action.payload.result.toString()];
     case DELETE_GAME_SUCCESS:
-      const id = action.payload.id.toString();
-      return state.filter(g => g !== id);
+      // eslint-disable-next-line eqeqeq
+      return state.filter(g => g != action.payload.id);
     default:
       return state;
   }
