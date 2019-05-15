@@ -57,4 +57,10 @@ export const ActionButton = styled.div`
   cursor: pointer;
   padding: .5rem 1rem;
   align-self: flex-end;
+  transition: .1s;
+
+  :hover {
+    border: 1px solid white;
+    transition: .1s;
+  }
 `;
