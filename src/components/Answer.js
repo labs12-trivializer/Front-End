@@ -4,18 +4,26 @@ import he from 'he';
 
 import { getAnswerById } from '../reducers';
 
-const Answer = ({ answer, answerId }) => {
+const Answer = ({ answer, answerId, label }) => {
   if (!answer && !answerId) {
-    console.log('NULL!!');
     return null;
   }
 
-  if (!answer) {
-    return <div>- {he.decode(answerId.text)}</div>;
+  if (answer.is_correct) {
+    return (
+      <div>
+        <strong>
+          {label || '-'} {he.decode(answer.text)}
+        </strong>
+      </div>
+    );
   }
 
-  return <div>- {he.decode(answer.text)}</div>;
-
+  return (
+    <div>
+      {label || '-'} {he.decode(answer.text)}
+    </div>
+  );
 };
 
 const mapStateToProps = (state, ownProps) => ({

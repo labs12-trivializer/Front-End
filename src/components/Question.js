@@ -16,20 +16,31 @@ import {
   changeQuestion,
   undo
 } from '../actions';
+import { 
+  QuestionContainer,
+  QuestionText,
+  ButtonContainer,
+  ActionButton
+ } from '../styles/question.css';
 import Answer from './Answer';
 
-const style = {
-  border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
-  backgroundColor: 'white',
-  cursor: 'move'
-};
+// const style = {
+//   border: '1px dashed gray',
+//   padding: '0.5rem 1rem',
+//   marginBottom: '.5rem',
+//   backgroundColor: 'white',
+//   cursor: 'move'
+// };
+
+const indexToLetter = index => String.fromCharCode(index + 64);
 
 const Question = React.forwardRef(
   (
     {
+      round,
+      moveQuestion,
       question,
+      roundQuestions,
       categories,
       types,
       typeText,
@@ -41,14 +52,15 @@ const Question = React.forwardRef(
       undo,
       isDragging,
       connectDragSource,
-      connectDropTarget
+      connectDropTarget,
+      index
     },
     ref
   ) => {
     const elementRef = useRef(null);
     connectDragSource(elementRef);
     connectDropTarget(elementRef);
-    const opacity = isDragging ? 0 : 1;
+    // const opacity = isDragging ? 0 : 1;
     useImperativeHandle(ref, () => ({ getNode: () => elementRef.current }));
     const canUndo = question.changes && question.changes.length > 0;
     const currentQuestion = canUndo
@@ -76,19 +88,47 @@ const Question = React.forwardRef(
       );
     };
 
+    const changePosition = (e) => {
+      const index = roundQuestions.indexOf(question.id);
+      let newIndex;
+      // Swap question up/down by 1 position
+      if (e.target.className.includes("up") && index !== 0) {
+        newIndex = index - 1;
+      } else if (e.target.className.includes("down") && index < roundQuestions.length - 1) {
+        newIndex = index + 1;
+      }
+      return newIndex >= 0 && newIndex < roundQuestions.length
+        ? moveQuestion(index, newIndex)
+        : null;
+    }
+
     if (!question) {
       return null;
     }
 
     return (
-      <div ref={elementRef} style={{...style, opacity }}>
-        <strong>{he.decode(currentQuestion.text)}</strong>
-        <button onClick={fetchAnotherQuestion}>change</button>
-        {canUndo && <button onClick={() => undo(question.id)}>undo</button>}
-        <button onClick={remove}>delete</button>
+      <QuestionContainer ref={elementRef}>
+        <QuestionText>
+          <strong>{index + 1}.</strong>{' ' + he.decode(currentQuestion.text)}
+        </QuestionText>
         {currentQuestion.answers &&
-          currentQuestion.answers.map(a => <Answer answerId={a} key={a} />)}
-      </div>
+          currentQuestion.answers.map(a => 
+          <Answer answerId={a} key={a} label={indexToLetter(index + 1) + ')'}/>
+        )}
+        <ButtonContainer>
+          <div>
+            <ActionButton onClick={remove} className="fas fa-trash-alt" />
+            <ActionButton onClick={fetchAnotherQuestion} className="fas fa-exchange-alt" />
+            {canUndo && 
+            <ActionButton onClick={() => undo(question.id)} className="fas fa-history" />
+            }
+          </div>
+          <div>
+            <ActionButton onClick={e => changePosition(e)} className="up fas fa-chevron-up" />
+            <ActionButton onClick={e => changePosition(e)} className="down fas fa-chevron-down" />
+          </div>
+        </ButtonContainer>
+      </QuestionContainer>
     );
   }
 );
@@ -107,7 +147,8 @@ const mapStateToProps = (state, ownProps) => {
     types,
     typeText,
     categoriesById: state.categories.byId,
-    questionsById: state.questions.byId
+    questionsById: state.questions.byId,
+    roundQuestions: state.rounds.byId[ownProps.round.id].questions
   };
 };
 

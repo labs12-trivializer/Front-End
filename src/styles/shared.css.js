@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
@@ -23,4 +23,40 @@ export const Title = styled.h1`
   letter-spacing: 0.03em;
   color: #ebecf1;
   text-align: center;
+`;
+
+export const ButtonRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const Button = styled.button`
+  flex: 1;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 1rem;
+  cursor: pointer;
+  outline: none;
+  margin: 2rem 1rem 0rem;
+  border-radius: 1rem;
+  color: #ebecf1;
+  border: 2px solid #19b9e9;
+  background-color: #19b9e9;
+  &:hover {
+    background-color: #ebecf1;
+    color: #19b9e9;
+  }
+
+  ${props =>
+    props.secondary &&
+    css`
+      color: #1f4773;
+      border: 2px solid #ebecf1;
+      background-color: #ebecf1;
+
+      &:hover {
+        background-color: #1f4773;
+        color: #ebecf1;
+      }
+    `}
 `;

@@ -12,8 +12,8 @@ import Home from './Home';
 import Callback from './Callback';
 import Auth from '../auth';
 import history from '../history';
-// import CheckoutForm from './stripe/CheckoutForm';
-import Stripe from './stripe/CheckoutForm';
+import { ToastContainer } from 'react-toastify';
+import Stripe from './stripe/Stripe';
 import PrivateRoute from './PrivateRoute';
 import Profile from './Profile';
 import Games from './Games';
@@ -32,6 +32,17 @@ const handleAuthentication = ({ location }) => {
 
 const Root = () => (
   <Provider store={store}>
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnVisibilityChange
+      draggable
+      pauseOnHover
+    />
     <PersistGate loading={null} persistor={persistor}>
       <DragDropContextProvider backend={HTML5Backend}>
         <Router history={history}>
