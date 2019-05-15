@@ -5,7 +5,6 @@ import { Steps, Step } from 'react-albus';
 import 'react-dropdown/style.css';
 
 import { fetchNewRoundQuestions, addCustomQuestion } from '../actions';
-import { getAllCategories, getAllQuestionTypes } from '../reducers';
 import {
   QuestionWizard,
   StepForm,
@@ -13,11 +12,13 @@ import {
   StepBody,
   StepField,
   StepTextInput,
-  StepDropdown,
   CheckMark,
   StepCheckBox
 } from '../styles/customQustionForm.css';
 import { ButtonRow, Button } from '../styles/shared.css';
+import CategorySelect from './CategorySelect';
+import TypeSelect from './TypeSelect';
+import DifficultySelect from './DifficultySelect';
 
 // This component handles adding questions(state change only) to
 // the roundId you specify.
@@ -25,34 +26,14 @@ import { ButtonRow, Button } from '../styles/shared.css';
 const CustomQuestionForm = ({
   roundId,
   position,
-  categories,
-  types,
   addCustomQuestion,
   onCancel,
   onDone
 }) => {
   const [errorMsg] = useState(null);
-  const categoryOptions = categories.map(c => ({
-    value: c.id,
-    label: c.name,
-    target: 'test'
-  }));
-  const typeOptions = [
-    {
-      value: types.find(t => t.name.toLowerCase().indexOf('multiple')).id,
-      label: 'multiple choice'
-    },
-    {
-      value: types.find(t => t.name.toLowerCase().indexOf('boolean')).id,
-      label: 'true/false'
-    }
-  ];
   const initialQuestionState = {
     text: '',
-    round_id: roundId,
-    category_id: categoryOptions[0],
-    question_type_id: typeOptions[0],
-    difficulty: 'easy'
+    round_id: roundId
   };
 
   const initialAnswerState = {
@@ -117,8 +98,6 @@ const CustomQuestionForm = ({
       questions: {
         [question.id]: {
           ...question,
-          category_id: question.category_id.value,
-          question_type_id: question.question_type_id.value,
           answers: answers.map(a => a.id)
         }
       }
@@ -152,23 +131,9 @@ const CustomQuestionForm = ({
                   autoComplete="off"
                   placeholder="Question Text..."
                 />
-                <StepDropdown
-                  options={categoryOptions}
-                  onChange={c => setFields({ ...fields, category_id: c })}
-                  value={fields.category_id}
-                  placeholder="Pick something!"
-                />
-                <StepDropdown
-                  options={['easy', 'medium', 'hard']}
-                  onChange={d => setFields({ ...fields, difficulty: d })}
-                  value={fields.difficulty}
-                />
-                <StepDropdown
-                  options={typeOptions}
-                  onChange={t => setFields({ ...fields, question_type_id: t })}
-                  value={fields.question_type_id}
-                />
-
+                <CategorySelect onChange={handleChanges} placeholder="Select a Category..."/>
+                <DifficultySelect onChange={handleChanges} />
+                <TypeSelect onChange={handleChanges} placeholder="Select a Question Type..."/>
                 <ButtonRow>
                   <Button type="button" secondary onClick={() => {
                     reset();
@@ -257,8 +222,6 @@ const CustomQuestionForm = ({
 };
 
 const mapStateToProps = state => ({
-  categories: getAllCategories(state),
-  types: getAllQuestionTypes(state),
   questionLimit: state.profile.question_limit,
   tierName: state.profile.tier_name
 });

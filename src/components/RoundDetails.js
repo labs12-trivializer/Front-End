@@ -15,14 +15,14 @@ import NewQuestionGetter from './NewQuestionGetter';
 import CustomQuestionForm from './CustomQuestionForm';
 import Modal from './Modal';
 
-import { Background } from '../styles/shared.css';
-import { 
-  RoundContainer, 
+import { Background, Button } from '../styles/shared.css';
+import {
+  RoundContainer,
   RoundInfo,
   SaveChanges,
   NoChanges,
   ListContainer,
-  LoadingContainer 
+  LoadingContainer
 } from '../styles/round.css';
 
 class RoundDetails extends Component {
@@ -92,7 +92,7 @@ class RoundDetails extends Component {
       return (
         <LoadingContainer>
           <Background />
-          <Loader 
+          <Loader
             type="Ball-Triangle"
             color="#FFFFFF"
             height="100"
@@ -119,7 +119,7 @@ class RoundDetails extends Component {
           </div>
         </RoundInfo>
         {(newQuestionCount > 0 || this.props.round.dirty)
-          ? <SaveChanges 
+          ? <SaveChanges
               onClick={() => this.props.editRound(this.props.round.id, this.nestedRound())}
             >Save Changes</SaveChanges>
           : <NoChanges>Can't Touch This</NoChanges>
@@ -138,9 +138,9 @@ class RoundDetails extends Component {
             />
           ))}
         </ListContainer>
-        <button onClick={() => this.setState({ modalShowing: true })}>
+        <Button onClick={() => this.setState({ modalShowing: true })}>
           Add Custom Question
-        </button>
+        </Button>
         {this.state.modalShowing && (
           <Modal onClose={() => this.setState({ modalShowing: false })}>
             <CustomQuestionForm
