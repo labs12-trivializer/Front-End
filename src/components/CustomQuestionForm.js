@@ -14,11 +14,10 @@ import {
   StepField,
   StepTextInput,
   StepDropdown,
-  StepButton,
-  StepControls,
   CheckMark,
   StepCheckBox
 } from '../styles/customQustionForm.css';
+import { ButtonRow, Button } from '../styles/shared.css';
 
 // This component handles adding questions(state change only) to
 // the roundId you specify.
@@ -170,16 +169,16 @@ const CustomQuestionForm = ({
                   value={fields.question_type_id}
                 />
 
-                <StepControls>
-                  <StepButton type="button" secondary onClick={() => {
+                <ButtonRow>
+                  <Button type="button" secondary onClick={() => {
                     reset();
                     push('question');
                     onCancel && onCancel();
                   }}>
                     Cancel
-                  </StepButton>
-                  <StepButton type="submit">Next</StepButton>
-                </StepControls>
+                  </Button>
+                  <Button type="submit">Next</Button>
+                </ButtonRow>
               </StepBody>
             </StepForm>
           )}
@@ -230,14 +229,14 @@ const CustomQuestionForm = ({
                       <CheckMark />
                     </StepCheckBox>
                   </StepField>
-                  <StepControls>
-                    <StepButton type="submit">Add Answer</StepButton>
-                  </StepControls>
-                  <StepControls>
-                    <StepButton onClick={previous} secondary type="button">
+                  <ButtonRow>
+                    <Button type="submit">Add Answer</Button>
+                  </ButtonRow>
+                  <ButtonRow>
+                    <Button onClick={previous} secondary type="button">
                       Back
-                    </StepButton>
-                    <StepButton
+                    </Button>
+                    <Button
                       onClick={e => {
                         onFinish(e);
                         push('question');
@@ -245,8 +244,8 @@ const CustomQuestionForm = ({
                       type="button"
                     >
                       finish
-                    </StepButton>
-                  </StepControls>
+                    </Button>
+                  </ButtonRow>
                 </StepBody>
               </StepForm>
             </>
