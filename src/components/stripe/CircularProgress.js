@@ -9,7 +9,7 @@ import Fab from '@material-ui/core/Fab';
 import CheckIcon from '@material-ui/icons/Check';
 import PaymentIcon from '@material-ui/icons/Payment';
 import { upgradeTier } from '../../actions';
-
+import { ProgressDiv } from '../../styles/billing.css';
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -93,30 +93,32 @@ class CircularIntegration extends React.Component {
     });
 
     return (
-      <div className={classes.root}>
-        <div className={classes.wrapper}>
-          <Fab color="primary" className={buttonClassname}>
-            {success ? <CheckIcon /> : <PaymentIcon />}
-          </Fab>
-          {loading && (
-            <CircularProgress size={68} className={classes.fabProgress} />
-          )}
+      <>
+        <div className={classes.root}>
+          <ProgressDiv className={classes.wrapper}>
+            <Fab color="primary" className={buttonClassname}>
+              {success ? <CheckIcon /> : <PaymentIcon />}
+            </Fab>
+            {loading && (
+              <CircularProgress size={68} className={classes.fabProgress} />
+            )}
+          </ProgressDiv>
+          <ProgressDiv className={classes.wrapper}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={buttonClassname}
+              disabled={loading}
+              onClick={this.upgradeTier}
+            >
+              Pay With Card
+            </Button>
+            {loading && (
+              <CircularProgress size={24} className={classes.buttonProgress} />
+            )}
+          </ProgressDiv>
         </div>
-        <div className={classes.wrapper}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={buttonClassname}
-            disabled={loading}
-            onClick={this.upgradeTier}
-          >
-            Pay With Card
-          </Button>
-          {loading && (
-            <CircularProgress size={24} className={classes.buttonProgress} />
-          )}
-        </div>
-      </div>
+      </>
     );
   }
 }
