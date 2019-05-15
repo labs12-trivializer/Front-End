@@ -10,7 +10,18 @@ export const QuestionContainer = styled.div`
   border-radius: .5rem;
   margin-bottom: 1rem;
   color: white;
+  transition: .2s;
   /* background-color: rgba(255, 255, 255, .1) */
+
+  :hover {
+    box-shadow: 0px 0px 10px rgb(40, 40, 40);
+    transition: .2s;
+    cursor: grab;
+  }
+
+  :hover:active {
+    cursor: grabbing;
+  }
 `;
 
 export const QuestionText = styled.div`
