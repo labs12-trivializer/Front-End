@@ -9,7 +9,6 @@ import {
   getQuestionTypeById
 } from '../reducers';
 import {
-  // moveQuestion,
   editQuestion,
   deleteQuestion,
   deleteStateQuestion,
@@ -26,6 +25,8 @@ const style = {
   backgroundColor: 'white',
   cursor: 'move'
 };
+
+const indexToLetter = index => String.fromCharCode(index + 64);
 
 const Question = React.forwardRef(
   (
@@ -45,7 +46,8 @@ const Question = React.forwardRef(
       undo,
       isDragging,
       connectDragSource,
-      connectDropTarget
+      connectDropTarget,
+      index
     },
     ref
   ) => {
@@ -99,13 +101,16 @@ const Question = React.forwardRef(
     }
 
     return (
-      <div ref={elementRef} style={{...style, opacity }}>
+      <div ref={elementRef} style={{ ...style, opacity }}>
+        <strong>{index + 1}) </strong>
         <strong>{he.decode(currentQuestion.text)}</strong>
         <button onClick={fetchAnotherQuestion}>change</button>
         {canUndo && <button onClick={() => undo(question.id)}>undo</button>}
         <button onClick={remove}>delete</button>
         {currentQuestion.answers &&
-          currentQuestion.answers.map(a => <Answer answerId={a} key={a} />)}
+          currentQuestion.answers.map((a, idx) => (
+            <Answer answerId={a} key={a} label={indexToLetter(idx + 1) + ')'} />
+          ))}
         <div>
           <button onClick={e => changePosition(e)}>Move Up</button>
           <button onClick={e => changePosition(e)}>Move Down</button>
@@ -117,12 +122,14 @@ const Question = React.forwardRef(
 
 const mapStateToProps = (state, ownProps) => {
   const question = getQuestionById(state, ownProps.questionId);
+  const category = ownProps.category;
   const categories = getAllCategories(state);
   const types = getAllQuestionTypes(state);
   const typeText = getQuestionTypeById(state, question.question_type_id).name;
 
   return {
     question,
+    category,
     categories,
     types,
     typeText,
@@ -201,7 +208,6 @@ const DragDropQuestion = DropTarget(
 export default connect(
   mapStateToProps,
   {
-    // moveQuestion,
     changeQuestion,
     editQuestion,
     deleteQuestion,
