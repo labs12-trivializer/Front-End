@@ -19,7 +19,7 @@ export const StepForm = styled.form`
   color: #19b9e9;
   background-color: rgba(31, 71, 115, 0.75);
   padding: 2rem 0;
-  margin-bottom: 1rem;
+  flex: 1;
 `;
 
 export const StepTextInput = styled.input`
