@@ -55,6 +55,6 @@ export const ActionButton = styled.div`
   background-color: rgba(25, 185, 233, 0.25);
   color: white;
   cursor: pointer;
-  padding: .5rem;
+  padding: .5rem 1rem;
   align-self: flex-end;
 `;

@@ -81,9 +81,9 @@ const Question = React.forwardRef(
       const index = roundQuestions.indexOf(question.id);
       let newIndex;
       // Swap question up/down by 1 position
-      if (e.target.innerText === 'Move Up' && index !== 0) {
+      if (e.target.className.includes("up") && index !== 0) {
         newIndex = index - 1;
-      } else if (e.target.innerText === 'Move Down' && index < roundQuestions.length - 1) {
+      } else if (e.target.className.includes("down") && index < roundQuestions.length - 1) {
         newIndex = index + 1;
       }
       return newIndex >= 0 && newIndex < roundQuestions.length
@@ -102,13 +102,15 @@ const Question = React.forwardRef(
           currentQuestion.answers.map(a => <Answer answerId={a} key={a} />)}
         <ButtonContainer>
           <div>
-            <ActionButton onClick={remove}>Delete</ActionButton>
-            <ActionButton onClick={fetchAnotherQuestion}>Change</ActionButton>
-            {canUndo && <ActionButton onClick={() => undo(question.id)}>Undo</ActionButton>}
+            <ActionButton onClick={remove} className="fas fa-trash-alt" />
+            <ActionButton onClick={fetchAnotherQuestion} className="fas fa-exchange-alt" />
+            {canUndo && 
+            <ActionButton onClick={() => undo(question.id)} className="fas fa-history" />
+            }
           </div>
           <div>
-            <ActionButton onClick={e => changePosition(e)}>Up</ActionButton>
-            <ActionButton onClick={e => changePosition(e)}>Down</ActionButton>
+            <ActionButton onClick={e => changePosition(e)} className="up fas fa-chevron-up" />
+            <ActionButton onClick={e => changePosition(e)} className="down fas fa-chevron-down" />
           </div>
         </ButtonContainer>
       </QuestionContainer>
