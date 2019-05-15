@@ -5,6 +5,7 @@ import CheckBox from './CheckBox';
 import { upgradeTier } from '../../actions';
 import CircularProgress from './CircularProgress';
 import { toast } from 'react-toastify';
+import { css } from 'glamor';
 
 class _CheckoutForm extends Component {
   constructor(props) {
@@ -18,7 +19,11 @@ class _CheckoutForm extends Component {
   componentDidMount() {
     if (this.props.profile.tier_name === 'gold') {
       toast.info('🎉 You are currently subscribed our highest tier plan!', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
+        className: css({
+          background: '#19b9e9',
+          textAlign: 'center'
+        })
       });
     }
   }
