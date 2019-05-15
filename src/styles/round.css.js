@@ -99,7 +99,7 @@ export const AddCustomQuestion = styled.button`
   color: white;
   cursor: pointer;
   padding: .5rem 1rem;
-  margin: .5rem 0 1rem;
+  /* margin: 0 0 1rem; */
   /* align-self: flex-end; */
   transition: .1s;
 

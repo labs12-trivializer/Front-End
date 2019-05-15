@@ -103,8 +103,6 @@ class RoundDetails extends Component {
       );
     }
 
-    console.log('ROUND INFO: ', this.props.round);
-
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
     return (
