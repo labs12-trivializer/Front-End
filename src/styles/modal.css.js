@@ -18,7 +18,7 @@ export const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background: black;
-  opacity: 0.33;
+  opacity: 0.66;
 `;
 
 export const Modal = styled.div`
@@ -38,5 +38,4 @@ export const ContentContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-export const ModalContainer = styled.div`
-`;
+export const ModalContainer = styled.div``;
