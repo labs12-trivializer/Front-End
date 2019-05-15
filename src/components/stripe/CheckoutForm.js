@@ -4,6 +4,7 @@ import { CardElement, injectStripe } from 'react-stripe-elements';
 import CheckBox from './CheckBox';
 import { upgradeTier } from '../../actions';
 import CircularProgress from './CircularProgress';
+import { toast } from 'react-toastify';
 
 class _CheckoutForm extends Component {
   constructor(props) {
@@ -13,29 +14,19 @@ class _CheckoutForm extends Component {
       premiumPlan: false
     };
   }
+
+  componentDidMount() {
+    if (this.props.profile.tier_name === 'gold') {
+      toast.info('🎉 You are currently subscribed our highest tier plan!', {
+        position: toast.POSITION.TOP_RIGHT
+      });
+    }
+  }
   toggleBasicPlan = e => {
     this.setState({ basicPlan: !this.state.basicPlan });
   };
   togglePremiumPlan = e => {
     this.setState({ premiumPlan: !this.state.premiumPlan });
-  };
-
-  upgradeTier = async () => {
-    //create token from payment info
-    let { token } = await this.props.stripe.createToken({
-      name: this.props.profile.username
-    });
-    const gold = 'plan_Eyw9DUPvzcFMvK';
-    const silver = 'plan_Eyw8BcuV5qyAV2';
-    let plan = null;
-    if (this.state.premiumPlan && !this.state.basicPlan) {
-      plan = gold;
-    } else if (this.state.basicPlan && !this.state.premiumPlan) {
-      plan = silver;
-    } else {
-      return;
-    }
-    this.props.upgradeTier(plan, this.props.profile.username, token);
   };
 
   render() {
