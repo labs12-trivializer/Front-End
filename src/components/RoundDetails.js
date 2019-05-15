@@ -22,7 +22,8 @@ import {
   SaveChanges,
   NoChanges,
   ListContainer,
-  LoadingContainer 
+  LoadingContainer,
+  AddCustomQuestion
 } from '../styles/round.css';
 
 class RoundDetails extends Component {
@@ -102,8 +103,6 @@ class RoundDetails extends Component {
       );
     }
 
-    console.log('ROUND INFO: ', this.props.round);
-
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
     return (
@@ -138,9 +137,9 @@ class RoundDetails extends Component {
             />
           ))}
         </ListContainer>
-        <button onClick={() => this.setState({ modalShowing: true })}>
+        <AddCustomQuestion onClick={() => this.setState({ modalShowing: true })}>
           Add Custom Question
-        </button>
+        </AddCustomQuestion>
         {this.state.modalShowing && (
           <Modal onClose={() => this.setState({ modalShowing: false })}>
             <CustomQuestionForm

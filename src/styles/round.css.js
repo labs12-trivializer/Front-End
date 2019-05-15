@@ -11,7 +11,7 @@ export const LoadingContainer = styled.div`
 
 export const RoundContainer = styled.div`
   width: 100%;
-  margin-top: 4rem;
+  margin: 4rem 0 2rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -64,6 +64,12 @@ export const SaveChanges = styled.button`
   padding: .5rem 1rem;
   margin: 1rem 0;
   align-self: flex-end;
+  transition: .1s;
+
+  :hover {
+    border: 1px solid white;
+    transition: .1s;
+  }
 `;
 
 export const NoChanges = styled.button`
@@ -83,4 +89,22 @@ export const ListContainer = styled.ul`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+`;
+
+export const AddCustomQuestion = styled.button`
+  font-size: 1.2rem;
+  border: 1px solid #19B9E9;
+  border-radius: .5rem;
+  background-color: rgba(25, 185, 233, 0.25);
+  color: white;
+  cursor: pointer;
+  padding: .5rem 1rem;
+  /* margin: 0 0 1rem; */
+  /* align-self: flex-end; */
+  transition: .1s;
+
+  :hover {
+    border: 1px solid white;
+    transition: .1s;
+  }
 `;
