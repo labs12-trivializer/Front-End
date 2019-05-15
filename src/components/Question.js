@@ -9,7 +9,6 @@ import {
   getQuestionTypeById
 } from '../reducers';
 import {
-  // moveQuestion,
   editQuestion,
   deleteQuestion,
   deleteStateQuestion,
@@ -17,15 +16,13 @@ import {
   changeQuestion,
   undo
 } from '../actions';
+import { 
+  QuestionContainer,
+  QuestionText,
+  ButtonContainer,
+  ActionButton
+ } from '../styles/question.css';
 import Answer from './Answer';
-
-const style = {
-  border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
-  backgroundColor: 'white',
-  cursor: 'move'
-};
 
 const Question = React.forwardRef(
   (
@@ -52,7 +49,7 @@ const Question = React.forwardRef(
     const elementRef = useRef(null);
     connectDragSource(elementRef);
     connectDropTarget(elementRef);
-    const opacity = isDragging ? 0 : 1;
+    // const opacity = isDragging ? 0 : 1;
     useImperativeHandle(ref, () => ({ getNode: () => elementRef.current }));
     const canUndo = question.changes && question.changes.length > 0;
     const currentQuestion = canUndo
@@ -99,18 +96,22 @@ const Question = React.forwardRef(
     }
 
     return (
-      <div ref={elementRef} style={{...style, opacity }}>
-        <strong>{he.decode(currentQuestion.text)}</strong>
-        <button onClick={fetchAnotherQuestion}>change</button>
-        {canUndo && <button onClick={() => undo(question.id)}>undo</button>}
-        <button onClick={remove}>delete</button>
+      <QuestionContainer ref={elementRef}>
+        <QuestionText>{he.decode(currentQuestion.text)}</QuestionText>
         {currentQuestion.answers &&
           currentQuestion.answers.map(a => <Answer answerId={a} key={a} />)}
-        <div>
-          <button onClick={e => changePosition(e)}>Move Up</button>
-          <button onClick={e => changePosition(e)}>Move Down</button>
-        </div>
-      </div>
+        <ButtonContainer>
+          <div>
+            <ActionButton onClick={remove}>Delete</ActionButton>
+            <ActionButton onClick={fetchAnotherQuestion}>Change</ActionButton>
+            {canUndo && <ActionButton onClick={() => undo(question.id)}>Undo</ActionButton>}
+          </div>
+          <div>
+            <ActionButton onClick={e => changePosition(e)}>Up</ActionButton>
+            <ActionButton onClick={e => changePosition(e)}>Down</ActionButton>
+          </div>
+        </ButtonContainer>
+      </QuestionContainer>
     );
   }
 );
@@ -201,7 +202,6 @@ const DragDropQuestion = DropTarget(
 export default connect(
   mapStateToProps,
   {
-    // moveQuestion,
     changeQuestion,
     editQuestion,
     deleteQuestion,
