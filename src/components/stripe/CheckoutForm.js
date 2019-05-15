@@ -5,6 +5,28 @@ import CheckBox from './CheckBox';
 import { upgradeTier } from '../../actions';
 import CircularProgress from './CircularProgress';
 import { toast } from 'react-toastify';
+import { css } from 'glamor';
+import { FormDiv, Header } from '../../styles/billing.css';
+
+//stripe input styling
+const createOptions = () => {
+  return {
+    style: {
+      base: {
+        fontSize: '20px',
+        color: '#424770',
+        fontFamily: 'Open Sans, sans-serif',
+        letterSpacing: '0.025em',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#c23d4b'
+      }
+    }
+  };
+};
 
 class _CheckoutForm extends Component {
   constructor(props) {
@@ -18,7 +40,11 @@ class _CheckoutForm extends Component {
   componentDidMount() {
     if (this.props.profile.tier_name === 'gold') {
       toast.info('🎉 You are currently subscribed our highest tier plan!', {
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.TOP_RIGHT,
+        className: css({
+          background: '#19b9e9',
+          textAlign: 'center'
+        })
       });
     }
   }
@@ -32,19 +58,23 @@ class _CheckoutForm extends Component {
   render() {
     return (
       <div className="checkout">
-        <h2>Current Tier: {this.props.profile.tier_name}</h2>
+        <Header>Current Tier: {this.props.profile.tier_name}</Header>
         <p>Payment Info:</p>
-        <CardElement />
+        <FormDiv>
+          <CardElement {...createOptions()} />
+        </FormDiv>
         <CheckBox
           toggleBasic={this.toggleBasicPlan}
           togglePremium={this.togglePremiumPlan}
           tier={this.props.profile.tier_name}
         />
-        <CircularProgress
-          basicPlan={this.state.basicPlan}
-          premiumPlan={this.state.premiumPlan}
-          stripe={this.props.stripe}
-        />
+        {this.state.basicPlan !== this.state.premiumPlan && (
+          <CircularProgress
+            basicPlan={this.state.basicPlan}
+            premiumPlan={this.state.premiumPlan}
+            stripe={this.props.stripe}
+          />
+        )}
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import { SubscriptionTiers, CheckInput } from '../../styles/billing.css';
 
 function Input(props) {
   if (props.tier === 'bronze') {
@@ -12,7 +12,7 @@ function Input(props) {
             id="silver"
             onClick={props.toggleBasic}
           />
-          <h6>1 Year Subscription - $9.99</h6>
+          <h6>Upgrade to Silver for $9.99 per year</h6>
         </SubscriptionTiers>
         <SubscriptionTiers>
           <CheckInput
@@ -21,7 +21,7 @@ function Input(props) {
             id="gold"
             onClick={props.togglePremium}
           />
-          <h6>1 Year Premium Subscription - $29.99</h6>
+          <h6>Upgrade to Gold for $29.99 per year</h6>
         </SubscriptionTiers>
       </>
     );
@@ -34,7 +34,7 @@ function Input(props) {
           id="gold"
           onClick={props.togglePremium}
         />
-        <h6>1 Year Premium Subscription - $29.99</h6>
+        <h6>Upgrade to Gold for $29.99 per year</h6>
       </SubscriptionTiers>
     );
   } else {
@@ -43,14 +43,3 @@ function Input(props) {
 }
 
 export default Input;
-
-const SubscriptionTiers = styled.form`
-  display: flex;
-  flex-flow: row nowrap;
-  margin: 10px 5px;
-`;
-
-const CheckInput = styled.input`
-  margin-right: 5px;
-  disabled: true;
-`;
