@@ -6,8 +6,8 @@ import waitForLogin from './waitForLogin';
 import { getAllGames } from '../reducers';
 import { fetchGames, createNewGame } from '../actions';
 
-import { Background, Button } from '../styles/shared.css';
-import { Container, GameList } from '../styles/games.css';
+import { Container, Background, Title, Button } from '../styles/shared.css';
+import { GameList } from '../styles/games.css';
 import Modal from './Modal';
 import NewGameForm from './NewGameForm';
 
@@ -41,6 +41,7 @@ class Games extends Component {
         )}
         <Container>
           <Background />
+          <Title>Games</Title>
           <GameList>
             {this.props.games.map(g => (
               <li key={`game${g.id}`}>
