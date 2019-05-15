@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { fetchGame, editGame, deleteGame, addRound, deleteRound } from '../actions';
 import { Container, Background } from '../styles/shared.css';
-import { GameInput, InputControls } from '../styles/game.css';
+import { GameInput, InputControls, RoundList, GameControls } from '../styles/game.css';
 import Round from './Round';
 
 const initialState = (props) => ({
@@ -81,28 +81,24 @@ class Game extends Component {
               <span onClick={this.handleTitleCancel}>Cancel</span>
             </InputControls>
           )}
-          <ul>
+          <RoundList>
             {this.props.game.rounds.map(r => (
               <li key={`round${r}`}>
                 <Round roundId={r} />
-                <button
-                  onClick={() => this.props.deleteRound(r, this.props.game.id)}
-                >
-                  Delete Round
-                </button>
+                <div onClick={() => this.props.deleteRound(r, this.props.game.id)} className="fas fa-trash-alt" />
               </li>
             ))}
-          </ul>
-          <div>
+          </RoundList>
+          <GameControls>
             {this.props.game.rounds.length >= this.props.roundLimit ? (
               <Link to="/billing">Upgrade to enable more rounds!</Link>
             ) : (
-              <div>
+              <>
                 <button onClick={this.handleAddNewRound}>New Round</button>
                 <button onClick={this.deleteGame}>Delete Game</button>
-              </div>
+              </>
             )}
-          </div>
+          </GameControls>
         </Container>
       );
     }

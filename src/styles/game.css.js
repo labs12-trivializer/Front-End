@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { lighten } from 'polished';
 
 export const GameInput = styled.input`
   color: #ebecf1;
@@ -32,7 +33,7 @@ export const InputControls = styled.div`
   margin-top: -3.5rem;
   color: #ebecf1;
   text-transform: uppercase;
-  font-size: .8em;
+  font-size: 0.8em;
   position: absolute;
   left: 50%;
 
@@ -43,6 +44,73 @@ export const InputControls = styled.div`
 
     &:hover {
       border-bottom: 1px solid;
+    }
+  }
+`;
+
+export const RoundList = styled.ul`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1 auto;
+  gap: 1rem;
+
+  > li {
+    color: #19b9e9;
+    background-color: rgba(25, 185, 233, 0.25);
+    border: 1px solid;
+    border-radius: 1rem;
+    padding: 2rem 4rem;
+    transform: perspective(1px) translateZ(0);
+    transition: 250ms;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+
+    &:hover {
+      background-color: ${lighten(0.2, 'rgba(25, 185, 233, 0.25)')};
+      color: ${lighten(0.2, '#19B9E9')};
+      box-shadow: rgba(0, 0, 0, 0.6) 0 0 8px;
+    }
+
+    > div {
+      align-self: center;
+      transition: 250ms;
+
+      &:hover {
+        color: ${lighten(0.5, '#19B9E9')};
+      }
+
+      > a {
+        text-decoration: none;
+        color: #ebecf1;
+        font-size: 2.5rem;
+        font-weight: bold;
+        font-variant: small-caps;
+      }
+    }
+  }
+`;
+
+export const GameControls = styled.div`
+  text-align: center;
+  margin-top: 1rem;
+
+  > button {
+    padding: 1rem;
+    background: transparent;
+    border: 1px solid;
+    border-radius: 1rem;
+    cursor: pointer;
+    width: 100%;
+    margin: 0.5rem;
+    outline: none;
+
+    &:first-child {
+      color: greenyellow;
+    }
+
+    &:last-child {
+      color: gold;
     }
   }
 `;
