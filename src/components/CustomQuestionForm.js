@@ -43,7 +43,7 @@ const CustomQuestionForm = ({
       label: 'multiple choice'
     },
     {
-      value: types.find(t => t.name.toLowerCase().indexOf('boolean').id),
+      value: types.find(t => t.name.toLowerCase().indexOf('boolean')).id,
       label: 'true/false'
     }
   ];
