@@ -20,6 +20,7 @@ import {
   RoundInfo,
   SaveChanges,
   NoChanges,
+  ListContainer,
   LoadingContainer 
 } from '../styles/round.css';
 
@@ -123,7 +124,7 @@ class RoundDetails extends Component {
         {this.props.dbQuestionCount === 0 && (
           <NewQuestionGetter roundId={this.props.round.id} />
         )}
-        <ul>
+        <ListContainer>
           {this.props.round.questions.map((q, idx) => (
             <Question
               round={this.props.round}
@@ -133,7 +134,7 @@ class RoundDetails extends Component {
               moveQuestion={this.moveQuestion}
             />
           ))}
-        </ul>
+        </ListContainer>
         <CustomQuestionForm roundId={this.props.round.id} />
       </RoundContainer>
     );
