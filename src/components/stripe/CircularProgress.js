@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import CheckIcon from '@material-ui/icons/Check';
 import PaymentIcon from '@material-ui/icons/Payment';
-import { upgradeTier } from '../../actions';
+import { upgradeTier, fetchProfile } from '../../actions';
 import { ProgressDiv } from '../../styles/billing.css';
 const styles = theme => ({
   root: {
@@ -82,6 +82,8 @@ class CircularIntegration extends React.Component {
           success: true
         });
       })
+      .then(res => this.props.fetchProfile())
+      .catch(err => console.log(err))
       .catch(err => console.log(err));
   };
 
@@ -129,5 +131,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { upgradeTier }
+  { upgradeTier, fetchProfile }
 )(withStyles(styles)(CircularIntegration));
