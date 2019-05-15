@@ -68,11 +68,13 @@ class _CheckoutForm extends Component {
           togglePremium={this.togglePremiumPlan}
           tier={this.props.profile.tier_name}
         />
-        <CircularProgress
-          basicPlan={this.state.basicPlan}
-          premiumPlan={this.state.premiumPlan}
-          stripe={this.props.stripe}
-        />
+        {this.state.basicPlan !== this.state.premiumPlan && (
+          <CircularProgress
+            basicPlan={this.state.basicPlan}
+            premiumPlan={this.state.premiumPlan}
+            stripe={this.props.stripe}
+          />
+        )}
       </div>
     );
   }
