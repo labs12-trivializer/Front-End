@@ -50,7 +50,7 @@ export const InputControls = styled.div`
 
 export const RoundList = styled.ul`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 1 auto;
   gap: 1rem;
 
@@ -95,7 +95,7 @@ export const GameControls = styled.div`
   text-align: center;
   margin-top: 1rem;
 
-  > button {
+  /* > button {
     padding: 1rem;
     background: transparent;
     border: 1px solid;
@@ -111,6 +111,33 @@ export const GameControls = styled.div`
 
     &:last-child {
       color: gold;
+    }
+  } */
+
+  > a, button {
+    color: rgb(37, 225, 210);
+    background: transparent;
+    box-shadow: transparent 0px 0px 1px;
+    width: 100%;
+    text-align: center;
+    transform: perspective(1px) translateZ(0px);
+    transition-duration: 300ms;
+    cursor: pointer;
+    padding: 1rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: initial;
+    border-image: initial;
+    border-radius: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+
+    &:hover {
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 8px;
     }
   }
 `;
