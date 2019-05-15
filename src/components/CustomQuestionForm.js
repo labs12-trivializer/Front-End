@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 import { Steps, Step } from 'react-albus';
-// import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 import { fetchNewRoundQuestions, addCustomQuestion } from '../actions';
@@ -29,7 +28,8 @@ const CustomQuestionForm = ({
   position,
   categories,
   types,
-  addCustomQuestion
+  addCustomQuestion,
+  onCancel
 }) => {
   const [errorMsg] = useState(null);
   const categoryOptions = categories.map(c => ({
@@ -140,7 +140,7 @@ const CustomQuestionForm = ({
                 next();
               }}
             >
-              <StepTitle>Step 1: Create the Question</StepTitle>
+              <StepTitle>Step 1: Create Question</StepTitle>
               {errorMsg && <div>{errorMsg}</div>}
               <StepBody>
                 <StepTextInput
@@ -172,6 +172,7 @@ const CustomQuestionForm = ({
                   <StepButton type="button" secondary onClick={() => {
                     reset();
                     push('question');
+                    onCancel && onCancel();
                   }}>
                     Cancel
                   </StepButton>
