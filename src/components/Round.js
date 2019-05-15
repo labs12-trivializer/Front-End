@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const Round = props => {
   return (
     <div>
-      <Link to={`/rounds/${props.round.id}`}>{props.round.number}</Link>
+      <Link to={`/rounds/${props.round.id}`}>Round {props.round.number}</Link>
     </div>
   )
 }
