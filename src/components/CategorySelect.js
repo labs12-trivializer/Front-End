@@ -22,7 +22,7 @@ const CategorySelect = ({options, onChange, placeholder }) => {
         });
       }}
       value={value}
-      placeholder={placeholder}
+      placeholder={placeholder || "Select a Category..."}
     />
   );
 };

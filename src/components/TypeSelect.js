@@ -5,7 +5,7 @@ import { getAllQuestionTypes } from '../reducers';
 
 // component for selecting types
 // the onChange prop mimics an event callback by passing:
-// { target: { name: 'type_id', value }} as the argument
+// { target: { name: 'question_type_id', value }} as the argument
 const TypeSelect = ({ options, onChange, placeholder }) => {
   const [value, setValue] = useState(null);
 
@@ -16,13 +16,13 @@ const TypeSelect = ({ options, onChange, placeholder }) => {
         setValue(c);
         onChange({
           target: {
-            name: 'type_id',
+            name: 'question_type_id',
             value: c.value
           }
         });
       }}
       value={value}
-      placeholder={placeholder}
+      placeholder={placeholder || 'Select a Question Type...'}
     />
   );
 };
@@ -32,11 +32,11 @@ const mapStateToProps = state => {
   return {
     options: [
       {
-        value: types.find(t => t.name.toLowerCase().indexOf('multiple')).id,
+        value: types.find(t => t.name.toLowerCase().indexOf('multiple') > -1).id,
         label: 'multiple choice'
       },
       {
-        value: types.find(t => t.name.toLowerCase().indexOf('boolean')).id,
+        value: types.find(t => t.name.toLowerCase().indexOf('boolean') > -1).id,
         label: 'true/false'
       }
     ]
