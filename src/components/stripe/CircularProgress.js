@@ -97,6 +97,7 @@ class CircularIntegration extends React.Component {
               loading: false,
               success: true
             });
+            this.props.fetchProfile();
           }
         })
         .catch(err => {
