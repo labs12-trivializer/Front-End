@@ -13,7 +13,6 @@ export const GameList = styled.ul`
     border-radius: 1rem;
     width: 90%;
     padding: 2rem 4rem;
-    border-radius: 1rem;
     margin-bottom: 1rem;
     transform: perspective(1px) translateZ(0);
     transition: 250ms;
