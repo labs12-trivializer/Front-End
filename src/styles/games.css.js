@@ -11,7 +11,7 @@ export const GameList = styled.ul`
     background-color: rgba(25, 185, 233, 0.25);
     border: 1px solid;
     border-radius: 1rem;
-    width: 90%;
+    width: 100%;
     padding: 2rem 4rem;
     margin-bottom: 1rem;
     transform: perspective(1px) translateZ(0);
@@ -43,7 +43,7 @@ export const GameList = styled.ul`
     border: 1px solid;
     border-radius: 1rem;
     box-shadow: transparent 0 0 1px;
-    width: 90%;
+    width: 100%;
     text-align: center;
     text-decoration: none;
     transform: perspective(1px) translateZ(0);
