@@ -16,28 +16,20 @@ import {
   changeQuestion,
   undo
 } from '../actions';
-import { 
+import {
   QuestionContainer,
   QuestionText,
   ButtonContainer,
-  ActionButton
+  // ActionButton
  } from '../styles/question.css';
 import Answer from './Answer';
-
-// const style = {
-//   border: '1px dashed gray',
-//   padding: '0.5rem 1rem',
-//   marginBottom: '.5rem',
-//   backgroundColor: 'white',
-//   cursor: 'move'
-// };
+import { Button } from '../styles/shared.css';
 
 const indexToLetter = index => String.fromCharCode(index + 64);
 
 const Question = React.forwardRef(
   (
     {
-      round,
       moveQuestion,
       question,
       roundQuestions,
@@ -50,7 +42,6 @@ const Question = React.forwardRef(
       changeQuestion,
       questionsById,
       undo,
-      isDragging,
       connectDragSource,
       connectDropTarget,
       index
@@ -112,20 +103,20 @@ const Question = React.forwardRef(
           <strong>{index + 1}.</strong>{' ' + he.decode(currentQuestion.text)}
         </QuestionText>
         {currentQuestion.answers &&
-          currentQuestion.answers.map((a, idx) => 
+          currentQuestion.answers.map((a, idx) =>
           <Answer answerId={a} key={a} label={indexToLetter(idx + 1) + ')'}/>
         )}
         <ButtonContainer>
           <div>
-            <ActionButton onClick={remove} className="fas fa-trash-alt" />
-            <ActionButton onClick={fetchAnotherQuestion} className="fas fa-exchange-alt" />
-            {canUndo && 
-            <ActionButton onClick={() => undo(question.id)} className="fas fa-history" />
+            <Button primary small onClick={remove} className="fas fa-trash-alt" />
+            <Button primary small onClick={fetchAnotherQuestion} className="fas fa-exchange-alt" />
+            {canUndo &&
+            <Button primary small onClick={() => undo(question.id)} className="fas fa-history" />
             }
           </div>
           <div>
-            <ActionButton onClick={e => changePosition(e)} className="up fas fa-chevron-up" />
-            <ActionButton onClick={e => changePosition(e)} className="down fas fa-chevron-down" />
+            <Button primary small onClick={e => changePosition(e)} className="up fas fa-chevron-up" />
+            <Button primary small onClick={e => changePosition(e)} className="down fas fa-chevron-down" />
           </div>
         </ButtonContainer>
       </QuestionContainer>

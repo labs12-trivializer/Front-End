@@ -22,13 +22,15 @@ export const Title = styled.h1`
   font-family: cursive;
   font-size: 4rem;
   letter-spacing: 0.03em;
-  color: #ebecf1;
+  color: white;
   text-align: center;
 `;
 
 export const ButtonRow = styled.div`
   display: flex;
+  flex-direction: column-reverse;
   justify-content: space-between;
+  margin-top: 1rem;
 `;
 
 export const Button = styled.button`
@@ -38,28 +40,69 @@ export const Button = styled.button`
   padding: 1rem;
   cursor: pointer;
   outline: none;
-  margin: 1rem;
+  color: rgb(37, 225, 210);
+  background: transparent;
+  box-shadow: transparent 0px 0px 1px;
+  text-align: center;
+  transform: perspective(1px) translateZ(0px);
+  transition-duration: 300ms;
+  border-width: 1px;
+  border-style: solid;
+  border-color: initial;
+  border-image: initial;
   border-radius: 1rem;
-  color: #ebecf1;
-  border: 2px solid #19b9e9;
-  background-color: #19b9e9;
-  transition: 250ms;
+  text-decoration: none;
+  margin-bottom: 1rem;
+
+
   &:hover {
-    background-color: #ebecf1;
-    color: #19b9e9;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 8px;
   }
+
+  ${props =>
+    props.small &&
+    css`
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      align-self: flex-end;
+      border-radius: 0.5rem;
+      transform: none;
+      &:hover {
+        letter-spacing: 0px;
+      }
+    `}
 
   ${props =>
     props.secondary &&
     css`
-      color: #1f4773;
-      border: 2px solid #ebecf1;
-      background-color: #ebecf1;
+      color: #bdbdbd;
+    `}
 
-      &:hover {
-        background-color: #1f4773;
-        color: #ebecf1;
-      }
+  ${props =>
+    props.error &&
+    css`
+      color: #ef9a9a;
+    `}
+
+  ${props =>
+    props.warning &&
+    css`
+      color: #ffeb3b;
+    `}
+
+  ${props =>
+    props.success &&
+    css`
+      color: #64dd17;
+    `}
+
+  ${props =>
+    props.primary &&
+    css`
+      color: white;
+      border-color: #19b9e9;
     `}
 `;
 

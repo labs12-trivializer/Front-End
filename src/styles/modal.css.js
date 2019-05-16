@@ -26,11 +26,14 @@ export const Modal = styled.div`
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
-  background: white;
-  color: black;
+  border: 1px solid #19b9e9;
+  background-color: #1e4a75;
+  color: #19b9e9;
+  border-radius: 0.5rem;
   z-index: 60;
   max-width: 80%;
   width: 800px;
+  padding: 2rem 4rem;
 `;
 
 export const ContentContainer = styled.div`

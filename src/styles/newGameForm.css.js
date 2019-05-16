@@ -8,8 +8,6 @@ export const FormTitle = styled.div`
 `;
 
 export const Form = styled.form`
-  color: #19b9e9;
-  background-color: rgba(31, 71, 115, 0.75);
   padding: 2rem 0;
   flex: 1;
 `;

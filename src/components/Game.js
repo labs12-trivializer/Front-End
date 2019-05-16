@@ -10,13 +10,8 @@ import {
   addRound,
   deleteRound
 } from '../actions';
-import { Container, Background } from '../styles/shared.css';
-import {
-  GameInput,
-  InputControls,
-  RoundList,
-  GameControls
-} from '../styles/game.css';
+import { Container, Background, Button, ButtonRow } from '../styles/shared.css';
+import { GameInput, InputControls, RoundList } from '../styles/game.css';
 import Round from './Round';
 import Modal from './Modal';
 import NewRoundForm from './NewRoundForm';
@@ -39,7 +34,7 @@ class Game extends Component {
     await this.props
       .addRound({
         game_id: this.props.game.id,
-        number: `${this.props.game.rounds.length + 1}`
+        number: this.props.game.rounds ? this.props.game.rounds.length + 1 : 1
       })
       .then(() => {
         this.props.fetchGame(this.props.match.params.id);
@@ -87,7 +82,9 @@ class Game extends Component {
             <Modal onClose={() => this.setState({ modalShowing: false })}>
               <NewRoundForm
                 gameId={this.props.game.id}
-                number={this.props.game.rounds.length}
+                number={
+                  this.props.game.rounds ? this.props.game.rounds.length + 1 : 1
+                }
                 onCancel={() => this.setState({ modalShowing: false })}
               />
             </Modal>
@@ -106,9 +103,9 @@ class Game extends Component {
             </InputControls>
           )}
           <RoundList>
-            {this.props.game.rounds.map(r => (
+            {this.props.game.rounds.map((r, idx) => (
               <li key={`round${r}`}>
-                <Round roundId={r} />
+                <Round roundId={r} index={idx + 1} />
                 <div
                   onClick={() => this.props.deleteRound(r, this.props.game.id)}
                   className="fas fa-trash-alt"
@@ -116,18 +113,20 @@ class Game extends Component {
               </li>
             ))}
           </RoundList>
-          <GameControls>
+          <ButtonRow>
             {this.props.game.rounds.length >= this.props.roundLimit ? (
               <Link to="/billing">Upgrade to enable more rounds!</Link>
             ) : (
               <>
-                <button onClick={() => this.setState({ modalShowing: true })}>
+                <Button onClick={this.deleteGame} error>
+                  Delete Game
+                </Button>
+                <Button onClick={() => this.setState({ modalShowing: true })}>
                   New Round
-                </button>
-                <button onClick={this.deleteGame}>Delete Game</button>
+                </Button>
               </>
             )}
-          </GameControls>
+          </ButtonRow>
         </Container>
       );
     }
