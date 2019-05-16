@@ -123,20 +123,24 @@ class CircularIntegration extends React.Component {
     return (
       <>
         <div className={classes.root}>
-          <ProgressDiv className={classes.wrapper}>
-            <Fab color="primary" className={buttonClassname}>
-              {success ? <CheckIcon /> : <PaymentIcon />}
-            </Fab>
-            {loading && (
-              <CircularProgress size={68} className={classes.fabProgress} />
-            )}
-          </ProgressDiv>
+          {(loading || success) && (
+            <ProgressDiv className={classes.wrapper}>
+              <Fab color="primary" className={buttonClassname}>
+                {success ? <CheckIcon /> : <PaymentIcon />}
+              </Fab>
+              {loading && (
+                <CircularProgress size={68} className={classes.fabProgress} />
+              )}
+            </ProgressDiv>
+          )}
           <ProgressDiv className={classes.wrapper}>
             <Button
               variant="contained"
               color="primary"
               className={buttonClassname}
-              disabled={loading}
+              disabled={
+                loading || this.props.basicPlan === this.props.premiumPlan
+              }
               onClick={this.upgradeTier}
             >
               Pay With Card
