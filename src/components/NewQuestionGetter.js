@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 
 import { fetchNewRoundQuestions } from '../actions';
 import { getAllCategories, getAllQuestionTypes } from '../reducers';
+import CategorySelect from './CategorySelect';
+import DifficultySelect from './DifficultySelect';
+import TypeSelect from './TypeSelect';
+import { TextInput, Button, ButtonRow } from '../styles/shared.css';
 
 // This Component's one job is to dispatch fetchNewRoundQuestions
 const NewQuestionGetter = ({
@@ -11,7 +15,12 @@ const NewQuestionGetter = ({
   types,
   categories,
   roundId,
-  tierName
+  tierName,
+  typesById,
+  categoriesById,
+  submitOverride,
+  onCancel,
+  goLabel
 }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [fields, setFields] = useState({ amount: 0 });
@@ -28,13 +37,24 @@ const NewQuestionGetter = ({
     } else if (fields.amount > limit) {
       setErrorMsg(`${tierName} question limit: ${questionLimit}`);
     } else {
-      fetchNewRoundQuestions(fields, categories, types, roundId);
+      const params = {
+        amount: fields.amount,
+        category:
+          fields.category_id && categoriesById[fields.category_id].category_id,
+        type:
+          fields.question_type_id &&
+          typesById[fields.question_type_id].name.split(' ')[0], //first word
+        difficulty: fields.difficulty && fields.difficulty
+      };
+      submitOverride
+        ? submitOverride(params)
+        : fetchNewRoundQuestions(params, categories, types, roundId);
     }
   };
   return (
     <form onSubmit={onSubmit}>
       {errorMsg && <div>{errorMsg}</div>}
-      <input
+      <TextInput
         onChange={e => {
           handleChanges(e);
           const value = parseInt(e.target.value);
@@ -58,38 +78,31 @@ const NewQuestionGetter = ({
         max={questionLimit > 50 ? '50' : questionLimit}
         value={fields.amount}
       />
-      <select name="category" onChange={handleChanges}>
-        <option value="any">Any Category</option>
-        {categories.map(c => (
-          <option value={c.category_id} key={`category${c.id}`}>
-            {c.name}
-          </option>
-        ))}
-      </select>
-      <select name="difficulty" onChange={handleChanges}>
-        <option value="any">Any Difficulty</option>
-        <option value="easy">easy</option>
-        <option value="medium">medium</option>
-        <option value="hard">hard</option>
-      </select>
-      <select name="type" onChange={handleChanges}>
-        <option value="any">Any Type</option>
-        <option value="boolean">true/false</option>
-        <option value="multiple">multiple choice</option>
-      </select>
-      <button
-        type="submit"
-        disabled={fields.amount > 50 || fields.amount > questionLimit}
-      >
-        Get Questions
-      </button>
+      <CategorySelect onChange={handleChanges} />
+      <DifficultySelect onChange={handleChanges} />
+      <TypeSelect onChange={handleChanges} />
+      <ButtonRow>
+        {onCancel && (
+          <Button type="button" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
+        <Button
+          type="submit"
+          disabled={fields.amount > 50 || fields.amount > questionLimit}
+        >
+          { goLabel || 'Get Questions' }
+        </Button>
+      </ButtonRow>
     </form>
   );
 };
 
 const mapStateToProps = state => ({
   categories: getAllCategories(state),
+  categoriesById: state.categories.byId,
   types: getAllQuestionTypes(state),
+  typesById: state.questionTypes.byId,
   questionLimit: state.profile.question_limit,
   tierName: state.profile.tier_name
 });

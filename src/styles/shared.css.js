@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import dd from 'react-dropdown';
 
 export const Container = styled.div`
   width: 100%;
@@ -37,7 +38,7 @@ export const Button = styled.button`
   padding: 1rem;
   cursor: pointer;
   outline: none;
-  margin: 2rem 1rem 0rem;
+  margin: 1rem;
   border-radius: 1rem;
   color: #ebecf1;
   border: 2px solid #19b9e9;
@@ -60,4 +61,22 @@ export const Button = styled.button`
         color: #ebecf1;
       }
     `}
+`;
+
+export const Dropdown = styled(dd)`
+  .Dropdown-control {
+    border-radius: 0;
+    padding: 0.8rem 5.2rem 0.8rem 1rem;
+    font-size: 1.8rem;
+  }
+
+  .Dropdown-menu {
+    font-size: 1.8rem;
+  }
+`;
+
+export const TextInput = styled.input`
+  font-size: 1.8rem;
+  padding: 0.8rem 5.2rem 0.8rem 1rem;
+  flex: 1;
 `;

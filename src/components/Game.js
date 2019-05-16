@@ -3,18 +3,32 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import { fetchGame, editGame, deleteGame, addRound, deleteRound } from '../actions';
+import {
+  fetchGame,
+  editGame,
+  deleteGame,
+  addRound,
+  deleteRound
+} from '../actions';
 import { Container, Background } from '../styles/shared.css';
-import { GameInput, InputControls, RoundList, GameControls } from '../styles/game.css';
+import {
+  GameInput,
+  InputControls,
+  RoundList,
+  GameControls
+} from '../styles/game.css';
 import Round from './Round';
+import Modal from './Modal';
+import NewRoundForm from './NewRoundForm';
 
-const initialState = (props) => ({
+const initialState = props => ({
   title: props.game && props.game.name,
-  editingTitle: false
-})
+  editingTitle: false,
+  modalShowing: false
+});
 
 class Game extends Component {
-  state = initialState(this.props)
+  state = initialState(this.props);
 
   componentDidMount = () => {
     console.log('Game Info:', this.props.game);
@@ -38,17 +52,17 @@ class Game extends Component {
   deleteGame = async () => {
     await this.props.deleteGame(this.props.match.params.id);
     this.props.history.replace('/games');
-  }
+  };
 
-  updateTitle = (event) => {
+  updateTitle = event => {
     this.setState({
       title: event.target.value
     });
-  }
+  };
 
   handleInputClick = () => {
     this.setState({ editingTitle: true });
-  }
+  };
 
   handleTitleRename = async () => {
     await this.props.editGame(this.props.game.id, {
@@ -56,11 +70,11 @@ class Game extends Component {
     });
 
     this.setState({ editingTitle: false });
-  }
+  };
 
   handleTitleCancel = () => {
     this.setState(initialState(this.props));
-  }
+  };
 
   render() {
     if (!this.props.game || !this.props.game.rounds) {
@@ -69,6 +83,16 @@ class Game extends Component {
       console.log('Rounds Info:', this.props.game.rounds);
       return (
         <Container>
+          {this.state.modalShowing && (
+            <Modal onClose={() => this.setState({ modalShowing: false })}>
+              <NewRoundForm
+                gameId={this.props.game.id}
+                number={this.props.game.rounds.length}
+                onCancel={() => this.setState({ modalShowing: false })}
+              />
+            </Modal>
+          )}
+
           <Background />
           <GameInput
             value={this.state.title}
@@ -85,7 +109,10 @@ class Game extends Component {
             {this.props.game.rounds.map(r => (
               <li key={`round${r}`}>
                 <Round roundId={r} />
-                <div onClick={() => this.props.deleteRound(r, this.props.game.id)} className="fas fa-trash-alt" />
+                <div
+                  onClick={() => this.props.deleteRound(r, this.props.game.id)}
+                  className="fas fa-trash-alt"
+                />
               </li>
             ))}
           </RoundList>
@@ -94,7 +121,9 @@ class Game extends Component {
               <Link to="/billing">Upgrade to enable more rounds!</Link>
             ) : (
               <>
-                <button onClick={this.handleAddNewRound}>New Round</button>
+                <button onClick={() => this.setState({ modalShowing: true })}>
+                  New Round
+                </button>
                 <button onClick={this.deleteGame}>Delete Game</button>
               </>
             )}

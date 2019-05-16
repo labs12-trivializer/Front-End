@@ -9,7 +9,8 @@ import {
   EDIT_QUESTION_SUCCESS,
   GET_NEW_ROUND_QUESTIONS_SUCCESS,
   CHANGE_QUESTION_SUCCESS,
-  ADD_CUSTOM_QUESTION
+  ADD_CUSTOM_QUESTION,
+  ADD_ROUND_SUCCESS
 } from '../actions/types';
 
 import { combineReducers } from 'redux';
@@ -35,6 +36,7 @@ const byId = (state = {}, action) => {
       };
     case ADD_CUSTOM_QUESTION:
     case EDIT_QUESTION_SUCCESS:
+    case ADD_ROUND_SUCCESS:
     case CHANGE_QUESTION_SUCCESS:
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
       return {
@@ -63,6 +65,7 @@ const allIds = (state = [], action) => {
     case FETCH_ANSWERS_SUCCESS:
       return Object.keys(action.payload.entities.answers);
     case EDIT_QUESTION_SUCCESS:
+    case ADD_ROUND_SUCCESS:
     case ADD_CUSTOM_QUESTION:
     case CHANGE_QUESTION_SUCCESS:
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
