@@ -93,7 +93,7 @@ class RoundDetails extends Component {
       return (
         <LoadingContainer>
           <Background />
-          <Loader 
+          <Loader
             type="Ball-Triangle"
             color="#FFFFFF"
             height="100"
@@ -125,7 +125,7 @@ class RoundDetails extends Component {
             >Save Changes</SaveChanges>
           : <NoChanges>Can't Touch This</NoChanges>
         }
-        {this.props.dbQuestionCount === 0 && (
+        {newQuestionCount === 0 && this.props.dbQuestionCount === 0 && (
           <NewQuestionGetter roundId={this.props.round.id} />
         )}
         <ListContainer>
@@ -139,9 +139,9 @@ class RoundDetails extends Component {
             />
           ))}
         </ListContainer>
-        <AddCustomQuestion onClick={() => this.setState({ modalShowing: true })}>
+        <Button onClick={() => this.setState({ modalShowing: true })}>
           Add Custom Question
-        </AddCustomQuestion>
+        </Button>
         {this.state.modalShowing && (
           <Modal onClose={() => this.setState({ modalShowing: false })}>
             <CustomQuestionForm

@@ -83,7 +83,7 @@ const NewQuestionGetter = ({
       <TypeSelect onChange={handleChanges} />
       <ButtonRow>
         {onCancel && (
-          <Button type="button" onClick={onCancel}>
+          <Button type="button" onClick={onCancel} secondary>
             Cancel
           </Button>
         )}

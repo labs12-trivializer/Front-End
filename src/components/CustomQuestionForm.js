@@ -208,7 +208,7 @@ const CustomQuestionForm = ({
                       }}
                       type="button"
                     >
-                      finish
+                      Finish
                     </Button>
                   </ButtonRow>
                 </StepBody>

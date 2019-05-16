@@ -10,13 +10,8 @@ import {
   addRound,
   deleteRound
 } from '../actions';
-import { Container, Background } from '../styles/shared.css';
-import {
-  GameInput,
-  InputControls,
-  RoundList,
-  GameControls
-} from '../styles/game.css';
+import { Container, Background, Button, ButtonRow } from '../styles/shared.css';
+import { GameInput, InputControls, RoundList } from '../styles/game.css';
 import Round from './Round';
 import Modal from './Modal';
 import NewRoundForm from './NewRoundForm';
@@ -118,18 +113,20 @@ class Game extends Component {
               </li>
             ))}
           </RoundList>
-          <GameControls>
+          <ButtonRow>
             {this.props.game.rounds.length >= this.props.roundLimit ? (
               <Link to="/billing">Upgrade to enable more rounds!</Link>
             ) : (
               <>
-                <button onClick={() => this.setState({ modalShowing: true })}>
+                <Button onClick={this.deleteGame} error>
+                  Delete Game
+                </Button>
+                <Button onClick={() => this.setState({ modalShowing: true })}>
                   New Round
-                </button>
-                <button onClick={this.deleteGame}>Delete Game</button>
+                </Button>
               </>
             )}
-          </GameControls>
+          </ButtonRow>
         </Container>
       );
     }
