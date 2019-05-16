@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import { Wizard } from 'react-albus';
-import Dropdown from 'react-dropdown';
 
 export const QuestionWizard = styled(Wizard)`
   display: flex;
@@ -38,18 +37,6 @@ export const StepField = styled.div`
   flex: 1;
   flex-direction: row;
   align-items: space-between;
-`;
-
-export const StepDropdown = styled(Dropdown)`
-  .Dropdown-control {
-    border-radius: 0;
-    padding: 0.8rem 5.2rem 0.8rem 1rem;
-    font-size: 1.8rem;
-  }
-
-  .Dropdown-menu {
-    font-size: 1.8rem;
-  }
 `;
 
 export const StepControls = styled.div`

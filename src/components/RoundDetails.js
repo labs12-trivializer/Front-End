@@ -15,9 +15,9 @@ import NewQuestionGetter from './NewQuestionGetter';
 import CustomQuestionForm from './CustomQuestionForm';
 import Modal from './Modal';
 
-import { Background } from '../styles/shared.css';
-import { 
-  RoundContainer, 
+import { Background, Button } from '../styles/shared.css';
+import {
+  RoundContainer,
   RoundInfo,
   SaveChanges,
   NoChanges,
@@ -103,6 +103,8 @@ class RoundDetails extends Component {
       );
     }
 
+    console.log('ROUND INFO: ', this.props.round);
+
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
     return (
@@ -118,7 +120,7 @@ class RoundDetails extends Component {
           </div>
         </RoundInfo>
         {(newQuestionCount > 0 || this.props.round.dirty)
-          ? <SaveChanges 
+          ? <SaveChanges
               onClick={() => this.props.editRound(this.props.round.id, this.nestedRound())}
             >Save Changes</SaveChanges>
           : <NoChanges>Can't Touch This</NoChanges>
