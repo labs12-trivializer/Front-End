@@ -13,7 +13,7 @@ const createOptions = () => {
   return {
     style: {
       base: {
-        fontSize: '20px',
+        fontSize: '16px',
         color: '#424770',
         fontFamily: 'Open Sans, sans-serif',
         letterSpacing: '0.025em',
