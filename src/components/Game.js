@@ -39,7 +39,7 @@ class Game extends Component {
     await this.props
       .addRound({
         game_id: this.props.game.id,
-        number: `${this.props.game.rounds.length + 1}`
+        number: this.props.game.rounds ? this.props.game.rounds.length + 1 : 1
       })
       .then(() => {
         this.props.fetchGame(this.props.match.params.id);
@@ -87,7 +87,9 @@ class Game extends Component {
             <Modal onClose={() => this.setState({ modalShowing: false })}>
               <NewRoundForm
                 gameId={this.props.game.id}
-                number={this.props.game.rounds.length}
+                number={
+                  this.props.game.rounds ? this.props.game.rounds.length + 1 : 1
+                }
                 onCancel={() => this.setState({ modalShowing: false })}
               />
             </Modal>
@@ -106,9 +108,9 @@ class Game extends Component {
             </InputControls>
           )}
           <RoundList>
-            {this.props.game.rounds.map(r => (
+            {this.props.game.rounds.map((r, idx) => (
               <li key={`round${r}`}>
-                <Round roundId={r} />
+                <Round roundId={r} index={idx + 1} />
                 <div
                   onClick={() => this.props.deleteRound(r, this.props.game.id)}
                   className="fas fa-trash-alt"
