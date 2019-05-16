@@ -4,7 +4,7 @@ import { Image } from 'cloudinary-react';
 import Tilt from 'react-tilt';
 
 import { Container, Form, Avatar } from '../styles/profile.css';
-import { Background } from '../styles/shared.css';
+import { Background, Button } from '../styles/shared.css';
 
 import { fetchProfile, editProfile } from '../actions';
 
@@ -62,7 +62,7 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
           <label htmlFor="profile-newpass">New Password</label>
           <input type="password" />
         </div>
-        <button>Save</button>
+        <Button>Save</Button>
       </Form>
     </Container>
   );

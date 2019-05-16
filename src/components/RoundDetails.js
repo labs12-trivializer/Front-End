@@ -23,7 +23,7 @@ import {
   NoChanges,
   ListContainer,
   LoadingContainer,
-  AddCustomQuestion
+  // AddCustomQuestion
 } from '../styles/round.css';
 
 class RoundDetails extends Component {
@@ -121,6 +121,7 @@ class RoundDetails extends Component {
         </RoundInfo>
         {(newQuestionCount > 0 || this.props.round.dirty)
           ? <SaveChanges
+              warning
               onClick={() => this.props.editRound(this.props.round.id, this.nestedRound())}
             >Save Changes</SaveChanges>
           : <NoChanges>Can't Touch This</NoChanges>

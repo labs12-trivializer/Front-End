@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from './shared.css';
 
 export const LoadingContainer = styled.div`
   width: 100%;
@@ -54,33 +55,11 @@ export const RoundInfo = styled.div`
   }
 `;
 
-export const SaveChanges = styled.button`
-  font-size: 1.2rem;
-  border: 1px solid #19B9E9;
-  border-radius: .5rem;
-  background-color: rgba(25, 185, 233, 0.25);
-  color: white;
-  cursor: pointer;
-  padding: .5rem 1rem;
+export const SaveChanges = styled(Button)`
   margin: 1rem 0;
-  align-self: flex-end;
-  transition: .1s;
-
-  :hover {
-    border: 1px solid white;
-    transition: .1s;
-  }
 `;
 
-export const NoChanges = styled.button`
-  font-size: 1.2rem;
-  border: 1px solid #19B9E9;
-  border-radius: .5rem;
-  background-color: rgba(25, 185, 233, 0.25);
-  color: white;
-  cursor: pointer;
-  margin: 1rem 0;
-  padding: .5rem;
+export const NoChanges = styled(SaveChanges)`
   visibility: hidden;
 `;
 
