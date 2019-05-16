@@ -6,7 +6,7 @@ import { getAllCategories, getAllQuestionTypes } from '../reducers';
 import CategorySelect from './CategorySelect';
 import DifficultySelect from './DifficultySelect';
 import TypeSelect from './TypeSelect';
-import { TextInput, Button } from '../styles/shared.css';
+import { TextInput, Button, ButtonRow } from '../styles/shared.css';
 
 // This Component's one job is to dispatch fetchNewRoundQuestions
 const NewQuestionGetter = ({
@@ -17,7 +17,10 @@ const NewQuestionGetter = ({
   roundId,
   tierName,
   typesById,
-  categoriesById
+  categoriesById,
+  submitOverride,
+  onCancel,
+  goLabel
 }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [fields, setFields] = useState({ amount: 0 });
@@ -34,19 +37,18 @@ const NewQuestionGetter = ({
     } else if (fields.amount > limit) {
       setErrorMsg(`${tierName} question limit: ${questionLimit}`);
     } else {
-      if (roundId) {
-        fetchNewRoundQuestions(
-          {
-            amount: fields.amount,
-            category: categoriesById[fields.category_id].category_id,
-            type: typesById[fields.question_type_id].name.split(' ')[0], //first word
-            difficulty: fields.difficulty
-          },
-          categories,
-          types,
-          roundId
-        );
-      }
+      const params = {
+        amount: fields.amount,
+        category:
+          fields.category_id && categoriesById[fields.category_id].category_id,
+        type:
+          fields.question_type_id &&
+          typesById[fields.question_type_id].name.split(' ')[0], //first word
+        difficulty: fields.difficulty && fields.difficulty
+      };
+      submitOverride
+        ? submitOverride(params)
+        : fetchNewRoundQuestions(params, categories, types, roundId);
     }
   };
   return (
@@ -79,12 +81,19 @@ const NewQuestionGetter = ({
       <CategorySelect onChange={handleChanges} />
       <DifficultySelect onChange={handleChanges} />
       <TypeSelect onChange={handleChanges} />
-      <Button
-        type="submit"
-        disabled={fields.amount > 50 || fields.amount > questionLimit}
-      >
-        Get Questions
-      </Button>
+      <ButtonRow>
+        {onCancel && (
+          <Button type="button" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
+        <Button
+          type="submit"
+          disabled={fields.amount > 50 || fields.amount > questionLimit}
+        >
+          { goLabel || 'Get Questions' }
+        </Button>
+      </ButtonRow>
     </form>
   );
 };

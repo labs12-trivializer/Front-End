@@ -13,7 +13,8 @@ import {
   ADD_QUESTION_SUCCESS,
   DELETE_STATE_QUESTION,
   CHANGE_QUESTION_SUCCESS,
-  UNDO
+  UNDO,
+  ADD_ROUND_SUCCESS
 } from '../actions/types';
 
 import question from './question';
@@ -51,6 +52,7 @@ const byId = (state = {}, action) => {
         ...action.payload.entities.questions
       };
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
+    case ADD_ROUND_SUCCESS:
       return {
         ...state,
         ...action.payload.entities.questions
@@ -106,6 +108,7 @@ const allIds = (state = [], action) => {
         : [...state, action.payload.result];
     case CHANGE_QUESTION_SUCCESS:
     case GET_NEW_ROUND_QUESTIONS_SUCCESS:
+    case ADD_ROUND_SUCCESS:
       return state.concat(
         Object.keys(action.payload.entities.questions).filter(
           a => state.indexOf(a) === -1

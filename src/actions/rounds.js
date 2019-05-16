@@ -50,7 +50,7 @@ export const addRound = (roundData, game_id) => async dispatch => {
       roundData
     );
     dispatch({ type: ADD_ROUND_SUCCESS, payload: success.data, game_id });
-    return success;
+    return success.data;
   } catch (error) {
     dispatch({ type: ADD_ROUND_FAILURE, payload: error });
     return error;
