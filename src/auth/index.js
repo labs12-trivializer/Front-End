@@ -56,8 +56,7 @@ export default class Auth {
     this.expiresAt = expiresAt;
 
     // navigate to the home route
-    // history.replace('/home', [this.userProfile.email]);
-    history.replace('/games');
+    history.replace('/home', [this.userProfile.email]);
   }
 
   renewSession = () => {
