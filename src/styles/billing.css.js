@@ -9,6 +9,7 @@ export const Card = styled.div`
   padding: 2rem 4rem;
   border-radius: 1rem;
   margin: 8rem auto;
+  max-width: 700px;
 `;
 
 export const ProgressDiv = styled.div`

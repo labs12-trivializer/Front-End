@@ -114,7 +114,8 @@ export const GameControls = styled.div`
     }
   } */
 
-  > a, button {
+  > a,
+  button {
     color: rgb(37, 225, 210);
     background: transparent;
     box-shadow: transparent 0px 0px 1px;

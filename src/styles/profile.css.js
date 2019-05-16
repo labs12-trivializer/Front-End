@@ -16,11 +16,11 @@ export const Avatar = styled.figure`
   > img {
     display: block;
     border-radius: 10px;
-    opacity: ${props => props.avatar ? 1 : 0.5};
+    opacity: ${props => (props.avatar ? 1 : 0.5)};
     max-width: 200px;
     transition: 500ms ease;
     backface-visibility: hidden;
-    box-shadow: 0px 0px 30px 10px rgba(235, 236, 241, 0.25)
+    box-shadow: 0px 0px 30px 10px rgba(235, 236, 241, 0.25);
   }
 
   &:hover img {
@@ -28,8 +28,8 @@ export const Avatar = styled.figure`
   }
 
   > div.middle {
-    transition: .5s ease;
-    opacity: ${props => props.avatar ? 0 : 1};
+    transition: 0.5s ease;
+    opacity: ${props => (props.avatar ? 0 : 1)};
     position: absolute;
     top: 50%;
     left: 50%;
@@ -72,13 +72,14 @@ export const Form = styled.form`
   }
 
   > button {
-    width: 100%;
-    align-self: center;
-    margin-top: 10px;
-    padding: 1rem;
-    background-color: rgb(31, 71, 115);
-    color: white;
-    border: none;
-    border-radius: 1rem;
+    margin-top: 1rem;
+    /* width: 100%; */
+    /* align-self: center; */
+    /* margin-top: 10px; */
+    /* padding: 1rem; */
+    /* background-color: rgb(31, 71, 115); */
+    /* color: white; */
+    /* border: none; */
+    /* border-radius: 1rem; */
   }
 `;
