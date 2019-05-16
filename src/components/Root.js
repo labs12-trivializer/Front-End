@@ -1,4 +1,5 @@
 import React from 'react';
+import 'typeface-roboto';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { DragDropContextProvider } from 'react-dnd';
@@ -47,8 +48,6 @@ const Root = () => (
       <DragDropContextProvider backend={HTML5Backend}>
         <Router history={history}>
           <React.Fragment>
-            <Reset />
-            <GlobalStyles />
             <Route
               path="/"
               render={props =>

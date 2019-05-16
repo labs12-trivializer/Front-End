@@ -21,8 +21,9 @@
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.8.6",
-    "react-loader-spinner": "^2.3.0",
     "react-dropdown": "^1.6.4",
+    "react-hook-form": "^3.5.1",
+    "react-loader-spinner": "^2.3.0",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
@@ -35,7 +36,8 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "shortid": "^2.2.14",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.2.0",
+    "typeface-roboto": "^0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",
