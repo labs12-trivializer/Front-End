@@ -22,21 +22,23 @@ export const ProgressDiv = styled.div`
 `;
 
 export const FormDiv = styled.div`
-  margin: 20px 0px;
-  background-color: white;
-  box-shadow: rgba(50, 50, 93, 0.14902) 0px 1px 3px,
-    rgba(0, 0, 0, 0.0196078) 0px 1px 0px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: .5em;
+  padding: .25em .5em;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 300px;
 `;
 
 export const SubscriptionTiers = styled.form`
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
   margin: 10px 5px;
 `;
 
 export const CheckInput = styled.input`
   margin-right: 5px;
-  disabled: true;
 `;
 
 export const Header = styled.h2`
