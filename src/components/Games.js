@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import waitForLogin from './waitForLogin';
 import { getAllGames } from '../reducers';
-import { fetchGames, createNewGame } from '../actions';
+import { fetchGames, createNewGame, fetchCategories, fetchQuestionTypes } from '../actions';
 
 import { Container, Background, Title, Button } from '../styles/shared.css';
 import { GameList } from '../styles/games.css';
@@ -19,6 +19,8 @@ class Games extends Component {
 
   componentDidMount = () => {
     this.props.fetchGames();
+    this.props.fetchCategories();
+    this.props.fetchQuestionTypes();
     console.log(this.props.auth);
   };
 
@@ -79,6 +81,8 @@ export default waitForLogin(
     mapStateToProps,
     {
       fetchGames,
+      fetchCategories,
+      fetchQuestionTypes,
       createNewGame
     }
   )(Games)
