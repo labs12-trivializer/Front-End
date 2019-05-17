@@ -15,7 +15,10 @@ import NewQuestionGetter from './NewQuestionGetter';
 import CustomQuestionForm from './CustomQuestionForm';
 import Modal from './Modal';
 
-import { Background, Button } from '../styles/shared.css';
+import { 
+  Background,
+  // Button 
+} from '../styles/shared.css';
 import {
   RoundContainer,
   RoundInfo,
@@ -23,7 +26,7 @@ import {
   NoChanges,
   ListContainer,
   LoadingContainer,
-  // AddCustomQuestion
+  AddCustomQuestion
 } from '../styles/round.css';
 
 class RoundDetails extends Component {
@@ -140,9 +143,9 @@ class RoundDetails extends Component {
             />
           ))}
         </ListContainer>
-        <Button onClick={() => this.setState({ modalShowing: true })}>
+        <AddCustomQuestion onClick={() => this.setState({ modalShowing: true })}>
           Add Custom Question
-        </Button>
+        </AddCustomQuestion>
         {this.state.modalShowing && (
           <Modal onClose={() => this.setState({ modalShowing: false })}>
             <CustomQuestionForm
