@@ -26,7 +26,7 @@ import clsx from 'clsx';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Hidden from '@material-ui/core/Hidden';
-const drawerWidth = 240;
+export const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
@@ -114,8 +114,6 @@ class PersistentDrawerLeft extends React.Component {
 
     return (
       <div className={classes.root}>
-        <CssBaseline />
-        <Hidden smDown implementation="css">
           <AppBar
             className={classNames(classes.appBar, {
               [classes.appBarShift]: true
@@ -185,79 +183,6 @@ class PersistentDrawerLeft extends React.Component {
               )}
             </List>
           </Drawer>
-        </Hidden>
-        <Hidden mdUp implementation="css">
-          <AppBar
-            className={classNames(classes.appBar, {
-              [classes.appBarShift]: open
-            })}
-          >
-            <Toolbar disableGutters={!open}>
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(classes.menuButton, open && classes.hide)}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" color="inherit" noWrap>
-                Not Trivializer
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            className={classes.drawer}
-            variant="persistent"
-            anchor="left"
-            open={open}
-            onClose={this.handleDrawerClose}
-            classes={{
-              paper: classes.drawerPaper
-            }}
-          >
-            <div className={classes.drawerHeader}>
-              <IconButton onClick={this.handleDrawerClose}>
-                {theme.direction === 'ltr' ? (
-                  <ChevronLeftIcon />
-                ) : (
-                  <ChevronRightIcon />
-                )}
-              </IconButton>
-            </div>
-            <Divider />
-            <List>
-              <ListItem button component={RouterLink} to="/games">
-                <ListItemIcon>
-                  <GamesIcon />
-                </ListItemIcon>
-                <ListItemText>Games</ListItemText>
-              </ListItem>
-              <ListItem button component={RouterLink} to="/billing">
-                <ListItemIcon>
-                  <AccountBalanceIcon />
-                </ListItemIcon>
-                <ListItemText>Billing</ListItemText>
-              </ListItem>
-              <ListItem button component={RouterLink} to="/settings">
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText>Settings</ListItemText>
-              </ListItem>
-              {isLoggedIn && (
-                <ListItem button onClick={this.logout}>
-                  <ListItemIcon>
-                    <Icon
-                      className={clsx(classes.icon, 'fa fa-sign-out-alt')}
-                    />
-                  </ListItemIcon>
-                  <ListItemText>Logout</ListItemText>
-                </ListItem>
-              )}
-            </List>
-          </Drawer>
-        </Hidden>
       </div>
     );
   }
@@ -269,3 +194,75 @@ PersistentDrawerLeft.propTypes = {
 };
 
 export default withStyles(styles, { withTheme: true })(PersistentDrawerLeft);
+//        <Hidden mdUp implementation="css">
+//          <AppBar
+//            className={classNames(classes.appBar, {
+//              [classes.appBarShift]: open
+//            })}
+//          >
+//            <Toolbar disableGutters={!open}>
+//              <IconButton
+//                color="inherit"
+//                aria-label="Open drawer"
+//                onClick={this.handleDrawerOpen}
+//                className={classNames(classes.menuButton, open && classes.hide)}
+//              >
+//                <MenuIcon />
+//              </IconButton>
+//              <Typography variant="h6" color="inherit" noWrap>
+//                Not Trivializer
+//              </Typography>
+//            </Toolbar>
+//          </AppBar>
+//          <Drawer
+//            className={classes.drawer}
+//            variant="persistent"
+//            anchor="left"
+//            open={open}
+//            onClose={this.handleDrawerClose}
+//            classes={{
+//              paper: classes.drawerPaper
+//            }}
+//          >
+//            <div className={classes.drawerHeader}>
+//              <IconButton onClick={this.handleDrawerClose}>
+//                {theme.direction === 'ltr' ? (
+//                  <ChevronLeftIcon />
+//                ) : (
+//                  <ChevronRightIcon />
+//                )}
+//              </IconButton>
+//            </div>
+//            <Divider />
+//            <List>
+//              <ListItem button component={RouterLink} to="/games">
+//                <ListItemIcon>
+//                  <GamesIcon />
+//                </ListItemIcon>
+//                <ListItemText>Games</ListItemText>
+//              </ListItem>
+//              <ListItem button component={RouterLink} to="/billing">
+//                <ListItemIcon>
+//                  <AccountBalanceIcon />
+//                </ListItemIcon>
+//                <ListItemText>Billing</ListItemText>
+//              </ListItem>
+//              <ListItem button component={RouterLink} to="/settings">
+//                <ListItemIcon>
+//                  <SettingsIcon />
+//                </ListItemIcon>
+//                <ListItemText>Settings</ListItemText>
+//              </ListItem>
+//              {isLoggedIn && (
+//                <ListItem button onClick={this.logout}>
+//                  <ListItemIcon>
+//                    <Icon
+//                      className={clsx(classes.icon, 'fa fa-sign-out-alt')}
+//                    />
+//                  </ListItemIcon>
+//                  <ListItemText>Logout</ListItemText>
+//                </ListItem>
+//              )}
+//            </List>
+//          </Drawer>
+//        </Hidden>

@@ -17,7 +17,6 @@ export const Background = styled.div`
 `;
 
 export const Title = styled.h1`
-  margin-top: 8rem;
   margin-bottom: 4rem;
   font-family: cursive;
   font-size: 4rem;

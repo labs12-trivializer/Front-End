@@ -6,10 +6,41 @@ import waitForLogin from './waitForLogin';
 import { getAllGames } from '../reducers';
 import { fetchGames, createNewGame } from '../actions';
 
-import { Container, Background, Title, Button } from '../styles/shared.css';
-import { GameList } from '../styles/games.css';
+import { Title } from '../styles/shared.css';
 import Modal from './Modal';
 import NewGameForm from './NewGameForm';
+import { withStyles } from '@material-ui/styles';
+import {
+  Card,
+  Button,
+  CardContent,
+  Typography,
+  withWidth,
+  CardActionArea
+} from '@material-ui/core';
+import { isWidthUp } from '@material-ui/core/withWidth';
+
+const styles = theme => ({
+  card: {
+    flex: 1,
+    margin: theme.spacing.unit
+  },
+  pos: {
+    marginBottom: 12
+  },
+  cardList: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  cardRow: {
+    display: 'flex'
+  },
+  nothing: {
+    flex: 1,
+    margin: '0.5rem',
+    visiblity: 'hidden'
+  }
+});
 
 class Games extends Component {
   state = { modalShowing: false };
@@ -28,7 +59,83 @@ class Games extends Component {
     });
   };
 
+  groupGames = (number = 3) => {
+    const { classes } = this.props;
+    const newGameCard = (
+      <Card className={classes.card}>
+        <CardActionArea>
+          <CardContent>
+            <Typography
+              component="h2"
+              variant="h5"
+              className={classes.title}
+              color="textPrimary"
+              gutterBottom
+            >
+              Create New Game
+            </Typography>
+            {this.props.games.length >= this.props.gameLimit ? (
+              <Link to="/billing">Upgrade For more games</Link>
+            ) : (
+              <Button onClick={() => this.setState({ modalShowing: true })}>
+                Create New Game
+              </Button>
+            )}
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    );
+
+    const games = [
+      ...this.props.games.map(g => (
+        <Card className={classes.card} key={`game${g.id}`}>
+          <CardActionArea>
+            <CardContent>
+              <Typography
+                component="h2"
+                variant="h5"
+                className={classes.title}
+                color="textPrimary"
+                gutterBottom
+              >
+                {g.name}
+              </Typography>
+              <Typography component="p">
+                Rounds: {g.num_rounds}
+                <br />
+                Questions: {g.num_questions}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      )),
+      newGameCard
+    ];
+
+    const groups = [];
+    let group = [];
+    games.forEach((g, idx) => {
+      if (idx % number === 0) {
+        groups.push(group);
+        group = [];
+      }
+
+      group.push(g);
+    });
+
+    if (group.length > 0) {
+      while (group.length < number) {
+        group.push(<div className={classes.nothing} />);
+      }
+      groups.push(group);
+    }
+
+    return groups;
+  };
+
   render() {
+    const { classes } = this.props;
+
     return (
       <>
         {this.state.modalShowing && (
@@ -39,31 +146,16 @@ class Games extends Component {
             />
           </Modal>
         )}
-        <Container>
-          <Background />
-          <Title>Games</Title>
-          <GameList>
-            {this.props.games.map(g => (
-              <li key={`game${g.id}`}>
-                <Link to={`/games/${g.id}`}>
-                  <span>{g.name}</span>
-                  <div>
-                    <span>Rounds: {g.num_rounds}</span>
-                    <br />
-                    <span>Questions: {g.num_questions}</span>
-                  </div>
-                </Link>
-              </li>
-            ))}
-            {this.props.games.length >= this.props.gameLimit ? (
-              <Link to="/billing">Upgrade For more games</Link>
-            ) : (
-              <Button onClick={() => this.setState({ modalShowing: true })}>
-                Create New Game
-              </Button>
-            )}
-          </GameList>
-        </Container>
+        <Title>Games</Title>
+        <div className={classes.cardList}>
+          {this.groupGames(isWidthUp('sm', this.props.width) ? 3 : 1).map(
+            (g, idx) => (
+              <div className={classes.cardRow} key={`cr${idx}`}>
+                {g}
+              </div>
+            )
+          )}
+        </div>
       </>
     );
   }
@@ -75,11 +167,15 @@ const mapStateToProps = state => ({
 });
 
 export default waitForLogin(
-  connect(
-    mapStateToProps,
-    {
-      fetchGames,
-      createNewGame
-    }
-  )(Games)
+  withWidth()(
+    withStyles(styles, { withTheme: true })(
+      connect(
+        mapStateToProps,
+        {
+          fetchGames,
+          createNewGame
+        }
+      )(Games)
+    )
+  )
 );
