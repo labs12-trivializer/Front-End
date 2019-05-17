@@ -16,6 +16,15 @@ export const TextInput = styled.input`
   font-size: 1.8rem;
   padding: 0.8rem 5.2rem 0.8rem 1rem;
   flex: 1;
+  background-color: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 5px;
+  color: lightgrey;
+  margin: 5px;
+
+  &::placeholder {
+    color: lightgrey;
+  }
 `;
 
 export const FormField = styled.div`
