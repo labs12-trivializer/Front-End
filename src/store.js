@@ -1,7 +1,7 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { composeWithDevTools } from 'redux-devtools-extension';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import { crashReporter } from './services/sentry';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -17,7 +17,8 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const configureStore = () => {
   const store = createStore(
     persistedReducer,
-    composeWithDevTools(applyMiddleware(thunk, logger, crashReporter))
+    // composeWithDevTools(applyMiddleware(thunk, logger, crashReporter))
+    compose(applyMiddleware(thunk, logger, crashReporter))
   );
 
   const persistor = persistStore(store);
