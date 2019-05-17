@@ -24,9 +24,11 @@ const Menu = ({ auth }) => {
       </MenuToggle>
       <SideMenu menu={menu} onClick={toggleMenu}>
         <h1>TVZ</h1>
-        <div>
-          <NavLink exact to="/">Home</NavLink>
-        </div>
+        {!isLoggedIn && (
+          <div>
+            <NavLink exact to="/">Home</NavLink>
+          </div>
+        )}
         <div>
           <NavLink to="/games">Games</NavLink>
         </div>
