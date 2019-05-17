@@ -1,13 +1,18 @@
 import React from 'react';
 
-const Restricted = props => {
+import { Container } from '../styles/restricted.css';
+import { Background } from '../styles/shared.css';
 
-  return (
-    <div>
+const Restricted = ({ auth }) => (
+  <>
+    <Background />
+    <Container>
       <h4>You are not logged in!</h4>
-      <p>Please <button onClick={props.login}>Log In</button> to continue.</p>
-    </div>
-  )
-}
+      <p>
+        Please <span onClick={auth.login}>log in</span> to continue.
+      </p>
+    </Container>
+  </>
+);
 
 export default Restricted;
