@@ -9,6 +9,7 @@ import GlobalStyles from '../styles/global.css';
 import Menu from './Menu';
 import Landing from './Landing';
 import Callback from './Callback';
+import Restricted from './Restricted';
 import Auth from '../auth';
 import history from '../history';
 import { ToastContainer } from 'react-toastify';
@@ -67,6 +68,11 @@ const Root = () => (
                 handleAuthentication(props);
                 return <Callback {...props} />;
               }}
+            />
+            <Route
+              exact
+              path="/restricted"
+              render={props => <Restricted auth={auth} {...props} />}
             />
             <PrivateRoute exact path="/games" component={Games} />
             <PrivateRoute path="/games/:id" component={Game} />
