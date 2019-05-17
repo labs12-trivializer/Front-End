@@ -1,19 +1,34 @@
+// import React from 'react';
+//
+// const Root = () => {
+//   return (
+//     <>
+//       <Header />
+//       <h1>Hello</h1>
+//       <Footer />
+//     </>
+//   );
+// };
+//
+// export default Root;
 import React from 'react';
+import { Header, Footer } from './Layouts';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Router, Route } from 'react-router-dom';
-import Reset from '../styles/reset.css';
-import GlobalStyles from '../styles/global.css';
-import Menu from './Menu';
+// import Reset from '../styles/reset.css';
+// import GlobalStyles from '../styles/global.css';
+// import Menu from './Menu';
 import Landing from './Landing';
 import Home from './Home';
 import Callback from './Callback';
 import Auth from '../auth';
 import history from '../history';
 import { ToastContainer } from 'react-toastify';
-import Stripe from './stripe/Stripe';
+// import Stripe from './stripe/Stripe';
 import PrivateRoute from './PrivateRoute';
 import Profile from './Profile';
 import Games from './Games';
@@ -45,13 +60,16 @@ const Root = () => (
     />
     <PersistGate loading={null} persistor={persistor}>
       <DragDropContextProvider backend={HTML5Backend}>
+        <CssBaseline />
         <Router history={history}>
           <React.Fragment>
+            {/* <Reset /> */}
+            {/* <GlobalStyles /> */}
             <Route
               path="/"
               render={props =>
                 props.location.pathname !== '/callback' && (
-                  <Menu auth={auth} {...props} />
+                  <Header auth={auth} {...props} />
                 )
               }
             />
@@ -78,7 +96,7 @@ const Root = () => (
             <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
             <PrivateRoute path="/create" component={CreateGame} />
             <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/billing" component={Stripe} />
+            {/* <PrivateRoute path="/billing" component={Stripe} /> */}
           </React.Fragment>
         </Router>
       </DragDropContextProvider>
