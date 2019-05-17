@@ -37,7 +37,7 @@ const Round = ({ classes, index, round, deleteRound }) => {
         </CardContent>
       </CardActionArea>
       <div
-        onClick={() => this.props.deleteRound(round, round.game.id)}
+        onClick={() => deleteRound(round.id, round.game_id)}
         className="fas fa-trash-alt"
       />
     </Card>

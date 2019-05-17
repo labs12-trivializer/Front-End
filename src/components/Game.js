@@ -10,7 +10,7 @@ import {
   addRound,
   deleteRound
 } from '../actions';
-import { Container, Background, Button, ButtonRow } from '../styles/shared.css';
+import { Background, Button, ButtonRow } from '../styles/shared.css';
 // import { GameInput, InputControls, RoundList } from '../styles/game.css';
 import Round from './Round';
 import Modal from './Modal';
@@ -105,6 +105,7 @@ class Game extends Component {
     this.setState(initialState(this.props));
   };
 
+  // group rounds into separate arrays of rounds
   groupRounds = (number = 3) => {
     const {
       game: { rounds },
@@ -112,39 +113,40 @@ class Game extends Component {
       roundLimit
     } = this.props;
 
-    const newRoundCard = rounds.length <= roundLimit ? (
-      <Card className={classes.card}>
-        <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
-          <CardContent className={classes.cardContent}>
-            <Typography
-              component="h2"
-              variant="h5"
-              className={classes.title}
-              color="textPrimary"
-              gutterBottom
-            >
-              Create New Round
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    ) : (
-      <Card className={classes.card}>
-        <CardActionArea component={Link} to="/billing">
-          <CardContent className={classes.cardContent}>
-            <Typography
-              component="h2"
-              variant="h5"
-              className={classes.title}
-              color="textPrimary"
-              gutterBottom
-            >
-              Upgrade for more rounds
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    );
+    const newRoundCard =
+      rounds.length < roundLimit ? (
+        <Card className={classes.card}>
+          <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
+            <CardContent className={classes.cardContent}>
+              <Typography
+                component="h2"
+                variant="h5"
+                className={classes.title}
+                color="textPrimary"
+                gutterBottom
+              >
+                Create New Round
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      ) : (
+        <Card className={classes.card}>
+          <CardActionArea component={Link} to="/billing">
+            <CardContent className={classes.cardContent}>
+              <Typography
+                component="h2"
+                variant="h5"
+                className={classes.title}
+                color="textPrimary"
+                gutterBottom
+              >
+                Upgrade for more rounds
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      );
 
     const roundComponents = [
       ...rounds.map((r, idx) => <Round roundId={r} index={idx + 1} />),
@@ -178,7 +180,7 @@ class Game extends Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <Container>
+        <>
           {this.state.modalShowing && (
             <Modal onClose={() => this.setState({ modalShowing: false })}>
               <NewRoundForm
@@ -196,26 +198,13 @@ class Game extends Component {
             Round List
           </Typography>
           <div className={classes.cardList}>
-            {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map(
-              (r, idx) => (
-                <div className={classes.cardRow} key={`cr${idx}`}>
-                  {r}
-                </div>
-              )
-            )}
+            {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map((r, idx) => (
+              <div className={classes.cardRow} key={`cr${idx}`}>
+                {r}
+              </div>
+            ))}
           </div>
-          <ButtonRow>
-            {this.props.game.rounds.length >= this.props.roundLimit ? (
-              <Link to="/billing">Upgrade to enable more rounds!</Link>
-            ) : (
-              <>
-                <Button onClick={this.deleteGame} error>
-                  Delete Game
-                </Button>
-              </>
-            )}
-          </ButtonRow>
-        </Container>
+        </>
       );
     }
   }

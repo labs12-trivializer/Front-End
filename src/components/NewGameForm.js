@@ -1,5 +1,4 @@
 import React from 'react';
-import useForm from 'react-hook-form';
 import { useInput } from '../hooks';
 import { Button, ButtonRow } from '../styles/shared.css';
 import { Form, FormTitle, FormField, Label } from '../styles/newGameForm.css';
@@ -8,7 +7,6 @@ import { TextInput } from '../styles/newGameForm.css';
 export default ({ onDone, onCancel }) => {
   const [name, setName, updateName] = useInput();
   const [playDate, setPlayDate, updatePlayDate] = useInput();
-  const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = e => {
     e.preventDefault();
@@ -23,7 +21,7 @@ export default ({ onDone, onCancel }) => {
 
   // this.props.createNewGame({ name: 'New Game ' + Date.now() })
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+-    <Form onSubmit={onSubmit}>
       <FormTitle>New Game Form</FormTitle>
       <FormField>
         <TextInput
