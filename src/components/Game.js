@@ -11,15 +11,49 @@ import {
   deleteRound
 } from '../actions';
 import { Container, Background, Button, ButtonRow } from '../styles/shared.css';
-import { GameInput, InputControls, RoundList } from '../styles/game.css';
+// import { GameInput, InputControls, RoundList } from '../styles/game.css';
 import Round from './Round';
 import Modal from './Modal';
 import NewRoundForm from './NewRoundForm';
+import {
+  withStyles,
+  Typography,
+  Card,
+  CardActionArea,
+  CardContent,
+  withWidth
+} from '@material-ui/core';
+import { isWidthUp } from '@material-ui/core/withWidth';
 
 const initialState = props => ({
   title: props.game && props.game.name,
   editingTitle: false,
   modalShowing: false
+});
+
+const styles = theme => ({
+  card: {
+    flex: 1,
+    margin: theme.spacing.unit
+  },
+  cardContent: {
+    minHeight: '20rem'
+  },
+  pos: {
+    marginBottom: 12
+  },
+  cardList: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  cardRow: {
+    display: 'flex'
+  },
+  nothing: {
+    flex: 1,
+    margin: '0.5rem',
+    visiblity: 'hidden'
+  }
 });
 
 class Game extends Component {
@@ -71,11 +105,78 @@ class Game extends Component {
     this.setState(initialState(this.props));
   };
 
+  groupRounds = (number = 3) => {
+    const {
+      game: { rounds },
+      classes,
+      roundLimit
+    } = this.props;
+
+    const newRoundCard = rounds.length <= roundLimit ? (
+      <Card className={classes.card}>
+        <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
+          <CardContent className={classes.cardContent}>
+            <Typography
+              component="h2"
+              variant="h5"
+              className={classes.title}
+              color="textPrimary"
+              gutterBottom
+            >
+              Create New Round
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    ) : (
+      <Card className={classes.card}>
+        <CardActionArea component={Link} to="/billing">
+          <CardContent className={classes.cardContent}>
+            <Typography
+              component="h2"
+              variant="h5"
+              className={classes.title}
+              color="textPrimary"
+              gutterBottom
+            >
+              Upgrade for more rounds
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    );
+
+    const roundComponents = [
+      ...rounds.map((r, idx) => <Round roundId={r} index={idx + 1} />),
+      newRoundCard
+    ];
+
+    const groups = [];
+    let group = [];
+    roundComponents.forEach((g, idx) => {
+      if (idx % number === 0) {
+        groups.push(group);
+        group = [];
+      }
+
+      group.push(g);
+    });
+
+    if (group.length > 0) {
+      while (group.length < number) {
+        group.push(<div className={classes.nothing} />);
+      }
+      groups.push(group);
+    }
+
+    return groups;
+  };
+
   render() {
+    const { classes, width } = this.props;
     if (!this.props.game || !this.props.game.rounds) {
       return <div>Loading...</div>;
     } else {
-      console.log('Rounds Info:', this.props.game.rounds);
       return (
         <Container>
           {this.state.modalShowing && (
@@ -91,28 +192,18 @@ class Game extends Component {
           )}
 
           <Background />
-          <GameInput
-            value={this.state.title}
-            onChange={this.updateTitle}
-            onClick={this.handleInputClick}
-          />
-          {this.state.editingTitle && (
-            <InputControls>
-              <span onClick={this.handleTitleRename}>Rename</span>
-              <span onClick={this.handleTitleCancel}>Cancel</span>
-            </InputControls>
-          )}
-          <RoundList>
-            {this.props.game.rounds.map((r, idx) => (
-              <li key={`round${r}`}>
-                <Round roundId={r} index={idx + 1} />
-                <div
-                  onClick={() => this.props.deleteRound(r, this.props.game.id)}
-                  className="fas fa-trash-alt"
-                />
-              </li>
-            ))}
-          </RoundList>
+          <Typography component="h1" variant="h1" color="inherit" gutterBottom>
+            Round List
+          </Typography>
+          <div className={classes.cardList}>
+            {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map(
+              (r, idx) => (
+                <div className={classes.cardRow} key={`cr${idx}`}>
+                  {r}
+                </div>
+              )
+            )}
+          </div>
           <ButtonRow>
             {this.props.game.rounds.length >= this.props.roundLimit ? (
               <Link to="/billing">Upgrade to enable more rounds!</Link>
@@ -120,9 +211,6 @@ class Game extends Component {
               <>
                 <Button onClick={this.deleteGame} error>
                   Delete Game
-                </Button>
-                <Button onClick={() => this.setState({ modalShowing: true })}>
-                  New Round
                 </Button>
               </>
             )}
@@ -138,14 +226,29 @@ const mapStateToProps = (state, ownProps) => ({
   roundLimit: state.profile.round_limit
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchGame,
-    editGame,
-    deleteGame,
-    addRound,
-    withRouter,
-    deleteRound
-  }
-)(Game);
+export default withWidth()(
+  withStyles(styles, { withTheme: true })(
+    connect(
+      mapStateToProps,
+      {
+        fetchGame,
+        editGame,
+        deleteGame,
+        addRound,
+        withRouter,
+        deleteRound
+      }
+    )(Game)
+  )
+);
+//          <GameInput
+//            value={this.state.title}
+//            onChange={this.updateTitle}
+//            onClick={this.handleInputClick}
+//          />
+//          {this.state.editingTitle && (
+//            <InputControls>
+//              <span onClick={this.handleTitleRename}>Rename</span>
+//              <span onClick={this.handleTitleCancel}>Cancel</span>
+//            </InputControls>
+//          )}

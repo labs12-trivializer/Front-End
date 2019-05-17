@@ -6,7 +6,6 @@ import waitForLogin from './waitForLogin';
 import { getAllGames } from '../reducers';
 import { fetchGames, createNewGame } from '../actions';
 
-import { Title } from '../styles/shared.css';
 import Modal from './Modal';
 import NewGameForm from './NewGameForm';
 import { withStyles } from '@material-ui/styles';
@@ -24,6 +23,9 @@ const styles = theme => ({
   card: {
     flex: 1,
     margin: theme.spacing.unit
+  },
+  cardContent: {
+    minHeight: '20rem'
   },
   pos: {
     marginBottom: 12
@@ -63,8 +65,8 @@ class Games extends Component {
     const { classes } = this.props;
     const newGameCard = (
       <Card className={classes.card}>
-        <CardActionArea>
-          <CardContent>
+        <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
+          <CardContent className={classes.cardContent}>
             <Typography
               component="h2"
               variant="h5"
@@ -89,8 +91,8 @@ class Games extends Component {
     const games = [
       ...this.props.games.map(g => (
         <Card className={classes.card} key={`game${g.id}`}>
-          <CardActionArea>
-            <CardContent>
+          <CardActionArea component={Link} to={`/games/${g.id}`}>
+            <CardContent className={classes.cardContent}>
               <Typography
                 component="h2"
                 variant="h5"
@@ -146,7 +148,9 @@ class Games extends Component {
             />
           </Modal>
         )}
-        <Title>Games</Title>
+        <Typography component="h1" variant="h1" color="inherit" gutterBottom>
+          Game List
+        </Typography>
         <div className={classes.cardList}>
           {this.groupGames(isWidthUp('sm', this.props.width) ? 3 : 1).map(
             (g, idx) => (
