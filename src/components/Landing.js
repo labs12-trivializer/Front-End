@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlayCircle } from '@fortawesome/free-regular-svg-icons';
@@ -7,9 +7,15 @@ import { faPrint, faSyncAlt, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { Container, Header } from '../styles/landing.css';
 import { Background } from '../styles/shared.css';
 
-const Landing = ({ auth }) => {
+const Landing = ({ auth, history }) => {
   const login = () => auth.login();
   const isLoggedIn = auth.isAuthenticated();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.replace('/games');
+    }
+  }, [isLoggedIn, history]);
 
   return (
     <Container>
