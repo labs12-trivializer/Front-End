@@ -10,6 +10,13 @@ export const MenuToggle = styled.div`
     : '1.5rem'
   };
 
+  @media (min-width: 600px) {
+    left: ${props => props.menu
+      ? '62%'
+      : '1.5rem'
+    };
+  }
+
   > div {
     width: 3.5rem;
     height: .5rem;
@@ -48,6 +55,11 @@ export const SideMenu = styled.div`
   background-color: rgba(31, 71, 115, 0.8);
   backdrop-filter: blur(20px);
   z-index: 5;
+
+  @media (min-width: 600px) {
+    width: 60%;
+    left: ${props => props.menu ? 0 : '-60%'};
+  }
 
   > h1 {
     display: flex;

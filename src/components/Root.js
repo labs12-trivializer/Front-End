@@ -8,7 +8,6 @@ import Reset from '../styles/reset.css';
 import GlobalStyles from '../styles/global.css';
 import Menu from './Menu';
 import Landing from './Landing';
-import Home from './Home';
 import Callback from './Callback';
 import Auth from '../auth';
 import history from '../history';
@@ -69,7 +68,6 @@ const Root = () => (
                 return <Callback {...props} />;
               }}
             />
-            <PrivateRoute path="/home" component={Home} />
             <PrivateRoute exact path="/games" component={Games} />
             <PrivateRoute path="/games/:id" component={Game} />
             {/* <PrivateRoute
