@@ -73,23 +73,43 @@ class Games extends Component {
 
   groupGames = (number = 3) => {
     const { classes } = this.props;
-    const newGameCard = (
-      <Card className={classes.card} key="test">
-        <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
-          <CardContent className={classes.cardContent}>
-            <Typography
-              component="h2"
-              variant="h5"
-              className={classes.title}
-              color="textPrimary"
-              gutterBottom
-            >
-              Create New Game
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    );
+    const newGameCard =
+      this.props.games.length >= this.props.gameLimit ? (
+        <Card className={classes.card} key="">
+          <CardActionArea
+            component={Link}
+            to="/billing"
+          >
+            <CardContent className={classes.cardContent}>
+              <Typography
+                component="h2"
+                variant="h5"
+                className={classes.title}
+                color="textPrimary"
+                gutterBottom
+              >
+                Upgrade To Create More Games
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      ) : (
+        <Card className={classes.card} key="createGameCard">
+          <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
+            <CardContent className={classes.cardContent}>
+              <Typography
+                component="h2"
+                variant="h5"
+                className={classes.title}
+                color="textPrimary"
+                gutterBottom
+              >
+                Create New Game
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      );
 
     // {this.props.games.length >= this.props.gameLimit ? (
     //          <Link to="/billing">Upgrade For more games</Link>
