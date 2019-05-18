@@ -14,7 +14,9 @@ import {
   CardContent,
   Typography,
   withWidth,
-  CardActionArea
+  CardActionArea,
+  Grow,
+  Zoom
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 
@@ -87,7 +89,7 @@ class Games extends Component {
     //          </Button>
     //        )}
     const games = [
-      ...this.props.games.map(g => (
+      ...this.props.games.map((g, idx) => (
         <Card className={classes.card} key={`gme${g.id}`}>
           <CardActionArea component={Link} to={`/games/${g.id}`}>
             <CardContent className={classes.cardContent}>
@@ -137,6 +139,7 @@ class Games extends Component {
 
   render() {
     const { classes } = this.props;
+    const cardsPerRow = isWidthUp('sm', this.props.width) ? 3 : 1;
 
     return (
       <>
@@ -152,10 +155,18 @@ class Games extends Component {
           Game List
         </Typography>
         <div className={classes.cardList}>
-          {this.groupGames(isWidthUp('sm', this.props.width) ? 3 : 1).map(
+          {this.groupGames(cardsPerRow).map(
             (g, idx) => (
               <div className={classes.cardRow} key={`cr${idx}`}>
-                {g}
+                {g.map((gameCard, gcIdx) => (
+                  <Zoom
+                    in
+                    style={{ transitionDelay: (cardsPerRow * idx + gcIdx) * 50}}
+                    key={`gc${gcIdx + (cardsPerRow * idx)}`}
+                  >
+                    {gameCard}
+                  </Zoom>
+                ))}
               </div>
             )
           )}
