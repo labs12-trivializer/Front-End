@@ -20,6 +20,7 @@ import Games from './Games';
 import Game from './Game';
 import CreateGame from './CreateGame';
 import RoundDetails from './RoundDetails';
+import Setup from './Setup';
 import { store, persistor } from '../store';
 
 const auth = new Auth();
@@ -44,6 +45,7 @@ const Root = () => (
       pauseOnHover
     />
     <PersistGate loading={null} persistor={persistor}>
+      <Setup />
       <DragDropContextProvider backend={HTML5Backend}>
         <Router history={history}>
           <React.Fragment>

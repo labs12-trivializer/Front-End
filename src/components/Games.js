@@ -19,9 +19,9 @@ class Games extends Component {
 
   componentDidMount = () => {
     this.props.fetchGames();
-    this.props.fetchCategories();
-    this.props.fetchQuestionTypes();
-    console.log(this.props.auth);
+    // this.props.fetchCategories();
+    // this.props.fetchQuestionTypes();
+    // console.log(this.props.auth);
   };
 
   onCreateGame = game => {
