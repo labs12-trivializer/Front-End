@@ -22,9 +22,35 @@ import {
   SaveChanges,
   NoChanges,
   ListContainer,
-  LoadingContainer,
+  LoadingContainer
   // AddCustomQuestion
 } from '../styles/round.css';
+import { withStyles, Typography } from '@material-ui/core';
+
+const styles = theme => ({
+  card: {
+    flex: 1,
+    margin: theme.spacing(1)
+  },
+  cardContent: {
+    minHeight: '20rem'
+  },
+  pos: {
+    marginBottom: 12
+  },
+  cardList: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  cardRow: {
+    display: 'flex'
+  },
+  nothing: {
+    flex: 1,
+    margin: '0.5rem',
+    visiblity: 'hidden'
+  }
+});
 
 class RoundDetails extends Component {
   state = { modalShowing: false };
@@ -107,9 +133,20 @@ class RoundDetails extends Component {
 
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
+
+    const { round, classes } = this.props;
     return (
       <RoundContainer>
         <Background />
+        <Typography
+          component="h1"
+          variant="h1"
+          className={classes.title}
+          color="inherit"
+          gutterBottom
+        >
+          {`Round ${round.number}`}
+        </Typography>
         <RoundInfo>
           <div>
             <p>{`ROUND ${this.props.round.number}`}</p>
@@ -119,13 +156,18 @@ class RoundDetails extends Component {
             <p>Last Updated: {this.props.round.updated_at}</p>
           </div>
         </RoundInfo>
-        {(newQuestionCount > 0 || this.props.round.dirty)
-          ? <SaveChanges
-              warning
-              onClick={() => this.props.editRound(this.props.round.id, this.nestedRound())}
-            >Save Changes</SaveChanges>
-          : <NoChanges>Can't Touch This</NoChanges>
-        }
+        {newQuestionCount > 0 || this.props.round.dirty ? (
+          <SaveChanges
+            warning
+            onClick={() =>
+              this.props.editRound(this.props.round.id, this.nestedRound())
+            }
+          >
+            Save Changes
+          </SaveChanges>
+        ) : (
+          <NoChanges>Can't Touch This</NoChanges>
+        )}
         {newQuestionCount === 0 && this.props.dbQuestionCount === 0 && (
           <NewQuestionGetter roundId={this.props.round.id} />
         )}
@@ -177,12 +219,14 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchRound,
-    clearNewRoundQuestions,
-    editRound,
-    dragDropQuestion
-  }
-)(RoundDetails);
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    mapStateToProps,
+    {
+      fetchRound,
+      clearNewRoundQuestions,
+      editRound,
+      dragDropQuestion
+    }
+  )(RoundDetails)
+);

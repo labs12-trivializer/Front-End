@@ -21,7 +21,7 @@ export default ({ onDone, onCancel }) => {
 
   // this.props.createNewGame({ name: 'New Game ' + Date.now() })
   return (
-    <Form onSubmit={onSubmit}>
+-    <Form onSubmit={onSubmit}>
       <FormTitle>New Game Form</FormTitle>
       <FormField>
         <TextInput
