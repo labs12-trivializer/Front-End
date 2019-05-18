@@ -38,6 +38,7 @@ const Root = () => (
       <Setup />
       <DragDropContextProvider backend={HTML5Backend}>
         <Router history={history}>
+          <AppRoot />
           <Route
             path="/callback"
             render={props => {
@@ -46,7 +47,6 @@ const Root = () => (
               return <Callback {...props} />;
             }}
           />
-          <AppRoot />
         </Router>
       </DragDropContextProvider>
     </PersistGate>

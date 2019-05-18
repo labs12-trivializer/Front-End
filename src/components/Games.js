@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -61,7 +62,7 @@ class Games extends Component {
   groupGames = (number = 3) => {
     const { classes } = this.props;
     const newGameCard = (
-      <Card className={classes.card}>
+      <Card className={classes.card} key="test">
         <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
           <CardContent className={classes.cardContent}>
             <Typography
@@ -169,14 +170,12 @@ const mapStateToProps = state => ({
   gameLimit: state.profile.game_limit
 });
 
-export default withWidth()(
-  withStyles(styles, { withTheme: true })(
-    connect(
-      mapStateToProps,
-      {
-        fetchGames,
-        createNewGame
-      }
-    )(Games)
-  )
-);
+// use compose with with withStyles applied last
+export default compose(
+  connect(
+    mapStateToProps,
+    { fetchGames, createNewGame }
+  ),
+  withWidth(),
+  withStyles(styles, { withTheme: true })
+)(Games);

@@ -25,7 +25,8 @@ import {
   LoadingContainer
   // AddCustomQuestion
 } from '../styles/round.css';
-import { withStyles, Typography } from '@material-ui/core';
+import { withStyles, Typography, withWidth } from '@material-ui/core';
+import { compose } from 'redux';
 
 const styles = theme => ({
   card: {
@@ -129,8 +130,6 @@ class RoundDetails extends Component {
       );
     }
 
-    console.log('ROUND INFO: ', this.props.round);
-
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
 
@@ -219,7 +218,8 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default withStyles(styles, { withTheme: true })(
+// use compose with with withStyles applied last
+export default compose(
   connect(
     mapStateToProps,
     {
@@ -228,5 +228,7 @@ export default withStyles(styles, { withTheme: true })(
       editRound,
       dragDropQuestion
     }
-  )(RoundDetails)
-);
+  ),
+  withWidth(),
+  withStyles(styles, { withTheme: true })
+)(RoundDetails);

@@ -9,6 +9,7 @@ import {
   withStyles
 } from '@material-ui/core';
 import { deleteRound } from '../actions';
+import { compose } from 'redux';
 
 const styles = theme => ({
   card: {
@@ -48,9 +49,12 @@ const mapStateToProps = (state, ownProps) => ({
   round: state.rounds.byId[ownProps.roundId]
 });
 
-export default withStyles(styles, { withTheme: true })(
+export default compose(
   connect(
     mapStateToProps,
-    { deleteRound }
-  )(Round)
-);
+    {
+      deleteRound
+    }
+  ),
+  withStyles(styles, { withTheme: true })
+)(Round);

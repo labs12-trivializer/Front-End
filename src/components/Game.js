@@ -24,6 +24,7 @@ import {
   withWidth
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
+import { compose } from 'redux';
 
 const initialState = props => ({
   title: props.game && props.game.name,
@@ -60,7 +61,6 @@ class Game extends Component {
   state = initialState(this.props);
 
   componentDidMount = () => {
-    console.log('Game Info:', this.props.game);
     this.props.fetchGame(this.props.match.params.id);
   };
 
@@ -115,7 +115,7 @@ class Game extends Component {
 
     const newRoundCard =
       rounds.length < roundLimit ? (
-        <Card className={classes.card}>
+        <Card className={classes.card} key="roundMenu">
           <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
             <CardContent className={classes.cardContent}>
               <Typography
@@ -131,7 +131,7 @@ class Game extends Component {
           </CardActionArea>
         </Card>
       ) : (
-        <Card className={classes.card}>
+        <Card className={classes.card} key="billingCard">
           <CardActionArea component={Link} to="/billing">
             <CardContent className={classes.cardContent}>
               <Typography
@@ -149,7 +149,9 @@ class Game extends Component {
       );
 
     const roundComponents = [
-      ...rounds.map((r, idx) => <Round roundId={r} index={idx + 1} />),
+      ...rounds.map((r, idx) => (
+        <Round roundId={r} index={idx + 1} key={`r${r}`} />
+      )),
       newRoundCard
     ];
 
@@ -166,7 +168,9 @@ class Game extends Component {
 
     if (group.length > 0) {
       while (group.length < number) {
-        group.push(<div className={classes.nothing} />);
+        group.push(
+          <div className={classes.nothing} key={'filler' + group.length} />
+        );
       }
       groups.push(group);
     }
@@ -215,21 +219,21 @@ const mapStateToProps = (state, ownProps) => ({
   roundLimit: state.profile.round_limit
 });
 
-export default withWidth()(
-  withStyles(styles, { withTheme: true })(
-    connect(
-      mapStateToProps,
-      {
-        fetchGame,
-        editGame,
-        deleteGame,
-        addRound,
-        withRouter,
-        deleteRound
-      }
-    )(Game)
-  )
-);
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      fetchGame,
+      editGame,
+      deleteGame,
+      addRound,
+      withRouter,
+      deleteRound
+    }
+  ),
+  withWidth(),
+  withStyles(styles, { withTheme: true })
+)(Game);
 //          <GameInput
 //            value={this.state.title}
 //            onChange={this.updateTitle}
