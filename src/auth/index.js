@@ -3,6 +3,13 @@ import history from '../history';
 import { store } from '../store';
 import { loginSuccess } from '../actions';
 
+const getCallbackUrl = () => {
+  const url = window.location.href;
+  const split = url.split('/');
+
+  return split[0] + '//' + split[2] + '/callback';
+};
+
 export default class Auth {
   accessToken;
   idToken;
@@ -12,7 +19,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'dev-d9y68pfa.auth0.com',
     clientID: 'k6xsJZMJxRo6xrlfua5hWIUS0Dms5w8G',
-    redirectUri: process.env.REACT_APP_REDIRECT_URI || 'http://localhost:3000/callback',
+    redirectUri: process.env.REACT_APP_REDIRECT_URI || getCallbackUrl(),
     audience: 'https://lambda-trivializer.herokuapp.com/',
     responseType: 'token id_token',
     scope: 'openid profile email'
@@ -25,10 +32,13 @@ export default class Auth {
   handleAuthentication = () => {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.auth0.client.userInfo(authResult.accessToken, async (err, profile) => {
-          if (profile) this.userProfile = profile;
-          this.setSession(authResult);
-        })
+        this.auth0.client.userInfo(
+          authResult.accessToken,
+          async (err, profile) => {
+            if (profile) this.userProfile = profile;
+            this.setSession(authResult);
+          }
+        );
       } else if (err) {
         history.replace('/');
         console.log(err);
@@ -37,18 +47,19 @@ export default class Auth {
     });
   };
 
-
   getAccessToken = () => this.accessToken;
 
   getIdToken = () => this.idToken;
 
   setSession(authResult) {
     // save username and token to persisted state
-    store.dispatch(loginSuccess({
-      token: authResult.accessToken,
-      username: this.userProfile.given_name || this.userProfile.nickname,
-      email: this.userProfile.email
-    }));
+    store.dispatch(
+      loginSuccess({
+        token: authResult.accessToken,
+        username: this.userProfile.given_name || this.userProfile.nickname,
+        email: this.userProfile.email
+      })
+    );
 
     // Set the time that the access token will expire at
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
