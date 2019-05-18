@@ -35,12 +35,6 @@ const Menu = ({ auth }) => {
 
   return (
     <nav>
-      {/* <MenuToggle onClick={toggleMenu} menu={menu}>
-        <div className="bar" />
-        <div className="bar" />
-        <div className="bar" />
-      </MenuToggle> */}
-
       <AppBar position="static" sm>
         <Toolbar style={styles.Toolbar}>
           <Typography variant="h5" color="inherit" >
@@ -52,6 +46,7 @@ const Menu = ({ auth }) => {
         </Toolbar>
       </AppBar>
 
+      {/* Replace with 'Temporary Drawer' MUI component */}
       <SideMenu menu={menu} onClick={toggleMenu}>
         <h1>TVZ</h1>
         <div>
