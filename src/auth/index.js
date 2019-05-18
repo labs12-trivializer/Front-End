@@ -46,7 +46,8 @@ export default class Auth {
     // save username and token to persisted state
     store.dispatch(loginSuccess({
       token: authResult.accessToken,
-      username: this.userProfile.given_name || this.userProfile.nickname
+      username: this.userProfile.given_name || this.userProfile.nickname,
+      email: this.userProfile.email
     }));
 
     // Set the time that the access token will expire at
