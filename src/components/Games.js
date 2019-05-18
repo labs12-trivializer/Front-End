@@ -6,8 +6,7 @@ import { Link } from 'react-router-dom';
 import { getAllGames } from '../reducers';
 import { fetchGames, createNewGame } from '../actions';
 
-import Modal from './Modal';
-import NewGameForm from './NewGameForm';
+// import NewGameDialog from './NewGameDialog';
 import { withStyles } from '@material-ui/styles';
 import {
   Card,
@@ -15,10 +14,10 @@ import {
   Typography,
   withWidth,
   CardActionArea,
-  Grow,
   Zoom
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
+import NewGameDialog from './NewGameDialog';
 
 const styles = theme => ({
   card: {
@@ -42,6 +41,17 @@ const styles = theme => ({
     flex: 1,
     margin: '0.5rem',
     visiblity: 'hidden'
+  },
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(4),
+    outline: 'none',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
   }
 });
 
@@ -143,33 +153,28 @@ class Games extends Component {
 
     return (
       <>
-        {this.state.modalShowing && (
-          <Modal onClose={() => this.setState({ modalShowing: false })}>
-            <NewGameForm
-              onDone={this.onCreateGame}
-              onCancel={() => this.setState({ modalShowing: false })}
-            />
-          </Modal>
-        )}
+        <NewGameDialog
+          open={this.state.modalShowing}
+          onCancel={() => this.setState({ modalShowing: false })}
+          onCreate={this.onCreateGame}
+        />
         <Typography component="h1" variant="h1" color="inherit" gutterBottom>
           Game List
         </Typography>
         <div className={classes.cardList}>
-          {this.groupGames(cardsPerRow).map(
-            (g, idx) => (
-              <div className={classes.cardRow} key={`cr${idx}`}>
-                {g.map((gameCard, gcIdx) => (
-                  <Zoom
-                    in
-                    style={{ transitionDelay: (cardsPerRow * idx + gcIdx) * 50}}
-                    key={`gc${gcIdx + (cardsPerRow * idx)}`}
-                  >
-                    {gameCard}
-                  </Zoom>
-                ))}
-              </div>
-            )
-          )}
+          {this.groupGames(cardsPerRow).map((g, idx) => (
+            <div className={classes.cardRow} key={`cr${idx}`}>
+              {g.map((gameCard, gcIdx) => (
+                <Zoom
+                  in
+                  style={{ transitionDelay: (cardsPerRow * idx + gcIdx) * 50 }}
+                  key={`gc${gcIdx + cardsPerRow * idx}`}
+                >
+                  {gameCard}
+                </Zoom>
+              ))}
+            </div>
+          ))}
         </div>
       </>
     );
