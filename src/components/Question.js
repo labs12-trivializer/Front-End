@@ -128,7 +128,7 @@ const Question = React.forwardRef(
     }
 
     return (
-      <Card style={styles.Card}>
+      <Card style={styles.Card} ref={elementRef}>
         <CardContent>
           <Typography variant="h5" color="textSecondary" gutterBottom>
             <strong>{index + 1}.</strong>

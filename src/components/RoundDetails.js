@@ -154,65 +154,6 @@ class RoundDetails extends Component {
   }
 }
 
-//      <RoundContainer>
-//        <Background />
-//        <Typography
-//          component="h1"
-//          variant="h1"
-//          className={classes.title}
-//          color="inherit"
-//          gutterBottom
-//        >
-//          {`Round ${round.number}`}
-//        </Typography>
-//        <RoundInfo>
-//          <div>
-//            <p>{`ROUND ${this.props.round.number}`}</p>
-//          </div>
-//          <div>
-//            <p>Created On: {this.props.round.created_at}</p>
-//            <p>Last Updated: {this.props.round.updated_at}</p>
-//          </div>
-//        </RoundInfo>
-//        {newQuestionCount > 0 || this.props.round.dirty ? (
-//          <SaveChanges
-//            warning
-//            onClick={() =>
-//              this.props.editRound(this.props.round.id, this.nestedRound())
-//            }
-//          >
-//            Save Changes
-//          </SaveChanges>
-//        ) : (
-//          <NoChanges>Can't Touch This</NoChanges>
-//        )}
-//        {newQuestionCount === 0 && this.props.dbQuestionCount === 0 && (
-//          <NewQuestionGetter roundId={this.props.round.id} />
-//        )}
-//        <ListContainer>
-//          {this.props.round.questions.map((q, idx) => (
-//            <Question
-//              round={this.props.round}
-//              questionId={q}
-//              key={`q${q}`}
-//              index={idx}
-//              moveQuestion={this.moveQuestion}
-//            />
-//          ))}
-//        </ListContainer>
-//        <Button onClick={() => this.setState({ modalShowing: true })}>
-//          Add Custom Question
-//        </Button>
-//        {this.state.modalShowing && (
-//          <Modal onClose={() => this.setState({ modalShowing: false })}>
-//            <CustomQuestionForm
-//              roundId={this.props.round.id}
-//              onCancel={() => this.setState({ modalShowing: false })}
-//              onDone={() => this.setState({ modalShowing: false })}
-//            />
-//          </Modal>
-//        )}
-//      </RoundContainer>
 const mapStateToProps = (state, ownProps) => {
   const round = getRoundById(state, ownProps.match.params.id);
   const dbQuestionCount = round.questions.filter(q => {
