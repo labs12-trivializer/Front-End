@@ -22,7 +22,7 @@ import {
   SaveChanges,
   NoChanges,
   ListContainer,
-  LoadingContainer
+  LoadingContainer,
   // AddCustomQuestion
 } from '../styles/round.css';
 import { withStyles, Typography, withWidth, Grid, Paper } from '@material-ui/core';
@@ -135,6 +135,8 @@ class RoundDetails extends Component {
         </LoadingContainer>
       );
     }
+
+    console.log('ROUND INFO: ', this.props.round);
 
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;

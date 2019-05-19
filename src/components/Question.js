@@ -2,6 +2,7 @@ import React, { useImperativeHandle, useRef } from 'react';
 import { connect } from 'react-redux';
 import he from 'he';
 import { DragSource, DropTarget } from 'react-dnd';
+import { Card, CardContent, Typography, CardActions, Button, Icon } from '@material-ui/core';
 import {
   getQuestionById,
   getAllCategories,
@@ -17,13 +18,13 @@ import {
   undo
 } from '../actions';
 import {
-  QuestionContainer,
-  QuestionText,
-  ButtonContainer,
+  // QuestionContainer,
+  // QuestionText,
+  // ButtonContainer,
   // ActionButton
  } from '../styles/question.css';
 import Answer from './Answer';
-import { Button } from '../styles/shared.css';
+// import { Button } from '../styles/shared.css';
 
 const indexToLetter = index => String.fromCharCode(index + 64);
 
@@ -93,33 +94,71 @@ const Question = React.forwardRef(
         : null;
     }
 
+    const styles = {
+      Card: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        width: '100%',
+        marginBottom: '.5rem'
+      },
+      CardActions: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        backgroundColor: '#DFDFDF',
+        width: '100%'
+      },
+      Button: {
+        border: '1px solid #FFFFFF',
+        paddingLeft: '0',
+        paddingRight: '0',
+        color: '#03A9F4'
+      },
+      Icon: {
+        padding: 0,
+      }
+    }
+
     if (!question) {
       return null;
     }
 
     return (
-      <QuestionContainer ref={elementRef}>
-        <QuestionText>
-          <strong>{index + 1}.</strong>{' ' + he.decode(currentQuestion.text)}
-        </QuestionText>
-        {currentQuestion.answers &&
-          currentQuestion.answers.map((a, idx) =>
-          <Answer answerId={a} key={a} label={indexToLetter(idx + 1) + ')'}/>
-        )}
-        <ButtonContainer>
+      <Card style={styles.Card} >
+        <CardContent>
+          <Typography variant="h5" color="textSecondary" gutterBottom>
+            <strong>{index + 1}.</strong>{' ' + he.decode(currentQuestion.text)}
+          </Typography>
+          {currentQuestion.answers &&
+            currentQuestion.answers.map((a, idx) =>
+            <Answer answerId={a} key={a} label={indexToLetter(idx + 1) + ')'}/>
+          )}
+        </CardContent>
+        <CardActions style={styles.CardActions} disableActionSpacing={true}>
           <div>
-            <Button primary small onClick={remove} className="fas fa-trash-alt" />
-            <Button primary small onClick={fetchAnotherQuestion} className="fas fa-exchange-alt" />
+            <Button style={styles.Button} size='small' primary small onClick={remove} >
+              <Icon fontSize="small" className="fas fa-trash-alt"/>
+            </Button>
+            <Button style={styles.Button} size='small' primary small onClick={fetchAnotherQuestion} >
+              <Icon fontSize="small" className="fas fa-exchange-alt"/>
+            </Button>
             {canUndo &&
-            <Button primary small onClick={() => undo(question.id)} className="fas fa-history" />
+            <Button style={styles.Button} size='small' primary small onClick={() => undo(question.id)} >
+              <Icon fontSize="small" className="fas fa-history"/>
+            </Button>
             }
           </div>
           <div>
-            <Button primary small onClick={e => changePosition(e)} className="up fas fa-chevron-up" />
-            <Button primary small onClick={e => changePosition(e)} className="down fas fa-chevron-down" />
+            <Button style={styles.Button} size='small' primary small onClick={e => changePosition(e)} >
+              <Icon fontSize="small" className="up fas fa-chevron-up"/>
+            </Button>
+            <Button style={styles.Button} size='small' primary small onClick={e => changePosition(e)} >
+              <Icon fontSize="small" className="down fas fa-chevron-down"/>
+            </Button>
           </div>
-        </ButtonContainer>
-      </QuestionContainer>
+        </CardActions>
+      </Card>
     );
   }
 );
