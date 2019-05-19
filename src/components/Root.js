@@ -7,7 +7,7 @@ import { Router, Route } from 'react-router-dom';
 import history from '../history';
 import { ToastContainer } from 'react-toastify';
 import { store, persistor } from '../store';
-import AppRoot from './AppRoot';
+import App from './App';
 import Setup from './Setup';
 import Callback from './Callback';
 import Auth from '../auth';
@@ -38,7 +38,7 @@ const Root = () => (
       <Setup />
       <DragDropContextProvider backend={HTML5Backend}>
         <Router history={history}>
-          <AppRoot />
+          <App />
           <Route
             path="/callback"
             render={props => {
