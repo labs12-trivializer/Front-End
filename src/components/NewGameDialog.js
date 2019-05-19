@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useInput } from '../hooks';
-import { Form, FormTitle, FormField, Label } from '../styles/newGameForm.css';
-import { TextInput } from '../styles/newGameForm.css';
 import {
   Dialog,
   DialogTitle,
@@ -26,7 +24,6 @@ export default ({ onCreate, onCancel, open }) => {
     });
   }
 
-  // this.props.createNewGame({ name: 'New Game ' + Date.now() })
   return (
     <Dialog
       open={open}
@@ -70,32 +67,3 @@ export default ({ onCreate, onCancel, open }) => {
     </Dialog>
   );
 };
-//-    <Form onSubmit={onSubmit}>
-//      <FormTitle>New Game Form</FormTitle>
-//      <FormField>
-//        <TextInput
-//          onChange={updateName}
-//          placeholder="New Game Title..."
-//          name="name"
-//          value={name}
-//          autoComplete="off"
-//        />
-//      </FormField>
-//      <FormField>
-//        <Label>Date to Play</Label>
-//        <TextInput
-//          type="date"
-//          name="date_to_be_played"
-//          value={playDate}
-//          onChange={updatePlayDate}
-//        />
-//      </FormField>
-//      <ButtonRow>
-//        <Button type="button" secondary onClick={onCancel}>
-//          Cancel
-//        </Button>
-//        <Button type="submit">
-//          Create
-//        </Button>
-//      </ButtonRow>
-//    </Form>

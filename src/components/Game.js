@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 import {
   fetchGame,
@@ -25,6 +24,8 @@ import {
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import { compose } from 'redux';
+import UpgradeCard from './UpgradeCard';
+import NewRoundDialog from './NewRoundDialog';
 
 const initialState = props => ({
   title: props.game && props.game.name,
@@ -131,21 +132,7 @@ class Game extends Component {
           </CardActionArea>
         </Card>
       ) : (
-        <Card className={classes.card} key="billingCard">
-          <CardActionArea component={Link} to="/billing">
-            <CardContent className={classes.cardContent}>
-              <Typography
-                component="h2"
-                variant="h5"
-                className={classes.title}
-                color="textPrimary"
-                gutterBottom
-              >
-                Upgrade for more rounds
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+        <UpgradeCard message="Upgrade for more Rounds" key={'newRoundCard'} />
       );
 
     const roundComponents = [
@@ -179,23 +166,18 @@ class Game extends Component {
   };
 
   render() {
-    const { classes, width } = this.props;
-    if (!this.props.game || !this.props.game.rounds) {
+    const { classes, width, game } = this.props;
+    if (!game || !game.rounds) {
       return <div>Loading...</div>;
     } else {
       return (
         <>
-          {this.state.modalShowing && (
-            <Modal onClose={() => this.setState({ modalShowing: false })}>
-              <NewRoundForm
-                gameId={this.props.game.id}
-                number={
-                  this.props.game.rounds ? this.props.game.rounds.length + 1 : 1
-                }
-                onCancel={() => this.setState({ modalShowing: false })}
-              />
-            </Modal>
-          )}
+          <NewRoundDialog
+            open={this.state.modalShowing}
+            onCancel={() => this.setState({ modalShowing: false })}
+            roundNumber={game.rounds.length + 1}
+            gameId={game.id}
+          />
 
           <Background />
           <Typography component="h1" variant="h1" color="inherit" gutterBottom>
@@ -234,6 +216,17 @@ export default compose(
   withWidth(),
   withStyles(styles, { withTheme: true })
 )(Game);
+//{this.state.modalShowing && (
+//  <Modal onClose={() => this.setState({ modalShowing: false })}>
+//    <NewRoundForm
+//      gameId={this.props.game.id}
+//      number={
+//        this.props.game.rounds ? this.props.game.rounds.length + 1 : 1
+//      }
+//      onCancel={() => this.setState({ modalShowing: false })}
+//    />
+//  </Modal>
+//)}
 //          <GameInput
 //            value={this.state.title}
 //            onChange={this.updateTitle}

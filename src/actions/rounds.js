@@ -13,10 +13,14 @@ import {
   EDIT_ROUND_FAILURE,
   DELETE_ROUND_START,
   DELETE_ROUND_SUCCESS,
-  DELETE_ROUND_FAILURE
+  DELETE_ROUND_FAILURE,
+  GENERATE_ROUND_START,
+  GENERATE_ROUND_SUCCESS,
+  GENERATE_ROUND_FAILURE
 } from './types';
 
 import serverHandshake from '../auth/serverHandshake';
+import { fetchQuestionsFormatted } from '../services/opentdb';
 
 export const fetchRounds = () => async dispatch => {
   dispatch({ type: FETCH_ROUNDS_START });
@@ -53,6 +57,31 @@ export const addRound = (roundData, game_id) => async dispatch => {
     return success.data;
   } catch (error) {
     dispatch({ type: ADD_ROUND_FAILURE, payload: error });
+    return error;
+  }
+};
+
+// multi-step action to fetch questions and add the round in one action
+export const generateRound = (
+  params,
+  categories,
+  types,
+  roundNumber,
+  gameId
+) => async dispatch => {
+  dispatch({ type: GENERATE_ROUND_START });
+  try {
+    const success = await fetchQuestionsFormatted(
+      params,
+      categories,
+      types
+    ).then(questions =>
+      dispatch(addRound({ number: roundNumber, game_id: gameId, questions }, gameId))
+    );
+    dispatch({ type: GENERATE_ROUND_SUCCESS });
+    return success;
+  } catch (error) {
+    dispatch({ type: GENERATE_ROUND_FAILURE, payload: error });
     return error;
   }
 };

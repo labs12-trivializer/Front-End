@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import NewGameDialog from './NewGameDialog';
+import UpgradeCard from './UpgradeCard';
 
 const styles = theme => ({
   card: {
@@ -75,24 +76,7 @@ class Games extends Component {
     const { classes } = this.props;
     const newGameCard =
       this.props.games.length >= this.props.gameLimit ? (
-        <Card className={classes.card} key="">
-          <CardActionArea
-            component={Link}
-            to="/billing"
-          >
-            <CardContent className={classes.cardContent}>
-              <Typography
-                component="h2"
-                variant="h5"
-                className={classes.title}
-                color="textPrimary"
-                gutterBottom
-              >
-                Upgrade To Create More Games
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+        <UpgradeCard message="Upgrade for more Games" key="upgradeCard"/>
       ) : (
         <Card className={classes.card} key="createGameCard">
           <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
