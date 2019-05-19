@@ -11,21 +11,19 @@ import {
 import { getAllCategories, getQuestionById, getRoundById } from '../reducers';
 import Question from './Question';
 
-import NewQuestionGetter from './NewQuestionGetter';
-import CustomQuestionForm from './CustomQuestionForm';
-import Modal from './Modal';
+// import NewQuestionGetter from './NewQuestionGetter';
+// import CustomQuestionForm from './CustomQuestionForm';
+// import Modal from './Modal';
 
-import { Background, Button } from '../styles/shared.css';
+import { Background } from '../styles/shared.css';
 import {
-  RoundContainer,
-  RoundInfo,
-  SaveChanges,
-  NoChanges,
-  ListContainer,
-  LoadingContainer,
-  // AddCustomQuestion
-} from '../styles/round.css';
-import { withStyles, Typography, withWidth, Grid, Paper } from '@material-ui/core';
+  withStyles,
+  Typography,
+  withWidth,
+  Grid,
+  Paper,
+  ListContainer
+} from '@material-ui/core';
 import { compose } from 'redux';
 
 const styles = theme => ({
@@ -55,7 +53,7 @@ const styles = theme => ({
     flexGrow: 1
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(2)
   }
 });
 
@@ -122,26 +120,15 @@ class RoundDetails extends Component {
   };
 
   render() {
+    const { round, classes } = this.props;
+    const { questions } = round;
     if (!this.props.round || !this.props.round.game_id) {
-      return (
-        <LoadingContainer>
-          <Background />
-          <Loader
-            type="Ball-Triangle"
-            color="#FFFFFF"
-            height="100"
-            width="100"
-          />
-        </LoadingContainer>
-      );
+      return <div>Loading...</div>;
     }
-
-    console.log('ROUND INFO: ', this.props.round);
 
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
 
-    const { round, classes } = this.props;
     return (
       <div className={classes.root}>
         <Grid container spacing={3}>
@@ -150,6 +137,15 @@ class RoundDetails extends Component {
               <Typography component="h1" variant="h1" className={classes.title}>
                 Round {round.number}
               </Typography>
+              {questions.map((q, idx) => (
+                <Question
+                  round={this.props.round}
+                  questionId={q}
+                  key={`q${q}`}
+                  index={idx}
+                  moveQuestion={this.moveQuestion}
+                />
+              ))}
             </Paper>
           </Grid>
         </Grid>

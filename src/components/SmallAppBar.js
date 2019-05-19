@@ -123,7 +123,6 @@ const SmallAppBar = ({ isLoggedIn, auth }) => {
                 handleDrawerClose();
                 auth.login();
               }}
-              onClick={handleDrawerClose}
             >
               <ListItemIcon>
                 <Icon className={clsx(classes.icon, 'fas fa-sign-in-alt')} />
