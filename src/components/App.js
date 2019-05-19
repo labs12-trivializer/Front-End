@@ -1,24 +1,24 @@
 import React from 'react';
-import Stripe from './stripe/Stripe';
-import PrivateRoute from './PrivateRoute';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { Link as RouterLink } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { useTheme } from '@material-ui/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Container } from '@material-ui/core';
+import { compose } from 'redux';
 import { Background } from '../styles/shared.css';
-import { Button, Container } from '@material-ui/core';
 import Auth from '../auth';
 import Profile from './Profile';
 import Games from './Games';
-import { compose } from 'redux';
+import Stripe from './stripe/Stripe';
+import PrivateRoute from './PrivateRoute';
 import Game from './Game';
 import RoundDetails from './RoundDetails';
 import Landing from './Landing';
 import Home from './Home';
+import LargeAppBar from './LargeAppBar';
+import SmallAppBar from './SmallAppBar';
 
 const auth = new Auth();
 
@@ -47,37 +47,19 @@ const styles = theme => ({
 });
 
 function AppRoot({ classes, isLoggedIn }) {
+  // hook version of withWidth
+  const theme = useTheme();
+  const biggerThanSmall = useMediaQuery(theme.breakpoints.up('sm'));
+
   return (
     <div className={classes.root}>
       <CssBaseline />
       <Background />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" noWrap className={classes.title}>
-            Not Trivializer
-          </Typography>
-          {isLoggedIn ? (
-            <>
-              <Button color="inherit" component={RouterLink} to="/games">
-                Games
-              </Button>
-              <Button color="inherit" component={RouterLink} to="/billing">
-                Billing
-              </Button>
-              <Button color="inherit" component={RouterLink} to="/profile">
-                Settings
-              </Button>
-              <Button color="inherit" onClick={() => auth.logout()}>
-                Logout
-              </Button>
-            </>
-          ) : (
-            <Button color="inherit" onClick={() => auth.login()}>
-              Login
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
+      {biggerThanSmall ? (
+        <LargeAppBar auth={auth} isLoggedIn={isLoggedIn} />
+      ) : (
+        <SmallAppBar auth={auth} isLoggedIn={isLoggedIn} />
+      )}
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Container>

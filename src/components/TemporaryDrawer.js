@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-function SwipeableTemporaryDrawer() {
+function TemporaryDrawer() {
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -29,7 +29,7 @@ function SwipeableTemporaryDrawer() {
   });
 
   const toggleDrawer = (side, open) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
 
@@ -90,45 +90,27 @@ function SwipeableTemporaryDrawer() {
     </div>
   );
 
-  return (
-    <div>
-      <Button onClick={toggleDrawer('left', true)}>Open Left</Button>
-      <Button onClick={toggleDrawer('right', true)}>Open Right</Button>
-      <Button onClick={toggleDrawer('top', true)}>Open Top</Button>
-      <Button onClick={toggleDrawer('bottom', true)}>Open Bottom</Button>
-      <SwipeableDrawer
-        open={state.left}
-        onClose={toggleDrawer('left', false)}
-        onOpen={toggleDrawer('left', true)}
-      >
-        {sideList('left')}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor="top"
-        open={state.top}
-        onClose={toggleDrawer('top', false)}
-        onOpen={toggleDrawer('top', true)}
-      >
-        {fullList('top')}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor="bottom"
-        open={state.bottom}
-        onClose={toggleDrawer('bottom', false)}
-        onOpen={toggleDrawer('bottom', true)}
-      >
-        {fullList('bottom')}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor="right"
-        open={state.right}
-        onClose={toggleDrawer('right', false)}
-        onOpen={toggleDrawer('right', true)}
-      >
-        {sideList('right')}
-      </SwipeableDrawer>
-    </div>
-  );
+  // return (
+  //   <
+  // );
 }
 
-export default SwipeableTemporaryDrawer;
+export default TemporaryDrawer;
+//    <div>
+//      <Button onClick={toggleDrawer('left', true)}>Open Left</Button>
+//      <Button onClick={toggleDrawer('right', true)}>Open Right</Button>
+//      <Button onClick={toggleDrawer('top', true)}>Open Top</Button>
+//      <Button onClick={toggleDrawer('bottom', true)}>Open Bottom</Button>
+//      <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
+//        {sideList('left')}
+//      </Drawer>
+//      <Drawer anchor="top" open={state.top} onClose={toggleDrawer('top', false)}>
+//        {fullList('top')}
+//      </Drawer>
+//      <Drawer anchor="bottom" open={state.bottom} onClose={toggleDrawer('bottom', false)}>
+//        {fullList('bottom')}
+//      </Drawer>
+//      <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
+//        {sideList('right')}
+//      </Drawer>
+//    </div>

@@ -12,8 +12,6 @@ import {
 import { Background } from '../styles/shared.css';
 // import { GameInput, InputControls, RoundList } from '../styles/game.css';
 import Round from './Round';
-import Modal from './Modal';
-import NewRoundForm from './NewRoundForm';
 import {
   withStyles,
   Typography,
