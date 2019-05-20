@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { getAllQuestionTypes } from '../reducers';
 import {
@@ -21,8 +21,6 @@ const TypeSelect = ({ options, onChange, allowAny = true }) => {
     setValue(e.target.value);
     onChange && onChange(e);
   };
-
-  useEffect(() => handleChange({ target: { name: 'question_type_id', value } }), []);
 
   return (
     <FormControl fullWidth>

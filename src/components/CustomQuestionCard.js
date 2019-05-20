@@ -18,6 +18,7 @@ import DifficultySelect from './DifficultySelect';
 import TypeSelect from './TypeSelect';
 import { addCustomQuestion } from '../actions';
 import shuffle from '../helpers/shuffle';
+import { getAllCategories, getAllQuestionTypes } from '../reducers';
 
 // withStyles
 const useStyles = makeStyles(theme => ({
@@ -42,25 +43,21 @@ const getSteps = () => {
   return ['Step 1', 'Step 2', 'Step 3'];
 };
 
-const getStepContent = step => {
-  switch (step) {
-    case 0:
-      return 'Select campaign settings...';
-    default:
-      return 'Unkonwn step';
-  }
-};
-
 const CustomQuestionCard = ({
   onBack,
   position,
   onComplete,
   addCustomQuestion,
-  roundId
+  roundId,
+  categories,
+  types
 }) => {
   const initialQuestionState = {
     text: '',
-    round_id: roundId
+    round_id: roundId,
+    difficulty: 'easy',
+    category_id: categories[0].id,
+    question_type_id: types[0].id
   };
 
   const initialAnswerState = {
@@ -281,7 +278,12 @@ const CustomQuestionCard = ({
   );
 };
 
+const mapStateToProps = state => ({
+  categories: getAllCategories(state),
+  types: getAllQuestionTypes(state)
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { addCustomQuestion }
 )(CustomQuestionCard);
