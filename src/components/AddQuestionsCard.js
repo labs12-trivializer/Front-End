@@ -9,6 +9,8 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import PremadeQuestionCard from './PremadeQuestionCard';
+import CustomQuestionCard from './CustomQuestionCard';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -89,11 +91,12 @@ const AddQuestionCard = () => {
           <Typography component="h2" variant="h5">
             Choose a question type.
           </Typography>
-          <div classname={classes.buttonRow}>
+          <div className={classes.buttonRow}>
             <Button
               variant="contained"
               color="primary"
               className={classes.button}
+              onClick={() => setMode('premade')}
             >
               Premade
             </Button>
@@ -101,6 +104,7 @@ const AddQuestionCard = () => {
               variant="contained"
               color="primary"
               className={classes.button}
+              onClick={() => setMode('custom')}
             >
               Custom
             </Button>
@@ -108,6 +112,14 @@ const AddQuestionCard = () => {
         </div>
       </Card>
     );
+  }
+
+  if (mode === 'premade') {
+    return <PremadeQuestionCard onBack={() => setMode('chooseType')} />;
+  }
+
+  if (mode === 'custom') {
+    return <CustomQuestionCard onBack={() => setMode('chooseType')} />;
   }
 
   return (
