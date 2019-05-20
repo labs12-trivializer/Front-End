@@ -89,7 +89,7 @@ const SmallAppBar = ({ isLoggedIn, auth }) => {
               <ListItemIcon>
                 <AccountBalanceIcon />
               </ListItemIcon>
-              <ListItemText>Billing</ListItemText>
+              <ListItemText primary="Billing" />
             </ListItem>
             <ListItem
               button
@@ -100,7 +100,7 @@ const SmallAppBar = ({ isLoggedIn, auth }) => {
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText>Profile</ListItemText>
+              <ListItemText primary="Settings" />
             </ListItem>
             <ListItem
               button
@@ -112,7 +112,7 @@ const SmallAppBar = ({ isLoggedIn, auth }) => {
               <ListItemIcon>
                 <Icon className={clsx(classes.icon, 'fa fa-sign-out-alt')} />
               </ListItemIcon>
-              <ListItemText>Logout</ListItemText>
+              <ListItemText primary="Logout" />
             </ListItem>
           </List>
         ) : (
@@ -127,7 +127,7 @@ const SmallAppBar = ({ isLoggedIn, auth }) => {
               <ListItemIcon>
                 <Icon className={clsx(classes.icon, 'fas fa-sign-in-alt')} />
               </ListItemIcon>
-              <ListItemText>Login</ListItemText>
+              <ListItemText primary="Login" />
             </ListItem>
           </List>
         )}

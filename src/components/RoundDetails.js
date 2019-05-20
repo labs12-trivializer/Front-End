@@ -16,10 +16,10 @@ import {
   Typography,
   withWidth,
   Grid,
-  Paper,
-  CardContent,
-  Card} from '@material-ui/core';
+  Paper
+} from '@material-ui/core';
 import { compose } from 'redux';
+import AddQuestionCard from './AddQuestionsCard';
 
 const styles = theme => ({
   card: {
@@ -121,8 +121,8 @@ class RoundDetails extends Component {
       return <div>Loading...</div>;
     }
 
-    const newQuestionCount =
-      this.props.round.questions.length - this.props.dbQuestionCount;
+    // const newQuestionCount =
+    //   this.props.round.questions.length - this.props.dbQuestionCount;
 
     return (
       <div className={classes.root}>
@@ -141,9 +141,8 @@ class RoundDetails extends Component {
                   moveQuestion={this.moveQuestion}
                 />
               ))}
-              <Card className={classes.card}>
-                <CardContent>Hello</CardContent>
-              </Card>
+
+              <AddQuestionCard roundId={round.id} />
             </Paper>
           </Grid>
         </Grid>
