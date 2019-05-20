@@ -170,3 +170,8 @@ export const UNDO = 'UNDO';
 
 // Question Drag/Drop
 export const DRAG_DROP_QUESTION = 'DRAG_DROP_QUESTION';
+
+// Generate Round
+export const GENERATE_ROUND_START = 'GENERATE_ROUND_START';
+export const GENERATE_ROUND_SUCCESS = 'GENERATE_ROUND_SUCCESS';
+export const GENERATE_ROUND_FAILURE = 'GENERATE_ROUND_FAILURE';

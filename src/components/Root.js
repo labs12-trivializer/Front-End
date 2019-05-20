@@ -4,24 +4,14 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Router, Route } from 'react-router-dom';
-import Reset from '../styles/reset.css';
-import GlobalStyles from '../styles/global.css';
-import Menu from './Menu';
-import Landing from './Landing';
-import Callback from './Callback';
-import Restricted from './Restricted';
-import Auth from '../auth';
 import history from '../history';
 import { ToastContainer } from 'react-toastify';
-import Stripe from './stripe/Stripe';
-import PrivateRoute from './PrivateRoute';
-import Profile from './Profile';
-import Games from './Games';
-import Game from './Game';
-import CreateGame from './CreateGame';
-import RoundDetails from './RoundDetails';
-import Setup from './Setup';
 import { store, persistor } from '../store';
+import App from './App';
+import Setup from './Setup';
+import Callback from './Callback';
+import Auth from '../auth';
+
 
 const auth = new Auth();
 
@@ -48,46 +38,15 @@ const Root = () => (
       <Setup />
       <DragDropContextProvider backend={HTML5Backend}>
         <Router history={history}>
-          <React.Fragment>
-            <Reset />
-            <GlobalStyles />
-            <Route
-              path="/"
-              render={props =>
-                props.location.pathname !== '/callback' && (
-                  <Menu auth={auth} {...props} />
-                )
-              }
-            />
-            <Route
-              exact
-              path="/"
-              render={props => <Landing auth={auth} {...props} />}
-            />
-            <Route
-              path="/callback"
-              render={props => {
-                handleAuthentication(props);
-                return <Callback {...props} />;
-              }}
-            />
-            <Route
-              exact
-              path="/restricted"
-              render={props => <Restricted auth={auth} {...props} />}
-            />
-            <PrivateRoute exact path="/games" component={Games} />
-            <PrivateRoute path="/games/:id" component={Game} />
-            {/* <PrivateRoute
-            exact
-            path="/rounds"
-            render={props => <Rounds auth={auth} {...props} />}
-          /> */}
-            <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
-            <PrivateRoute path="/create" component={CreateGame} />
-            <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/billing" component={Stripe} />
-          </React.Fragment>
+          <App />
+          <Route
+            path="/callback"
+            render={props => {
+              console.log(props.location);
+              handleAuthentication(props);
+              return <Callback {...props} />;
+            }}
+          />
         </Router>
       </DragDropContextProvider>
     </PersistGate>

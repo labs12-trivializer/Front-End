@@ -1,97 +1,90 @@
-import React, { Component } from 'react';
-import Styled from 'styled-components';
-class App extends Component {
-  goTo = route => {
-    this.props.history.replace(`/${route}`);
-  };
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { useTheme } from '@material-ui/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Container } from '@material-ui/core';
+import { compose } from 'redux';
+import { Background } from '../styles/shared.css';
+import Auth from '../auth';
+import Profile from './Profile';
+import Games from './Games';
+import Stripe from './stripe/Stripe';
+import PrivateRoute from './PrivateRoute';
+import Game from './Game';
+import RoundDetails from './RoundDetails';
+import Landing from './Landing';
+import Home from './Home';
+import LargeAppBar from './LargeAppBar';
+import SmallAppBar from './SmallAppBar';
 
-  login = () => {
-    this.props.auth.login();
-  };
+const auth = new Auth();
 
-  logout = () => {
-    this.props.auth.logout();
-  };
+const drawerWidth = 240;
 
-  render() {
-    const { isAuthenticated } = this.props.auth;
-
-    return (
-      <AppContainer>
-        <AppHeader>
-          <h1>Trivializer</h1>
-          <AppNav>
-            <button onClick={() => this.goTo('home')}>Home</button>
-            {!isAuthenticated() ? (
-              <button onClick={this.login}>Log In</button>
-            ) : (
-              <button onClick={this.logout}>Log Out</button>
-            )}
-          </AppNav>
-        </AppHeader>
-      </AppContainer>
-    );
+const styles = theme => ({
+  root: {
+    display: 'flex'
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0
+  },
+  title: {
+    flexGrow: 1
+  },
+  drawerPaper: {
+    width: drawerWidth
+  },
+  toolbar: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing(3)
   }
+});
+
+function AppRoot({ classes, isLoggedIn }) {
+  // hook version of withWidth
+  const theme = useTheme();
+  const biggerThanSmall = useMediaQuery(theme.breakpoints.up('sm'));
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <Background />
+      {biggerThanSmall ? (
+        <LargeAppBar auth={auth} isLoggedIn={isLoggedIn} />
+      ) : (
+        <SmallAppBar auth={auth} isLoggedIn={isLoggedIn} />
+      )}
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <Container>
+          <PrivateRoute exact path="/games" component={Games} />
+          <Route
+            exact
+            path="/"
+            render={props => <Landing auth={auth} {...props} />}
+          />
+          <PrivateRoute path="/home" component={Home} />
+          <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
+          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute path="/billing" component={Stripe} />
+          <PrivateRoute path="/games/:id" component={Game} />
+        </Container>
+      </main>
+    </div>
+  );
 }
 
-const AppContainer = Styled.div`
-  display: flex;
-  background: linear-gradient(180deg, #1F4773 0%, rgba(255, 255, 255, 0) 100%), #0F8A99;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100%;
-`;
+const mapStateToProps = state => ({
+  isLoggedIn: state.auth.loggedIn
+});
 
-const AppHeader = Styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 10px 0;
-  padding: 10px;
-  width: 70%;
-  border-radius: 5px;
-  background-color: rgb(31, 71, 115);
-  color: white;
-
-  h1 {
-    font-family: 'Grand Hotel', cursive;
-    font-size: 3rem;
-    margin-bottom: 10px;
-  }
-`;
-
-const AppNav = Styled.nav`
-  display: flex;
-  flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: flex-end; */
-
-  button {
-    cursor: pointer;
-    margin: 5px 0;
-    background: #19B9E9;
-    border: none;
-    width: 250px;
-    height: 37px;
-    left: 80px;
-    top: 383px;
-    font-family: Lato;
-    font-style: normal;
-    font-weight: 800;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-    border-radius: 5px;
-
-    color: #EBECF1;
-
-    :hover {
-      color: rgb(31, 71, 115);
-    }
-  }
-`;
-
-export default App;
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles, { withTheme: true })
+)(AppRoot);

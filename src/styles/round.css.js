@@ -38,6 +38,7 @@ export const RoundInfo = styled.div`
     background: rgba(255, 255, 255, .5);
 
     > p {
+      font-weight: 900;
       font-size: 3.2rem;
       padding: 0;
       line-height: 0;
@@ -57,6 +58,7 @@ export const RoundInfo = styled.div`
 
 export const SaveChanges = styled(Button)`
   margin: 1rem 0;
+  border-radius: .5rem;
 `;
 
 export const NoChanges = styled(SaveChanges)`
@@ -70,20 +72,20 @@ export const ListContainer = styled.ul`
   align-items: center;
 `;
 
-export const AddCustomQuestion = styled.button`
-  font-size: 1.2rem;
-  border: 1px solid #19B9E9;
+export const AddCustomQuestion = styled(Button)`
+  /* font-size: 1.2rem; */
+  /* border: 1px solid #19B9E9; */
   border-radius: .5rem;
-  background-color: rgba(25, 185, 233, 0.25);
-  color: white;
+  /* background-color: rgba(25, 185, 233, 0.25); */
+  /* color: white; */
   cursor: pointer;
-  padding: .5rem 1rem;
+  /* padding: .5rem 1rem; */
   /* margin: 0 0 1rem; */
   /* align-self: flex-end; */
-  transition: .1s;
+  /* transition: .1s; */
 
   :hover {
-    border: 1px solid white;
-    transition: .1s;
+    /* border: 1px solid white; */
+    /* transition: .1s; */
   }
 `;

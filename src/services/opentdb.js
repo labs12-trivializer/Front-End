@@ -1,6 +1,19 @@
 import axios from 'axios';
 import shortid from 'shortid';
 
+// from https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array
+/**
+/**
+ * Shuffles array in place. ES6 version
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 const opentdb = () => {
   const options = {
     baseURL: 'https://opentdb.com/api.php'
@@ -14,7 +27,6 @@ export default opentdb;
 // return a promse that fetches from opentdb
 // possible params: { amount, category, difficulty, type }
 export const fetchQuestions = ({ amount, category, difficulty, type }) => {
-
   return opentdb().get('/', {
     params: {
       amount: amount === 'any' ? null : amount,
@@ -33,13 +45,13 @@ export const formatOpentdbResponse = (response, categories, types) =>
     category_id: categories.find(c => c.name === r.category).id,
     difficulty: r.difficulty,
     text: r.question,
-    answers: [
+    answers: shuffle([
       { text: r.correct_answer, is_correct: true },
       ...r.incorrect_answers.map(a => ({
         text: a,
         is_correct: false
       }))
-    ]
+    ])
   }));
 
 // given a params object and arrays of our categories and types,

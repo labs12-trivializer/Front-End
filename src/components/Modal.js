@@ -6,6 +6,8 @@ import {
   ContentContainer
 } from '../styles/modal.css';
 
+// Use 'Dialog' MUI component 
+
 const ModalComponent = ({ onClose, children }) => {
   return (
     <ModalWrapper>
