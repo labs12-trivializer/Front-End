@@ -16,7 +16,8 @@ import {
   Typography,
   withWidth,
   Grid,
-  Paper
+  Paper,
+  Button
 } from '@material-ui/core';
 import { compose } from 'redux';
 import AddQuestionCard from './AddQuestionsCard';
@@ -121,8 +122,8 @@ class RoundDetails extends Component {
       return <div>Loading...</div>;
     }
 
-    // const newQuestionCount =
-    //   this.props.round.questions.length - this.props.dbQuestionCount;
+    const newQuestionCount =
+      this.props.round.questions.length - this.props.dbQuestionCount;
 
     return (
       <div className={classes.root}>
@@ -132,6 +133,21 @@ class RoundDetails extends Component {
               <Typography component="h1" variant="h1" className={classes.title}>
                 Round {round.number}
               </Typography>
+              {(newQuestionCount > 0 || round.dirty) && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() =>
+                    this.props.editRound(
+                      this.props.round.id,
+                      this.nestedRound()
+                    )
+                  }
+                >
+                  Save Changes
+                </Button>
+              )}
               {questions.map((q, idx) => (
                 <Question
                   round={this.props.round}
