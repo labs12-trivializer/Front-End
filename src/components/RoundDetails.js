@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loader from 'react-loader-spinner';
+// import Loader from 'react-loader-spinner';
 
 import {
   fetchRound,
@@ -11,19 +11,14 @@ import {
 import { getAllCategories, getQuestionById, getRoundById } from '../reducers';
 import Question from './Question';
 
-// import NewQuestionGetter from './NewQuestionGetter';
-// import CustomQuestionForm from './CustomQuestionForm';
-// import Modal from './Modal';
-
-import { Background } from '../styles/shared.css';
 import {
   withStyles,
   Typography,
   withWidth,
   Grid,
   Paper,
-  ListContainer
-} from '@material-ui/core';
+  CardContent,
+  Card} from '@material-ui/core';
 import { compose } from 'redux';
 
 const styles = theme => ({
@@ -32,7 +27,7 @@ const styles = theme => ({
     margin: theme.spacing(1)
   },
   cardContent: {
-    minHeight: '20rem'
+    minHeight: 200
   },
   pos: {
     marginBottom: 12
@@ -146,6 +141,9 @@ class RoundDetails extends Component {
                   moveQuestion={this.moveQuestion}
                 />
               ))}
+              <Card className={classes.card}>
+                <CardContent>Hello</CardContent>
+              </Card>
             </Paper>
           </Grid>
         </Grid>

@@ -25,34 +25,35 @@ import {
   undo
 } from '../actions';
 import Answer from './Answer';
+import { makeStyles } from '@material-ui/styles';
 
 const indexToLetter = index => String.fromCharCode(index + 64);
 
-const styles = {
-  Card: {
+const useStyles = makeStyles(theme => ({
+  card: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
     marginBottom: '.5rem'
   },
-  CardActions: {
+  cardActions: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     backgroundColor: '#DFDFDF',
     width: '100%'
   },
-  Button: {
+  button: {
     border: '1px solid #FFFFFF',
     paddingLeft: '0',
     paddingRight: '0',
     color: '#03A9F4'
   },
-  Icon: {
+  icon: {
     padding: 0
   }
-};
+}));
 
 const Question = React.forwardRef(
   (
@@ -75,6 +76,7 @@ const Question = React.forwardRef(
     },
     ref
   ) => {
+    const classes = useStyles();
     const elementRef = useRef(null);
     connectDragSource(elementRef);
     connectDropTarget(elementRef);
@@ -128,7 +130,7 @@ const Question = React.forwardRef(
     }
 
     return (
-      <Card style={styles.Card} ref={elementRef}>
+      <Card className={classes.card} ref={elementRef}>
         <CardContent>
           <Typography variant="h5" color="textSecondary" gutterBottom>
             <strong>{index + 1}.</strong>
@@ -143,32 +145,26 @@ const Question = React.forwardRef(
               />
             ))}
         </CardContent>
-        <CardActions style={styles.CardActions} disableActionSpacing={true}>
+        <CardActions className={classes.cardActions}>
           <div>
             <Button
-              style={styles.Button}
+              className={classes.button}
               size="small"
-              primary
-              small
               onClick={remove}
             >
               <Icon fontSize="small" className="fas fa-trash-alt" />
             </Button>
             <Button
-              style={styles.Button}
+              className={classes.button}
               size="small"
-              primary
-              small
               onClick={fetchAnotherQuestion}
             >
               <Icon fontSize="small" className="fas fa-exchange-alt" />
             </Button>
             {canUndo && (
               <Button
-                style={styles.Button}
+                className={classes.button}
                 size="small"
-                primary
-                small
                 onClick={() => undo(question.id)}
               >
                 <Icon fontSize="small" className="fas fa-history" />
@@ -177,19 +173,15 @@ const Question = React.forwardRef(
           </div>
           <div>
             <Button
-              style={styles.Button}
+              className={classes.button}
               size="small"
-              primary
-              small
               onClick={e => changePosition(e)}
             >
               <Icon fontSize="small" className="up fas fa-chevron-up" />
             </Button>
             <Button
-              style={styles.Button}
+              className={classes.button}
               size="small"
-              primary
-              small
               onClick={e => changePosition(e)}
             >
               <Icon fontSize="small" className="down fas fa-chevron-down" />
