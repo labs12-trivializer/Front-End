@@ -9,7 +9,7 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import PremadeQuestionCard from './PremadeQuestionCard';
+import PremadeQuestionsCard from './PremadeQuestionsCard';
 import CustomQuestionCard from './CustomQuestionCard';
 
 const useStyles = makeStyles(theme => ({
@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AddQuestionCard = () => {
+const AddQuestionCard = ({ roundId }) => {
   const classes = useStyles();
   const [mode, setMode] = useState('start');
 
@@ -115,7 +115,13 @@ const AddQuestionCard = () => {
   }
 
   if (mode === 'premade') {
-    return <PremadeQuestionCard onBack={() => setMode('chooseType')} />;
+    return (
+      <PremadeQuestionsCard
+        roundId={roundId}
+        onBack={() => setMode('chooseType')}
+        onComplete={() => setMode('start')}
+      />
+    );
   }
 
   if (mode === 'custom') {

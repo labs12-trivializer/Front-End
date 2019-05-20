@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Card, IconButton, TextField, Button } from '@material-ui/core';
+import {
+  Card,
+  IconButton,
+  TextField,
+  Button,
+  CardContent
+} from '@material-ui/core';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
@@ -26,17 +32,21 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: 0,
     left: 0
+  },
+  cardContent: {
+    marginTop: theme.spacing(2)
   }
 }));
 
-const PremadeQuestionCard = ({
+const PremadeQuestionsCard = ({
   onBack,
   types,
   categories,
   typesById,
   categoriesById,
   roundId,
-  fetchNewRoundQuestions
+  fetchNewRoundQuestions,
+  onComplete
 }) => {
   const classes = useStyles();
   const [fields, setFields] = useState({ amount: 0 });
@@ -54,10 +64,10 @@ const PremadeQuestionCard = ({
       difficulty: fields.difficulty && fields.difficulty
     };
 
-    fetchNewRoundQuestions(params, categories, types, roundId);
+    fetchNewRoundQuestions(params, categories, types, roundId).then(onComplete);
   };
   return (
-    <Card>
+    <Card className={classes.card}>
       <IconButton
         aria-label="Previous"
         className={classes.backButton}
@@ -65,28 +75,30 @@ const PremadeQuestionCard = ({
       >
         <KeyboardArrowLeftIcon />
       </IconButton>
-      <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <TextField
-          label="Number of Quesitons"
-          name="amount"
-          value={fields.amount}
-          type="number"
-          onChange={handleChanges}
-          InputLabelProps={{ shrink: true }}
-          margin="normal"
-        />
-        <CategorySelect onChange={handleChanges} />
-        <TypeSelect onChange={handleChanges} />
-        <DifficultySelect onChange={handleChanges} />
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={handleSubmit}
-        >
-          Add
-        </Button>
-      </form>
+      <CardContent className={classes.cardContent}>
+        <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <TextField
+            label="Number of Quesitons"
+            name="amount"
+            value={fields.amount}
+            type="number"
+            onChange={handleChanges}
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+          />
+          <CategorySelect onChange={handleChanges} />
+          <TypeSelect onChange={handleChanges} />
+          <DifficultySelect onChange={handleChanges} />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={handleSubmit}
+          >
+            Add
+          </Button>
+        </form>
+      </CardContent>
     </Card>
   );
 };
@@ -105,4 +117,4 @@ export default connect(
   {
     fetchNewRoundQuestions
   }
-)(PremadeQuestionCard);
+)(PremadeQuestionsCard);
