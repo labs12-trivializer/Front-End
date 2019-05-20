@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
-    marginBottom: '.5rem'
+    marginBottom: theme.spacing(2)
   },
   cardActions: {
     display: 'flex',
