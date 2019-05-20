@@ -13,7 +13,7 @@ class Stripe extends Component {
     return (
       <>
         <Pricing />
-        <Modal open={false}>
+        <Modal display={false}>
           <Card>
             <StripeProvider apiKey="pk_test_rLIPiZV9cJfPy9p4WZgEMCbA00qbhu5zTZ">
               <Elements>
