@@ -142,7 +142,10 @@ class RoundDetails extends Component {
                 />
               ))}
 
-              <AddQuestionCard roundId={round.id} />
+              <AddQuestionCard
+                roundId={round.id}
+                position={questions.length + 1}
+              />
             </Paper>
           </Grid>
         </Grid>

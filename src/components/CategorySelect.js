@@ -12,8 +12,10 @@ import {
 // component for selecting categories
 // the onChange prop mimics an event callback by passing:
 // { target: { name: 'category_id', value }} as the argument
-const CategorySelect = ({ options, onChange }) => {
-  const [value, setValue] = useState('');
+const CategorySelect = ({ options, onChange, allowAny = true }) => {
+  const [value, setValue] = useState(
+    allowAny ? '' : options[0] ? options[0].value : ''
+  );
 
   const handleChange = e => {
     setValue(e.target.value);
@@ -32,7 +34,7 @@ const CategorySelect = ({ options, onChange }) => {
         input={<Input name="category_id" id="category-selector" />}
         displayEmpty
       >
-        <MenuItem value="">Any</MenuItem>
+        {allowAny && <MenuItem value="">Any</MenuItem>}
         {options.map((o, idx) => (
           <MenuItem value={o.value} key={`cid${idx}`}>
             {o.label}
