@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import CheckoutForm from './CheckoutForm';
-import { Elements, StripeProvider } from 'react-stripe-elements';
 import waitForProfile from '../waitForProfile';
 import Pricing from './Pricing';
 import { Header } from '../../styles/billing.css';
 import { toast } from 'react-toastify';
 import { css } from 'glamor';
-import { Modal } from '@material-ui/core';
-
+import StripeDialog from './StripeDialog';
 class Stripe extends Component {
   state = {
     showStripe: false,
@@ -47,13 +44,11 @@ class Stripe extends Component {
         />
         <Header>Current Tier: {this.props.profile.tier_name}</Header>
 
-        <Modal open={this.state.showStripe} onClose={this.handleClose}>
-          <StripeProvider apiKey="pk_test_rLIPiZV9cJfPy9p4WZgEMCbA00qbhu5zTZ">
-            <Elements>
-              <CheckoutForm upgradingTo={this.state.upgradingTo} />
-            </Elements>
-          </StripeProvider>
-        </Modal>
+        <StripeDialog
+          upgradingTo={this.state.upgradingTo}
+          showStripe={this.state.showStripe}
+          handleClose={this.handleClose}
+        />
       </>
     );
   }
