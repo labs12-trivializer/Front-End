@@ -164,7 +164,7 @@ export default function Pricing(props) {
                         ? false
                         : true
                     }
-                    onClick={() => props.upgrade(tier.title)}
+                    onClick={() => props.handleOpen(tier.title)}
                   >
                     {tier.buttonText}
                   </Button>
