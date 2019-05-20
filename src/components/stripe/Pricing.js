@@ -11,17 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-// function MadeWithLove() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {'Built with love by the '}
-//       <Link color="inherit" href="https://material-ui.com/">
-//         Material-UI
-//       </Link>
-//       {' team.'}
-//     </Typography>
-//   );
-// }
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -58,16 +47,6 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'baseline',
     marginBottom: theme.spacing(2)
-  },
-  footer: {
-    borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(6),
-      paddingBottom: theme.spacing(6)
-    }
   }
 }));
 
@@ -77,11 +56,10 @@ const tiers = [
     price: '0',
     description: ['Create 1 Game', '2 Rounds Per Game', '4 Questions Per Game'],
     buttonText: 'Upgrade',
-    buttonVariant: 'outlined'
+    buttonVariant: 'contained'
   },
   {
     title: 'Silver',
-    subheader: 'Most popular',
     price: '9.99',
     description: [
       'Create Up To 10 Games',
@@ -100,11 +78,11 @@ const tiers = [
       '200 Questions Per Game'
     ],
     buttonText: 'Upgrade',
-    buttonVariant: 'outlined'
+    buttonVariant: 'contained'
   }
 ];
 
-export default function Pricing() {
+export default function Pricing(props) {
   const classes = useStyles();
 
   return (
@@ -178,6 +156,15 @@ export default function Pricing() {
                     fullWidth
                     variant={tier.buttonVariant}
                     color="primary"
+                    //disable button based on which tier they are what they could possibly upgrade to
+                    disabled={
+                      props.tier === 'bronze' && tier.title !== 'Bronze'
+                        ? false
+                        : props.tier === 'silver' && tier.title === 'Gold'
+                        ? false
+                        : true
+                    }
+                    onClick={() => props.upgrade(tier.title)}
                   >
                     {tier.buttonText}
                   </Button>

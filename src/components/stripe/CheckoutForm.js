@@ -7,6 +7,7 @@ import CircularProgress from './CircularProgress';
 import { toast } from 'react-toastify';
 import { css } from 'glamor';
 import { FormDiv, Header } from '../../styles/billing.css';
+import { Card } from '@material-ui/core';
 
 //stripe input styling
 const createOptions = () => {
@@ -57,30 +58,32 @@ class _CheckoutForm extends Component {
 
   render() {
     return (
-      <div className="checkout">
-        <Header>Current Tier: {this.props.profile.tier_name}</Header>
-        <p>Payment Info:</p>
-        <FormDiv>
-          <CardElement {...createOptions()} />
-        </FormDiv>
-        <CheckBox
-          toggleBasic={this.toggleBasicPlan}
-          togglePremium={this.togglePremiumPlan}
-          tier={this.props.profile.tier_name}
-        />
-        <CircularProgress
-          basicPlan={this.state.basicPlan}
-          premiumPlan={this.state.premiumPlan}
-          stripe={this.props.stripe}
-        />
-        {/* {this.state.basicPlan !== this.state.premiumPlan && (
+      <>
+        {/* <Header>Current Tier: {this.props.profile.tier_name}</Header> */}
+        <Card className="checkout">
+          <p>Payment Info:</p>
+          <FormDiv>
+            <CardElement {...createOptions()} />
+          </FormDiv>
+          <CheckBox
+            toggleBasic={this.toggleBasicPlan}
+            togglePremium={this.togglePremiumPlan}
+            tier={this.props.profile.tier_name}
+          />
+          <CircularProgress
+            basicPlan={this.state.basicPlan}
+            premiumPlan={this.state.premiumPlan}
+            stripe={this.props.stripe}
+          />
+          {/* {this.state.basicPlan !== this.state.premiumPlan && (
           <CircularProgress
             basicPlan={this.state.basicPlan}
             premiumPlan={this.state.premiumPlan}
             stripe={this.props.stripe}
           />
         )} */}
-      </div>
+        </Card>
+      </>
     );
   }
 }
