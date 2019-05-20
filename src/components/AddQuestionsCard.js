@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AddQuestionCard = ({ roundId }) => {
+const AddQuestionCard = ({ roundId, position }) => {
   const classes = useStyles();
   const [mode, setMode] = useState('start');
 
@@ -125,7 +125,14 @@ const AddQuestionCard = ({ roundId }) => {
   }
 
   if (mode === 'custom') {
-    return <CustomQuestionCard onBack={() => setMode('chooseType')} />;
+    return (
+      <CustomQuestionCard
+        roundId={roundId}
+        position={position}
+        onComplete={() => setMode('start')}
+        onBack={() => setMode('chooseType')}
+      />
+    );
   }
 
   return (

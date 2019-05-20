@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getAllQuestionTypes } from '../reducers';
 import {
@@ -12,13 +12,17 @@ import {
 // component for selecting types
 // the onChange prop mimics an event callback by passing:
 // { target: { name: 'question_type_id', value }} as the argument
-const TypeSelect = ({ options, onChange }) => {
-  const [value, setValue] = useState('');
+const TypeSelect = ({ options, onChange, allowAny = true }) => {
+  const [value, setValue] = useState(
+    allowAny ? '' : options[0] ? options[0].value : ''
+  );
 
   const handleChange = e => {
     setValue(e.target.value);
     onChange && onChange(e);
   };
+
+  useEffect(() => handleChange({ target: { name: 'question_type_id', value } }), []);
 
   return (
     <FormControl fullWidth>
@@ -32,7 +36,7 @@ const TypeSelect = ({ options, onChange }) => {
         input={<Input name="question_type_id" id="question-type-selector" />}
         displayEmpty
       >
-        <MenuItem value="">Any</MenuItem>
+        {allowAny && <MenuItem value="">Any</MenuItem>}
         {options.map((o, idx) => (
           <MenuItem value={o.value} key={`cid${idx}`}>
             {o.label}
