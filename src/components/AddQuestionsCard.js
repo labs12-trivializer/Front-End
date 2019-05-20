@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
-import { Card } from '@material-ui/core';
+import {
+  Card,
+  CardActionArea,
+  Button,
+  Typography,
+  IconButton
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 
 const useStyles = makeStyles(theme => ({
   card: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -20,36 +28,88 @@ const useStyles = makeStyles(theme => ({
     flex: 1
   },
   icon: {
-    color: theme.palette.text.secondary,
+    color: theme.palette.grey[400],
     fontSize: 40
   },
   cardEmpty: {
     display: 'flex',
+    alignItems: 'stretch',
+    justifyContent: 'stretch'
+  },
+  fullCardAction: {
+    display: 'flex',
+    flex: 1
+  },
+  typeChoice: {
+    display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center'
+    alignItems: 'center'
+  },
+  buttonRow: {
+    display: 'flex'
+  },
+  button: {
+    margin: theme.spacing(1)
+  },
+  backButton: {
+    position: 'absolute',
+    top: 0,
+    left: 0
   }
 }));
 
 const AddQuestionCard = () => {
   const classes = useStyles();
-  const [questionType, setQuestionType] = useState(null);
-  const [typeChooserShowing, setTypeChooserShowing] = useState(false);
+  const [mode, setMode] = useState('start');
 
-  if (typeChooserShowing) {
+  if (mode === 'start') {
     return (
       <Card className={classes.card}>
-        <AddCircleIcon className={classes.icon} />
+        <CardActionArea
+          className={classes.fullCardAction}
+          onClick={() => setMode('chooseType')}
+        >
+          <AddCircleIcon className={classes.icon} />
+        </CardActionArea>
       </Card>
     );
   }
 
-  if (!questionType) {
+  if (mode === 'chooseType') {
     return (
       <Card className={classes.card}>
-        <AddCircleIcon className={classes.icon} />
+        <IconButton
+          aria-label="Previous"
+          className={classes.backButton}
+          onClick={() => setMode('start')}
+        >
+          <KeyboardArrowLeftIcon />
+        </IconButton>
+        <div className={classes.typeChoice}>
+          <Typography component="h2" variant="h5">
+            Choose a question type.
+          </Typography>
+          <div classname={classes.buttonRow}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              Premade
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              Custom
+            </Button>
+          </div>
+        </div>
       </Card>
     );
   }
+
   return (
     <Card className={classes.card}>
       <AddCircleIcon className={classes.icon} />
