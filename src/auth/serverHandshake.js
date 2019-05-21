@@ -22,7 +22,7 @@ const serverHandshake = auth => {
   };
 
   if (auth) {
-    const token = store.getState().profile.token;
+    const token = store.getState().profile.accessToken;
     options.headers = { Authorization: `Bearer ${token}` };
   }
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import { Image } from 'cloudinary-react';
 // import clsx from 'clsx';
 import Tilt from 'react-tilt';
-import { 
+import {
   Avatar,
   Paper,
   Button,
@@ -98,14 +98,14 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         <Tilt className="Tilt" options={{ max: 30 }}>
           <figure onClick={displayWidget} className="Tilt-inner" avatar={profile.avatar_id}>
             {profile.avatar_id ? (
-              <Avatar 
-                alt="Your Avatar" 
-                // src="/static/images/avatar/1.jpg" 
+              <Avatar
+                alt="Your Avatar"
+                // src="/static/images/avatar/1.jpg"
                 cloudName="trivializer"
                 publicId={profile.avatar_id}
-                className={classes.avatar} 
+                className={classes.avatar}
               />
-              // <Image cloudName="trivializer" publicId={profile.avatar_id} />
+              // <Image cloudName="trivializer" publicId={avatar_id} />
             ) : (
               <Avatar alt="Placeholder Avatar" src="https://picsum.photos/100" className={classes.avatar} />
               // <img src="https://picsum.photos/100" alt="placeholder" />
@@ -115,12 +115,12 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         <Typography
           variant="h5"
         >
-          Tier Level: {`${(profile.tier_name.toUpperCase())}`}
+          Tier Level: {`${((profile.tier_name || 'bronze').toUpperCase())}`}
         </Typography>
         {profile.tier_name !== 'gold' &&
-          <Button 
-            variant="contained" 
-            href="/billing" 
+          <Button
+            variant="contained"
+            href="/billing"
             className={classes.button}
             color="primary"
           >

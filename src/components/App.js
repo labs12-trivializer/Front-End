@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -50,6 +50,11 @@ function AppRoot({ classes, isLoggedIn }) {
   // hook version of withWidth
   const theme = useTheme();
   const biggerThanSmall = useMediaQuery(theme.breakpoints.up('sm'));
+
+  useEffect(() => {
+    const { renewSession } = auth;
+    if (isLoggedIn) renewSession();
+  }, [isLoggedIn]);
 
   return (
     <div className={classes.root}>
