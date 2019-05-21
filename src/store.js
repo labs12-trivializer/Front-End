@@ -29,4 +29,4 @@ const configureStore = () => {
 
 const { store, persistor } = configureStore();
 
-export { configureStore, store, persistor }
+export { configureStore, store, persistor };
