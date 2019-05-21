@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { 
-  AppBar, 
-  Toolbar, 
-  IconButton, 
-  Typography, 
-  // Button 
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  // Button
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -61,7 +61,7 @@ const Menu = ({ auth }) => {
           <NavLink to="/billing">Billing</NavLink>
         </div>
         <div>
-          <NavLink to="/profile">Profile</NavLink>
+          <NavLink to="/settings">Settings</NavLink>
         </div>
         {isLoggedIn && (
           <div>

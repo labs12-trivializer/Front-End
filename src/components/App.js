@@ -9,7 +9,7 @@ import { Container } from '@material-ui/core';
 import { compose } from 'redux';
 import { Background } from '../styles/shared.css';
 import Auth from '../auth';
-import Profile from './Profile';
+// import Profile from './Profile';
 import Games from './Games';
 import Stripe from './stripe/Stripe';
 import PrivateRoute from './PrivateRoute';
@@ -19,6 +19,7 @@ import Landing from './Landing';
 import Home from './Home';
 import LargeAppBar from './LargeAppBar';
 import SmallAppBar from './SmallAppBar';
+import Settings from './Settings';
 
 const auth = new Auth();
 
@@ -54,7 +55,6 @@ function AppRoot({ classes, isLoggedIn }) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Background />
       {biggerThanSmall ? (
         <LargeAppBar auth={auth} isLoggedIn={isLoggedIn} />
       ) : (
@@ -71,7 +71,7 @@ function AppRoot({ classes, isLoggedIn }) {
           />
           <PrivateRoute path="/home" component={Home} />
           <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
-          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute path="/settings" component={Settings} />
           <PrivateRoute path="/billing" component={Stripe} />
           <PrivateRoute path="/games/:id" component={Game} />
         </Container>

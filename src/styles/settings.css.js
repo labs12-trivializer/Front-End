@@ -1,13 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #ebecf1;
-  margin-top: 5rem;
-`;
-
 export const Avatar = styled.figure`
   margin: 25px 0;
   position: relative;
@@ -50,36 +42,4 @@ export const Avatar = styled.figure`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 350px;
-
-  > div {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    align-items: flex-start;
-
-    > label {
-      font-variant: small-caps;
-    }
-
-    > input {
-      background-color: transparent;
-      border: none;
-      outline: none;
-      color: inherit;
-      border-bottom: 1px groove;
-    }
-  }
-
-  > button {
-    margin-top: 1rem;
-    /* width: 100%; */
-    /* align-self: center; */
-    /* margin-top: 10px; */
-    /* padding: 1rem; */
-    /* background-color: rgb(31, 71, 115); */
-    /* color: white; */
-    /* border: none; */
-    /* border-radius: 1rem; */
-  }
 `;
