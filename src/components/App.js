@@ -70,7 +70,7 @@ function AppRoot({ classes, isLoggedIn }) {
           />
           <PrivateRoute path="/home" component={Home} />
           <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
-          <PrivateRoute path="/settings" component={Settings} />
+          <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute path="/billing" component={Stripe} />
           <PrivateRoute path="/games/:id" component={Game} />
         </Container>
