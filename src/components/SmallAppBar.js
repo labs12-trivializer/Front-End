@@ -94,7 +94,7 @@ const SmallAppBar = ({ isLoggedIn, auth }) => {
             <ListItem
               button
               component={Link}
-              to="/profile"
+              to="/settings"
               onClick={handleDrawerClose}
             >
               <ListItemIcon>
