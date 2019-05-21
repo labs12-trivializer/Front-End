@@ -3,9 +3,7 @@ import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 // @material-ui/icons
-import Chat from '@material-ui/icons/Chat';
-import VerifiedUser from '@material-ui/icons/VerifiedUser';
-import Fingerprint from '@material-ui/icons/Fingerprint';
+import { Add, Tune, Print } from '@material-ui/icons/';
 // core components
 import GridContainer from './GridContainer';
 import GridItem from './GridItem';
@@ -34,27 +32,27 @@ class SectionProduct extends React.Component {
           <GridContainer>
             <GridItem xs={12} sm={4} md={4}>
               <InfoArea
-                title="Free Chat"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Chat}
+                title="Create Games"
+                description="Create games and rounds and questions and lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum"
+                icon={Add}
                 iconColor="info"
                 vertical
               />
             </GridItem>
             <GridItem xs={12} sm={4} md={4}>
               <InfoArea
-                title="Verified Users"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={VerifiedUser}
+                title="Customize Experience"
+                description="Tailor trivia games to your audience by choosing from an assortment of question categories ranging from Anime to Literature"
+                icon={Tune}
                 iconColor="success"
                 vertical
               />
             </GridItem>
             <GridItem xs={12} sm={4} md={4}>
               <InfoArea
-                title="Fingerprint"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Fingerprint}
+                title="Print to PDF"
+                description="When you've completed making your game, easily generate PDFs of question and answers sheets and you are on your way"
+                icon={Print}
                 iconColor="danger"
                 vertical
               />

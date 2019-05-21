@@ -3,17 +3,17 @@ import React from 'react';
 import classNames from 'classnames';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+// import List from '@material-ui/core/List';
+// import ListItem from '@material-ui/core/ListItem';
 // @material-ui/icons
-import Favorite from '@material-ui/icons/Favorite';
+// import Favorite from '@material-ui/icons/Favorite';
 // core components
-import Header from './Header.js';
-import Footer from './Footer.js';
+// import Header from './Header.js';
+// import Footer from './Footer.js';
 import GridContainer from './GridContainer.js';
 import GridItem from './GridItem.js';
 import Button from './Button.js';
-import HeaderLinks from './HeaderLinks.js';
+// import HeaderLinks from './HeaderLinks.js';
 import Parallax from './Parallax.js';
 
 import landingPageStyle from './assets/style/landingPageStyle';

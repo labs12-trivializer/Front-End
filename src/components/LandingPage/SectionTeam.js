@@ -34,7 +34,7 @@ class SectionTeam extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.section}>
-        <h2 className={classes.title}>Here is our team</h2>
+        <h2 className={classes.title}>Our Team:</h2>
         <div>
           <GridContainer>
             <GridItem xs={12} sm={6} md={6}>
@@ -42,7 +42,11 @@ class SectionTeam extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
-                      <a href="https://github.com/heyjuststart" target="_blank">
+                      <a
+                        href="https://github.com/heyjuststart"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <img
                           src="https://github.com/heyjuststart.png"
                           alt="Steve Delfaus"
@@ -71,14 +75,23 @@ class SectionTeam extends React.Component {
                       </p>
                     </CardBody>
                     <CardFooter plain className={classes.justifyContentCenter}>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
+                      <Button
+                        href="https://www.linkedin.com/in/stephen-d-57b948180/"
+                        target="_blank"
+                        justIcon
+                        simple
+                        color="linkedin"
+                      >
+                        <i className="fab fa-linkedin-in" />
                       </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
+                      <Button
+                        href="https://github.com/heyjuststart"
+                        target="_blank"
+                        justIcon
+                        simple
+                        color="github"
+                      >
+                        <i className="fab fa-github" />
                       </Button>
                     </CardFooter>
                   </GridItem>
@@ -90,7 +103,11 @@ class SectionTeam extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
-                      <a href="https://github.com/IVB107" target="_blank">
+                      <a
+                        href="https://github.com/IVB107"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <img
                           src="https://github.com/IVB107.png"
                           alt="Ian Van Buren"
@@ -119,17 +136,23 @@ class SectionTeam extends React.Component {
                       </p>
                     </CardBody>
                     <CardFooter plain className={classes.justifyContentCenter}>
-                      <Button justIcon simple color="linkedin">
+                      <Button
+                        href="https://www.linkedin.com/in/laurence-van-buren/"
+                        target="_blank"
+                        justIcon
+                        simple
+                        color="linkedin"
+                      >
                         <i className="fab fa-linkedin-in" />
                       </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="dribbble">
-                        <i className="fab fa-dribbble" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
+                      <Button
+                        href="https://github.com/IVB107"
+                        target="_blank"
+                        justIcon
+                        simple
+                        color="github"
+                      >
+                        <i className="fab fa-github" />
                       </Button>
                     </CardFooter>
                   </GridItem>
@@ -141,7 +164,11 @@ class SectionTeam extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
-                      <a href="https://github.com/macjabeth" target="_blank">
+                      <a
+                        href="https://github.com/macjabeth"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <img
                           src="https://github.com/macjabeth.png"
                           alt="Jonathan Picazo"
@@ -170,14 +197,23 @@ class SectionTeam extends React.Component {
                       </p>
                     </CardBody>
                     <CardFooter plain className={classes.justifyContentCenter}>
-                      <Button justIcon simple color="youtube">
-                        <i className="fab fa-youtube" />
+                      <Button
+                        href="https://www.linkedin.com/in/macjabeth/"
+                        target="_blank"
+                        justIcon
+                        simple
+                        color="linkedin"
+                      >
+                        <i className="fab fa-linkedin-in" />
                       </Button>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button justIcon simple color="instagram">
-                        <i className="fab fa-instagram" />
+                      <Button
+                        href="https://github.com/macjabeth"
+                        target="_blank"
+                        justIcon
+                        simple
+                        color="github"
+                      >
+                        <i className="fab fa-github" />
                       </Button>
                     </CardFooter>
                   </GridItem>
@@ -189,7 +225,11 @@ class SectionTeam extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
-                      <a href="https://github.com/korynewton" target="_blank">
+                      <a
+                        href="https://github.com/korynewton"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <img
                           src="https://github.com/korynewton.png"
                           alt="Kory Newton"
@@ -218,14 +258,23 @@ class SectionTeam extends React.Component {
                       </p>
                     </CardBody>
                     <CardFooter plain className={classes.justifyContentCenter}>
-                      <Button justIcon simple color="linkedin">
+                      <Button
+                        href="https://www.linkedin.com/in/korynewton/"
+                        target="_blank"
+                        justIcon
+                        simple
+                        color="linkedin"
+                      >
                         <i className="fab fa-linkedin-in" />
                       </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
+                      <Button
+                        href="https://github.com/korynewton"
+                        target="_blank"
+                        justIcon
+                        simple
+                        color="github"
+                      >
+                        <i className="fab fa-github" />
                       </Button>
                     </CardFooter>
                   </GridItem>
