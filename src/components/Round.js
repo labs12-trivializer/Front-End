@@ -11,10 +11,6 @@ import {
 import { deleteRound } from '../actions';
 import { compose } from 'redux';
 
-// A page seems to be ~1050px high with react-print
-// With padding, there's about 950px of
-// vertical area, 705px of horizontal per page
-
 const styles = theme => ({
   card: {
     flex: 1,
