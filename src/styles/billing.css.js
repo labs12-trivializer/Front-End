@@ -23,8 +23,8 @@ export const ProgressDiv = styled.div`
 
 export const FormDiv = styled.div`
   background-color: rgba(255, 255, 255, 0.1);
-  border-radius: .5em;
-  padding: .25em .5em;
+  border-radius: 0.5em;
+  padding: 0.25em 0.5em;
   margin: 20px 0;
   width: 100%;
   max-width: 300px;
@@ -43,6 +43,6 @@ export const CheckInput = styled.input`
 
 export const Header = styled.h2`
   text-align: center;
-  color: white;
+  color: black;
   text-transform: capitalize;
 `;

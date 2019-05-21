@@ -16,10 +16,12 @@ import {
   Typography,
   withWidth,
   Grid,
-  Paper
+  Paper,
+  Button
 } from '@material-ui/core';
 import { compose } from 'redux';
 import AddQuestionCard from './AddQuestionsCard';
+import PrintRoundButton from './PrintRoundButton';
 
 const styles = theme => ({
   card: {
@@ -121,8 +123,8 @@ class RoundDetails extends Component {
       return <div>Loading...</div>;
     }
 
-    // const newQuestionCount =
-    //   this.props.round.questions.length - this.props.dbQuestionCount;
+    const newQuestionCount =
+      this.props.round.questions.length - this.props.dbQuestionCount;
 
     return (
       <div className={classes.root}>
@@ -132,6 +134,27 @@ class RoundDetails extends Component {
               <Typography component="h1" variant="h1" className={classes.title}>
                 Round {round.number}
               </Typography>
+              <PrintRoundButton roundId={round.id} />
+              <PrintRoundButton
+                roundId={round.id}
+                highlightAnswers
+                label="Generate Answer Sheet"
+              />
+              {(newQuestionCount > 0 || round.dirty) && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() =>
+                    this.props.editRound(
+                      this.props.round.id,
+                      this.nestedRound()
+                    )
+                  }
+                >
+                  Save Changes
+                </Button>
+              )}
               {questions.map((q, idx) => (
                 <Question
                   round={this.props.round}
@@ -139,10 +162,14 @@ class RoundDetails extends Component {
                   key={`q${q}`}
                   index={idx}
                   moveQuestion={this.moveQuestion}
+                  highlightAnswers
                 />
               ))}
 
-              <AddQuestionCard roundId={round.id} />
+              <AddQuestionCard
+                roundId={round.id}
+                position={questions.length + 1}
+              />
             </Paper>
           </Grid>
         </Grid>

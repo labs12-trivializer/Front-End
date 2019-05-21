@@ -42,7 +42,6 @@ const Root = () => (
           <Route
             path="/callback"
             render={props => {
-              console.log(props.location);
               handleAuthentication(props);
               return <Callback {...props} />;
             }}
