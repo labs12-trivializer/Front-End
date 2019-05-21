@@ -20,7 +20,7 @@ export default class Auth {
     domain: 'dev-d9y68pfa.auth0.com',
     clientID: 'k6xsJZMJxRo6xrlfua5hWIUS0Dms5w8G',
     redirectUri: process.env.REACT_APP_REDIRECT_URI || getCallbackUrl(),
-    audience: 'https://lambda-trivializer.herokuapp.com/',
+    audience: 'https://lambda-trivializer.herokuapp.com/api',
     responseType: 'token id_token',
     scope: 'openid profile email'
   });
