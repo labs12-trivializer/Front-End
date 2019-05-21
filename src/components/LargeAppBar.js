@@ -37,7 +37,7 @@ const LargeAppBar = ({ isLoggedIn, auth }) => {
             <Button color="inherit" component={Link} to="/billing">
               Billing
             </Button>
-            <Button color="inherit" component={Link} to="/profile">
+            <Button color="inherit" component={Link} to="/settings">
               Settings
             </Button>
             <Button color="inherit" onClick={() => auth.logout()}>
