@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    // height: '100vh',
     padding: 0,
     margin: 0
   },
@@ -117,8 +116,8 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
               <Avatar 
                 alt="Your Avatar" 
                 // src="/static/images/avatar/1.jpg" 
-                cloudName="trivializer"
-                publicId={profile.avatar_id}
+                cloudname="trivializer"
+                publicid={profile.avatar_id}
                 className={classes.avatar} 
               />
               // <Image cloudName="trivializer" publicId={profile.avatar_id} />
