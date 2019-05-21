@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const ProfileEditForm = ({ profile }) => {
+const ProfileEditForm = ({ profile, toggleView }) => {
   
   const classes = useStyles();
 
@@ -90,7 +90,7 @@ const ProfileEditForm = ({ profile }) => {
         </FormControl>
         <FormControl className={classes.formControl}>
           <Button 
-            // onClick={handleSaveInfo}
+            onClick={toggleView('isEditing')}
             className={classes.button}
             variant="outlined" 
             color="primary">

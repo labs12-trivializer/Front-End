@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const ProfileList = ({ profile }) => {
+const ProfileList = ({ profile, toggleView }) => {
 
   const classes = useStyles();
 
@@ -84,7 +84,7 @@ const ProfileList = ({ profile }) => {
           <Button
             inset={true}
             className={classes.button}
-            // onClick={handleToggleView}
+            onClick={toggleView('isEditing')}
             variant="outlined"
             color="primary"
           >

@@ -48,16 +48,20 @@ const useStyles = makeStyles(theme => ({
 const Profile = ({ profile, fetchProfile, editProfile }) => {
 
   const classes = useStyles();
-  // const [values, setValues] = React.useState({
-  //   first_name: 'test',
-  //   last_name: 'test',
-  //   display_name: 'test',
-  //   email: 'test'
-  // });
+
+  const [values, setValues] = React.useState({
+    isEditing: false
+  });
+
+  const handleToggleView = prop => event => {
+    setValues({ ...values, [prop]: !values.prop})
+  }
 
   // const handleChange = prop => event => {
   //   setValues({ ...values, [prop]: event.target.value });
   // };
+
+  // let isEditing = false;
 
   useEffect(() => {
     console.log('avatarid:', profile.avatar_id);
@@ -79,9 +83,6 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
   const displayWidget = () => {
     widget.open();
   };
-
-  console.log('Profile vals: ', Object.keys(profile))
-  let isEditing = false;
 
   return (
     <div className={classes.container}>
@@ -119,12 +120,12 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
           </Button>
         }
       </Paper>
-      {isEditing 
+      {values.isEditing 
         ? (
-          <ProfileEditForm />
+          <ProfileEditForm toggleView={handleToggleView}/>
         )
         : (
-          <ProfileList />
+          <ProfileList toggleView={handleToggleView}/>
         ) 
       }
     </div>
