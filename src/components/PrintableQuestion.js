@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PrintableQuestion = ({ question, index, questionsById }) => {
+const PrintableQuestion = ({ highlightAnswers, question, index, questionsById }) => {
   const classes = useStyles();
 
   if (!question) {
@@ -64,6 +64,7 @@ const PrintableQuestion = ({ question, index, questionsById }) => {
                 answerId={a}
                 key={a}
                 label={indexToLetter(idx + 1) + ')'}
+                highlightAnswers={highlightAnswers}
               />
             ))}
         </div>

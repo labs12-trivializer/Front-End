@@ -3,18 +3,24 @@ import { connect } from 'react-redux';
 import he from 'he';
 
 import { getAnswerById } from '../reducers';
+import { withStyles } from '@material-ui/core';
+import { compose } from 'redux';
 
-const Answer = ({ answer, answerId, label }) => {
+const styles = () => ({
+  rightAnswer: {
+    fontWeight: 800
+  }
+});
+
+const Answer = ({ answer, answerId, label, classes, highlightAnswers }) => {
   if (!answer && !answerId) {
     return null;
   }
 
-  if (answer.is_correct) {
+  if (answer.is_correct && highlightAnswers) {
     return (
-      <div>
-        <strong>
-          {label || '-'} {he.decode(answer.text)}
-        </strong>
+      <div className={classes.rightAnswer}>
+        {label || '-'} {he.decode(answer.text)}
       </div>
     );
   }
@@ -30,4 +36,7 @@ const mapStateToProps = (state, ownProps) => ({
   answer: getAnswerById(state, ownProps.answerId)
 });
 
-export default connect(mapStateToProps)(Answer);
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles, { withTheme: true })
+)(Answer);

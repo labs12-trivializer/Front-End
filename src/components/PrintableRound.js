@@ -17,15 +17,21 @@ const styles = () => ({
 });
 
 // group questions into groups of 5, make a page for each group
-const PrintableRound = ({ round, game, index, classes }) => (
+const PrintableRound = ({ highlightAnswers, round, game, index, classes }) => (
   <>
     {chunk(round.questions, 5).map((questionGroup, outerIdx) => (
       <div className={classes.page} key={'pg' + outerIdx}>
         <Typography variant="h5" color="textPrimary" gutterBottom>
+          {highlightAnswers && '**ANSWER SHEET** '}
           {game && `${game.name}, Round ${index + 1}`}
         </Typography>
         {questionGroup.map((q, idx) => (
-          <PrintableQuestion index={idx + (outerIdx * 5)} questionId={q} key={'r' + q} />
+          <PrintableQuestion
+            highlightAnswers={highlightAnswers}
+            index={idx + outerIdx * 5}
+            questionId={q}
+            key={'r' + q}
+          />
         ))}
       </div>
     ))}

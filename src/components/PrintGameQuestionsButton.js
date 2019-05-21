@@ -15,31 +15,49 @@ const styles = () => ({
 
 class PrintableGame extends Component {
   render() {
-    const { classes, game } = this.props;
+    const { classes, game, highlightAnswers } = this.props;
     return (
       <div className={classes.pageContainer}>
         {game.rounds.map((r, idx) => (
-          <PrintableRound game={game} index={idx} roundId={r} key={r} />
+          <PrintableRound
+            highlightAnswers={highlightAnswers}
+            game={game}
+            index={idx}
+            roundId={r}
+            key={r}
+          />
         ))}
       </div>
     );
   }
 }
 
-const PrintGameQuestionsButton = ({ game, classes }) => {
+// the exported component, if the highlightAnswers prop is true,
+// they'll be highlighted in the printout
+const PrintGameQuestionsButton = ({
+  game,
+  classes,
+  label,
+  highlightAnswers
+}) => {
   const componentRef = useRef();
   return (
     <>
       <ReactToPrint
         trigger={() => (
           <Button variant="contained" color="primary">
-            Generate Question Sheet
+            {label || 'Generate Question Sheet'}
           </Button>
         )}
         content={() => componentRef.current}
       />
       <div style={{ display: 'none' }}>
-        <PrintableGame game={game} ref={componentRef} classes={classes} />
+        <PrintableGame
+          game={game}
+          ref={componentRef}
+          classes={classes}
+          highlightAnswers={highlightAnswers}
+        />
       </div>
     </>
   );

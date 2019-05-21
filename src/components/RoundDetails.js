@@ -155,6 +155,7 @@ class RoundDetails extends Component {
                   key={`q${q}`}
                   index={idx}
                   moveQuestion={this.moveQuestion}
+                  highlightAnswers
                 />
               ))}
 
