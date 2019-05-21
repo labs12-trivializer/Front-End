@@ -61,7 +61,7 @@ const Menu = ({ auth }) => {
           <NavLink to="/billing">Billing</NavLink>
         </div>
         <div>
-          <NavLink to="/settings">Settings</NavLink>
+          <NavLink to="/profile">Profile</NavLink>
         </div>
         {isLoggedIn && (
           <div>

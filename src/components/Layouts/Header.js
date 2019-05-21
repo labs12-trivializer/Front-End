@@ -165,11 +165,11 @@ class PersistentDrawerLeft extends React.Component {
                 </ListItemIcon>
                 <ListItemText>Billing</ListItemText>
               </ListItem>
-              <ListItem button component={RouterLink} to="/settings">
+              <ListItem button component={RouterLink} to="/profile">
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText>Settings</ListItemText>
+                <ListItemText>Profile</ListItemText>
               </ListItem>
               {isLoggedIn && (
                 <ListItem button onClick={this.logout}>

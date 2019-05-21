@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 // import { Image } from 'cloudinary-react';
 import Tilt from 'react-tilt';
-import { 
+import {
   Avatar,
   Paper,
-  FormControl, 
-  TextField, 
+  FormControl,
+  TextField,
   Button,
   Typography,
   List,
@@ -72,9 +72,11 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
   const [values, setValues] = React.useState({
     first_name: 'test',
     last_name: 'test',
-    display_name: 'test',
-    email: 'test'
+    display_name: profile.nickname,
+    email: profile.email
   });
+
+  const { avatar_id, tier_name } = profile;
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
@@ -85,9 +87,9 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
   }
 
   useEffect(() => {
-    console.log('avatarid:', profile.avatar_id);
-    if (!profile.avatar_id) fetchProfile();
-  }, [profile.avatar_id, fetchProfile]);
+    console.log('avatarid:', avatar_id);
+    if (!avatar_id) fetchProfile();
+  }, [avatar_id, fetchProfile]);
 
   let widget = window.cloudinary.createUploadWidget(
     { cloudName: 'trivializer', uploadPreset: 'ntufdwhu' },
@@ -112,16 +114,16 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
     <div className={classes.container}>
       <Paper className={classes.avatarPaper}>
         <Tilt className="Tilt" options={{ max: 30 }}>
-          <figure onClick={displayWidget} className="Tilt-inner" avatar={profile.avatar_id}>
-            {profile.avatar_id ? (
-              <Avatar 
-                alt="Your Avatar" 
-                // src="/static/images/avatar/1.jpg" 
+          <figure onClick={displayWidget} className="Tilt-inner" avatar={avatar_id}>
+            {avatar_id ? (
+              <Avatar
+                alt="Your Avatar"
+                // src="/static/images/avatar/1.jpg"
                 cloudName="trivializer"
-                publicId={profile.avatar_id}
-                className={classes.avatar} 
+                publicId={avatar_id}
+                className={classes.avatar}
               />
-              // <Image cloudName="trivializer" publicId={profile.avatar_id} />
+              // <Image cloudName="trivializer" publicId={avatar_id} />
             ) : (
               <Avatar alt="Placeholder Avatar" src="https://picsum.photos/100" className={classes.avatar} />
               // <img src="https://picsum.photos/100" alt="placeholder" />
@@ -131,12 +133,12 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         <Typography
           variant="h5"
         >
-          Tier Level: {`${(profile.tier_name.toUpperCase())}`}
+          Tier Level: {`${((tier_name || 'bronze').toUpperCase())}`}
         </Typography>
-        {profile.tier_name !== 'gold' &&
-          <Button 
-            variant="contained" 
-            href="/billing" 
+        {tier_name !== 'gold' &&
+          <Button
+            variant="contained"
+            href="/billing"
             className={classes.button}
             color="primary"
           >
@@ -144,10 +146,10 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
           </Button>
         }
       </Paper>
-      {isEditing 
+      {isEditing
         ? (
           <List>
-            {Object.keys(values).map((value, idx) => 
+            {Object.keys(values).map((value, idx) =>
               <ListItem>
                 <ListItemText
                   primary={values[value]}
@@ -156,7 +158,7 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
               </ListItem>
             )}
           </List>
-        ) 
+        )
         : (
           <Paper className={classes.paper}>
             <form className={classes.form}>
@@ -204,10 +206,10 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
             </FormControl>
             {/* <Typography variant="caption" color="inherit">*Required Field</Typography> */}
             <FormControl className={classes.formControl}>
-              <Button 
+              <Button
                 onClick={handleSaveInfo}
                 className={classes.button}
-                variant="outlined" 
+                variant="outlined"
                 color="primary">
                 Save Profile
               </Button>

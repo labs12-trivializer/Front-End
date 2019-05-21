@@ -1,10 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import { auth } from '../auth';
 
-const PrivateRoute = ({ component: Component, token, ...rest }) => (
+const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
-    Boolean(token)
+    auth.isAuthenticated()
       ? <Component {...props} />
       : <Redirect to={{
           pathname: '/restricted',
@@ -13,6 +13,4 @@ const PrivateRoute = ({ component: Component, token, ...rest }) => (
   )} />
 );
 
-const mapStateToProps = ({ profile: { token } }) => ({ token });
-
-export default connect(mapStateToProps)(PrivateRoute);
+export default PrivateRoute;
