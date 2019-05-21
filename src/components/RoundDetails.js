@@ -21,6 +21,7 @@ import {
 } from '@material-ui/core';
 import { compose } from 'redux';
 import AddQuestionCard from './AddQuestionsCard';
+import PrintRoundButton from './PrintRoundButton';
 
 const styles = theme => ({
   card: {
@@ -133,6 +134,12 @@ class RoundDetails extends Component {
               <Typography component="h1" variant="h1" className={classes.title}>
                 Round {round.number}
               </Typography>
+              <PrintRoundButton roundId={round.id} />
+              <PrintRoundButton
+                roundId={round.id}
+                highlightAnswers
+                label="Generate Answer Sheet"
+              />
               {(newQuestionCount > 0 || round.dirty) && (
                 <Button
                   variant="contained"
