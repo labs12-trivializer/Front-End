@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Image } from 'cloudinary-react';
 import Tilt from 'react-tilt';
 import { 
+  Avatar,
   Paper,
   FormControl, 
   TextField, 
@@ -34,19 +35,22 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-    // marginBottom: '.5rem'
   },
   formControl: {
     width: '80%'
   },
   button: {
     margin: '.5rem 0',
-    // alignSelf: 'flex-start'
   },
   paper: {
     width: '100%',
     padding: '1rem 0',
     margin: '0 0 1rem'
+  },
+  avatar: {
+    margin: '.5rem',
+    width: 100,
+    height: 100,
   },
   avatarPaper: {
     display: 'flex',
@@ -110,13 +114,18 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         <Tilt className="Tilt" options={{ max: 30 }}>
           <figure onClick={displayWidget} className="Tilt-inner" avatar={profile.avatar_id}>
             {profile.avatar_id ? (
-              <Image cloudName="trivializer" publicId={profile.avatar_id} />
+              <Avatar 
+                alt="Your Avatar" 
+                // src="/static/images/avatar/1.jpg" 
+                cloudName="trivializer"
+                publicId={profile.avatar_id}
+                className={classes.avatar} 
+              />
+              // <Image cloudName="trivializer" publicId={profile.avatar_id} />
             ) : (
-              <img src="https://picsum.photos/100" alt="placeholder" />
+              <Avatar alt="Placeholder Avatar" src="https://picsum.photos/100" className={classes.avatar} />
+              // <img src="https://picsum.photos/100" alt="placeholder" />
             )}
-            <div className="middle">
-              <span className="text">Upload Photo</span>
-            </div>
           </figure>
         </Tilt>
         <Typography
@@ -124,7 +133,7 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         >
           Tier Level: {`${(profile.tier_name.toUpperCase())}`}
         </Typography>
-        {profile.tier_name !== 'bronze' &&
+        {profile.tier_name !== 'gold' &&
           <Button 
             variant="contained" 
             href="/billing" 
@@ -177,7 +186,7 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
                 label="Display Name"
                 value={values.display_name}
                 onChange={handleChange('display_name')}
-                defaultValue={profile.username}
+                // defaultValue={profile.username}
                 margin="dense"
                 variant="outlined"
               />
