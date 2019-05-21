@@ -52,30 +52,33 @@ function AppRoot({ classes, isLoggedIn }) {
   const biggerThanSmall = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      {biggerThanSmall ? (
-        <LargeAppBar auth={auth} isLoggedIn={isLoggedIn} />
-      ) : (
-        <SmallAppBar auth={auth} isLoggedIn={isLoggedIn} />
-      )}
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Container>
-          <PrivateRoute exact path="/games" component={Games} />
-          <Route
-            exact
-            path="/"
-            render={props => <Landing auth={auth} {...props} />}
-          />
-          <PrivateRoute path="/home" component={Home} />
-          <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
-          <PrivateRoute path="/settings" component={Settings} />
-          <PrivateRoute path="/billing" component={Stripe} />
-          <PrivateRoute path="/games/:id" component={Game} />
-        </Container>
-      </main>
-    </div>
+    <>
+      <div className={classes.root}>
+        <CssBaseline />
+        {biggerThanSmall ? (
+          <LargeAppBar auth={auth} isLoggedIn={isLoggedIn} />
+        ) : (
+          <SmallAppBar auth={auth} isLoggedIn={isLoggedIn} />
+        )}
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+
+          <Container>
+            <PrivateRoute exact path="/games" component={Games} />
+            <Route
+              exact
+              path="/"
+              render={props => <Landing auth={auth} {...props} />}
+            />
+            <PrivateRoute path="/home" component={Home} />
+            <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
+            <PrivateRoute path="/settings" component={Settings} />
+            <PrivateRoute path="/billing" component={Stripe} />
+            <PrivateRoute path="/games/:id" component={Game} />
+          </Container>
+        </main>
+      </div>
+    </>
   );
 }
 

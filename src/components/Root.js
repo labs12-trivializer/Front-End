@@ -11,7 +11,7 @@ import App from './App';
 import Setup from './Setup';
 import Callback from './Callback';
 import Auth from '../auth';
-
+import LandingPage from '../components/LandingPage/LandingPage';
 
 const auth = new Auth();
 
@@ -38,6 +38,7 @@ const Root = () => (
       <Setup />
       <DragDropContextProvider backend={HTML5Backend}>
         <Router history={history}>
+          <Route path="/landingpage" component={LandingPage} />
           <App />
           <Route
             path="/callback"
