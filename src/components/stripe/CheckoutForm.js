@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import { upgradeTier } from '../../actions';
 import CircularProgress from './CircularProgress';
-import { FormDiv, Header } from '../../styles/billing.css';
+//import { FormDiv, Header } from '../../styles/billing.css';
+import { FormDiv } from '../../styles/billing.css';
 import { Card } from '@material-ui/core';
 
 //stripe input styling
@@ -27,9 +28,6 @@ const createOptions = () => {
 };
 
 class _CheckoutForm extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (

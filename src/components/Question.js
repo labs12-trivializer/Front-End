@@ -142,6 +142,7 @@ const Question = React.forwardRef(
                 answerId={a}
                 key={a}
                 label={indexToLetter(idx + 1) + ')'}
+                highlightAnswers
               />
             ))}
         </CardContent>

@@ -3,7 +3,7 @@ import ReactToPrint from 'react-to-print';
 import { Button, withStyles } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getGameById } from '../reducers';
+import { getRoundById } from '../reducers';
 import PrintableRound from './PrintableRound';
 
 const styles = () => ({
@@ -13,19 +13,16 @@ const styles = () => ({
   }
 });
 
-class PrintableGame extends Component {
+class PrintableRoundContainer extends Component {
   render() {
-    const { classes, game, highlightAnswers } = this.props;
+    const { classes, round, highlightAnswers } = this.props;
     return (
       <div className={classes.pageContainer}>
-        {game.rounds.map((r, idx) => (
-          <PrintableRound
-            highlightAnswers={highlightAnswers}
-            index={idx}
-            roundId={r}
-            key={r}
-          />
-        ))}
+        <PrintableRound
+          highlightAnswers={highlightAnswers}
+          roundId={round.id}
+          key={round.id}
+        />
       </div>
     );
   }
@@ -33,12 +30,7 @@ class PrintableGame extends Component {
 
 // the exported component, if the highlightAnswers prop is true,
 // they'll be highlighted in the printout
-const PrintGameQuestionsButton = ({
-  game,
-  classes,
-  label,
-  highlightAnswers
-}) => {
+const PrintRoundButton = ({ round, classes, label, highlightAnswers }) => {
   const componentRef = useRef();
   return (
     <>
@@ -51,8 +43,8 @@ const PrintGameQuestionsButton = ({
         content={() => componentRef.current}
       />
       <div style={{ display: 'none' }}>
-        <PrintableGame
-          game={game}
+        <PrintableRoundContainer
+          round={round}
           ref={componentRef}
           classes={classes}
           highlightAnswers={highlightAnswers}
@@ -63,10 +55,10 @@ const PrintGameQuestionsButton = ({
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  game: getGameById(state, ownProps.gameId)
+  round: getRoundById(state, ownProps.roundId)
 });
 
 export default compose(
   connect(mapStateToProps),
   withStyles(styles, { withTheme: true })
-)(PrintGameQuestionsButton);
+)(PrintRoundButton);

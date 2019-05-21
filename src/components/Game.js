@@ -182,7 +182,12 @@ class Game extends Component {
           <Typography component="h1" variant="h1" color="inherit" gutterBottom>
             Round List
           </Typography>
-          <PrintGameQuestionsButton gameId={game.id}/>
+          <PrintGameQuestionsButton gameId={game.id} />
+          <PrintGameQuestionsButton
+            label="Generate Answer Sheet"
+            highlightAnswers
+            gameId={game.id}
+          />
           <div className={classes.cardList}>
             {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map((r, idx) => (
               <div className={classes.cardRow} key={`cr${idx}`}>
