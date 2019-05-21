@@ -50,7 +50,7 @@ class SectionProduct extends React.Component {
             </GridItem>
             <GridItem xs={12} sm={4} md={4}>
               <InfoArea
-                title="Print to PDF"
+                title="Print Question and Answer Sheets"
                 description="When you've completed making your game, easily generate PDFs of question and answers sheets and you are on your way"
                 icon={Print}
                 iconColor="danger"

@@ -29,20 +29,9 @@ class LandingPage extends React.Component {
     document.body.scrollTop = 0;
   }
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes } = this.props;
     return (
       <div>
-        {/* <Header
-          color="transparent"
-          brand="Material Kit PRO React"
-          links={<HeaderLinks dropdownHoverColor="info" />}
-          fixed
-          changeColorOnScroll={{
-            height: 300,
-            color: 'info'
-          }}
-          {...rest}
-        /> */}
         <Parallax image={require('./assets/img/bar.jpg')} filter="dark">
           <div className={classes.container}>
             <GridContainer>
@@ -76,54 +65,6 @@ class LandingPage extends React.Component {
             <SectionWork />
           </div>
         </div>
-        {/* <Footer
-          content={
-            <div>
-              <div className={classes.left}>
-                <List className={classes.list}>
-                  <ListItem className={classes.inlineBlock}>
-                    <a
-                      href="https://www.creative-tim.com/"
-                      className={classes.block}
-                    >
-                      Creative Tim
-                    </a>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <a
-                      href="https://www.creative-tim.com/presentation"
-                      className={classes.block}
-                    >
-                      About us
-                    </a>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <a
-                      href="//blog.creative-tim.com/"
-                      className={classes.block}
-                    >
-                      Blog
-                    </a>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <a
-                      href="https://www.creative-tim.com/license"
-                      className={classes.block}
-                    >
-                      Licenses
-                    </a>
-                  </ListItem>
-                </List>
-              </div>
-              <div className={classes.right}>
-                &copy; {1900 + new Date().getYear()} , made with{' '}
-                <Favorite className={classes.icon} /> by{' '}
-                <a href="https://www.creative-tim.com">Creative Tim</a> for a
-                better web.
-              </div>
-            </div>
-          }
-        /> */}
       </div>
     );
   }
