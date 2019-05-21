@@ -7,7 +7,6 @@ import { useTheme } from '@material-ui/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Container } from '@material-ui/core';
 import { compose } from 'redux';
-import { Background } from '../styles/shared.css';
 import Auth from '../auth';
 // import Profile from './Profile';
 import Games from './Games';

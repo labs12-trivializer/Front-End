@@ -31,7 +31,7 @@ const PrintableRound = ({
     if (!game) {
       fetchGame(round.game_id);
     }
-  }, [fetchGame, round]);
+  }, [fetchGame, round, game]);
 
   return (
     <>
