@@ -1,23 +1,64 @@
-import React from 'react';
-import CheckoutForm from './CheckoutForm';
-import { Elements, StripeProvider } from 'react-stripe-elements';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import waitForProfile from '../waitForProfile';
-import { Background } from '../../styles/shared.css.js';
-import { Card } from '../../styles/billing.css.js';
+import Pricing from './Pricing';
+import { Header } from '../../styles/billing.css';
+import { toast } from 'react-toastify';
+import { css } from 'glamor';
+import StripeDialog from './StripeDialog';
+class Stripe extends Component {
+  state = {
+    showStripe: false,
+    upgradingTo: ''
+  };
 
-const Stripe = () => {
-  return (
-    <>
-      <Background />
-      <Card>
-        <StripeProvider apiKey="pk_test_rLIPiZV9cJfPy9p4WZgEMCbA00qbhu5zTZ">
-          <Elements>
-            <CheckoutForm />
-          </Elements>
-        </StripeProvider>
-      </Card>
-    </>
-  );
-};
+  componentDidMount() {
+    if (this.props.profile.tier_name === 'gold') {
+      toast.info('🎉 You are currently subscribed our highest tier plan!', {
+        position: toast.POSITION.TOP_RIGHT,
+        className: css({
+          background: '#19b9e9',
+          textAlign: 'center'
+        })
+      });
+    }
+  }
 
-export default waitForProfile(Stripe);
+  handleOpen = tier => {
+    this.setState({
+      showStripe: true,
+      upgradingTo: tier
+    });
+  };
+
+  handleClose = () => {
+    this.setState({ showStripe: false });
+  };
+
+  render() {
+    return (
+      <>
+        <Pricing
+          tier={this.props.profile.tier_name}
+          handleOpen={this.handleOpen}
+        />
+        <Header>Current Tier: {this.props.profile.tier_name}</Header>
+
+        <StripeDialog
+          upgradingTo={this.state.upgradingTo}
+          showStripe={this.state.showStripe}
+          handleClose={this.handleClose}
+        />
+      </>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(waitForProfile(Stripe));

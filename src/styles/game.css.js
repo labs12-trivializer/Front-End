@@ -6,7 +6,6 @@ export const GameInput = styled.input`
   background-color: transparent;
   border: 0 solid #d8d8dc;
   display: inline-block;
-  margin-top: 8rem;
   margin-bottom: 4rem;
   max-width: 100%;
   padding: 0;

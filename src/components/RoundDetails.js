@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Loader from 'react-loader-spinner';
+// import Loader from 'react-loader-spinner';
 
 import {
   fetchRound,
@@ -11,20 +11,48 @@ import {
 import { getAllCategories, getQuestionById, getRoundById } from '../reducers';
 import Question from './Question';
 
-import NewQuestionGetter from './NewQuestionGetter';
-import CustomQuestionForm from './CustomQuestionForm';
-import Modal from './Modal';
-
-import { Background, Button } from '../styles/shared.css';
 import {
-  RoundContainer,
-  RoundInfo,
-  SaveChanges,
-  NoChanges,
-  ListContainer,
-  LoadingContainer,
-  // AddCustomQuestion
-} from '../styles/round.css';
+  withStyles,
+  Typography,
+  withWidth,
+  Grid,
+  Paper,
+  Button
+} from '@material-ui/core';
+import { compose } from 'redux';
+import AddQuestionCard from './AddQuestionsCard';
+import PrintRoundButton from './PrintRoundButton';
+
+const styles = theme => ({
+  card: {
+    flex: 1,
+    margin: theme.spacing(1)
+  },
+  cardContent: {
+    minHeight: 200
+  },
+  pos: {
+    marginBottom: 12
+  },
+  cardList: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  cardRow: {
+    display: 'flex'
+  },
+  nothing: {
+    flex: 1,
+    margin: '0.5rem',
+    visiblity: 'hidden'
+  },
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing(2)
+  }
+});
 
 class RoundDetails extends Component {
   state = { modalShowing: false };
@@ -89,70 +117,63 @@ class RoundDetails extends Component {
   };
 
   render() {
+    const { round, classes } = this.props;
+    const { questions } = round;
     if (!this.props.round || !this.props.round.game_id) {
-      return (
-        <LoadingContainer>
-          <Background />
-          <Loader
-            type="Ball-Triangle"
-            color="#FFFFFF"
-            height="100"
-            width="100"
-          />
-        </LoadingContainer>
-      );
+      return <div>Loading...</div>;
     }
-
-    console.log('ROUND INFO: ', this.props.round);
 
     const newQuestionCount =
       this.props.round.questions.length - this.props.dbQuestionCount;
+
     return (
-      <RoundContainer>
-        <Background />
-        <RoundInfo>
-          <div>
-            <p>{`ROUND ${this.props.round.number}`}</p>
-          </div>
-          <div>
-            <p>Created On: {this.props.round.created_at}</p>
-            <p>Last Updated: {this.props.round.updated_at}</p>
-          </div>
-        </RoundInfo>
-        {(newQuestionCount > 0 || this.props.round.dirty)
-          ? <SaveChanges
-              warning
-              onClick={() => this.props.editRound(this.props.round.id, this.nestedRound())}
-            >Save Changes</SaveChanges>
-          : <NoChanges>Can't Touch This</NoChanges>
-        }
-        {newQuestionCount === 0 && this.props.dbQuestionCount === 0 && (
-          <NewQuestionGetter roundId={this.props.round.id} />
-        )}
-        <ListContainer>
-          {this.props.round.questions.map((q, idx) => (
-            <Question
-              round={this.props.round}
-              questionId={q}
-              key={`q${q}`}
-              index={idx}
-              moveQuestion={this.moveQuestion}
-            />
-          ))}
-        </ListContainer>
-        <Button onClick={() => this.setState({ modalShowing: true })}>
-          Add Custom Question
-        </Button>
-        {this.state.modalShowing && (
-          <Modal onClose={() => this.setState({ modalShowing: false })}>
-            <CustomQuestionForm
-              roundId={this.props.round.id}
-              onCancel={() => this.setState({ modalShowing: false })}
-              onDone={() => this.setState({ modalShowing: false })}
-            />
-          </Modal>
-        )}
-      </RoundContainer>
+      <div className={classes.root}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              <Typography component="h1" variant="h1" className={classes.title}>
+                Round {round.number}
+              </Typography>
+              <PrintRoundButton roundId={round.id} />
+              <PrintRoundButton
+                roundId={round.id}
+                highlightAnswers
+                label="Generate Answer Sheet"
+              />
+              {(newQuestionCount > 0 || round.dirty) && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() =>
+                    this.props.editRound(
+                      this.props.round.id,
+                      this.nestedRound()
+                    )
+                  }
+                >
+                  Save Changes
+                </Button>
+              )}
+              {questions.map((q, idx) => (
+                <Question
+                  round={this.props.round}
+                  questionId={q}
+                  key={`q${q}`}
+                  index={idx}
+                  moveQuestion={this.moveQuestion}
+                  highlightAnswers
+                />
+              ))}
+
+              <AddQuestionCard
+                roundId={round.id}
+                position={questions.length + 1}
+              />
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }
@@ -177,12 +198,17 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchRound,
-    clearNewRoundQuestions,
-    editRound,
-    dragDropQuestion
-  }
+// use compose with with withStyles applied last
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      fetchRound,
+      clearNewRoundQuestions,
+      editRound,
+      dragDropQuestion
+    }
+  ),
+  withWidth(),
+  withStyles(styles, { withTheme: true })
 )(RoundDetails);

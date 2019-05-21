@@ -1,15 +1,60 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import waitForLogin from './waitForLogin';
 import { getAllGames } from '../reducers';
 import { fetchGames, createNewGame } from '../actions';
 
-import { Container, Background, Title, Button } from '../styles/shared.css';
-import { GameList } from '../styles/games.css';
-import Modal from './Modal';
-import NewGameForm from './NewGameForm';
+// import NewGameDialog from './NewGameDialog';
+import { withStyles } from '@material-ui/styles';
+import {
+  Card,
+  CardContent,
+  Typography,
+  withWidth,
+  CardActionArea,
+  Zoom
+} from '@material-ui/core';
+import { isWidthUp } from '@material-ui/core/withWidth';
+import NewGameDialog from './NewGameDialog';
+import UpgradeCard from './UpgradeCard';
+
+const styles = theme => ({
+  card: {
+    flex: 1,
+    margin: theme.spacing(1)
+  },
+  cardContent: {
+    minHeight: '20rem'
+  },
+  pos: {
+    marginBottom: 12
+  },
+  cardList: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  cardRow: {
+    display: 'flex'
+  },
+  nothing: {
+    flex: 1,
+    margin: '0.5rem',
+    visiblity: 'hidden'
+  },
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(4),
+    outline: 'none',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  }
+});
 
 class Games extends Component {
   state = { modalShowing: false };
@@ -19,7 +64,6 @@ class Games extends Component {
 
   componentDidMount = () => {
     this.props.fetchGames();
-    console.log(this.props.auth);
   };
 
   onCreateGame = game => {
@@ -28,42 +72,114 @@ class Games extends Component {
     });
   };
 
+  groupGames = (number = 3) => {
+    const { classes } = this.props;
+    const newGameCard =
+      this.props.games.length >= this.props.gameLimit ? (
+        <UpgradeCard message="Upgrade for more Games" key="upgradeCard"/>
+      ) : (
+        <Card className={classes.card} key="createGameCard">
+          <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
+            <CardContent className={classes.cardContent}>
+              <Typography
+                component="h2"
+                variant="h5"
+                className={classes.title}
+                color="textPrimary"
+                gutterBottom
+              >
+                Create New Game
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      );
+
+    // {this.props.games.length >= this.props.gameLimit ? (
+    //          <Link to="/billing">Upgrade For more games</Link>
+    //        ) : (
+    //          <Button onClick={() => this.setState({ modalShowing: true })}>
+    //            Create New Game
+    //          </Button>
+    //        )}
+    const games = [
+      ...this.props.games.map((g, idx) => (
+        <Card className={classes.card} key={`gme${g.id}`}>
+          <CardActionArea component={Link} to={`/games/${g.id}`}>
+            <CardContent className={classes.cardContent}>
+              <Typography
+                component="h2"
+                variant="h5"
+                className={classes.title}
+                color="textPrimary"
+                gutterBottom
+              >
+                {g.name}
+              </Typography>
+              <Typography component="p">
+                Rounds: {g.num_rounds}
+                <br />
+                Questions: {g.num_questions}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      )),
+      newGameCard
+    ];
+
+    const groups = [];
+    let group = [];
+    games.forEach((g, idx) => {
+      if (idx % number === 0) {
+        groups.push(group);
+        group = [];
+      }
+
+      group.push(g);
+    });
+
+    if (group.length > 0) {
+      while (group.length < number) {
+        group.push(
+          <div className={classes.nothing} key={`nope${group.length}`} />
+        );
+      }
+      groups.push(group);
+    }
+
+    return groups;
+  };
+
   render() {
+    const { classes } = this.props;
+    const cardsPerRow = isWidthUp('sm', this.props.width) ? 3 : 1;
+
     return (
       <>
-        {this.state.modalShowing && (
-          <Modal onClose={() => this.setState({ modalShowing: false })}>
-            <NewGameForm
-              onDone={this.onCreateGame}
-              onCancel={() => this.setState({ modalShowing: false })}
-            />
-          </Modal>
-        )}
-        <Container>
-          <Background />
-          <Title>Games</Title>
-          <GameList>
-            {this.props.games.map(g => (
-              <li key={`game${g.id}`}>
-                <Link to={`/games/${g.id}`}>
-                  <span>{g.name}</span>
-                  <div>
-                    <span>Rounds: {g.num_rounds}</span>
-                    <br />
-                    <span>Questions: {g.num_questions}</span>
-                  </div>
-                </Link>
-              </li>
-            ))}
-            {this.props.games.length >= this.props.gameLimit ? (
-              <Link to="/billing">Upgrade For more games</Link>
-            ) : (
-              <Button onClick={() => this.setState({ modalShowing: true })}>
-                Create New Game
-              </Button>
-            )}
-          </GameList>
-        </Container>
+        <NewGameDialog
+          open={this.state.modalShowing}
+          onCancel={() => this.setState({ modalShowing: false })}
+          onCreate={this.onCreateGame}
+        />
+        <Typography component="h1" variant="h1" color="inherit" gutterBottom>
+          Game List
+        </Typography>
+        <div className={classes.cardList}>
+          {this.groupGames(cardsPerRow).map((g, idx) => (
+            <div className={classes.cardRow} key={`cr${idx}`}>
+              {g.map((gameCard, gcIdx) => (
+                <Zoom
+                  in
+                  style={{ transitionDelay: (cardsPerRow * idx + gcIdx) * 50 }}
+                  key={`gc${gcIdx + cardsPerRow * idx}`}
+                >
+                  {gameCard}
+                </Zoom>
+              ))}
+            </div>
+          ))}
+        </div>
       </>
     );
   }
@@ -74,12 +190,12 @@ const mapStateToProps = state => ({
   gameLimit: state.profile.game_limit
 });
 
-export default waitForLogin(
+// use compose with with withStyles applied last
+export default compose(
   connect(
     mapStateToProps,
-    {
-      fetchGames,
-      createNewGame
-    }
-  )(Games)
-);
+    { fetchGames, createNewGame }
+  ),
+  withWidth(),
+  withStyles(styles, { withTheme: true })
+)(Games);

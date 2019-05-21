@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 import {
   fetchGame,
@@ -10,11 +9,22 @@ import {
   addRound,
   deleteRound
 } from '../actions';
-import { Container, Background, Button, ButtonRow } from '../styles/shared.css';
-import { GameInput, InputControls, RoundList } from '../styles/game.css';
+import { Background } from '../styles/shared.css';
+// import { GameInput, InputControls, RoundList } from '../styles/game.css';
 import Round from './Round';
-import Modal from './Modal';
-import NewRoundForm from './NewRoundForm';
+import {
+  withStyles,
+  Typography,
+  Card,
+  CardActionArea,
+  CardContent,
+  withWidth
+} from '@material-ui/core';
+import { isWidthUp } from '@material-ui/core/withWidth';
+import { compose } from 'redux';
+import UpgradeCard from './UpgradeCard';
+import NewRoundDialog from './NewRoundDialog';
+import PrintGameQuestionsButton from './PrintGameQuestionsButton';
 
 const initialState = props => ({
   title: props.game && props.game.name,
@@ -22,11 +32,35 @@ const initialState = props => ({
   modalShowing: false
 });
 
+const styles = theme => ({
+  card: {
+    flex: 1,
+    margin: theme.spacing(1)
+  },
+  cardContent: {
+    minHeight: '20rem'
+  },
+  pos: {
+    marginBottom: 12
+  },
+  cardList: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  cardRow: {
+    display: 'flex'
+  },
+  nothing: {
+    flex: 1,
+    margin: '0.5rem',
+    visiblity: 'hidden'
+  }
+});
+
 class Game extends Component {
   state = initialState(this.props);
 
   componentDidMount = () => {
-    console.log('Game Info:', this.props.game);
     this.props.fetchGame(this.props.match.params.id);
   };
 
@@ -71,63 +105,97 @@ class Game extends Component {
     this.setState(initialState(this.props));
   };
 
+  // group rounds into separate arrays of rounds
+  groupRounds = (number = 3) => {
+    const {
+      game: { rounds },
+      classes,
+      roundLimit
+    } = this.props;
+
+    const newRoundCard =
+      rounds.length < roundLimit ? (
+        <Card className={classes.card} key="roundMenu">
+          <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
+            <CardContent className={classes.cardContent}>
+              <Typography
+                component="h2"
+                variant="h5"
+                className={classes.title}
+                color="textPrimary"
+                gutterBottom
+              >
+                Create New Round
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      ) : (
+        <UpgradeCard message="Upgrade for more Rounds" key={'newRoundCard'} />
+      );
+
+    const roundComponents = [
+      ...rounds.map((r, idx) => (
+        <Round roundId={r} index={idx + 1} key={`r${r}`} />
+      )),
+      newRoundCard
+    ];
+
+    const groups = [];
+    let group = [];
+    roundComponents.forEach((g, idx) => {
+      if (idx % number === 0) {
+        groups.push(group);
+        group = [];
+      }
+
+      group.push(g);
+    });
+
+    if (group.length > 0) {
+      while (group.length < number) {
+        group.push(
+          <div className={classes.nothing} key={'filler' + group.length} />
+        );
+      }
+      groups.push(group);
+    }
+
+    return groups;
+  };
+
   render() {
-    if (!this.props.game || !this.props.game.rounds) {
+    const { classes, width, game } = this.props;
+    if (!game || !game.rounds) {
       return <div>Loading...</div>;
     } else {
-      console.log('Rounds Info:', this.props.game.rounds);
       return (
-        <Container>
-          {this.state.modalShowing && (
-            <Modal onClose={() => this.setState({ modalShowing: false })}>
-              <NewRoundForm
-                gameId={this.props.game.id}
-                number={
-                  this.props.game.rounds ? this.props.game.rounds.length + 1 : 1
-                }
-                onCancel={() => this.setState({ modalShowing: false })}
-              />
-            </Modal>
-          )}
+        <>
+          <NewRoundDialog
+            open={this.state.modalShowing}
+            onCancel={() => this.setState({ modalShowing: false })}
+            roundNumber={game.rounds.length + 1}
+            gameId={game.id}
+          />
 
           <Background />
-          <GameInput
-            value={this.state.title}
-            onChange={this.updateTitle}
-            onClick={this.handleInputClick}
+          <Typography component="h1" variant="h1" color="inherit" gutterBottom>
+            Round List
+          </Typography>
+          <PrintGameQuestionsButton gameId={game.id} />
+          <PrintGameQuestionsButton
+            label="Generate Answer Sheet"
+            highlightAnswers
+            gameId={game.id}
           />
-          {this.state.editingTitle && (
-            <InputControls>
-              <span onClick={this.handleTitleRename}>Rename</span>
-              <span onClick={this.handleTitleCancel}>Cancel</span>
-            </InputControls>
-          )}
-          <RoundList>
-            {this.props.game.rounds.map((r, idx) => (
-              <li key={`round${r}`}>
-                <Round roundId={r} index={idx + 1} />
-                <div
-                  onClick={() => this.props.deleteRound(r, this.props.game.id)}
-                  className="fas fa-trash-alt"
-                />
-              </li>
+          <div className={classes.cardList}>
+            {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map((r, idx) => (
+              <div className={classes.cardRow} key={`cr${idx}`}>
+                {r}
+              </div>
             ))}
-          </RoundList>
-          <ButtonRow>
-            {this.props.game.rounds.length >= this.props.roundLimit ? (
-              <Link to="/billing">Upgrade to enable more rounds!</Link>
-            ) : (
-              <>
-                <Button onClick={this.deleteGame} error>
-                  Delete Game
-                </Button>
-                <Button onClick={() => this.setState({ modalShowing: true })}>
-                  New Round
-                </Button>
-              </>
-            )}
-          </ButtonRow>
-        </Container>
+          </div>
+        </>
       );
     }
   }
@@ -138,14 +206,18 @@ const mapStateToProps = (state, ownProps) => ({
   roundLimit: state.profile.round_limit
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    fetchGame,
-    editGame,
-    deleteGame,
-    addRound,
-    withRouter,
-    deleteRound
-  }
+export default compose(
+  connect(
+    mapStateToProps,
+    {
+      fetchGame,
+      editGame,
+      deleteGame,
+      addRound,
+      withRouter,
+      deleteRound
+    }
+  ),
+  withWidth(),
+  withStyles(styles, { withTheme: true })
 )(Game);
