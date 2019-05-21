@@ -54,14 +54,12 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
   });
 
   const handleToggleView = prop => event => {
-    setValues({ ...values, [prop]: !values.prop})
+    setValues({ ...values, [prop]: !values[prop]})
   }
 
   // const handleChange = prop => event => {
   //   setValues({ ...values, [prop]: event.target.value });
   // };
-
-  // let isEditing = false;
 
   useEffect(() => {
     console.log('avatarid:', profile.avatar_id);
@@ -121,12 +119,8 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         }
       </Paper>
       {values.isEditing 
-        ? (
-          <ProfileEditForm toggleView={handleToggleView}/>
-        )
-        : (
-          <ProfileList toggleView={handleToggleView}/>
-        ) 
+        ? <ProfileEditForm toggleView={handleToggleView}/>
+        : <ProfileList toggleView={handleToggleView}/>
       }
     </div>
   );

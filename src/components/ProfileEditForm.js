@@ -93,7 +93,8 @@ const ProfileEditForm = ({ profile, toggleView }) => {
             onClick={toggleView('isEditing')}
             className={classes.button}
             variant="outlined" 
-            color="primary">
+            color="primary"
+          >
             Save Profile
           </Button>
         </FormControl>
