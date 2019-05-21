@@ -14,7 +14,7 @@ import { fetchProfile, editProfile } from '../actions';
 
 const useStyles = makeStyles(theme => ({
   button: {
-    margin: '.5rem 0',
+    margin: '1rem 0 .5rem',
     alignSelf: 'center'
   },
   list: {

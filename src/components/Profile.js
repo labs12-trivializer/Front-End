@@ -57,6 +57,16 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
     setValues({ ...values, [prop]: !values[prop]})
   }
 
+  const handleUpdateSettings = (updates) => {
+    // Do a dance and send an action
+    console.log('Fake action to update profile...')
+    editProfile({
+      ...updates
+    })
+
+    setValues({ ...values, isEditing: !values['isEditing']})
+  }
+
   // const handleChange = prop => event => {
   //   setValues({ ...values, [prop]: event.target.value });
   // };
@@ -119,7 +129,7 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         }
       </Paper>
       {values.isEditing 
-        ? <ProfileEditForm toggleView={handleToggleView}/>
+        ? <ProfileEditForm updateSettings={handleUpdateSettings} toggleView={handleToggleView}/>
         : <ProfileList toggleView={handleToggleView}/>
       }
     </div>
