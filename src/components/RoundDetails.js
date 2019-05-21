@@ -26,7 +26,6 @@ import {
 import { compose } from 'redux';
 import AddQuestionCard from './AddQuestionsCard';
 import PrintRoundButton from './PrintRoundButton';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const styles = theme => ({
   card: {
