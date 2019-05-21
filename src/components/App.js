@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -7,7 +7,7 @@ import { useTheme } from '@material-ui/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Container } from '@material-ui/core';
 import { compose } from 'redux';
-import Auth from '../auth';
+import { auth } from '../auth';
 // import Profile from './Profile';
 import Games from './Games';
 import Stripe from './stripe/Stripe';
@@ -18,9 +18,7 @@ import Landing from './Landing';
 import Home from './Home';
 import LargeAppBar from './LargeAppBar';
 import SmallAppBar from './SmallAppBar';
-import Settings from './Settings';
-
-const auth = new Auth();
+import Profile from './Profile';
 
 const drawerWidth = 240;
 
@@ -50,6 +48,11 @@ function AppRoot({ classes, isLoggedIn }) {
   // hook version of withWidth
   const theme = useTheme();
   const biggerThanSmall = useMediaQuery(theme.breakpoints.up('sm'));
+
+  useEffect(() => {
+    const { renewSession } = auth;
+    if (isLoggedIn) renewSession();
+  }, [isLoggedIn]);
 
   return (
     <div className={classes.root}>
