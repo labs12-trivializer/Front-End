@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
-import { Steps, Step } from 'react-albus';
-import 'react-dropdown/style.css';
 
 import { fetchNewRoundQuestions, addCustomQuestion } from '../actions';
 import {

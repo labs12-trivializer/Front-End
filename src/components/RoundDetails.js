@@ -17,9 +17,10 @@ import {
   withWidth,
   Grid,
   Paper,
-  CardContent,
-  Card} from '@material-ui/core';
+  Button
+} from '@material-ui/core';
 import { compose } from 'redux';
+import AddQuestionCard from './AddQuestionsCard';
 
 const styles = theme => ({
   card: {
@@ -132,6 +133,21 @@ class RoundDetails extends Component {
               <Typography component="h1" variant="h1" className={classes.title}>
                 Round {round.number}
               </Typography>
+              {(newQuestionCount > 0 || round.dirty) && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() =>
+                    this.props.editRound(
+                      this.props.round.id,
+                      this.nestedRound()
+                    )
+                  }
+                >
+                  Save Changes
+                </Button>
+              )}
               {questions.map((q, idx) => (
                 <Question
                   round={this.props.round}
@@ -141,9 +157,11 @@ class RoundDetails extends Component {
                   moveQuestion={this.moveQuestion}
                 />
               ))}
-              <Card className={classes.card}>
-                <CardContent>Hello</CardContent>
-              </Card>
+
+              <AddQuestionCard
+                roundId={round.id}
+                position={questions.length + 1}
+              />
             </Paper>
           </Grid>
         </Grid>

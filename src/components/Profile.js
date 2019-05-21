@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Image } from 'cloudinary-react';
+// import { Image } from 'cloudinary-react';
 import Tilt from 'react-tilt';
 import { 
   Avatar,
