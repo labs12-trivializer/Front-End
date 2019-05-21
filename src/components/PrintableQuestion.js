@@ -36,14 +36,15 @@ const useStyles = makeStyles(theme => ({
 
 const PrintableQuestion = ({ question, index, questionsById }) => {
   const classes = useStyles();
-  const canUndo = question.changes && question.changes.length > 0;
-  const currentQuestion = canUndo
-    ? questionsById[question.changes[question.changes.length - 1]]
-    : question;
 
   if (!question) {
     return null;
   }
+
+  const canUndo = question.changes && question.changes.length > 0;
+  const currentQuestion = canUndo
+    ? questionsById[question.changes[question.changes.length - 1]]
+    : question;
 
   return (
     <Card className={classes.card}>
