@@ -32,7 +32,7 @@ class LandingPage extends React.Component {
     const { classes, ...rest } = this.props;
     return (
       <div>
-        <Header
+        {/* <Header
           color="transparent"
           brand="Material Kit PRO React"
           links={<HeaderLinks dropdownHoverColor="info" />}
@@ -42,12 +42,12 @@ class LandingPage extends React.Component {
             color: 'info'
           }}
           {...rest}
-        />
-        <Parallax image={require('./assets/img/bg8.jpg')} filter="dark">
+        /> */}
+        <Parallax image={require('./assets/img/bar.jpg')} filter="dark">
           <div className={classes.container}>
             <GridContainer>
               <GridItem xs={12} sm={6} md={6}>
-                <h1 className={classes.title}>Your Story Starts With Us.</h1>
+                <h1 className={classes.title}>Bar Trivia Nights Made Easy.</h1>
                 <h4>
                   Every landing page needs a small description after the big
                   bold title, that's why we added this text here. Add here all
@@ -58,7 +58,7 @@ class LandingPage extends React.Component {
                 <Button
                   color="danger"
                   size="lg"
-                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                  // href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -76,7 +76,7 @@ class LandingPage extends React.Component {
             <SectionWork />
           </div>
         </div>
-        <Footer
+        {/* <Footer
           content={
             <div>
               <div className={classes.left}>
@@ -123,7 +123,7 @@ class LandingPage extends React.Component {
               </div>
             </div>
           }
-        />
+        /> */}
       </div>
     );
   }

@@ -42,8 +42,11 @@ class SectionTeam extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={cardProfile1Square} alt="..." />
+                      <a href="https://github.com/heyjuststart" target="_blank">
+                        <img
+                          src="https://github.com/heyjuststart.png"
+                          alt="Steve Delfaus"
+                        />
                       </a>
                       <div
                         className={classes.coloredShadow}
@@ -56,9 +59,11 @@ class SectionTeam extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Alec Thompson</h4>
+                      <h4 className={classes.cardTitle}>Steve Delfaus</h4>
                       <Muted>
-                        <h6 className={classes.cardCategory}>FOUNDER</h6>
+                        <h6 className={classes.cardCategory}>
+                          Frontend/Backend Developer
+                        </h6>
                       </Muted>
                       <p className={classes.description}>
                         Don't be scared of the truth because we need to restart
@@ -85,8 +90,11 @@ class SectionTeam extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={cardProfile6Square} alt="..." />
+                      <a href="https://github.com/IVB107" target="_blank">
+                        <img
+                          src="https://github.com/IVB107.png"
+                          alt="Ian Van Buren"
+                        />
                       </a>
                       <div
                         className={classes.coloredShadow}
@@ -99,10 +107,10 @@ class SectionTeam extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Kendall Andrew</h4>
+                      <h4 className={classes.cardTitle}>Ian Van Buren</h4>
                       <Muted>
                         <h6 className={classes.cardCategory}>
-                          GRAPHIC DESIGNER
+                          Frontend/Backend Developer
                         </h6>
                       </Muted>
                       <p className={classes.description}>
@@ -133,8 +141,11 @@ class SectionTeam extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={cardProfile4Square} alt="..." />
+                      <a href="https://github.com/macjabeth" target="_blank">
+                        <img
+                          src="https://github.com/macjabeth.png"
+                          alt="Jonathan Picazo"
+                        />
                       </a>
                       <div
                         className={classes.coloredShadow}
@@ -147,9 +158,11 @@ class SectionTeam extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Gina Andrew</h4>
+                      <h4 className={classes.cardTitle}>Jonathan Picazo</h4>
                       <Muted>
-                        <h6 className={classes.cardCategory}>WEB DESIGNER</h6>
+                        <h6 className={classes.cardCategory}>
+                          Frontend/Backend Developer
+                        </h6>
                       </Muted>
                       <p className={classes.description}>
                         I love you like Kanye loves Kanye. Don't be scared of
@@ -176,8 +189,11 @@ class SectionTeam extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={cardProfile2Square} alt="..." />
+                      <a href="https://github.com/korynewton" target="_blank">
+                        <img
+                          src="https://github.com/korynewton.png"
+                          alt="Kory Newton"
+                        />
                       </a>
                       <div
                         className={classes.coloredShadow}
@@ -190,9 +206,11 @@ class SectionTeam extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>George West</h4>
+                      <h4 className={classes.cardTitle}>Kory Newton</h4>
                       <Muted>
-                        <h6 className={classes.cardCategory}>BACKEND HACKER</h6>
+                        <h6 className={classes.cardCategory}>
+                          Frontend/Backend Developer
+                        </h6>
                       </Muted>
                       <p className={classes.description}>
                         I love you like Kanye loves Kanye. Don't be scared of
