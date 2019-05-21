@@ -14,11 +14,12 @@ import Stripe from './stripe/Stripe';
 import PrivateRoute from './PrivateRoute';
 import Game from './Game';
 import RoundDetails from './RoundDetails';
-import Landing from './Landing';
+// import Landing from './Landing';
 import Home from './Home';
 import LargeAppBar from './LargeAppBar';
 import SmallAppBar from './SmallAppBar';
 import Profile from './Profile';
+import LandingPage from '../components/LandingPage/LandingPage';
 
 const drawerWidth = 240;
 
@@ -55,30 +56,28 @@ function AppRoot({ classes, isLoggedIn }) {
   }, [isLoggedIn]);
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      {biggerThanSmall ? (
-        <LargeAppBar auth={auth} isLoggedIn={isLoggedIn} />
-      ) : (
-        <SmallAppBar auth={auth} isLoggedIn={isLoggedIn} />
-      )}
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Container>
-          <PrivateRoute exact path="/games" component={Games} />
-          <Route
-            exact
-            path="/"
-            render={props => <Landing auth={auth} {...props} />}
-          />
-          <PrivateRoute path="/home" component={Home} />
-          <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
-          <PrivateRoute path="/profile" component={Profile} />
-          <PrivateRoute path="/billing" component={Stripe} />
-          <PrivateRoute path="/games/:id" component={Game} />
-        </Container>
-      </main>
-    </div>
+    <>
+      <Route exact path="/" component={LandingPage} />
+      <div className={classes.root}>
+        <CssBaseline />
+        {biggerThanSmall ? (
+          <LargeAppBar auth={auth} isLoggedIn={isLoggedIn} />
+        ) : (
+          <SmallAppBar auth={auth} isLoggedIn={isLoggedIn} />
+        )}
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <Container>
+            <PrivateRoute exact path="/games" component={Games} />
+            <PrivateRoute path="/home" component={Home} />
+            <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
+            <PrivateRoute path="/profile" component={Profile} />
+            <PrivateRoute path="/billing" component={Stripe} />
+            <PrivateRoute path="/games/:id" component={Game} />
+          </Container>
+        </main>
+      </div>
+    </>
   );
 }
 
