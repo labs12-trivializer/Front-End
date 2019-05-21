@@ -19,7 +19,7 @@ import {
 import * as Yup from 'yup';
 import { Form, Formik, Field } from 'formik';
 
-const NewRoundSchema = Yup.object().shape({
+export const NewRoundSchema = Yup.object().shape({
   amount: Yup.number()
     .integer('Must be an integer')
     .min(0, "Can't be negative")
