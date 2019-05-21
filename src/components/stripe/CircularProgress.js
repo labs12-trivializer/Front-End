@@ -76,12 +76,10 @@ class CircularIntegration extends React.Component {
       const gold = 'plan_Eyw9DUPvzcFMvK';
       const silver = 'plan_Eyw8BcuV5qyAV2';
       let plan = null;
-      if (this.props.premiumPlan && !this.props.basicPlan) {
+      if (this.props.upgradingTo === 'Gold') {
         plan = gold;
-      } else if (this.props.basicPlan && !this.props.premiumPlan) {
-        plan = silver;
       } else {
-        return;
+        plan = silver;
       }
       this.props
         .upgradeTier(plan, this.props.profile.username, token)
@@ -138,9 +136,6 @@ class CircularIntegration extends React.Component {
               variant="contained"
               color="primary"
               className={buttonClassname}
-              disabled={
-                loading || this.props.basicPlan === this.props.premiumPlan
-              }
               onClick={this.upgradeTier}
             >
               Pay With Card
