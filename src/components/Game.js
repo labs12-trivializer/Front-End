@@ -24,6 +24,7 @@ import { isWidthUp } from '@material-ui/core/withWidth';
 import { compose } from 'redux';
 import UpgradeCard from './UpgradeCard';
 import NewRoundDialog from './NewRoundDialog';
+import PrintGameQuestionsButton from './PrintGameQuestionsButton';
 
 const initialState = props => ({
   title: props.game && props.game.name,
@@ -181,6 +182,7 @@ class Game extends Component {
           <Typography component="h1" variant="h1" color="inherit" gutterBottom>
             Round List
           </Typography>
+          <PrintGameQuestionsButton gameId={game.id}/>
           <div className={classes.cardList}>
             {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map((r, idx) => (
               <div className={classes.cardRow} key={`cr${idx}`}>
@@ -214,25 +216,3 @@ export default compose(
   withWidth(),
   withStyles(styles, { withTheme: true })
 )(Game);
-//{this.state.modalShowing && (
-//  <Modal onClose={() => this.setState({ modalShowing: false })}>
-//    <NewRoundForm
-//      gameId={this.props.game.id}
-//      number={
-//        this.props.game.rounds ? this.props.game.rounds.length + 1 : 1
-//      }
-//      onCancel={() => this.setState({ modalShowing: false })}
-//    />
-//  </Modal>
-//)}
-//          <GameInput
-//            value={this.state.title}
-//            onChange={this.updateTitle}
-//            onClick={this.handleInputClick}
-//          />
-//          {this.state.editingTitle && (
-//            <InputControls>
-//              <span onClick={this.handleTitleRename}>Rename</span>
-//              <span onClick={this.handleTitleCancel}>Cancel</span>
-//            </InputControls>
-//          )}
