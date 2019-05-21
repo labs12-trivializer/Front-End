@@ -88,4 +88,6 @@ const games = combineReducers({
 
 export const getAllGames = state => state.allIds.map(id => state.byId[id]);
 
+export const getGameById = (state, id) => state.byId[id];
+
 export default games;

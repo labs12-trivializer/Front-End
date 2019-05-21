@@ -39,6 +39,9 @@ export default rootReducer;
 
 export const getAllGames = state => fromGames.getAllGames(state.games);
 
+export const getGameById = (state, id) =>
+  fromGames.getGameById(state.games, id);
+
 export const getAllRounds = state => fromRounds.getAllRounds(state.rounds);
 export const getRoundById = (state, id) =>
   fromRounds.getRoundById(state.rounds, id);

@@ -3,7 +3,6 @@ import shortid from 'shortid';
 import { connect } from 'react-redux';
 import {
   Card,
-  Typography,
   IconButton,
   Stepper,
   Step,
