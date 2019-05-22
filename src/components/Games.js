@@ -14,7 +14,8 @@ import {
   withWidth,
   CardActionArea,
   Zoom,
-  CardHeader
+  CardHeader,
+  Tooltip
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import NewGameDialog from './NewGameDialog';
@@ -26,7 +27,7 @@ import colorFromId from '../helpers/colorFromId';
 const styles = theme => ({
   icon: {
     color: theme.palette.grey[400],
-    fontSize: 40,
+    fontSize: 40
   },
   card: {
     flex: 1,
@@ -69,17 +70,6 @@ const styles = theme => ({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     flex: 1
-  },
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(4),
-    outline: 'none',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)'
   }
 });
 
@@ -106,24 +96,26 @@ class Games extends Component {
           className={clsx(classes.card, classes.newGameCard)}
           key="createGameCard"
         >
-          <CardActionArea
-            className={classes.cardActions}
-            onClick={() => this.setState({ modalShowing: true })}
-          >
-            <CardContent
-              className={clsx(classes.cardContent, classes.newGameCard)}
+          <Tooltip title="Add Game" aria-label="Add Game">
+            <CardActionArea
+              className={classes.cardActions}
+              onClick={() => this.setState({ modalShowing: true })}
             >
-              <Typography
-                component="h2"
-                variant="h5"
-                className={classes.title}
-                color="textPrimary"
-                gutterBottom
+              <CardContent
+                className={clsx(classes.cardContent, classes.newGameCard)}
               >
-                <AddCircleIcon className={classes.icon} />
-              </Typography>
-            </CardContent>
-          </CardActionArea>
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  className={classes.title}
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  <AddCircleIcon className={classes.icon} />
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Tooltip>
         </Card>
       );
 
