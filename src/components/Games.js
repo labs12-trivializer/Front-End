@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { getAllGames } from '../reducers';
 import { fetchGames, createNewGame } from '../actions';
 
-// import NewGameDialog from './NewGameDialog';
 import { withStyles } from '@material-ui/styles';
 import {
   Card,
@@ -14,19 +13,33 @@ import {
   Typography,
   withWidth,
   CardActionArea,
-  Zoom
+  Zoom,
+  CardHeader
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import NewGameDialog from './NewGameDialog';
 import UpgradeCard from './UpgradeCard';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import clsx from 'clsx';
+import colorFromId from '../helpers/colorFromId';
 
 const styles = theme => ({
+  icon: {
+    color: theme.palette.grey[400],
+    fontSize: 40,
+  },
   card: {
     flex: 1,
-    margin: theme.spacing(1)
+    margin: theme.spacing(3),
+    boxShadow: theme.shadows[5],
+    transition: 'box-shadow 0.3s ease-in-out !important',
+    '&:hover': {
+      backgroundColor: '#FFF',
+      boxShadow: theme.shadows[20]
+    }
   },
   cardContent: {
-    minHeight: '20rem'
+    minHeight: '10rem'
   },
   pos: {
     marginBottom: 12
@@ -40,8 +53,22 @@ const styles = theme => ({
   },
   nothing: {
     flex: 1,
-    margin: '0.5rem',
-    visiblity: 'hidden'
+    visiblity: 'hidden',
+    margin: theme.spacing(3)
+  },
+  newGameCard: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
+  },
+  cardActions: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    flex: 1
   },
   paper: {
     position: 'absolute',
@@ -58,9 +85,6 @@ const styles = theme => ({
 
 class Games extends Component {
   state = { modalShowing: false };
-  // constructor(props) {
-  //   super(props);
-  // }
 
   componentDidMount = () => {
     this.props.fetchGames();
@@ -76,11 +100,19 @@ class Games extends Component {
     const { classes } = this.props;
     const newGameCard =
       this.props.games.length >= this.props.gameLimit ? (
-        <UpgradeCard message="Upgrade for more Games" key="upgradeCard"/>
+        <UpgradeCard message="Upgrade for more Games" key="upgradeCard" />
       ) : (
-        <Card className={classes.card} key="createGameCard">
-          <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
-            <CardContent className={classes.cardContent}>
+        <Card
+          className={clsx(classes.card, classes.newGameCard)}
+          key="createGameCard"
+        >
+          <CardActionArea
+            className={classes.cardActions}
+            onClick={() => this.setState({ modalShowing: true })}
+          >
+            <CardContent
+              className={clsx(classes.cardContent, classes.newGameCard)}
+            >
               <Typography
                 component="h2"
                 variant="h5"
@@ -88,34 +120,22 @@ class Games extends Component {
                 color="textPrimary"
                 gutterBottom
               >
-                Create New Game
+                <AddCircleIcon className={classes.icon} />
               </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
       );
 
-    // {this.props.games.length >= this.props.gameLimit ? (
-    //          <Link to="/billing">Upgrade For more games</Link>
-    //        ) : (
-    //          <Button onClick={() => this.setState({ modalShowing: true })}>
-    //            Create New Game
-    //          </Button>
-    //        )}
     const games = [
       ...this.props.games.map((g, idx) => (
         <Card className={classes.card} key={`gme${g.id}`}>
           <CardActionArea component={Link} to={`/games/${g.id}`}>
+            <CardHeader
+              title={g.name}
+              style={{ backgroundColor: colorFromId(g.id) }}
+            />
             <CardContent className={classes.cardContent}>
-              <Typography
-                component="h2"
-                variant="h5"
-                className={classes.title}
-                color="textPrimary"
-                gutterBottom
-              >
-                {g.name}
-              </Typography>
               <Typography component="p">
                 Rounds: {g.num_rounds}
                 <br />
@@ -162,7 +182,7 @@ class Games extends Component {
           onCancel={() => this.setState({ modalShowing: false })}
           onCreate={this.onCreateGame}
         />
-        <Typography component="h1" variant="h1" color="inherit" gutterBottom>
+        <Typography component="h1" variant="h3" color="inherit" gutterBottom>
           Game List
         </Typography>
         <div className={classes.cardList}>
