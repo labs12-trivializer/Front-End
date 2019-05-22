@@ -10,7 +10,9 @@ import { store, persistor } from '../store';
 import App from './App';
 import Setup from './Setup';
 import Callback from './Callback';
-import { auth } from '../auth';
+import Auth from '../auth';
+
+const auth = new Auth();
 
 const handleAuthentication = ({ location }) => {
   if (/access_token|id_token|error/.test(location.hash)) {
