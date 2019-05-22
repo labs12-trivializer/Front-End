@@ -71,13 +71,27 @@ export const generateRound = (
 ) => async dispatch => {
   dispatch({ type: GENERATE_ROUND_START });
   try {
-    const success = await fetchQuestionsFormatted(
-      params,
-      categories,
-      types
-    ).then(questions =>
-      dispatch(addRound({ number: roundNumber, game_id: gameId, questions }, gameId))
-    );
+    // ternary to allow for the case where a user
+    // might want to start a round with 0 opentdb questions
+    // if they specify 0 for the amount, we just addRound with an empty
+    // array of questions
+    const success =
+      params.amount && params.amount > 0
+        ? await fetchQuestionsFormatted(params, categories, types).then(
+            questions =>
+              dispatch(
+                addRound(
+                  { number: roundNumber, game_id: gameId, questions },
+                  gameId
+                )
+              )
+          )
+        : await dispatch(
+            addRound(
+              { number: roundNumber, game_id: gameId, questions: [] },
+              gameId
+            )
+          );
     dispatch({ type: GENERATE_ROUND_SUCCESS });
     return success;
   } catch (error) {

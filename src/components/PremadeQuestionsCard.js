@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Card,
   IconButton,
@@ -16,6 +16,10 @@ import DifficultySelect from './DifficultySelect';
 import { fetchNewRoundQuestions } from '../actions';
 import { getAllCategories } from '../reducers';
 import { getAllQuestionTypes } from '../reducers';
+
+import { NewRoundSchema as PremadeQuestionsSchema } from './NewRoundDialog';
+import { Formik, Form, Field } from 'formik';
+import { getRoundById } from '../reducers';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -46,14 +50,12 @@ const PremadeQuestionsCard = ({
   categoriesById,
   roundId,
   fetchNewRoundQuestions,
-  onComplete
+  onComplete,
+  questionLimit,
+  round
 }) => {
   const classes = useStyles();
-  const [fields, setFields] = useState({ amount: 0 });
-  const handleChanges = e =>
-    setFields({ ...fields, [e.target.name]: e.target.value });
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleFetch = fields => {
     const params = {
       amount: fields.amount,
       category:
@@ -76,40 +78,71 @@ const PremadeQuestionsCard = ({
         <KeyboardArrowLeftIcon />
       </IconButton>
       <CardContent className={classes.cardContent}>
-        <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <TextField
-            label="Number of Quesitons"
-            name="amount"
-            value={fields.amount}
-            type="number"
-            onChange={handleChanges}
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-          />
-          <CategorySelect onChange={handleChanges} />
-          <TypeSelect onChange={handleChanges} />
-          <DifficultySelect onChange={handleChanges} />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={handleSubmit}
-          >
-            Add
-          </Button>
-        </form>
+        <Formik
+          initialValues={{
+            amount: 0,
+            category_id: '',
+            question_type_id: '',
+            difficulty: ''
+          }}
+          validationSchema={PremadeQuestionsSchema}
+          onSubmit={(values, actions) => {
+            actions.setSubmitting(true);
+            handleFetch(values);
+          }}
+        >
+          {({ values, errors, handleChange, isSubmitting }) => (
+            <Form>
+              <Field
+                name="amount"
+                validate={value =>
+                  value > questionLimit - round.questions.length &&
+                  'Upgrade for more questions'
+                }
+                render={() => (
+                  <TextField
+                    autoFocus
+                    label="Number of Questions"
+                    name="amount"
+                    value={values.amount}
+                    type="number"
+                    onChange={handleChange}
+                    InputLabelProps={{ shrink: true }}
+                    margin="normal"
+                    helperText={errors.amount}
+                    error={errors.amount ? true : false}
+                  />
+                )}
+              />
+              <br />
+              <CategorySelect onChange={handleChange} />
+              <TypeSelect onChange={handleChange} />
+              <DifficultySelect onChange={handleChange} />
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                disabled={isSubmitting}
+                type="submit"
+              >
+                Add
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </CardContent>
     </Card>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   categories: getAllCategories(state),
   categoriesById: state.categories.byId,
   types: getAllQuestionTypes(state),
   typesById: state.questionTypes.byId,
   questionLimit: state.profile.question_limit,
-  tierName: state.profile.tier_name
+  tierName: state.profile.tier_name,
+  round: getRoundById(state, ownProps.roundId)
 });
 
 export default connect(

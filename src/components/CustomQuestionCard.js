@@ -18,8 +18,16 @@ import TypeSelect from './TypeSelect';
 import { addCustomQuestion } from '../actions';
 import shuffle from '../helpers/shuffle';
 import { getAllCategories, getAllQuestionTypes } from '../reducers';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
-// withStyles
+const QuestionSchema = Yup.object().shape({
+  text: Yup.string()
+    .trim()
+    .max(150, 'Too Long')
+    .required('Required')
+});
+
 const useStyles = makeStyles(theme => ({
   card: {
     position: 'relative',
@@ -51,23 +59,14 @@ const CustomQuestionCard = ({
   categories,
   types
 }) => {
-  const initialQuestionState = {
-    text: '',
-    round_id: roundId,
-    difficulty: 'easy',
-    category_id: categories[0].id,
-    question_type_id: types[0].id
-  };
-
   const initialAnswerState = {
     is_correct: false,
     text: ''
   };
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [fields, setFields] = useState(initialQuestionState);
   const [question, setQuestion] = useState(null);
-  const [answerFields, setAnswerFields] = useState(initialAnswerState);
+  const [, setAnswerFields] = useState(initialAnswerState);
   const [answers, setAnswers] = useState([]);
   const steps = getSteps();
 
@@ -77,19 +76,7 @@ const CustomQuestionCard = ({
     );
   };
 
-  const handleChanges = e =>
-    setFields({ ...fields, [e.target.name]: e.target.value });
-
-  const handleAnswerChanges = e => {
-    setAnswerFields({
-      ...answerFields,
-      [e.target.name]:
-        e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    });
-  };
-
-  const onQuestionSubmit = e => {
-    e.preventDefault();
+  const onQuestionSubmit = fields => {
     setQuestion({
       ...fields,
       position,
@@ -99,8 +86,7 @@ const CustomQuestionCard = ({
     });
   };
 
-  const onAnswerSubmit = (e, isIncorrect) => {
-    e.preventDefault();
+  const onAnswerSubmit = (answerFields, isIncorrect) => {
     const answer = {
       ...answerFields,
       id: shortid.generate(),
@@ -110,13 +96,6 @@ const CustomQuestionCard = ({
     setAnswers([...answers, answer]);
     setAnswerFields(initialAnswerState);
   };
-
-  // const reset = () => {
-  //   setAnswerFields(initialAnswerState);
-  //   setAnswers([]);
-  //   setFields(initialQuestionState);
-  //   setQuestion(null);
-  // };
 
   // onComplete, turn our questions and answers into
   // what looks like a normalized server response
@@ -143,112 +122,168 @@ const CustomQuestionCard = ({
   };
 
   const step1 = (
-    <form
-      autoComplete="off"
-      onSubmit={e => {
-        e.preventDefault();
-        onQuestionSubmit(e);
+    <Formik
+      initialValues={{
+        text: '',
+        category_id: categories[0].id,
+        difficulty: 'easy',
+        question_type_id: types[0].id
+      }}
+      validationSchema={QuestionSchema}
+      onSubmit={(values, actions) => {
+        onQuestionSubmit(values);
         handleNext();
+        actions.resetForm();
       }}
     >
-      <TextField
-        label="Question Text"
-        name="text"
-        value={fields.text}
-        onChange={handleChanges}
-        margin="normal"
-        fullWidth
-      />
-      <CategorySelect
-        allowAny={false}
-        onChange={handleChanges}
-        placeholder="Select a Category..."
-      />
-      <DifficultySelect allowAny={false} onChange={handleChanges} />
-      <TypeSelect
-        allowAny={false}
-        onChange={handleChanges}
-        placeholder="Select a Question Type..."
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        type="submit"
-      >
-        Next
-      </Button>
-    </form>
+      {({ values, errors, handleChange }) => (
+        <Form autoComplete="off">
+          <Field
+            id="QuestionText"
+            name="text"
+            render={() => (
+              <TextField
+                autoFocus
+                label="Question Text"
+                name="text"
+                value={values.text}
+                onChange={handleChange}
+                InputLabelProps={{ shrink: true }}
+                margin="normal"
+                helperText={errors.text}
+                error={errors.text ? true : false}
+                fullWidth
+              />
+            )}
+          />
+          <CategorySelect
+            allowAny={false}
+            onChange={handleChange}
+            placeholder="Select a Category..."
+          />
+          <DifficultySelect allowAny={false} onChange={handleChange} />
+          <TypeSelect
+            allowAny={false}
+            onChange={handleChange}
+            placeholder="Select a Question Type..."
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            type="submit"
+          >
+            Next
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 
   const step2 = (
-    <form
-      autoComplete="off"
-      onSubmit={e => {
-        e.preventDefault();
-        onAnswerSubmit(e);
+    <Formik
+      initialValues={{
+        text: ''
+      }}
+      validationSchema={QuestionSchema}
+      onSubmit={(values, actions) => {
+        onAnswerSubmit(values);
+        actions.resetForm();
       }}
     >
-      <TextField
-        label="Correct Answer Text"
-        name="text"
-        value={answerFields.text}
-        onChange={handleAnswerChanges}
-        margin="normal"
-        fullWidth
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        type="submit"
-      >
-        Add Answer
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        onClick={handleNext}
-      >
-        Next
-      </Button>
-    </form>
+      {({ values, errors, handleChange }) => (
+        <Form autoComplete="off">
+          <Field
+            name="text"
+            id="AnswerText"
+            render={() => (
+              <TextField
+                autoFocus
+                label="Correct Answer Text"
+                name="text"
+                value={values.text}
+                onChange={handleChange}
+                InputLabelProps={{ shrink: true }}
+                margin="normal"
+                helperText={errors.text}
+                error={errors.text ? true : false}
+                fullWidth
+              />
+            )}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            type="submit"
+          >
+            Add Answer
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={handleNext}
+            type="button"
+          >
+            Next
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 
   const step3 = (
-    <form
-      autoComplete="off"
-      onSubmit={e => {
-        e.preventDefault();
-        onAnswerSubmit(e, true);
+    <Formik
+      initialValues={{
+        text: ''
+      }}
+      validationSchema={QuestionSchema}
+      onSubmit={(values, actions) => {
+        onAnswerSubmit(values, true);
+        actions.resetForm();
       }}
     >
-      <TextField
-        label="Incorrect Answer Text"
-        name="text"
-        value={answerFields.text}
-        onChange={handleAnswerChanges}
-        margin="normal"
-        fullWidth
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        type="submit"
-      >
-        Add Answer
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        onClick={handleFinish}
-      >
-        Finish
-      </Button>
-    </form>
+      {({ values, errors, handleChange }) => (
+        <Form autoComplete="off">
+          <Field
+            name="text"
+            id="IncorrectAnswerText"
+            render={() => (
+              <TextField
+                autoFocus
+                label="Incorrect Answer Text"
+                name="text"
+                value={values.text}
+                onChange={handleChange}
+                InputLabelProps={{ shrink: true }}
+                margin="normal"
+                helperText={errors.text}
+                error={errors.text ? true : false}
+                fullWidth
+              />
+            )}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            type="submit"
+          >
+            Add Incorrect Answer
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            onClick={handleFinish}
+            type="button"
+          >
+            Finish
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 
   const stepContent = [step1, step2, step3];

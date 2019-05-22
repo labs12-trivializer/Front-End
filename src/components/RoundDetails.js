@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 // import Loader from 'react-loader-spinner';
 
 import {
@@ -8,7 +9,12 @@ import {
   editRound,
   dragDropQuestion
 } from '../actions';
-import { getAllCategories, getQuestionById, getRoundById } from '../reducers';
+import {
+  getAllCategories,
+  getQuestionById,
+  getRoundById,
+  getGameById
+} from '../reducers';
 import Question from './Question';
 
 import {
@@ -17,7 +23,10 @@ import {
   withWidth,
   Grid,
   Paper,
-  Button
+  Button,
+  Card,
+  CardActionArea,
+  CardContent
 } from '@material-ui/core';
 import { compose } from 'redux';
 import AddQuestionCard from './AddQuestionsCard';
@@ -25,11 +34,35 @@ import PrintRoundButton from './PrintRoundButton';
 
 const styles = theme => ({
   card: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     flex: 1,
-    margin: theme.spacing(1)
+    marginBottom: theme.spacing(2),
+    minHeight: 200
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    '& button': {
+      margin: [[theme.spacing(1), 0, theme.spacing(1)]]
+    }
+  },
+  cardActions: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    flex: 1
   },
   cardContent: {
     minHeight: 200
+  },
+  icon: {
+    color: theme.palette.grey[400],
+    fontSize: 40
   },
   pos: {
     marginBottom: 12
@@ -51,6 +84,18 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing(2)
+  },
+  fullCardAction: {
+    display: 'flex',
+    flex: 1
+  },
+  header: {
+    marginBottom: theme.spacing(2)
+  },
+  headerText: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end'
   }
 });
 
@@ -117,7 +162,7 @@ class RoundDetails extends Component {
   };
 
   render() {
-    const { round, classes } = this.props;
+    const { round, questionLimit, classes, game } = this.props;
     const { questions } = round;
     if (!this.props.round || !this.props.round.game_id) {
       return <div>Loading...</div>;
@@ -128,18 +173,35 @@ class RoundDetails extends Component {
 
     return (
       <div className={classes.root}>
-        <Grid container spacing={3}>
+        <Grid container>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <Typography component="h1" variant="h1" className={classes.title}>
-                Round {round.number}
-              </Typography>
-              <PrintRoundButton roundId={round.id} />
-              <PrintRoundButton
-                roundId={round.id}
-                highlightAnswers
-                label="Generate Answer Sheet"
-              />
+              <Grid container className={classes.header}>
+                <Grid item xs={8} className={classes.headerText}>
+                  <Typography component="h3" variant="h6">
+                    {game.name}
+                  </Typography>
+                  <Typography
+                    component="h1"
+                    variant="h3"
+                    color="inherit"
+                  >
+                    Round {round.number}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4} className={classes.buttonContainer}>
+                  <PrintRoundButton
+                    roundId={round.id}
+                    className={classes.button}
+                  />
+                  <PrintRoundButton
+                    roundId={round.id}
+                    highlightAnswers
+                    label="Generate Answer Sheet"
+                    className={classes.button}
+                  />
+                </Grid>
+              </Grid>
               {(newQuestionCount > 0 || round.dirty) && (
                 <Button
                   variant="contained"
@@ -166,10 +228,30 @@ class RoundDetails extends Component {
                 />
               ))}
 
-              <AddQuestionCard
-                roundId={round.id}
-                position={questions.length + 1}
-              />
+              {round.questions.length >= questionLimit ? (
+                <Card className={classes.card}>
+                  <CardActionArea
+                    component={Link}
+                    className={classes.fullCardAction}
+                    to="/billing"
+                  >
+                    <CardContent>
+                      <Typography
+                        component="h2"
+                        variant="h6"
+                        color="textSecondary"
+                      >
+                        Upgrade for more questions
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              ) : (
+                <AddQuestionCard
+                  roundId={round.id}
+                  position={questions.length + 1}
+                />
+              )}
             </Paper>
           </Grid>
         </Grid>
@@ -194,7 +276,9 @@ const mapStateToProps = (state, ownProps) => {
     questionsById: state.questions.byId,
     answersById: state.answers.byId,
     categories: getAllCategories(state),
-    newRoundQuestions: state.newRoundQuestions
+    newRoundQuestions: state.newRoundQuestions,
+    questionLimit: state.profile.question_limit,
+    game: getGameById(state, round.game_id)
   };
 };
 
