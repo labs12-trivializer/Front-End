@@ -13,10 +13,10 @@ import CardFooter from './CardFooter';
 import Muted from './Muted';
 import Button from './Button';
 
-import cardProfile1Square from './assets/img/card-profile1-square.jpg';
-import cardProfile2Square from './assets/img/card-profile2-square.jpg';
-import cardProfile4Square from './assets/img/card-profile4-square.jpg';
-import cardProfile6Square from './assets/img/card-profile6-square.jpg';
+// import cardProfile1Square from './assets/img/card-profile1-square.jpg';
+// import cardProfile2Square from './assets/img/card-profile2-square.jpg';
+// import cardProfile4Square from './assets/img/card-profile4-square.jpg';
+// import cardProfile6Square from './assets/img/card-profile6-square.jpg';
 
 import teamsStyle from './assets/style/teamsStyle';
 import teamStyle from './assets/style/teamStyle';
@@ -52,13 +52,7 @@ class SectionTeam extends React.Component {
                           alt="Steve Delfaus"
                         />
                       </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${cardProfile1Square})`,
-                          opacity: '1'
-                        }}
-                      />
+                      <div className={classes.coloredShadow} />
                     </CardHeader>
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
@@ -113,13 +107,7 @@ class SectionTeam extends React.Component {
                           alt="Ian Van Buren"
                         />
                       </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${cardProfile6Square})`,
-                          opacity: '1'
-                        }}
-                      />
+                      <div className={classes.coloredShadow} />
                     </CardHeader>
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
@@ -174,13 +162,7 @@ class SectionTeam extends React.Component {
                           alt="Jonathan Picazo"
                         />
                       </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${cardProfile4Square})`,
-                          opacity: '1'
-                        }}
-                      />
+                      <div className={classes.coloredShadow} />
                     </CardHeader>
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
@@ -235,13 +217,7 @@ class SectionTeam extends React.Component {
                           alt="Kory Newton"
                         />
                       </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${cardProfile2Square})`,
-                          opacity: '1'
-                        }}
-                      />
+                      <div className={classes.coloredShadow} />
                     </CardHeader>
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
