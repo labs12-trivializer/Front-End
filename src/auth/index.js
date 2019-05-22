@@ -8,18 +8,20 @@ const { dispatch, getState } = store;
 
 class Auth {
   accessToken;
-  idToken;
+  auth0Manage;
   expiresAt;
-  userProfile;
+  idToken;
+  requestedScopes = 'openid profile email read:current_user';
   scopes;
-  requestedScopes = 'openid profile email';
   tokenRenewalTimeout;
+  userProfile;
 
   auth0 = new auth0.WebAuth({
     domain: AUTH_CONFIG.domain,
     clientID: AUTH_CONFIG.clientId,
     redirectUri: process.env.REACT_APP_REDIRECT_URI || AUTH_CONFIG.callbackUrl,
     responseType: 'token id_token',
+    audience: 'https://lambda-trivializer.herokuapp.com/api',
     scope: this.requestedScopes
   });
 
