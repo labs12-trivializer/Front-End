@@ -18,13 +18,17 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  withWidth
+  withWidth,
+  Grid
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import { compose } from 'redux';
 import UpgradeCard from './UpgradeCard';
 import NewRoundDialog from './NewRoundDialog';
 import PrintGameQuestionsButton from './PrintGameQuestionsButton';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import clsx from 'clsx';
+import colorFromId from '../helpers/colorFromId';
 
 const initialState = props => ({
   title: props.game && props.game.name,
@@ -35,10 +39,34 @@ const initialState = props => ({
 const styles = theme => ({
   card: {
     flex: 1,
-    margin: theme.spacing(1)
+    margin: theme.spacing(3),
+    boxShadow: theme.shadows[5],
+    transition: 'box-shadow 0.3s ease-in-out',
+    '&:hover': {
+      backgroundColor: '#FFF',
+      boxShadow: theme.shadows[20]
+    }
   },
   cardContent: {
-    minHeight: '20rem'
+    minHeight: '10rem'
+  },
+  newGameCard: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
+  },
+  icon: {
+    color: theme.palette.grey[400],
+    fontSize: 40
+  },
+  cardActions: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    flex: 1
   },
   pos: {
     marginBottom: 12
@@ -54,6 +82,17 @@ const styles = theme => ({
     flex: 1,
     margin: '0.5rem',
     visiblity: 'hidden'
+  },
+  button: {
+    margin: theme.spacing(2)
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    '& button': {
+      margin: theme.spacing(1)
+    }
   }
 });
 
@@ -115,9 +154,17 @@ class Game extends Component {
 
     const newRoundCard =
       rounds.length < roundLimit ? (
-        <Card className={classes.card} key="roundMenu">
-          <CardActionArea onClick={() => this.setState({ modalShowing: true })}>
-            <CardContent className={classes.cardContent}>
+        <Card
+          className={clsx(classes.card, classes.newGameCard)}
+          key="newRoundCard"
+        >
+          <CardActionArea
+            className={classes.cardActions}
+            onClick={() => this.setState({ modalShowing: true })}
+          >
+            <CardContent
+              className={clsx(classes.cardContent, classes.newGameCard)}
+            >
               <Typography
                 component="h2"
                 variant="h5"
@@ -125,7 +172,7 @@ class Game extends Component {
                 color="textPrimary"
                 gutterBottom
               >
-                Create New Round
+                <AddCircleIcon className={classes.icon} />
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -179,15 +226,38 @@ class Game extends Component {
           />
 
           <Background />
-          <Typography component="h1" variant="h1" color="inherit" gutterBottom>
-            Round List
-          </Typography>
-          <PrintGameQuestionsButton gameId={game.id} />
-          <PrintGameQuestionsButton
-            label="Generate Answer Sheet"
-            highlightAnswers
-            gameId={game.id}
-          />
+          <Grid container>
+            <Grid item xs={8}>
+              <Typography
+                component="h3"
+                variant="h6"
+              >
+                {game.name}
+              </Typography>
+              <Typography
+                component="h1"
+                variant="h3"
+                color="inherit"
+                gutterBottom
+              >
+                Round List
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={4}
+              justify="flex-end"
+              alignItems="flex-end"
+              className={classes.buttonContainer}
+            >
+              <PrintGameQuestionsButton gameId={game.id} />
+              <PrintGameQuestionsButton
+                label="Generate Answer Sheet"
+                highlightAnswers
+                gameId={game.id}
+              />
+            </Grid>
+          </Grid>
           <div className={classes.cardList}>
             {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map((r, idx) => (
               <div className={classes.cardRow} key={`cr${idx}`}>

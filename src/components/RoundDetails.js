@@ -9,7 +9,12 @@ import {
   editRound,
   dragDropQuestion
 } from '../actions';
-import { getAllCategories, getQuestionById, getRoundById } from '../reducers';
+import {
+  getAllCategories,
+  getQuestionById,
+  getRoundById,
+  getGameById
+} from '../reducers';
 import Question from './Question';
 
 import {
@@ -37,6 +42,14 @@ const styles = theme => ({
     flex: 1,
     marginBottom: theme.spacing(2),
     minHeight: 200
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    '& button': {
+      margin: theme.spacing(1)
+    }
   },
   cardActions: {
     display: 'flex',
@@ -75,6 +88,14 @@ const styles = theme => ({
   fullCardAction: {
     display: 'flex',
     flex: 1
+  },
+  header: {
+    marginBottom: theme.spacing(2)
+  },
+  headerText: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end'
   }
 });
 
@@ -141,7 +162,7 @@ class RoundDetails extends Component {
   };
 
   render() {
-    const { round, questionLimit, classes } = this.props;
+    const { round, questionLimit, classes, game } = this.props;
     const { questions } = round;
     if (!this.props.round || !this.props.round.game_id) {
       return <div>Loading...</div>;
@@ -152,18 +173,35 @@ class RoundDetails extends Component {
 
     return (
       <div className={classes.root}>
-        <Grid container spacing={3}>
+        <Grid container>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <Typography component="h1" variant="h1" className={classes.title}>
-                Round {round.number}
-              </Typography>
-              <PrintRoundButton roundId={round.id} />
-              <PrintRoundButton
-                roundId={round.id}
-                highlightAnswers
-                label="Generate Answer Sheet"
-              />
+              <Grid container className={classes.header}>
+                <Grid item xs={8} className={classes.headerText}>
+                  <Typography component="h3" variant="h6">
+                    {game.name}
+                  </Typography>
+                  <Typography
+                    component="h1"
+                    variant="h3"
+                    color="inherit"
+                  >
+                    Round {round.number}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4} className={classes.buttonContainer}>
+                  <PrintRoundButton
+                    roundId={round.id}
+                    className={classes.button}
+                  />
+                  <PrintRoundButton
+                    roundId={round.id}
+                    highlightAnswers
+                    label="Generate Answer Sheet"
+                    className={classes.button}
+                  />
+                </Grid>
+              </Grid>
               {(newQuestionCount > 0 || round.dirty) && (
                 <Button
                   variant="contained"
@@ -239,7 +277,8 @@ const mapStateToProps = (state, ownProps) => {
     answersById: state.answers.byId,
     categories: getAllCategories(state),
     newRoundQuestions: state.newRoundQuestions,
-    questionLimit: state.profile.question_limit
+    questionLimit: state.profile.question_limit,
+    game: getGameById(state, round.game_id)
   };
 };
 
