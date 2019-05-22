@@ -12,7 +12,6 @@ import Setup from './Setup';
 import Callback from './Callback';
 import Auth from '../auth';
 
-
 const auth = new Auth();
 
 const handleAuthentication = ({ location }) => {
