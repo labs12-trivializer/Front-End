@@ -70,7 +70,7 @@ const ProfileList = ({ profile, toggleView }) => {
           <ListItemText
             inset={true}
             secondary="Username"
-            primary={profile.username}
+            primary={profile.nickname}
           />
         </ListItem>
         <ListItem divider={true} className={classes.listItem}>
@@ -82,7 +82,7 @@ const ProfileList = ({ profile, toggleView }) => {
         </ListItem>
         <ListItem className={classes.listItem}>
           <Button
-            inset={true}
+            // inset
             className={classes.button}
             onClick={toggleView('isEditing')}
             variant="outlined"

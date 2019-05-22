@@ -43,7 +43,7 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
   const [values, setValues] = React.useState({
     first_name: '',
     last_name: '',
-    display_name: '',
+    nickname: '',
     email: '' || profile.email
   });
 
@@ -65,7 +65,7 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
           <TextField
             id="filled-uncontrolled"
             label="First Name"
-            value={profile.first_name}
+            // value={profile.first_name}
             onChange={handleChange('first_name')}
             margin="dense"
             variant="outlined"
@@ -75,7 +75,7 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
           <TextField
             id="filled-uncontrolled"
             label="Last Name"
-            value={profile.last_name}
+            // value={profile.last_name}
             onChange={handleChange('last_name')}
             margin="dense"
             variant="outlined"
@@ -85,8 +85,8 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
           <TextField
             id="filled-uncontrolled"
             label="Display Name"
-            value={profile.display_name}
-            onChange={handleChange('display_name')}
+            // value={profile.nickname}
+            onChange={handleChange('nickname')}
             // defaultValue={profile.username}
             margin="dense"
             variant="outlined"
