@@ -24,7 +24,7 @@ const handleAuthentication = ({ location }) => {
 const Root = () => (
   <Provider store={store}>
     <ToastContainer
-      position="top-right"
+      position="top-center"
       autoClose={5000}
       hideProgressBar
       newestOnTop={false}
