@@ -48,7 +48,7 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'flex-end',
     '& button': {
-      margin: theme.spacing(1)
+      margin: [[theme.spacing(1), 0, theme.spacing(1)]]
     }
   },
   cardActions: {

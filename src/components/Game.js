@@ -19,7 +19,8 @@ import {
   CardActionArea,
   CardContent,
   withWidth,
-  Grid
+  Grid,
+  Tooltip
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import { compose } from 'redux';
@@ -28,7 +29,6 @@ import NewRoundDialog from './NewRoundDialog';
 import PrintGameQuestionsButton from './PrintGameQuestionsButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import clsx from 'clsx';
-import colorFromId from '../helpers/colorFromId';
 
 const initialState = props => ({
   title: props.game && props.game.name,
@@ -56,7 +56,8 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
+    minHeight: 232
   },
   icon: {
     color: theme.palette.grey[400],
@@ -80,7 +81,7 @@ const styles = theme => ({
   },
   nothing: {
     flex: 1,
-    margin: '0.5rem',
+    margin: theme.spacing(3),
     visiblity: 'hidden'
   },
   button: {
@@ -158,24 +159,26 @@ class Game extends Component {
           className={clsx(classes.card, classes.newGameCard)}
           key="newRoundCard"
         >
-          <CardActionArea
-            className={classes.cardActions}
-            onClick={() => this.setState({ modalShowing: true })}
-          >
-            <CardContent
-              className={clsx(classes.cardContent, classes.newGameCard)}
+          <Tooltip title="Add Round" aria-label="Add Round">
+            <CardActionArea
+              className={classes.cardActions}
+              onClick={() => this.setState({ modalShowing: true })}
             >
-              <Typography
-                component="h2"
-                variant="h5"
-                className={classes.title}
-                color="textPrimary"
-                gutterBottom
+              <CardContent
+                className={clsx(classes.cardContent, classes.newGameCard)}
               >
-                <AddCircleIcon className={classes.icon} />
-              </Typography>
-            </CardContent>
-          </CardActionArea>
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  className={classes.title}
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  <AddCircleIcon className={classes.icon} />
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Tooltip>
         </Card>
       ) : (
         <UpgradeCard message="Upgrade for more Rounds" key={'newRoundCard'} />
@@ -228,10 +231,7 @@ class Game extends Component {
           <Background />
           <Grid container>
             <Grid item xs={8}>
-              <Typography
-                component="h3"
-                variant="h6"
-              >
+              <Typography component="h3" variant="h6">
                 {game.name}
               </Typography>
               <Typography
@@ -246,7 +246,6 @@ class Game extends Component {
             <Grid
               item
               xs={4}
-              justify="flex-end"
               alignItems="flex-end"
               className={classes.buttonContainer}
             >

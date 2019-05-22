@@ -8,7 +8,6 @@ import {
   Typography,
   CardActions,
   Button,
-  Icon,
   Tooltip
 } from '@material-ui/core';
 import {

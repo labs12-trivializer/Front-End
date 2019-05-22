@@ -59,23 +59,14 @@ const CustomQuestionCard = ({
   categories,
   types
 }) => {
-  const initialQuestionState = {
-    text: '',
-    round_id: roundId,
-    difficulty: 'easy',
-    category_id: categories[0].id,
-    question_type_id: types[0].id
-  };
-
   const initialAnswerState = {
     is_correct: false,
     text: ''
   };
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [fields, setFields] = useState(initialQuestionState);
   const [question, setQuestion] = useState(null);
-  const [answerFields, setAnswerFields] = useState(initialAnswerState);
+  const [, setAnswerFields] = useState(initialAnswerState);
   const [answers, setAnswers] = useState([]);
   const steps = getSteps();
 
@@ -83,17 +74,6 @@ const CustomQuestionCard = ({
     setActiveStep(prevActiveStep =>
       prevActiveStep + 1 > steps.length - 1 ? 0 : prevActiveStep + 1
     );
-  };
-
-  const handleChanges = e =>
-    setFields({ ...fields, [e.target.name]: e.target.value });
-
-  const handleAnswerChanges = e => {
-    setAnswerFields({
-      ...answerFields,
-      [e.target.name]:
-        e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    });
   };
 
   const onQuestionSubmit = fields => {

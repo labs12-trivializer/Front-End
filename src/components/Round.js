@@ -5,7 +5,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Typography,
   withStyles,
   CardHeader,
   IconButton
