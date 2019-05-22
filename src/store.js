@@ -27,8 +27,4 @@ const configureStore = () => {
 
 const { store, persistor } = configureStore();
 
-<<<<<<< HEAD
 export { configureStore, store, persistor };
-=======
-export { configureStore, store, persistor }
->>>>>>> master
