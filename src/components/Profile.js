@@ -10,6 +10,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Link } from 'react-router-dom';
 
 // import { Container, Form, Avatar } from '../styles/profile.css';
 // import { Background, Button } from '../styles/shared.css';
@@ -119,8 +120,9 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         </Typography>
         {profile.tier_name !== 'gold' &&
           <Button
+            component={Link}
+            to="/billing"
             variant="contained"
-            href="/billing"
             className={classes.button}
             color="primary"
           >
