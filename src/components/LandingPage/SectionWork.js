@@ -63,6 +63,7 @@ class SectionWork extends React.Component {
                   sm={4}
                   md={4}
                   className={`${classes.mrAuto} ${classes.mlAuto}`}
+                  style={{ textAlign: 'center' }}
                 >
                   <Button color="primary">Send Message</Button>
                 </GridItem>

@@ -16,7 +16,7 @@ const workStyle = {
   },
   description: {
     color: grayColor[0],
-    textAlign: 'center'
+    textAlign: 'left'
   },
   textCenter: {
     textAlign: 'center'
