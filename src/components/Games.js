@@ -13,7 +13,6 @@ import {
   Typography,
   withWidth,
   CardActionArea,
-  Zoom,
   CardHeader,
   Tooltip
 } from '@material-ui/core';
@@ -180,15 +179,7 @@ class Games extends Component {
         <div className={classes.cardList}>
           {this.groupGames(cardsPerRow).map((g, idx) => (
             <div className={classes.cardRow} key={`cr${idx}`}>
-              {g.map((gameCard, gcIdx) => (
-                <Zoom
-                  in
-                  style={{ transitionDelay: (cardsPerRow * idx + gcIdx) * 50 }}
-                  key={`gc${gcIdx + cardsPerRow * idx}`}
-                >
-                  {gameCard}
-                </Zoom>
-              ))}
+              {g}
             </div>
           ))}
         </div>

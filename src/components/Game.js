@@ -246,7 +246,6 @@ class Game extends Component {
             <Grid
               item
               xs={4}
-              alignItems="flex-end"
               className={classes.buttonContainer}
             >
               <PrintGameQuestionsButton gameId={game.id} />

@@ -109,14 +109,14 @@ const Question = React.forwardRef(
       );
     };
 
-    const changePosition = e => {
+    const changePosition = direction => {
       const index = roundQuestions.indexOf(question.id);
       let newIndex;
       // Swap question up/down by 1 position
-      if (e.target.className.includes('up') && index !== 0) {
+      if ( direction === 'up' && index !== 0) {
         newIndex = index - 1;
       } else if (
-        e.target.className.includes('down') &&
+        direction === 'down' &&
         index < roundQuestions.length - 1
       ) {
         newIndex = index + 1;
@@ -189,9 +189,9 @@ const Question = React.forwardRef(
                 variant="contained"
                 className={classes.button}
                 size="small"
-                onClick={e => changePosition(e)}
+                onClick={() => changePosition('up')}
               >
-                <ArrowUpwardIcon />
+                <ArrowUpwardIcon className="up"/>
               </Button>
             </Tooltip>
             <Tooltip title="Move Down" aria-label="Move Down">
@@ -199,7 +199,7 @@ const Question = React.forwardRef(
                 variant="contained"
                 className={classes.button}
                 size="small"
-                onClick={e => changePosition(e)}
+                onClick={() => changePosition('down')}
               >
                 <ArrowDownwardIcon />
               </Button>
