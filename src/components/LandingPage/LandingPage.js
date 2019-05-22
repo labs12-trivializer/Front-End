@@ -3,13 +3,12 @@ import React from 'react';
 import classNames from 'classnames';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 // @material-ui/icons
-// import Favorite from '@material-ui/icons/Favorite';
 // core components
 // import Header from './Header.js';
-// import Footer from './Footer.js';
+import Footer from './Footer.js';
 import GridContainer from './GridContainer.js';
 import GridItem from './GridItem.js';
 import Button from './Button.js';
@@ -22,6 +21,7 @@ import landingPageStyle from './assets/style/landingPageStyle';
 import SectionProduct from './SectionProduct.js';
 import SectionTeam from './SectionTeam.js';
 import SectionWork from './SectionWork.js';
+import { HashLink as Link } from 'react-router-hash-link';
 
 class LandingPage extends React.Component {
   componentDidMount() {
@@ -31,7 +31,7 @@ class LandingPage extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <div id="about">
         <Parallax image={require('./assets/img/bar.jpg')} filter="dark">
           <div className={classes.container}>
             <GridContainer>
@@ -61,10 +61,42 @@ class LandingPage extends React.Component {
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
             <SectionProduct />
-            <SectionTeam />
-            <SectionWork />
+            <div id="team">
+              <SectionTeam />
+            </div>
+            <div id="contact">
+              <SectionWork />
+            </div>
           </div>
         </div>
+        <Footer
+          content={
+            <div>
+              <div className={classes.left}>
+                <List className={classes.list}>
+                  <ListItem className={classes.inlineBlock}>
+                    <Link className={classes.block} to="/#about">
+                      About
+                    </Link>
+                  </ListItem>
+                  <ListItem className={classes.inlineBlock}>
+                    <Link className={classes.block} to="/#team">
+                      Our Team
+                    </Link>
+                  </ListItem>
+                  <ListItem className={classes.inlineBlock}>
+                    <Link className={classes.block} to="/#contact">
+                      Contact Us
+                    </Link>
+                  </ListItem>
+                </List>
+              </div>
+              <div className={classes.right}>
+                &copy; {1900 + new Date().getYear()} Trivease(?)
+              </div>
+            </div>
+          }
+        />
       </div>
     );
   }
