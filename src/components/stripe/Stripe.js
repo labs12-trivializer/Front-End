@@ -15,7 +15,7 @@ class Stripe extends Component {
   componentDidMount() {
     if (this.props.profile.tier_name === 'gold') {
       toast.info('🎉 You are currently subscribed our highest tier plan!', {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_CENTER,
         className: css({
           background: '#19b9e9',
           textAlign: 'center'

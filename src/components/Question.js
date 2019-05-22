@@ -8,7 +8,7 @@ import {
   Typography,
   CardActions,
   Button,
-  Icon
+  Tooltip
 } from '@material-ui/core';
 import {
   getQuestionById,
@@ -26,6 +26,11 @@ import {
 } from '../actions';
 import Answer from './Answer';
 import { makeStyles } from '@material-ui/styles';
+import DeleteIcon from '@material-ui/icons/DeleteOutline';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import UndoIcon from '@material-ui/icons/Undo';
 
 const indexToLetter = index => String.fromCharCode(index + 64);
 
@@ -41,14 +46,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    backgroundColor: '#DFDFDF',
     width: '100%'
   },
   button: {
-    border: '1px solid #FFFFFF',
-    paddingLeft: '0',
-    paddingRight: '0',
-    color: '#03A9F4'
+    margin: theme.spacing(1)
   },
   icon: {
     padding: 0
@@ -148,45 +149,61 @@ const Question = React.forwardRef(
         </CardContent>
         <CardActions className={classes.cardActions}>
           <div>
-            <Button
-              className={classes.button}
-              size="small"
-              onClick={remove}
-            >
-              <Icon fontSize="small" className="fas fa-trash-alt" />
-            </Button>
-            <Button
-              className={classes.button}
-              size="small"
-              onClick={fetchAnotherQuestion}
-            >
-              <Icon fontSize="small" className="fas fa-exchange-alt" />
-            </Button>
-            {canUndo && (
+            <Tooltip title="Delete" aria-label="Delete">
               <Button
                 className={classes.button}
                 size="small"
-                onClick={() => undo(question.id)}
+                onClick={remove}
+                variant="contained"
+                color="default"
               >
-                <Icon fontSize="small" className="fas fa-history" />
+                <DeleteIcon />
               </Button>
+            </Tooltip>
+            <Tooltip title="Shuffle" aria-label="shuffle">
+              <Button
+                variant="contained"
+                className={classes.button}
+                size="small"
+                onClick={fetchAnotherQuestion}
+              >
+                <ShuffleIcon />
+              </Button>
+            </Tooltip>
+            {canUndo && (
+              <Tooltip title="Undo" aria-label="Undo">
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  size="small"
+                  onClick={() => undo(question.id)}
+                >
+                  <UndoIcon />
+                </Button>
+              </Tooltip>
             )}
           </div>
           <div>
-            <Button
-              className={classes.button}
-              size="small"
-              onClick={e => changePosition(e)}
-            >
-              <Icon fontSize="small" className="up fas fa-chevron-up" />
-            </Button>
-            <Button
-              className={classes.button}
-              size="small"
-              onClick={e => changePosition(e)}
-            >
-              <Icon fontSize="small" className="down fas fa-chevron-down" />
-            </Button>
+            <Tooltip title="Move Up" aria-label="Move Up">
+              <Button
+                variant="contained"
+                className={classes.button}
+                size="small"
+                onClick={e => changePosition(e)}
+              >
+                <ArrowUpwardIcon />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Move Down" aria-label="Move Down">
+              <Button
+                variant="contained"
+                className={classes.button}
+                size="small"
+                onClick={e => changePosition(e)}
+              >
+                <ArrowDownwardIcon />
+              </Button>
+            </Tooltip>
           </div>
         </CardActions>
       </Card>
