@@ -1,5 +1,5 @@
 import React from 'react';
-// import clsx from 'clsx'
+import clsx from 'clsx'
 import { connect } from 'react-redux';
 import {
   Paper,
@@ -32,6 +32,12 @@ const useStyles = makeStyles(theme => ({
   button: {
     margin: '.5rem 0',
     alignSelf: 'center'
+  },
+  buttonRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'space-between',
+    justifyContent: 'space-between'
   }
 }));
 
@@ -43,7 +49,7 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
   const [values, setValues] = React.useState({
     first_name: '',
     last_name: '',
-    display_name: '',
+    nickname: '',
     email: '' || profile.email
   });
 
@@ -65,7 +71,7 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
           <TextField
             id="filled-uncontrolled"
             label="First Name"
-            value={profile.first_name}
+            defaultValue={profile.first_name}
             onChange={handleChange('first_name')}
             margin="dense"
             variant="outlined"
@@ -75,7 +81,7 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
           <TextField
             id="filled-uncontrolled"
             label="Last Name"
-            value={profile.last_name}
+            defaultValue={profile.last_name}
             onChange={handleChange('last_name')}
             margin="dense"
             variant="outlined"
@@ -85,9 +91,8 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
           <TextField
             id="filled-uncontrolled"
             label="Display Name"
-            value={profile.display_name}
-            onChange={handleChange('display_name')}
-            // defaultValue={profile.username}
+            defaultValue={profile.nickname}
+            onChange={handleChange('nickname')}
             margin="dense"
             variant="outlined"
             />
@@ -103,7 +108,7 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
             variant="outlined"
             />
         </FormControl>
-        <FormControl className={classes.formControl}>
+        <FormControl className={clsx(classes.formControl, classes.buttonRow)}>
           <Button 
             type="submit"
             // onClick={updateSettings}
@@ -112,6 +117,14 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
             color="primary"
           >
             Save Profile
+          </Button>
+          <Button 
+            onClick={toggleView}
+            className={classes.button}
+            variant="outlined" 
+            color="secondary"
+          >
+            Cancel
           </Button>
         </FormControl>
       </form>

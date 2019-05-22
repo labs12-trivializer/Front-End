@@ -129,7 +129,7 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         }
       </Paper>
       {values.isEditing 
-        ? <ProfileEditForm updateSettings={handleUpdateSettings} toggleView={handleToggleView}/>
+        ? <ProfileEditForm updateSettings={handleUpdateSettings} toggleView={handleToggleView('isEditing')}/>
         : <ProfileList toggleView={handleToggleView}/>
       }
     </div>
