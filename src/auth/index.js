@@ -8,10 +8,9 @@ const { dispatch, getState } = store;
 
 class Auth {
   accessToken;
-  auth0Manage;
   expiresAt;
   idToken;
-  requestedScopes = 'openid profile email read:current_user';
+  requestedScopes = 'openid profile email';
   scopes;
   tokenRenewalTimeout;
   userProfile;
@@ -61,7 +60,6 @@ class Auth {
 
   setSession = async authResult => {
     // Set the time that the access token will expire at
-    let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
     this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
