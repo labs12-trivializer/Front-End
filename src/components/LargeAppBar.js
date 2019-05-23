@@ -27,7 +27,7 @@ const LargeAppBar = ({ isLoggedIn, auth }) => {
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
         <Typography variant="h6" noWrap className={classes.title}>
-          Trivease?
+          Triviabase
         </Typography>
         {isLoggedIn ? (
           <>

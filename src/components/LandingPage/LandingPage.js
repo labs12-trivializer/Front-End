@@ -38,10 +38,9 @@ class LandingPage extends React.Component {
               <GridItem xs={12} sm={6} md={6}>
                 <h1 className={classes.title}>Bar Trivia Nights Made Easy.</h1>
                 <h4>
-                  Every landing page needs a small description after the big
-                  bold title, that's why we added this text here. Add here all
-                  the information that can make you or your product create the
-                  first impression.
+                  By taking the hassle out of creating unique trivia games for
+                  bar trivia night hosts, our product helps generate games and
+                  prepare question and answer sheets needed to host the event.
                 </h4>
                 <br />
                 <Button
@@ -91,7 +90,7 @@ class LandingPage extends React.Component {
                 </List>
               </div>
               <div className={classes.right}>
-                &copy; {1900 + new Date().getYear()} Trivease(?)
+                &copy; {1900 + new Date().getYear()} Triviabase
               </div>
             </div>
           }
