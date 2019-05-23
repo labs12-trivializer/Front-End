@@ -1,6 +1,7 @@
 import React from 'react';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
+import axios from 'axios';
 
 // @material-ui/icons
 
@@ -8,11 +9,43 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import GridContainer from './GridContainer';
 import GridItem from './GridItem';
 import CustomInput from './CustomInput';
-import Button from './Button';
+import { toast } from 'react-toastify';
 
 import workStyle from './assets/style/workStyle';
+import FormSubmitButton from './FormSubmitButton';
 
 class SectionWork extends React.Component {
+  state = {
+    message: '',
+    email: '',
+    name: ''
+  };
+
+  changeHandler = event => {
+    this.setState({ [event.target.id]: event.target.value });
+  };
+
+  handleSubmit = async () => {
+    axios
+      .post('https://lambda-trivializer.herokuapp.com/api/contact', {
+        ...this.state
+      })
+      .then(res => {
+        if (res.status === 200) {
+          toast.success(`Message Sent!`, {
+            position: toast.POSITION.TOP_CENTER,
+            textAlign: 'center'
+          });
+        }
+      })
+      .catch(err => console.log(err));
+    this.setState({
+      message: '',
+      email: '',
+      name: ''
+    });
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -26,15 +59,18 @@ class SectionWork extends React.Component {
               collaboration. We will responde get back to you in a couple of
               hours.
             </h4>
-            <form>
+            <form onSubmit={() => this.handleSubmit()}>
               <GridContainer>
                 <GridItem xs={12} sm={6} md={6}>
                   <CustomInput
                     labelText="Your Name"
                     id="name"
+                    name="name"
                     formControlProps={{
                       fullWidth: true
                     }}
+                    value={this.state.name}
+                    changeHandler={this.changeHandler}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={6} md={6}>
@@ -44,6 +80,8 @@ class SectionWork extends React.Component {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    value={this.state.email}
+                    changeHandler={this.changeHandler}
                   />
                 </GridItem>
                 <CustomInput
@@ -57,6 +95,8 @@ class SectionWork extends React.Component {
                     multiline: true,
                     rows: 5
                   }}
+                  value={this.state.message}
+                  changeHandler={this.changeHandler}
                 />
                 <GridItem
                   xs={12}
@@ -65,7 +105,12 @@ class SectionWork extends React.Component {
                   className={`${classes.mrAuto} ${classes.mlAuto}`}
                   style={{ textAlign: 'center' }}
                 >
-                  <Button color="primary">Send Message</Button>
+                  <FormSubmitButton
+                    handleSubmit={this.handleSubmit}
+                    color="primary"
+                  >
+                    Send Message
+                  </FormSubmitButton>
                 </GridItem>
               </GridContainer>
             </form>

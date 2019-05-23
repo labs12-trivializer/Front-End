@@ -27,7 +27,9 @@ function CustomInput({ ...props }) {
     error,
     white,
     inputRootCustomClasses,
-    success
+    success,
+    changeHandler,
+    value
   } = props;
 
   const labelClasses = classNames({
@@ -75,6 +77,8 @@ function CustomInput({ ...props }) {
           underline: underlineClasses
         }}
         id={id}
+        value={value}
+        onChange={e => changeHandler(e)}
         {...inputProps}
       />
       {error ? (
