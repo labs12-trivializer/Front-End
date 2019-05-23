@@ -34,14 +34,20 @@ import PrintRoundButton from './PrintRoundButton';
 
 const styles = theme => ({
   card: {
+    minHeight: 200,
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    marginBottom: theme.spacing(2),
-    minHeight: 200
+    margin: theme.spacing(3),
+    boxShadow: theme.shadows[5],
+    transition: 'box-shadow 0.3s ease-in-out !important',
+    '&:hover': {
+      backgroundColor: '#FFF',
+      boxShadow: theme.shadows[20]
+    }
   },
   buttonContainer: {
     display: 'flex',
@@ -50,6 +56,9 @@ const styles = theme => ({
     '& button': {
       margin: [[theme.spacing(1), 0, theme.spacing(1)]]
     }
+  },
+  button: {
+    margin: [[theme.spacing(1), 0]]
   },
   cardActions: {
     display: 'flex',
@@ -113,7 +122,7 @@ class RoundDetails extends Component {
   // that the backend doesn't like (can probably be fixed with Joi)
   nestedRound = () => {
     const {
-      round: { dirty: omit, ...round },
+      round: { dirty: omit, category_counts: omit2, ...round },
       questionsById,
       answersById
     } = this.props;
@@ -181,11 +190,7 @@ class RoundDetails extends Component {
                   <Typography component="h3" variant="h6">
                     {game.name}
                   </Typography>
-                  <Typography
-                    component="h1"
-                    variant="h3"
-                    color="inherit"
-                  >
+                  <Typography component="h1" variant="h3" color="inherit">
                     Round {round.number}
                   </Typography>
                 </Grid>

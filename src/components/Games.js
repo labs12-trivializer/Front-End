@@ -13,8 +13,8 @@ import {
   Typography,
   withWidth,
   CardActionArea,
-  Zoom,
-  CardHeader
+  CardHeader,
+  Tooltip
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import NewGameDialog from './NewGameDialog';
@@ -22,24 +22,33 @@ import UpgradeCard from './UpgradeCard';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import clsx from 'clsx';
 import colorFromId from '../helpers/colorFromId';
+import { TagCloud } from 'react-tagcloud';
 
 const styles = theme => ({
   icon: {
     color: theme.palette.grey[400],
-    fontSize: 40,
+    fontSize: 40
   },
   card: {
+    display: 'flex',
     flex: 1,
     margin: theme.spacing(3),
     boxShadow: theme.shadows[5],
-    transition: 'box-shadow 0.3s ease-in-out !important',
+    transform: 'translateY(0)',
+    transition: [
+      ['box-shadow', '300ms', 'ease-in-out'],
+      ['transform', '300ms', 'ease-in-out'],
+      '!important'
+    ],
     '&:hover': {
       backgroundColor: '#FFF',
-      boxShadow: theme.shadows[20]
+      boxShadow: theme.shadows[20],
+      transform: 'translateY(-3px)'
     }
   },
   cardContent: {
-    minHeight: '10rem'
+    minHeight: '10rem',
+    flex: 1
   },
   pos: {
     marginBottom: 12
@@ -69,17 +78,6 @@ const styles = theme => ({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     flex: 1
-  },
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(4),
-    outline: 'none',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)'
   }
 });
 
@@ -106,24 +104,26 @@ class Games extends Component {
           className={clsx(classes.card, classes.newGameCard)}
           key="createGameCard"
         >
-          <CardActionArea
-            className={classes.cardActions}
-            onClick={() => this.setState({ modalShowing: true })}
-          >
-            <CardContent
-              className={clsx(classes.cardContent, classes.newGameCard)}
+          <Tooltip title="Add Game" aria-label="Add Game">
+            <CardActionArea
+              className={classes.cardActions}
+              onClick={() => this.setState({ modalShowing: true })}
             >
-              <Typography
-                component="h2"
-                variant="h5"
-                className={classes.title}
-                color="textPrimary"
-                gutterBottom
+              <CardContent
+                className={clsx(classes.cardContent, classes.newGameCard)}
               >
-                <AddCircleIcon className={classes.icon} />
-              </Typography>
-            </CardContent>
-          </CardActionArea>
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  className={classes.title}
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  <AddCircleIcon className={classes.icon} />
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Tooltip>
         </Card>
       );
 
@@ -136,11 +136,20 @@ class Games extends Component {
               style={{ backgroundColor: colorFromId(g.id) }}
             />
             <CardContent className={classes.cardContent}>
-              <Typography component="p">
-                Rounds: {g.num_rounds}
-                <br />
-                Questions: {g.num_questions}
-              </Typography>
+              {g.category_counts && (
+                <TagCloud
+                  minSize={12}
+                  maxSize={18}
+                  colorOptions={{ luminosity: 'dark' }}
+                  tags={g.category_counts
+                    .sort()
+                    .slice(-5)
+                    .map(cc => ({
+                      value: cc.name.split(':').slice(-1),
+                      count: cc.count
+                    }))}
+                />
+              )}
             </CardContent>
           </CardActionArea>
         </Card>
@@ -188,15 +197,7 @@ class Games extends Component {
         <div className={classes.cardList}>
           {this.groupGames(cardsPerRow).map((g, idx) => (
             <div className={classes.cardRow} key={`cr${idx}`}>
-              {g.map((gameCard, gcIdx) => (
-                <Zoom
-                  in
-                  style={{ transitionDelay: (cardsPerRow * idx + gcIdx) * 50 }}
-                  key={`gc${gcIdx + cardsPerRow * idx}`}
-                >
-                  {gameCard}
-                </Zoom>
-              ))}
+              {g}
             </div>
           ))}
         </div>

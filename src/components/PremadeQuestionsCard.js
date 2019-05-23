@@ -38,7 +38,15 @@ const useStyles = makeStyles(theme => ({
     left: 0
   },
   cardContent: {
-    marginTop: theme.spacing(2)
+    maxWidth: '100%',
+    width: '600px'
+  },
+  buttonRow: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  button: {
+    margin: theme.spacing(1)
   }
 }));
 
@@ -118,15 +126,17 @@ const PremadeQuestionsCard = ({
               <CategorySelect onChange={handleChange} />
               <TypeSelect onChange={handleChange} />
               <DifficultySelect onChange={handleChange} />
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                disabled={isSubmitting}
-                type="submit"
-              >
-                Add
-              </Button>
+              <div className={classes.buttonRow}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  disabled={isSubmitting}
+                  type="submit"
+                >
+                  Add Questions
+                </Button>
+              </div>
             </Form>
           )}
         </Formik>

@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 const NewGameSchema = Yup.object().shape({
   name: Yup.string()
     .trim()
-    .max(150, 'Too Long')
+    .max(100, 'Too Long')
     .required('Required'),
   date_to_be_played: Yup.date()
 });

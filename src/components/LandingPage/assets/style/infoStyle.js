@@ -62,7 +62,8 @@ const infoStyle = {
     '& p': {
       color: grayColor[0],
       fontSize: '14px'
-    }
+    },
+    textAlign: 'left'
   },
   iconWrapperVertical: {
     float: 'none'

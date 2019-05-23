@@ -23,7 +23,8 @@ const teamStyle = {
     color: grayColor[7]
   },
   description: {
-    color: grayColor[0]
+    color: grayColor[0],
+    textAlign: 'left'
   },
   justifyCenter: {
     justifyContent: 'center !important'

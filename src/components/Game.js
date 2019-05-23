@@ -41,10 +41,16 @@ const styles = theme => ({
     flex: 1,
     margin: theme.spacing(3),
     boxShadow: theme.shadows[5],
-    transition: 'box-shadow 0.3s ease-in-out',
+    transform: 'translateY(0)',
+    transition: [
+      ['box-shadow', '300ms', 'ease-in-out'],
+      ['transform', '300ms', 'ease-in-out'],
+      '!important'
+    ],
     '&:hover': {
       backgroundColor: '#FFF',
-      boxShadow: theme.shadows[20]
+      boxShadow: theme.shadows[20],
+      transform: 'translateY(-3px)'
     }
   },
   cardContent: {
@@ -230,7 +236,7 @@ class Game extends Component {
 
           <Background />
           <Grid container>
-            <Grid item xs={8}>
+            <Grid item xs={12} sm={8}>
               <Typography component="h3" variant="h6">
                 {game.name}
               </Typography>
@@ -243,12 +249,7 @@ class Game extends Component {
                 Round List
               </Typography>
             </Grid>
-            <Grid
-              item
-              xs={4}
-              alignItems="flex-end"
-              className={classes.buttonContainer}
-            >
+            <Grid item xs={12} sm={4} className={classes.buttonContainer}>
               <PrintGameQuestionsButton gameId={game.id} />
               <PrintGameQuestionsButton
                 label="Generate Answer Sheet"
@@ -256,14 +257,16 @@ class Game extends Component {
                 gameId={game.id}
               />
             </Grid>
+            <Grid item xs={12} className={classes.cardList}>
+              {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map(
+                (r, idx) => (
+                  <div className={classes.cardRow} key={`cr${idx}`}>
+                    {r}
+                  </div>
+                )
+              )}
+            </Grid>
           </Grid>
-          <div className={classes.cardList}>
-            {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map((r, idx) => (
-              <div className={classes.cardRow} key={`cr${idx}`}>
-                {r}
-              </div>
-            ))}
-          </div>
         </>
       );
     }
