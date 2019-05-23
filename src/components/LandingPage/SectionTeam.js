@@ -119,8 +119,8 @@ class SectionTeam extends React.Component {
                         </h6>
                       </Muted>
                       <p className={classes.description}>
-                        Don't be scared of the truth because we need to restart
-                        the human foundation in truth...
+                        Just when the caterpillar thought the world was ending,
+                        she became a butterfly.
                       </p>
                     </CardBody>
                     <CardFooter plain className={classes.justifyContentCenter}>
@@ -174,8 +174,8 @@ class SectionTeam extends React.Component {
                         </h6>
                       </Muted>
                       <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don't be scared of
-                        the truth.
+                        Don't let anyone treat you like a yellow starburst.
+                        You are a pink starburst.
                       </p>
                     </CardBody>
                     <CardFooter plain className={classes.justifyContentCenter}>
@@ -229,8 +229,8 @@ class SectionTeam extends React.Component {
                         </h6>
                       </Muted>
                       <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don't be scared of
-                        the truth.
+                        Shoot for the moon. Even if you miss,
+                        you'll land amongst the stars.
                       </p>
                     </CardBody>
                     <CardFooter plain className={classes.justifyContentCenter}>
