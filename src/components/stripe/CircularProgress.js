@@ -61,7 +61,7 @@ class CircularIntegration extends React.Component {
     }
     if (this.props.profile.tier_name === 'gold') {
       toast.info('🎉 You are already subscribed our highest tier plan', {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_CENTER,
         className: css({
           background: '#19b9e9',
           textAlign: 'center'
@@ -86,7 +86,7 @@ class CircularIntegration extends React.Component {
         .then(res => {
           if (res.status === 402) {
             toast.error('Payment unsuccessful, please try again', {
-              position: toast.POSITION.TOP_RIGHT,
+              position: toast.POSITION.TOP_CENTER,
               textAlign: 'center'
             });
             this.setState({ loading: false, success: false });
@@ -94,7 +94,7 @@ class CircularIntegration extends React.Component {
             toast.success(
               `Upgrade to ${this.props.profile.tier_name} successful!`,
               {
-                position: toast.POSITION.TOP_RIGHT,
+                position: toast.POSITION.TOP_CENTER,
                 textAlign: 'center'
               }
             );

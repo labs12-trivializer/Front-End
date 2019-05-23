@@ -4,7 +4,6 @@ import { getAllCategories } from '../reducers';
 import {
   Select,
   MenuItem,
-  Input,
   FormControl,
   InputLabel
 } from '@material-ui/core';
@@ -23,7 +22,7 @@ const CategorySelect = ({ options, onChange, allowAny = true }) => {
   };
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth margin="normal">
       <InputLabel shrink htmlFor="category-selector">
         Category
       </InputLabel>
@@ -31,7 +30,6 @@ const CategorySelect = ({ options, onChange, allowAny = true }) => {
         value={value}
         onChange={handleChange}
         name="category_id"
-        input={<Input name="category_id" id="category-selector" />}
         displayEmpty
       >
         {allowAny && <MenuItem value="">Any</MenuItem>}

@@ -5,19 +5,34 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Typography,
-  withStyles
+  withStyles,
+  CardHeader,
+  IconButton
 } from '@material-ui/core';
 import { deleteRound } from '../actions';
 import { compose } from 'redux';
+import DeleteIcon from '@material-ui/icons/DeleteOutline';
+import { TagCloud } from 'react-tagcloud';
 
 const styles = theme => ({
   card: {
     flex: 1,
-    margin: theme.spacing(1)
+    margin: theme.spacing(3),
+    boxShadow: theme.shadows[5],
+    transform: 'translateY(0)',
+    transition: [
+      ['box-shadow', '300ms', 'ease-in-out'],
+      ['transform', '300ms', 'ease-in-out'],
+      '!important'
+    ],
+    '&:hover': {
+      backgroundColor: '#FFF',
+      boxShadow: theme.shadows[20],
+      transform: 'translateY(-3px)'
+    }
   },
   cardContent: {
-    minHeight: '20rem'
+    minHeight: '10rem'
   }
 });
 
@@ -25,22 +40,31 @@ const Round = ({ classes, index, round, deleteRound }) => {
   return (
     <Card className={classes.card} key={`rnd${round.id}`}>
       <CardActionArea component={Link} to={`/rounds/${round.id}`}>
+        <CardHeader
+          action={
+            <IconButton onClick={() => deleteRound(round.id, round.game_id)}>
+              <DeleteIcon />
+            </IconButton>
+          }
+          title={`Round ${index || round.number}`}
+        />
         <CardContent className={classes.cardContent}>
-          <Typography
-            component="h2"
-            variant="h5"
-            className={classes.title}
-            color="textPrimary"
-            gutterBottom
-          >
-            {`Round ${index || round.number}`}
-          </Typography>
+          {round.category_counts && (
+            <TagCloud
+              minSize={12}
+              maxSize={18}
+              colorOptions={{ luminosity: 'dark' }}
+              tags={round.category_counts
+                .sort()
+                .slice(-5)
+                .map(cc => ({
+                  value: cc.name.split(':').slice(-1),
+                  count: cc.count
+                }))}
+            />
+          )}
         </CardContent>
       </CardActionArea>
-      <div
-        onClick={() => deleteRound(round.id, round.game_id)}
-        className="fas fa-trash-alt"
-      />
     </Card>
   );
 };

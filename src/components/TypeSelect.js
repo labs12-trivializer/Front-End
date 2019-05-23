@@ -23,7 +23,7 @@ const TypeSelect = ({ options, onChange, allowAny = true }) => {
   };
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth margin="normal">
       <InputLabel shrink htmlFor="question-type-selector">
         Question Type
       </InputLabel>

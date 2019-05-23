@@ -10,7 +10,9 @@ import { store, persistor } from '../store';
 import App from './App';
 import Setup from './Setup';
 import Callback from './Callback';
-import { auth } from '../auth';
+import Auth from '../auth';
+
+const auth = new Auth();
 
 const handleAuthentication = ({ location }) => {
   if (/access_token|id_token|error/.test(location.hash)) {
@@ -21,7 +23,7 @@ const handleAuthentication = ({ location }) => {
 const Root = () => (
   <Provider store={store}>
     <ToastContainer
-      position="top-right"
+      position="top-center"
       autoClose={5000}
       hideProgressBar
       newestOnTop={false}

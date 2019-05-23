@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -16,6 +16,23 @@ import {
   TextField,
   Button
 } from '@material-ui/core';
+import * as Yup from 'yup';
+import { Form, Formik, Field } from 'formik';
+import { makeStyles } from '@material-ui/styles';
+
+export const NewRoundSchema = Yup.object().shape({
+  amount: Yup.number()
+    .integer('Must be an integer')
+    .min(0, "Can't be negative")
+    .max(50, 'Max 50')
+});
+
+const useStyles = makeStyles(theme => ({
+  cardContent: {
+    maxWidth: '100%',
+    width: '600px'
+  }
+}));
 
 // This Component's one job is to dispatch generateRound
 const NewQuestionDialog = ({
@@ -28,21 +45,19 @@ const NewQuestionDialog = ({
   open,
   roundNumber,
   gameId,
-  history
+  history,
+  questionLimit
 }) => {
-  const [fields, setFields] = useState({ amount: 0 });
-  const handleChanges = e =>
-    setFields({ ...fields, [e.target.name]: e.target.value });
-  const handleCreate = e => {
-    e.preventDefault();
+  const classes = useStyles();
+  const handleCreate = values => {
     const params = {
-      amount: fields.amount,
+      amount: values.amount,
       category:
-        fields.category_id && categoriesById[fields.category_id].category_id,
+        values.category_id && categoriesById[values.category_id].category_id,
       type:
-        fields.question_type_id &&
-        typesById[fields.question_type_id].name.split(' ')[0], //first word
-      difficulty: fields.difficulty && fields.difficulty
+        values.question_type_id &&
+        typesById[values.question_type_id].name.split(' ')[0], //first word
+      difficulty: values.difficulty && values.difficulty
     };
 
     generateRound(params, categories, types, roundNumber, gameId).then(
@@ -52,32 +67,61 @@ const NewQuestionDialog = ({
   return (
     <Dialog open={open} onClose={onCancel} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">New Round Form</DialogTitle>
-      <DialogContent>
+      <DialogContent className={classes.cardContent}>
         <DialogContentText>
           Specify options for question generation.
         </DialogContentText>
-        <TextField
-          label="Number of Quesitons"
-          name="amount"
-          value={fields.amount}
-          type="number"
-          onChange={handleChanges}
-          InputLabelProps={{ shrink: true }}
-          margin="normal"
-        />
-        <br />
-        <CategorySelect onChange={handleChanges} />
-        <TypeSelect onChange={handleChanges} />
-        <DifficultySelect onChange={handleChanges} />
+        <Formik
+          initialValues={{
+            amount: 0,
+            category_id: '',
+            question_type_id: '',
+            difficulty: ''
+          }}
+          validationSchema={NewRoundSchema}
+          onSubmit={(values, actions) => {
+            actions.setSubmitting(true);
+            handleCreate(values);
+          }}
+        >
+          {({ values, errors, handleChange, isSubmitting }) => (
+            <Form>
+              <Field
+                name="amount"
+                validate={value =>
+                  value > questionLimit && 'Upgrade for more questions'
+                }
+                render={({ field, form }) => (
+                  <TextField
+                    autoFocus
+                    label="Number of Questions"
+                    name="amount"
+                    value={values.amount}
+                    type="number"
+                    onChange={handleChange}
+                    InputLabelProps={{ shrink: true }}
+                    margin="normal"
+                    helperText={errors.amount}
+                    error={errors.amount ? true : false}
+                  />
+                )}
+              />
+              <br />
+              <CategorySelect onChange={handleChange} />
+              <TypeSelect onChange={handleChange} />
+              <DifficultySelect onChange={handleChange} />
+              <DialogActions>
+                <Button type="button" onClick={onCancel} color="primary">
+                  Cancel
+                </Button>
+                <Button type="submit" color="primary" disabled={isSubmitting}>
+                  Create
+                </Button>
+              </DialogActions>
+            </Form>
+          )}
+        </Formik>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onCancel} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={handleCreate} color="primary">
-          Create
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };

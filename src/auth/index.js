@@ -61,6 +61,7 @@ class Auth {
 
   setSession = async authResult => {
     // Set the time that the access token will expire at
+    let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
     this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();

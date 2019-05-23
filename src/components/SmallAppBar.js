@@ -16,7 +16,8 @@ import {
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import SettingsIcon from '@material-ui/icons/Settings';
+// import SettingsIcon from '@material-ui/icons/Settings';
+import PersonIcon from '@material-ui/icons/Person';
 import MenuIcon from '@material-ui/icons/Menu';
 
 // hook version of withStyles
@@ -98,9 +99,9 @@ const SmallAppBar = ({ isLoggedIn, auth }) => {
               onClick={handleDrawerClose}
             >
               <ListItemIcon>
-                <SettingsIcon />
+                <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary="Settings" />
+              <ListItemText primary="Profile" />
             </ListItem>
             <ListItem
               button

@@ -5,17 +5,31 @@ import {
   Card,
   CardContent,
   Typography,
-  CardActionArea,
+  CardActionArea
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
 const styles = theme => ({
   card: {
+    display: 'flex',
+    flexDirection: 'column',
     flex: 1,
-    margin: theme.spacing(1)
+    margin: theme.spacing(3),
+    boxShadow: theme.shadows[5],
+    transform: 'translateY(0)',
+    transition: [
+      ['box-shadow', '300ms', 'ease-in-out'],
+      ['transform', '300ms', 'ease-in-out'],
+      '!important'
+    ],
+    '&:hover': {
+      backgroundColor: '#FFF',
+      boxShadow: theme.shadows[20],
+      transform: 'translateY(-3px)'
+    }
   },
   cardContent: {
-    minHeight: '20rem'
+    flex: 1
   },
   pos: {
     marginBottom: 12
@@ -26,12 +40,16 @@ const styles = theme => ({
   },
   cardRow: {
     display: 'flex'
-  },
+  }
 });
 
-const UpgradeCard = ({message, classes}) => (
+const UpgradeCard = ({ message, classes }) => (
   <Card className={classes.card}>
-    <CardActionArea component={Link} to="/billing">
+    <CardActionArea
+      component={Link}
+      to="/billing"
+      className={classes.cardContent}
+    >
       <CardContent className={classes.cardContent}>
         <Typography
           component="h2"
@@ -40,7 +58,7 @@ const UpgradeCard = ({message, classes}) => (
           color="textPrimary"
           gutterBottom
         >
-          { message || 'Upgrade for more Features'}
+          {message || 'Upgrade for more Features'}
         </Typography>
       </CardContent>
     </CardActionArea>
@@ -48,6 +66,4 @@ const UpgradeCard = ({message, classes}) => (
 );
 
 // use compose with with withStyles applied last
-export default compose(
-  withStyles(styles, { withTheme: true })
-)(UpgradeCard);
+export default compose(withStyles(styles, { withTheme: true }))(UpgradeCard);

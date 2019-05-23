@@ -4,7 +4,8 @@ import {
   CardActionArea,
   Button,
   Typography,
-  IconButton
+  IconButton,
+  Tooltip
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -67,12 +68,17 @@ const AddQuestionCard = ({ roundId, position }) => {
   if (mode === 'start') {
     return (
       <Card className={classes.card}>
-        <CardActionArea
-          className={classes.fullCardAction}
-          onClick={() => setMode('chooseType')}
+        <Tooltip
+          title="Add Questions"
+          aria-label="Add Questions"
         >
-          <AddCircleIcon className={classes.icon} />
-        </CardActionArea>
+          <CardActionArea
+            className={classes.fullCardAction}
+            onClick={() => setMode('chooseType')}
+          >
+            <AddCircleIcon className={classes.icon} />
+          </CardActionArea>
+        </Tooltip>
       </Card>
     );
   }

@@ -8,7 +8,7 @@ import {
   Typography,
   CardActions,
   Button,
-  Icon
+  Tooltip
 } from '@material-ui/core';
 import {
   getQuestionById,
@@ -26,29 +26,44 @@ import {
 } from '../actions';
 import Answer from './Answer';
 import { makeStyles } from '@material-ui/styles';
+import DeleteIcon from '@material-ui/icons/DeleteOutline';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import UndoIcon from '@material-ui/icons/Undo';
+import DragIcon from '@material-ui/icons/DragIndicator';
 
 const indexToLetter = index => String.fromCharCode(index + 64);
 
 const useStyles = makeStyles(theme => ({
   card: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
     marginBottom: theme.spacing(2)
   },
+  dragIcon: {
+    cursor: 'move',
+    position: 'absolute',
+    left: 0,
+    top: 13,
+    color: theme.palette.text.secondary,
+    fontSize: 35
+  },
   cardActions: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    backgroundColor: '#DFDFDF',
     width: '100%'
   },
+  cardContent: {
+    marginLeft: 20,
+    marginRight: 20
+  },
   button: {
-    border: '1px solid #FFFFFF',
-    paddingLeft: '0',
-    paddingRight: '0',
-    color: '#03A9F4'
+    margin: theme.spacing(1)
   },
   icon: {
     padding: 0
@@ -108,16 +123,13 @@ const Question = React.forwardRef(
       );
     };
 
-    const changePosition = e => {
+    const changePosition = direction => {
       const index = roundQuestions.indexOf(question.id);
       let newIndex;
       // Swap question up/down by 1 position
-      if (e.target.className.includes('up') && index !== 0) {
+      if (direction === 'up' && index !== 0) {
         newIndex = index - 1;
-      } else if (
-        e.target.className.includes('down') &&
-        index < roundQuestions.length - 1
-      ) {
+      } else if (direction === 'down' && index < roundQuestions.length - 1) {
         newIndex = index + 1;
       }
       return newIndex >= 0 && newIndex < roundQuestions.length
@@ -131,7 +143,8 @@ const Question = React.forwardRef(
 
     return (
       <Card className={classes.card} ref={elementRef}>
-        <CardContent>
+        <DragIcon className={classes.dragIcon} />
+        <CardContent className={classes.cardContent}>
           <Typography variant="h5" color="textSecondary" gutterBottom>
             <strong>{index + 1}.</strong>
             {' ' + he.decode(currentQuestion.text)}
@@ -148,45 +161,61 @@ const Question = React.forwardRef(
         </CardContent>
         <CardActions className={classes.cardActions}>
           <div>
-            <Button
-              className={classes.button}
-              size="small"
-              onClick={remove}
-            >
-              <Icon fontSize="small" className="fas fa-trash-alt" />
-            </Button>
-            <Button
-              className={classes.button}
-              size="small"
-              onClick={fetchAnotherQuestion}
-            >
-              <Icon fontSize="small" className="fas fa-exchange-alt" />
-            </Button>
-            {canUndo && (
+            <Tooltip title="Delete" aria-label="Delete">
               <Button
                 className={classes.button}
                 size="small"
-                onClick={() => undo(question.id)}
+                onClick={remove}
+                variant="contained"
+                color="default"
               >
-                <Icon fontSize="small" className="fas fa-history" />
+                <DeleteIcon />
               </Button>
+            </Tooltip>
+            <Tooltip title="Shuffle" aria-label="shuffle">
+              <Button
+                variant="contained"
+                className={classes.button}
+                size="small"
+                onClick={fetchAnotherQuestion}
+              >
+                <ShuffleIcon />
+              </Button>
+            </Tooltip>
+            {canUndo && (
+              <Tooltip title="Undo" aria-label="Undo">
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  size="small"
+                  onClick={() => undo(question.id)}
+                >
+                  <UndoIcon />
+                </Button>
+              </Tooltip>
             )}
           </div>
           <div>
-            <Button
-              className={classes.button}
-              size="small"
-              onClick={e => changePosition(e)}
-            >
-              <Icon fontSize="small" className="up fas fa-chevron-up" />
-            </Button>
-            <Button
-              className={classes.button}
-              size="small"
-              onClick={e => changePosition(e)}
-            >
-              <Icon fontSize="small" className="down fas fa-chevron-down" />
-            </Button>
+            <Tooltip title="Move Up" aria-label="Move Up">
+              <Button
+                variant="contained"
+                className={classes.button}
+                size="small"
+                onClick={() => changePosition('up')}
+              >
+                <ArrowUpwardIcon className="up" />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Move Down" aria-label="Move Down">
+              <Button
+                variant="contained"
+                className={classes.button}
+                size="small"
+                onClick={() => changePosition('down')}
+              >
+                <ArrowDownwardIcon />
+              </Button>
+            </Tooltip>
           </div>
         </CardActions>
       </Card>
