@@ -77,9 +77,17 @@ const styles = theme => ({
     display: 'block'
   },
   right: {
-    padding: '15px 0',
+    padding: '0.9375rem',
     margin: '0',
     float: 'right'
+  },
+  footerPosition: {
+    position: 'fixed',
+    zIndex: '10',
+    top: '90vh',
+    left: '4.7vw',
+    height: '10vh',
+    width: '90vw'
   }
 });
 
@@ -117,7 +125,7 @@ function AppRoot({ classes, isLoggedIn }) {
       </div>
       <Footer
         content={
-          <div>
+          <div className={classes.footerPosition}>
             <div className={classes.left}>
               <List className={classes.list}>
                 <ListItem className={classes.inlineBlock}>
