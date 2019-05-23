@@ -1,4 +1,3 @@
-## Buildweek Frontend
 # :beers: TriviaBase – Front-End :beers: 
 ### Live Website :computer: – https://lambda-trivializer.netlify.com/
 #### An app for Bar Trivia hosts that streamlines and simplifies the formerly tedious process of creating fun and challenging trivia games for your audiences.
