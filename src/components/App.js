@@ -30,7 +30,8 @@ const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
+    minHeight: '95vh'
   },
   drawer: {
     width: drawerWidth,
@@ -82,12 +83,13 @@ const styles = theme => ({
     float: 'right'
   },
   footerPosition: {
-    position: 'fixed',
-    zIndex: '10',
-    top: '90vh',
-    left: '4.7vw',
-    height: '10vh',
-    width: '90vw'
+    position: 'absolute',
+    // zIndex: '10',
+    // top: '90vh',
+    // left: '4.7vw',
+    // height: '10vh',
+    // width: '90vw'
+    bottom: 0
   }
 });
 
@@ -103,9 +105,9 @@ function AppRoot({ classes, isLoggedIn }) {
 
   return (
     <>
+      <CssBaseline />
       <Route exact path="/" component={LandingPage} />
       <div className={classes.root}>
-        <CssBaseline />
         {biggerThanSmall ? (
           <LargeAppBar auth={auth} isLoggedIn={isLoggedIn} />
         ) : (
