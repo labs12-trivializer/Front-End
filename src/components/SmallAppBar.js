@@ -52,7 +52,7 @@ const SmallAppBar = ({ isLoggedIn, auth }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap className={classes.title}>
-            Trivease?
+            Triviabase
           </Typography>
           {isLoggedIn ? (
             <>
