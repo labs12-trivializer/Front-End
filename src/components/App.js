@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HashLink as Link } from 'react-router-hash-link';
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import GlobalStyles from '../styles/global.css';
 import { useTheme } from '@material-ui/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { Container } from '@material-ui/core';
@@ -30,7 +31,8 @@ const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
+    flex: 1
   },
   drawer: {
     width: drawerWidth,
@@ -60,14 +62,11 @@ const styles = theme => ({
     marginTop: '0'
   },
 
-  left: {
-    float: 'left!important',
-    display: 'block'
-  },
+  left: {},
 
   block: {
     color: 'inherit',
-    padding: '0.9375rem',
+    padding: '1rem',
     fontWeight: '500',
     fontSize: '12px',
     textTransform: 'uppercase',
@@ -77,13 +76,16 @@ const styles = theme => ({
     display: 'block'
   },
   right: {
-    padding: '15px 0',
-    margin: '0',
-    float: 'right'
+    padding: '1rem'
+  },
+  footerPosition: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   }
 });
 
-function AppRoot({ classes, isLoggedIn }) {
+function AppRoot({ classes, isLoggedIn, location }) {
   // hook version of withWidth
   const theme = useTheme();
   const biggerThanSmall = useMediaQuery(theme.breakpoints.up('sm'));
@@ -97,27 +99,30 @@ function AppRoot({ classes, isLoggedIn }) {
     <>
       <Route exact path="/" component={LandingPage} />
       <div className={classes.root}>
+        <GlobalStyles />
         <CssBaseline />
         {biggerThanSmall ? (
           <LargeAppBar auth={auth} isLoggedIn={isLoggedIn} />
         ) : (
           <SmallAppBar auth={auth} isLoggedIn={isLoggedIn} />
         )}
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Container>
-            <PrivateRoute exact path="/games" component={Games} />
-            <PrivateRoute path="/home" component={Home} />
-            <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
-            <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/billing" component={Stripe} />
-            <PrivateRoute path="/games/:id" component={Game} />
-          </Container>
-        </main>
+        {location.pathname !== '/' && (
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Container>
+              <PrivateRoute exact path="/games" component={Games} />
+              <PrivateRoute path="/home" component={Home} />
+              <PrivateRoute exact path="/rounds/:id" component={RoundDetails} />
+              <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/billing" component={Stripe} />
+              <PrivateRoute path="/games/:id" component={Game} />
+            </Container>
+          </main>
+        )}
       </div>
       <Footer
         content={
-          <div>
+          <div className={classes.footerPosition}>
             <div className={classes.left}>
               <List className={classes.list}>
                 <ListItem className={classes.inlineBlock}>
@@ -154,4 +159,4 @@ const mapStateToProps = state => ({
 export default compose(
   connect(mapStateToProps),
   withStyles(styles, { withTheme: true })
-)(AppRoot);
+)(withRouter(AppRoot));
