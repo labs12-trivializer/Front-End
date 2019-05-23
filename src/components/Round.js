@@ -12,16 +12,23 @@ import {
 import { deleteRound } from '../actions';
 import { compose } from 'redux';
 import DeleteIcon from '@material-ui/icons/DeleteOutline';
+import { TagCloud } from 'react-tagcloud';
 
 const styles = theme => ({
   card: {
     flex: 1,
     margin: theme.spacing(3),
     boxShadow: theme.shadows[5],
-    transition: 'box-shadow 0.3s ease-in-out',
+    transform: 'translateY(0)',
+    transition: [
+      ['box-shadow', '300ms', 'ease-in-out'],
+      ['transform', '300ms', 'ease-in-out'],
+      '!important'
+    ],
     '&:hover': {
       backgroundColor: '#FFF',
-      boxShadow: theme.shadows[20]
+      boxShadow: theme.shadows[20],
+      transform: 'translateY(-3px)'
     }
   },
   cardContent: {
@@ -41,7 +48,22 @@ const Round = ({ classes, index, round, deleteRound }) => {
           }
           title={`Round ${index || round.number}`}
         />
-        <CardContent className={classes.cardContent} />
+        <CardContent className={classes.cardContent}>
+          {round.category_counts && (
+            <TagCloud
+              minSize={12}
+              maxSize={18}
+              colorOptions={{ luminosity: 'dark' }}
+              tags={round.category_counts
+                .sort()
+                .slice(-5)
+                .map(cc => ({
+                  value: cc.name.split(':').slice(-1),
+                  count: cc.count
+                }))}
+            />
+          )}
+        </CardContent>
       </CardActionArea>
     </Card>
   );

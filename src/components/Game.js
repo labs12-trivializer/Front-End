@@ -41,10 +41,16 @@ const styles = theme => ({
     flex: 1,
     margin: theme.spacing(3),
     boxShadow: theme.shadows[5],
-    transition: 'box-shadow 0.3s ease-in-out',
+    transform: 'translateY(0)',
+    transition: [
+      ['box-shadow', '300ms', 'ease-in-out'],
+      ['transform', '300ms', 'ease-in-out'],
+      '!important'
+    ],
     '&:hover': {
       backgroundColor: '#FFF',
-      boxShadow: theme.shadows[20]
+      boxShadow: theme.shadows[20],
+      transform: 'translateY(-3px)'
     }
   },
   cardContent: {
