@@ -36,11 +36,8 @@ const footerStyle = {
     }
   },
   footer: {
-    padding: '0.9375rem 0',
-    textAlign: 'center',
-    display: 'flex',
+    padding: '1rem 0',
     zIndex: '2',
-    position: 'relative',
     '& ul': {
       marginBottom: '0',
       padding: 0,
@@ -164,8 +161,6 @@ const footerStyle = {
     display: 'inline-block',
     float: 'none'
   },
-  clearFix: {
-    clear: 'both'
-  }
+  clearFix: {}
 };
 export default footerStyle;
