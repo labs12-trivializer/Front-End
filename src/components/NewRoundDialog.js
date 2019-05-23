@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import { Form, Formik, Field } from 'formik';
+import { makeStyles } from '@material-ui/styles';
 
 export const NewRoundSchema = Yup.object().shape({
   amount: Yup.number()
@@ -25,6 +26,13 @@ export const NewRoundSchema = Yup.object().shape({
     .min(0, "Can't be negative")
     .max(50, 'Max 50')
 });
+
+const useStyles = makeStyles(theme => ({
+  cardContent: {
+    maxWidth: '100%',
+    width: '600px'
+  }
+}));
 
 // This Component's one job is to dispatch generateRound
 const NewQuestionDialog = ({
@@ -40,6 +48,7 @@ const NewQuestionDialog = ({
   history,
   questionLimit
 }) => {
+  const classes = useStyles();
   const handleCreate = values => {
     const params = {
       amount: values.amount,
@@ -58,7 +67,7 @@ const NewQuestionDialog = ({
   return (
     <Dialog open={open} onClose={onCancel} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">New Round Form</DialogTitle>
-      <DialogContent>
+      <DialogContent className={classes.cardContent}>
         <DialogContentText>
           Specify options for question generation.
         </DialogContentText>
