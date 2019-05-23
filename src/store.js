@@ -7,18 +7,26 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import rootReducer from './reducers';
 
-const persistConfig = {
-  key: 'root',
-  storage
-};
-
+const persistConfig = { key: 'root', storage };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const configureStore = () => {
+const configureStore = preloadedState => {
+  const middlewares = [logger, thunk, crashReporter];
+  const middlewareEnhancer = applyMiddleware(...middlewares);
+
+  const enhancers = [middlewareEnhancer];
+  const composedEnhancers = composeWithDevTools(...enhancers);
+
   const store = createStore(
     persistedReducer,
-    composeWithDevTools(applyMiddleware(thunk, logger, crashReporter))
+    preloadedState,
+    composedEnhancers
   );
+
+  // Set up reducer hot reloading
+  if (process.env.NODE_ENV !== 'production' && module.hot) {
+    module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
+  }
 
   const persistor = persistStore(store);
 
