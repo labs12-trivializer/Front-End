@@ -86,7 +86,7 @@ class CircularIntegration extends React.Component {
         .then(res => {
           if (res.status === 402) {
             toast.error('Payment unsuccessful, please try again', {
-              position: toast.POSITION.TOP_RIGHT,
+              position: toast.POSITION.TOP_CENTER,
               textAlign: 'center'
             });
             this.setState({ loading: false, success: false });
@@ -94,7 +94,7 @@ class CircularIntegration extends React.Component {
             toast.success(
               `Upgrade to ${this.props.profile.tier_name} successful!`,
               {
-                position: toast.POSITION.TOP_RIGHT,
+                position: toast.POSITION.TOP_CENTER,
                 textAlign: 'center'
               }
             );
