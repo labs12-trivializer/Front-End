@@ -15,13 +15,14 @@ const styles = () => ({
 
 class PrintableRoundContainer extends Component {
   render() {
-    const { classes, round, highlightAnswers } = this.props;
+    const { classes, round, highlightAnswers, ...rest } = this.props;
     return (
       <div className={classes.pageContainer}>
         <PrintableRound
           highlightAnswers={highlightAnswers}
           roundId={round.id}
           key={round.id}
+          {...rest}
         />
       </div>
     );
@@ -30,7 +31,13 @@ class PrintableRoundContainer extends Component {
 
 // the exported component, if the highlightAnswers prop is true,
 // they'll be highlighted in the printout
-const PrintRoundButton = ({ round, classes, label, highlightAnswers }) => {
+const PrintRoundButton = ({
+  variation,
+  round,
+  classes,
+  label,
+  highlightAnswers
+}) => {
   const componentRef = useRef();
   return (
     <>
@@ -48,6 +55,7 @@ const PrintRoundButton = ({ round, classes, label, highlightAnswers }) => {
           ref={componentRef}
           classes={classes}
           highlightAnswers={highlightAnswers}
+          variation={variation}
         />
       </div>
     </>

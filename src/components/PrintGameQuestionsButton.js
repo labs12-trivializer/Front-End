@@ -1,6 +1,6 @@
-import React, { useRef, Component } from 'react';
+import React, { Component, useState } from 'react';
 import ReactToPrint from 'react-to-print';
-import { Button, withStyles } from '@material-ui/core';
+import { Button, withStyles, Menu, MenuItem } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getGameById } from '../reducers';
@@ -15,7 +15,7 @@ const styles = () => ({
 
 class PrintableGame extends Component {
   render() {
-    const { classes, game, highlightAnswers } = this.props;
+    const { variation, classes, game, highlightAnswers } = this.props;
     return (
       <div className={classes.pageContainer}>
         {game.rounds.map((r, idx) => (
@@ -24,9 +24,42 @@ class PrintableGame extends Component {
             index={idx}
             roundId={r}
             key={r}
+            variation={variation}
           />
         ))}
       </div>
+    );
+  }
+}
+
+class PrintGameMenuItem extends Component {
+  render() {
+    const {
+      handleClose,
+      game,
+      variation,
+      highlightAnswers,
+      classes,
+      label
+    } = this.props;
+
+    return (
+      <>
+        <ReactToPrint
+          trigger={() => <MenuItem>{label || 'Multiple Choice'}</MenuItem>}
+          content={() => this.componentRef}
+          onAfterPrint={handleClose}
+        />
+        <div style={{ display: 'none' }}>
+          <PrintableGame
+            game={game}
+            ref={el => (this.componentRef = el)}
+            classes={classes}
+            highlightAnswers={highlightAnswers}
+            variation={variation}
+          />
+        </div>
+      </>
     );
   }
 }
@@ -35,29 +68,54 @@ class PrintableGame extends Component {
 // they'll be highlighted in the printout
 const PrintGameQuestionsButton = ({
   game,
-  classes,
   label,
-  highlightAnswers
+  highlightAnswers,
+  classes
 }) => {
-  const componentRef = useRef();
+  const [anchorEl, setAnchorEl] = useState(null);
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
+
   return (
     <>
-      <ReactToPrint
-        trigger={() => (
-          <Button variant="contained" color="primary">
-            {label || 'Generate Question Sheet'}
-          </Button>
-        )}
-        content={() => componentRef.current}
-      />
-      <div style={{ display: 'none' }}>
-        <PrintableGame
+      <Button
+        aria-haspopup="true"
+        aria-owns={anchorEl ? 'question-sheet' : undefined}
+        onClick={handleClick}
+        variant="contained"
+        color="primary"
+      >
+        {label || 'Print Questions'}
+      </Button>
+      <Menu
+        id="question-sheet"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        transformOrigin={{ vertical: 'center', horizontal: 'center' }}
+      >
+        <PrintGameMenuItem
           game={game}
-          ref={componentRef}
-          classes={classes}
           highlightAnswers={highlightAnswers}
+          classes={classes}
+          handleClose={handleClose}
         />
-      </div>
+        <PrintGameMenuItem
+          game={game}
+          highlightAnswers={highlightAnswers}
+          classes={classes}
+          handleClose={handleClose}
+          variation="fill-in-the-blank"
+          label="Fill In The Blank"
+        />
+      </Menu>
     </>
   );
 };
