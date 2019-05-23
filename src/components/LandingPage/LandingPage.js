@@ -38,7 +38,9 @@ class LandingPage extends React.Component {
               <GridItem xs={12} sm={6} md={6}>
                 <h1 className={classes.title}>Bar Trivia Nights Made Easy.</h1>
                 <h4>
-                  Triviabase takes the hassle out of creating unique trivia games for bar trivia night hosts. Our product helps generate games and prepare question and answer sheets needed to host the event.
+                  By taking the hassle out of creating unique trivia games for
+                  bar trivia night hosts, our product helps generate games and
+                  prepare question and answer sheets needed to host the event.
                 </h4>
                 <br />
                 <Button
@@ -65,34 +67,6 @@ class LandingPage extends React.Component {
             </div>
           </div>
         </div>
-        <Footer
-          content={
-            <div>
-              <div className={classes.left}>
-                <List className={classes.list}>
-                  <ListItem className={classes.inlineBlock}>
-                    <Link className={classes.block} to="/#about">
-                      About
-                    </Link>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <Link className={classes.block} to="/#team">
-                      Our Team
-                    </Link>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <Link className={classes.block} to="/#contact">
-                      Contact Us
-                    </Link>
-                  </ListItem>
-                </List>
-              </div>
-              <div className={classes.right}>
-                &copy; {1900 + new Date().getYear()} Triviabase
-              </div>
-            </div>
-          }
-        />
       </div>
     );
   }
