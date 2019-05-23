@@ -97,6 +97,7 @@ function AppRoot({ classes, isLoggedIn, location }) {
 
   return (
     <>
+      <CssBaseline />
       <Route exact path="/" component={LandingPage} />
       <div className={classes.root}>
         <GlobalStyles />
