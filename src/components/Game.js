@@ -230,7 +230,7 @@ class Game extends Component {
 
           <Background />
           <Grid container>
-            <Grid item xs={8}>
+            <Grid item xs={12} sm={8}>
               <Typography component="h3" variant="h6">
                 {game.name}
               </Typography>
@@ -243,11 +243,7 @@ class Game extends Component {
                 Round List
               </Typography>
             </Grid>
-            <Grid
-              item
-              xs={4}
-              className={classes.buttonContainer}
-            >
+            <Grid item xs={12} sm={4} className={classes.buttonContainer}>
               <PrintGameQuestionsButton gameId={game.id} />
               <PrintGameQuestionsButton
                 label="Generate Answer Sheet"
@@ -255,14 +251,16 @@ class Game extends Component {
                 gameId={game.id}
               />
             </Grid>
+            <Grid item xs={12} className={classes.cardList}>
+              {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map(
+                (r, idx) => (
+                  <div className={classes.cardRow} key={`cr${idx}`}>
+                    {r}
+                  </div>
+                )
+              )}
+            </Grid>
           </Grid>
-          <div className={classes.cardList}>
-            {this.groupRounds(isWidthUp('sm', width) ? 3 : 1).map((r, idx) => (
-              <div className={classes.cardRow} key={`cr${idx}`}>
-                {r}
-              </div>
-            ))}
-          </div>
         </>
       );
     }
