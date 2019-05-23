@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 0
   },
   listItem: {
-    width: '100%',
+    width: '80%',
   },
   listPaper: {
     display: 'flex',
@@ -47,9 +47,8 @@ const ProfileList = ({ profile, toggleView }) => {
     <Paper className={classes.listPaper}>
       <List className={classes.list}>
         {profile.first_name ? (
-          <ListItem className={classes.listItem}>
+          <ListItem divider className={classes.listItem}>
             <ListItemText
-              inset={true}
               secondary="First Name"
               primary={profile.first_name}
             />
@@ -57,32 +56,29 @@ const ProfileList = ({ profile, toggleView }) => {
           ) : null
         }
         {profile.last_name ? (
-          <ListItem className={classes.listItem}>
+          <ListItem divider className={classes.listItem}>
             <ListItemText
-              inset={true}
               secondary="Last Name"
               primary={profile.last_name}
             />
           </ListItem>
           ) : null
         }
-        <ListItem divider={true} className={classes.listItem}>
+        <ListItem divider className={classes.listItem}>
           <ListItemText
-            inset={true}
             secondary="Username"
-            primary={profile.username}
+            primary={profile.nickname}
           />
         </ListItem>
-        <ListItem divider={true} className={classes.listItem}>
+        <ListItem divider className={classes.listItem}>
           <ListItemText
-            inset={true}
             secondary="Email"
             primary={profile.email}
           />
         </ListItem>
         <ListItem className={classes.listItem}>
           <Button
-            inset={true}
+            // inset
             className={classes.button}
             onClick={toggleView('isEditing')}
             variant="outlined"
