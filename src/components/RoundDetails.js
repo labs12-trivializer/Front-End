@@ -57,6 +57,9 @@ const styles = theme => ({
       margin: [[theme.spacing(1), 0, theme.spacing(1)]]
     }
   },
+  button: {
+    margin: [[theme.spacing(1), 0]]
+  },
   cardActions: {
     display: 'flex',
     justifyContent: 'space-between',

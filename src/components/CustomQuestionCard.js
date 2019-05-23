@@ -8,7 +8,8 @@ import {
   Step,
   StepLabel,
   Button,
-  TextField
+  TextField,
+  CardContent
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
@@ -43,6 +44,17 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: 0,
     left: 0
+  },
+  cardContent: {
+    maxWidth: '100%',
+    width: '600px'
+  },
+  buttonRow: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  button: {
+    margin: theme.spacing(1)
   }
 }));
 
@@ -143,13 +155,13 @@ const CustomQuestionCard = ({
             name="text"
             render={() => (
               <TextField
+                margin="normal"
                 autoFocus
                 label="Question Text"
                 name="text"
                 value={values.text}
                 onChange={handleChange}
                 InputLabelProps={{ shrink: true }}
-                margin="normal"
                 helperText={errors.text}
                 error={errors.text ? true : false}
                 fullWidth
@@ -167,14 +179,16 @@ const CustomQuestionCard = ({
             onChange={handleChange}
             placeholder="Select a Question Type..."
           />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            type="submit"
-          >
-            Next
-          </Button>
+          <div className={classes.buttonRow}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              type="submit"
+            >
+              Next
+            </Button>
+          </div>
         </Form>
       )}
     </Formik>
@@ -196,38 +210,47 @@ const CustomQuestionCard = ({
           <Field
             name="text"
             id="AnswerText"
+            validate={() => {
+              if (answers && answers.length > 3) {
+                return 'Only 4 answers per question allowed';
+              }
+            }}
             render={() => (
               <TextField
                 autoFocus
                 label="Correct Answer Text"
+                helperText={errors.text || (answers.length > 3 && 'Answer Limit Reached')}
                 name="text"
                 value={values.text}
                 onChange={handleChange}
                 InputLabelProps={{ shrink: true }}
                 margin="normal"
-                helperText={errors.text}
                 error={errors.text ? true : false}
                 fullWidth
+                disabled={answers.length > 3}
               />
             )}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            type="submit"
-          >
-            Add Answer
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={handleNext}
-            type="button"
-          >
-            Next
-          </Button>
+          <div className={classes.buttonRow}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              type="submit"
+              disabled={answers.length > 3}
+            >
+              Add Answer
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={handleNext}
+              type="button"
+            >
+              Next
+            </Button>
+          </div>
         </Form>
       )}
     </Formik>
@@ -258,29 +281,33 @@ const CustomQuestionCard = ({
                 onChange={handleChange}
                 InputLabelProps={{ shrink: true }}
                 margin="normal"
-                helperText={errors.text}
+                helperText={errors.text || (answers.length > 3 && 'Answer Limit Reached')}
                 error={errors.text ? true : false}
                 fullWidth
+                disabled={answers.length > 3}
               />
             )}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            type="submit"
-          >
-            Add Incorrect Answer
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={handleFinish}
-            type="button"
-          >
-            Finish
-          </Button>
+          <div className={classes.buttonRow}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              type="submit"
+              disabled={answers.length > 3}
+            >
+              Add Incorrect Answer
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={handleFinish}
+              type="button"
+            >
+              Finish
+            </Button>
+          </div>
         </Form>
       )}
     </Formik>
@@ -289,25 +316,27 @@ const CustomQuestionCard = ({
   const stepContent = [step1, step2, step3];
   return (
     <Card className={classes.card}>
-      <IconButton
-        aria-label="Previous"
-        className={classes.backButton}
-        onClick={onBack}
-      >
-        <KeyboardArrowLeftIcon />
-      </IconButton>
-      <Stepper activeStep={activeStep}>
-        <Step>
-          <StepLabel>Question</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Correct Answers</StepLabel>
-        </Step>
-        <Step>
-          <StepLabel>Incorrect Answers</StepLabel>
-        </Step>
-      </Stepper>
-      <div>{stepContent[activeStep]}</div>
+      <CardContent className={classes.cardContent}>
+        <IconButton
+          aria-label="Previous"
+          className={classes.backButton}
+          onClick={onBack}
+        >
+          <KeyboardArrowLeftIcon />
+        </IconButton>
+        <Stepper activeStep={activeStep}>
+          <Step>
+            <StepLabel>Question</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Correct Answers</StepLabel>
+          </Step>
+          <Step>
+            <StepLabel>Incorrect Answers</StepLabel>
+          </Step>
+        </Stepper>
+        <div>{stepContent[activeStep]}</div>
+      </CardContent>
     </Card>
   );
 };

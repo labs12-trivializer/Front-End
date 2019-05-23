@@ -31,22 +31,36 @@ import ShuffleIcon from '@material-ui/icons/Shuffle';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import UndoIcon from '@material-ui/icons/Undo';
+import DragIcon from '@material-ui/icons/DragIndicator';
 
 const indexToLetter = index => String.fromCharCode(index + 64);
 
 const useStyles = makeStyles(theme => ({
   card: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
     marginBottom: theme.spacing(2)
   },
+  dragIcon: {
+    cursor: 'move',
+    position: 'absolute',
+    left: 0,
+    top: 13,
+    color: theme.palette.text.secondary,
+    fontSize: 35
+  },
   cardActions: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     width: '100%'
+  },
+  cardContent: {
+    marginLeft: 20,
+    marginRight: 20
   },
   button: {
     margin: theme.spacing(1)
@@ -113,12 +127,9 @@ const Question = React.forwardRef(
       const index = roundQuestions.indexOf(question.id);
       let newIndex;
       // Swap question up/down by 1 position
-      if ( direction === 'up' && index !== 0) {
+      if (direction === 'up' && index !== 0) {
         newIndex = index - 1;
-      } else if (
-        direction === 'down' &&
-        index < roundQuestions.length - 1
-      ) {
+      } else if (direction === 'down' && index < roundQuestions.length - 1) {
         newIndex = index + 1;
       }
       return newIndex >= 0 && newIndex < roundQuestions.length
@@ -132,7 +143,8 @@ const Question = React.forwardRef(
 
     return (
       <Card className={classes.card} ref={elementRef}>
-        <CardContent>
+        <DragIcon className={classes.dragIcon} />
+        <CardContent className={classes.cardContent}>
           <Typography variant="h5" color="textSecondary" gutterBottom>
             <strong>{index + 1}.</strong>
             {' ' + he.decode(currentQuestion.text)}
@@ -191,7 +203,7 @@ const Question = React.forwardRef(
                 size="small"
                 onClick={() => changePosition('up')}
               >
-                <ArrowUpwardIcon className="up"/>
+                <ArrowUpwardIcon className="up" />
               </Button>
             </Tooltip>
             <Tooltip title="Move Down" aria-label="Move Down">
