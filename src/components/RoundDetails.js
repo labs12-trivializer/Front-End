@@ -122,7 +122,7 @@ class RoundDetails extends Component {
   // that the backend doesn't like (can probably be fixed with Joi)
   nestedRound = () => {
     const {
-      round: { dirty: omit, ...round },
+      round: { dirty: omit, category_counts: omit2, ...round },
       questionsById,
       answersById
     } = this.props;
@@ -190,11 +190,7 @@ class RoundDetails extends Component {
                   <Typography component="h3" variant="h6">
                     {game.name}
                   </Typography>
-                  <Typography
-                    component="h1"
-                    variant="h3"
-                    color="inherit"
-                  >
+                  <Typography component="h1" variant="h3" color="inherit">
                     Round {round.number}
                   </Typography>
                 </Grid>
