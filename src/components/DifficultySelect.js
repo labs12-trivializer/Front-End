@@ -18,7 +18,7 @@ export default ({ onChange, allowAny = true }) => {
   };
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth margin="normal">
       <InputLabel shrink htmlFor="difficulty-selector">
         Difficulty
       </InputLabel>
