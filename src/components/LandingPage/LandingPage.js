@@ -67,34 +67,6 @@ class LandingPage extends React.Component {
             </div>
           </div>
         </div>
-        <Footer
-          content={
-            <div>
-              <div className={classes.left}>
-                <List className={classes.list}>
-                  <ListItem className={classes.inlineBlock}>
-                    <Link className={classes.block} to="/#about">
-                      About
-                    </Link>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <Link className={classes.block} to="/#team">
-                      Our Team
-                    </Link>
-                  </ListItem>
-                  <ListItem className={classes.inlineBlock}>
-                    <Link className={classes.block} to="/#contact">
-                      Contact Us
-                    </Link>
-                  </ListItem>
-                </List>
-              </div>
-              <div className={classes.right}>
-                &copy; {1900 + new Date().getYear()} Triviabase
-              </div>
-            </div>
-          }
-        />
       </div>
     );
   }
