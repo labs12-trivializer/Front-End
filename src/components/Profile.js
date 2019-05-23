@@ -10,6 +10,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Link } from 'react-router-dom';
 
 // import { Container, Form, Avatar } from '../styles/profile.css';
 // import { Background, Button } from '../styles/shared.css';
@@ -57,19 +58,13 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
     setValues({ ...values, [prop]: !values[prop]})
   }
 
-  const handleUpdateSettings = (updates) => {
-    // Do a dance and send an action
-    console.log('Fake action to update profile...')
+  const handleUpdateSettings = updates => {
     editProfile({
       ...updates
     })
 
     setValues({ ...values, isEditing: !values['isEditing']})
   }
-
-  // const handleChange = prop => event => {
-  //   setValues({ ...values, [prop]: event.target.value });
-  // };
 
   useEffect(() => {
     console.log('avatarid:', profile.avatar_id);
@@ -97,19 +92,19 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
       <Paper className={classes.paper}>
         <Tilt className="Tilt" options={{ max: 30 }}>
           <figure onClick={displayWidget} className="Tilt-inner" avatar={profile.avatar_id}>
-            {profile.avatar_id ? (
-              <Avatar
-                alt="Your Avatar"
-                // src="/static/images/avatar/1.jpg"
-                cloudName="trivializer"
-                publicId={profile.avatar_id}
-                className={classes.avatar}
-              />
-              // <Image cloudName="trivializer" publicId={avatar_id} />
-            ) : (
-              <Avatar alt="Placeholder Avatar" src="https://picsum.photos/100" className={classes.avatar} />
-              // <img src="https://picsum.photos/100" alt="placeholder" />
-            )}
+            {profile.avatar_id 
+              ? <Avatar
+                  alt="Your Avatar"
+                  cloudName="trivializer"
+                  publicId={profile.avatar_id}
+                  className={classes.avatar}
+                />
+              : <Avatar 
+                  alt="Placeholder Avatar" 
+                  src="https://picsum.photos/100" 
+                  className={classes.avatar} 
+                />
+            }
           </figure>
         </Tilt>
         <Typography
@@ -119,8 +114,9 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
         </Typography>
         {profile.tier_name !== 'gold' &&
           <Button
+            component={Link}
+            to="/billing"
             variant="contained"
-            href="/billing"
             className={classes.button}
             color="primary"
           >

@@ -6,9 +6,17 @@ import { createMuiTheme } from '@material-ui/core';
 
 const theme = createMuiTheme({});
 
-ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <Root />
-  </ThemeProvider>,
-  document.getElementById('root')
-);
+const renderApp = () =>
+  ReactDOM.render(
+    <ThemeProvider theme={theme}>
+      <Root />
+    </ThemeProvider>,
+    document.getElementById('root')
+  );
+
+// Set up component hot reloading
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+  module.hot.accept('./components/Root', renderApp);
+}
+
+renderApp();

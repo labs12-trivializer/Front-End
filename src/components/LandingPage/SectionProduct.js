@@ -16,24 +16,13 @@ class SectionProduct extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.section}>
-        <GridContainer justify="center">
-          <GridItem xs={12} sm={8} md={8}>
-            <h2 className={classes.title}>Let's talk product</h2>
-            <h5 className={classes.description} style={{ textAlign: 'left' }}>
-              This is the paragraph where you can write more details about your
-              product. Keep you user engaged by providing meaningful
-              information. Remember that by this time, the user is curious,
-              otherwise he wouldn't scroll to get here. Add a button if you want
-              the user to see more.
-            </h5>
-          </GridItem>
-        </GridContainer>
         <div>
+          <h2 className={classes.title}>Let's talk product</h2>
           <GridContainer>
             <GridItem xs={12} sm={4} md={4}>
               <InfoArea
                 title="Create Games"
-                description="Create games and rounds and questions and lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum"
+                description="Create games, rounds and questions by leveraging a trivia question API or by creating your own custom entries - you have complete freedom whichever way you choose"
                 icon={Add}
                 iconColor="info"
                 vertical
