@@ -70,6 +70,7 @@ function CustomInput({ ...props }) {
         </InputLabel>
       ) : null}
       <Input
+        required
         classes={{
           input: inputClasses,
           root: marginTop,
