@@ -7,7 +7,6 @@ import { Background } from '../styles/shared.css';
 const Callback = () => {
   return (
     <>
-      <Background />
       <Center>
         <Spinner name="ball-scale-ripple" color="#25E1D2" />
       </Center>

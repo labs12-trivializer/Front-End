@@ -7,6 +7,7 @@ import { Typography, withStyles } from '@material-ui/core';
 import chunk from '../helpers/chunk';
 import { getGameById } from '../reducers';
 import { fetchGame } from '../actions';
+import { Image } from 'cloudinary-react';
 
 // these page styles seem to work for splitting pages
 // a page is around 950px high by 705px wide
@@ -21,13 +22,22 @@ const styles = theme => ({
     marginBottom: theme.spacing(2)
   },
   header: {
-    display: 'flex'
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center'
   },
   headerLeft: {
     display: 'flex',
     flexDirection: 'column',
     minWidth: '50%',
     flex: 1
+  },
+  avatar: {
+    margin: '.5rem',
+    width: 80,
+    height: 80,
+    cursor: 'pointer',
+    borderRadius: '50%'
   }
 });
 
@@ -39,7 +49,8 @@ const PrintableRound = ({
   game,
   index,
   variation,
-  classes
+  classes,
+  logoId
 }) => {
   useEffect(() => {
     if (!game) {
@@ -71,6 +82,14 @@ const PrintableRound = ({
                 `${game.name}, Round ${(index && index + 1) ||
                   round.number} / ${game.rounds.length}`}
             </Typography>
+            {logoId && (
+                <Image
+                  alt="Your Logo"
+                  cloudName="trivializer"
+                  publicId={logoId}
+                  className={classes.avatar}
+                />
+              )}
           </div>
           {questionGroup.map((q, idx) => (
             <PrintableQuestion
@@ -92,6 +111,7 @@ const mapStateToProps = (state, ownProps) => {
   const game = round ? getGameById(state, round.game_id) : null;
 
   return {
+    logoId: state.profile.logo_id,
     round: getRoundById(state, ownProps.roundId),
     game
   };

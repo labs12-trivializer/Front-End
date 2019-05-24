@@ -70,7 +70,8 @@ const PrintGameQuestionsButton = ({
   game,
   label,
   highlightAnswers,
-  classes
+  classes,
+  data
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   function handleClick(event) {
@@ -89,6 +90,7 @@ const PrintGameQuestionsButton = ({
         onClick={handleClick}
         variant="contained"
         color="primary"
+        data-key={data}
       >
         {label || 'Print Questions'}
       </Button>

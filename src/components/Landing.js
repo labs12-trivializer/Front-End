@@ -24,7 +24,6 @@ const Landing = ({ auth, history }) => {
 
   return (
     <Container>
-      <Background />
       <Header isLoggedIn={isLoggedIn}>
         <h1>Trivia Games</h1>
         <h2>Tailored to your Bar</h2>
