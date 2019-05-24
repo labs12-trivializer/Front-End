@@ -44,7 +44,8 @@ const styles = theme => ({
       backgroundColor: '#FFF',
       boxShadow: theme.shadows[20],
       transform: 'translateY(-3px)'
-    }
+    },
+    minHeight: 254
   },
   cardContent: {
     minHeight: '10rem',
@@ -71,13 +72,21 @@ const styles = theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
+    minHeight: 254
   },
   cardActions: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     flex: 1
+  },
+  gameInfo: {
+    position: 'absolute',
+    bottom: 3,
+    right: 8,
+    fontSize: '0.8rem',
+    color: theme.palette.grey[400]
   }
 });
 
@@ -151,6 +160,13 @@ class Games extends Component {
                 />
               )}
             </CardContent>
+            <Tooltip
+              title={`Rounds: ${g.num_rounds} Questions: ${g.num_questions}`}
+            >
+              <Typography className={classes.gameInfo}>
+                R{g.num_rounds} Q{g.num_questions}
+              </Typography>
+            </Tooltip>
           </CardActionArea>
         </Card>
       )),

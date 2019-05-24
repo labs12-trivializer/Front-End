@@ -10,7 +10,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { Container, Header } from '../styles/landing.css';
-import { Background } from '../styles/shared.css';
 
 const Landing = ({ auth, history }) => {
   const login = () => auth.login();
@@ -24,7 +23,6 @@ const Landing = ({ auth, history }) => {
 
   return (
     <Container>
-      <Background />
       <Header isLoggedIn={isLoggedIn}>
         <h1>Trivia Games</h1>
         <h2>Tailored to your Bar</h2>
