@@ -87,7 +87,8 @@ const Question = React.forwardRef(
       undo,
       connectDragSource,
       connectDropTarget,
-      index
+      index,
+      isDragging
     },
     ref
   ) => {
@@ -95,7 +96,7 @@ const Question = React.forwardRef(
     const elementRef = useRef(null);
     connectDragSource(elementRef);
     connectDropTarget(elementRef);
-    // const opacity = isDragging ? 0 : 1;
+    const opacity = isDragging ? 0 : 1;
     useImperativeHandle(ref, () => ({ getNode: () => elementRef.current }));
     const canUndo = question.changes && question.changes.length > 0;
     const currentQuestion = canUndo
@@ -142,7 +143,7 @@ const Question = React.forwardRef(
     }
 
     return (
-      <Card className={classes.card} ref={elementRef}>
+      <Card style={{opacity}} className={classes.card} ref={elementRef}>
         <DragIcon className={classes.dragIcon} />
         <CardContent className={classes.cardContent}>
           <Typography variant="h5" color="textSecondary" gutterBottom>
