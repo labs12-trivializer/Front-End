@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   questionText: {
-    lineHeight: '18px'
+    lineHeight: '22px'
   },
   answerContainer: {
     flex: 1,
@@ -43,7 +43,9 @@ const useStyles = makeStyles(theme => ({
   answeredBlankLine: {
     height: 'auto',
     paddingTop: '0px',
-    fontSize: '20px'
+    fontSize: '12px',
+    lineHeight: '14px',
+    borderBottom: 'none'
   }
 }));
 
