@@ -70,7 +70,7 @@ const Round = ({ classes, index, round, deleteRound }) => {
         </IconButton>
       </Tooltip>
       <CardActionArea
-        classNam={classes.actionArea}
+        className={classes.actionArea}
         component={Link}
         to={`/rounds/${round.id}`}
       >
