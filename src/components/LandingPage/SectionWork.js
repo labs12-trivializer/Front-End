@@ -55,8 +55,8 @@ class SectionWork extends React.Component {
             <h2 className={classes.title}>Get In Touch</h2>
             <h4 className={classes.description}>
               If you have any questions or comments, please do not hesitate to
-              reach out to us using the form below. Once of our team members
-              will be getting back to you shortly!
+              reach out to us using the form below. One of our team members will
+              be getting back to you shortly!
             </h4>
             <form onSubmit={() => this.handleSubmit()}>
               <GridContainer>
