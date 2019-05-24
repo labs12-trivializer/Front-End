@@ -7,7 +7,8 @@ import {
   CardContent,
   withStyles,
   CardHeader,
-  IconButton
+  IconButton,
+  Tooltip
 } from '@material-ui/core';
 import { deleteRound } from '../actions';
 import { compose } from 'redux';
@@ -42,9 +43,11 @@ const Round = ({ classes, index, round, deleteRound }) => {
       <CardActionArea component={Link} to={`/rounds/${round.id}`}>
         <CardHeader
           action={
-            <IconButton onClick={() => deleteRound(round.id, round.game_id)}>
-              <DeleteIcon />
-            </IconButton>
+            <Tooltip title="Delete Round" aria-label="Delete">
+              <IconButton onClick={() => deleteRound(round.id, round.game_id)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           }
           title={`Round ${index || round.number}`}
         />

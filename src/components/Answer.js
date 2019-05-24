@@ -8,21 +8,37 @@ import { compose } from 'redux';
 
 const styles = () => ({
   rightAnswer: {
-    fontWeight: 800
+    fontWeight: 800,
   }
 });
 
-const Answer = ({ answer, answerId, label, classes, highlightAnswers }) => {
+const Answer = ({
+  oneLine,
+  answer,
+  answerId,
+  label,
+  classes,
+  highlightAnswers,
+  postFix
+}) => {
   if (!answer && !answerId) {
     return null;
   }
 
   if (answer.is_correct && highlightAnswers) {
-    return (
-      <div className={classes.rightAnswer}>
-        {label || '-'} {he.decode(answer.text)}
-      </div>
-    );
+    if (oneLine) {
+      return (
+        <span className={classes.rightAnswer}>
+          {label} {he.decode(answer.text)}{postFix}
+        </span>
+      );
+    } else {
+      return (
+        <div className={classes.rightAnswer}>
+          {label} {he.decode(answer.text)}{postFix}
+        </div>
+      );
+    }
   }
 
   return (

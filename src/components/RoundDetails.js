@@ -49,6 +49,12 @@ const styles = theme => ({
       boxShadow: theme.shadows[20]
     }
   },
+  link: {
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
+  },
   buttonContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -187,7 +193,13 @@ class RoundDetails extends Component {
             <Paper className={classes.paper}>
               <Grid container className={classes.header}>
                 <Grid item xs={8} className={classes.headerText}>
-                  <Typography component="h3" variant="h6">
+                  <Typography
+                    variant="h6"
+                    component={Link}
+                    color="primary"
+                    to={`/games/${game.id}`}
+                    className={classes.link}
+                  >
                     {game.name}
                   </Typography>
                   <Typography component="h1" variant="h3" color="inherit">
@@ -202,7 +214,7 @@ class RoundDetails extends Component {
                   <PrintRoundButton
                     roundId={round.id}
                     highlightAnswers
-                    label="Generate Answer Sheet"
+                    label="Print Answers"
                     className={classes.button}
                   />
                 </Grid>

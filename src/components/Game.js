@@ -252,7 +252,7 @@ class Game extends Component {
             <Grid item xs={12} sm={4} className={classes.buttonContainer}>
               <PrintGameQuestionsButton gameId={game.id} />
               <PrintGameQuestionsButton
-                label="Generate Answer Sheet"
+                label="Print Answers"
                 highlightAnswers
                 gameId={game.id}
               />
