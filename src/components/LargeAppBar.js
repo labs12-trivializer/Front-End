@@ -45,9 +45,14 @@ const LargeAppBar = ({ isLoggedIn, auth }) => {
             </Button>
           </>
         ) : (
-          <Button color="inherit" onClick={() => auth.login()}>
-            Login
-          </Button>
+          <>
+            <Button color="inherit" onClick={() => auth.login()}>
+              Login
+            </Button>
+            <Button color="inherit" onClick={() => auth.login()}>
+              Sign Up
+            </Button>
+          </>
         )}
       </Toolbar>
     </AppBar>

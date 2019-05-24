@@ -43,13 +43,11 @@ const useStyles = makeStyles(theme => ({
 
 
 const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
-  
+
   const classes = useStyles();
 
   const [values, setValues] = React.useState({
-    first_name: '',
-    last_name: '',
-    nickname: '',
+    nickname: '' || profile.nickname,
     email: '' || profile.email
   });
 
@@ -67,26 +65,6 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
   return (
     <Paper className={classes.paper}>
       <form className={classes.form} onSubmit={handleSubmitForm}>
-        <FormControl className={classes.formControl}>
-          <TextField
-            id="filled-uncontrolled"
-            label="First Name"
-            defaultValue={profile.first_name}
-            onChange={handleChange('first_name')}
-            margin="dense"
-            variant="outlined"
-            />
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <TextField
-            id="filled-uncontrolled"
-            label="Last Name"
-            defaultValue={profile.last_name}
-            onChange={handleChange('last_name')}
-            margin="dense"
-            variant="outlined"
-            />
-        </FormControl>
         <FormControl className={classes.formControl}>
           <TextField
             id="filled-uncontrolled"
@@ -109,19 +87,19 @@ const ProfileEditForm = ({ profile, toggleView, updateSettings }) => {
             />
         </FormControl>
         <FormControl className={clsx(classes.formControl, classes.buttonRow)}>
-          <Button 
+          <Button
             type="submit"
             // onClick={updateSettings}
             className={classes.button}
-            variant="outlined" 
+            variant="outlined"
             color="primary"
           >
             Save Profile
           </Button>
-          <Button 
+          <Button
             onClick={toggleView}
             className={classes.button}
-            variant="outlined" 
+            variant="outlined"
             color="secondary"
           >
             Cancel

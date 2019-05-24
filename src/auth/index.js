@@ -2,16 +2,15 @@ import history from '../history';
 import auth0 from 'auth0-js';
 import { AUTH_CONFIG } from './config';
 import { store } from '../store';
-import { loginSuccess } from '../actions';
+import { loginSuccess, addProfile } from '../actions';
 
 const { dispatch, getState } = store;
 
 class Auth {
   accessToken;
-  auth0Manage;
   expiresAt;
   idToken;
-  requestedScopes = 'openid profile email read:current_user';
+  requestedScopes = 'openid profile email';
   scopes;
   tokenRenewalTimeout;
   userProfile;
@@ -61,7 +60,6 @@ class Auth {
 
   setSession = async authResult => {
     // Set the time that the access token will expire at
-    let expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
     this.accessToken = authResult.accessToken;
     this.idToken = authResult.idToken;
     this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
@@ -73,6 +71,12 @@ class Auth {
     if (!this.userProfile) {
       try {
         const profile = await this.getProfile();
+
+        await dispatch(addProfile({
+          auth0_id: profile.sub,
+          email: profile.email,
+          nickname: profile.nickname
+        }));
 
         await dispatch(
           loginSuccess({
