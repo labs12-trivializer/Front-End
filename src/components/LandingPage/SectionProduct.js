@@ -31,7 +31,7 @@ class SectionProduct extends React.Component {
             <GridItem xs={12} sm={4} md={4}>
               <InfoArea
                 title="Customize Experience"
-                description="Tailor trivia games to your audience by choosing from an assortment of question categories ranging from Anime to Literature"
+                description="Tailor trivia games to your audience by choosing from an assortment of question categories ranging from Sports to Anime to Literature"
                 icon={Tune}
                 iconColor="success"
                 vertical
@@ -40,7 +40,7 @@ class SectionProduct extends React.Component {
             <GridItem xs={12} sm={4} md={4}>
               <InfoArea
                 title="Print Question and Answer Sheets"
-                description="When you've completed making your game, easily generate PDFs of question and answers sheets and you are on your way"
+                description="When you've completed making your game, easily generate printable PDFs of question and answer sheets and you are prepared to host an epic night of bar trivia"
                 icon={Print}
                 iconColor="danger"
                 vertical
