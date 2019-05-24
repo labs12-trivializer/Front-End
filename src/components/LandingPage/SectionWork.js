@@ -54,10 +54,9 @@ class SectionWork extends React.Component {
           <GridItem cs={12} sm={8} md={8}>
             <h2 className={classes.title}>Get In Touch</h2>
             <h4 className={classes.description}>
-              Divide details about your product or agency work into parts. Write
-              a few lines about each one and contact us about any further
-              collaboration. We will responde get back to you in a couple of
-              hours.
+              If you have any questions or comments, please do not hesitate to
+              reach out to us using the form below. Once of our team members
+              will be getting back to you shortly!
             </h4>
             <form onSubmit={() => this.handleSubmit()}>
               <GridContainer>

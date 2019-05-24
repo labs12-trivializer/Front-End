@@ -17,7 +17,7 @@ class SectionProduct extends React.Component {
     return (
       <div className={classes.section}>
         <div>
-          <h2 className={classes.title}>Let's talk product</h2>
+          <h2 className={classes.title}>Application Features:</h2>
           <GridContainer>
             <GridItem xs={12} sm={4} md={4}>
               <InfoArea
