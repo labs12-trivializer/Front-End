@@ -33,7 +33,6 @@ const useStyles = makeStyles(theme => ({
   blankLine: {
     flex: 1,
     display: 'block',
-    borderBottom: '1px solid black',
     minHeight: '30px',
     paddingTop: '30px'
   },
