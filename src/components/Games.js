@@ -14,9 +14,7 @@ import {
   withWidth,
   CardActionArea,
   CardHeader,
-  Tooltip,
-  Icon,
-  Badge
+  Tooltip
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import NewGameDialog from './NewGameDialog';

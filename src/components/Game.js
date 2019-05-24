@@ -9,7 +9,6 @@ import {
   addRound,
   deleteRound
 } from '../actions';
-import { Background } from '../styles/shared.css';
 // import { GameInput, InputControls, RoundList } from '../styles/game.css';
 import Round from './Round';
 import {
@@ -234,7 +233,6 @@ class Game extends Component {
             gameId={game.id}
           />
 
-          <Background />
           <Grid container>
             <Grid item xs={12} sm={8}>
               <Typography component="h3" variant="h6">
