@@ -29,7 +29,7 @@ class LandingPage extends React.Component {
     document.body.scrollTop = 0;
   }
   render() {
-    const { classes } = this.props;
+    const { classes, auth } = this.props;
     return (
       <div id="about">
         <Parallax image={require('./assets/img/bar.jpg')} filter="dark">
@@ -38,19 +38,19 @@ class LandingPage extends React.Component {
               <GridItem xs={12} sm={6} md={6}>
                 <h1 className={classes.title}>Bar Trivia Nights Made Easy.</h1>
                 <h4>
-                  By taking the hassle out of creating unique trivia games for
-                  bar trivia night hosts, our product helps generate games and
-                  prepare question and answer sheets needed to host the event.
+                  Triviabase helps take the headache out of creating trivia
+                  games so that trivia night hosts can spend less time coming up
+                  with unique content on a weekly basis and more time doing what
+                  they love
                 </h4>
                 <br />
                 <Button
                   color="danger"
                   size="lg"
-                  target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => auth.login()}
                 >
-                  <i className="fas fa-play" />
-                  Watch video
+                  Get Started
                 </Button>
               </GridItem>
             </GridContainer>
