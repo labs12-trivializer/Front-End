@@ -2,7 +2,7 @@ import history from '../history';
 import auth0 from 'auth0-js';
 import { AUTH_CONFIG } from './config';
 import { store } from '../store';
-import { loginSuccess, addProfile } from '../actions';
+import { loginSuccess } from '../actions';
 
 const { dispatch, getState } = store;
 
@@ -71,12 +71,6 @@ class Auth {
     if (!this.userProfile) {
       try {
         const profile = await this.getProfile();
-
-        await dispatch(addProfile({
-          auth0_id: profile.sub,
-          email: profile.email,
-          nickname: profile.nickname
-        }));
 
         await dispatch(
           loginSuccess({

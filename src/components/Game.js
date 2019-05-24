@@ -7,7 +7,8 @@ import {
   editGame,
   deleteGame,
   addRound,
-  deleteRound
+  deleteRound,
+  editProfile
 } from '../actions';
 // import { GameInput, InputControls, RoundList } from '../styles/game.css';
 import Round from './Round';
@@ -19,7 +20,8 @@ import {
   CardContent,
   withWidth,
   Grid,
-  Tooltip
+  Tooltip,
+  Button
 } from '@material-ui/core';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import { compose } from 'redux';
@@ -28,6 +30,8 @@ import NewRoundDialog from './NewRoundDialog';
 import PrintGameQuestionsButton from './PrintGameQuestionsButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import clsx from 'clsx';
+import Tilt from 'react-tilt';
+import { Image } from 'cloudinary-react';
 
 const initialState = props => ({
   title: props.game && props.game.name,
@@ -98,7 +102,21 @@ const styles = theme => ({
     alignItems: 'flex-end',
     '& button': {
       margin: theme.spacing(1)
+    },
+    '@media (max-width: 500px)': {
+      flexDirection: 'row',
+      alignItems: 'center',
+      '& button[data-key="order"]': {
+        order: -1
+      }
     }
+  },
+  avatar: {
+    margin: '.25rem',
+    width: 100,
+    height: 100,
+    cursor: 'pointer',
+    borderRadius: '50%'
   }
 });
 
@@ -107,6 +125,21 @@ class Game extends Component {
 
   componentDidMount = () => {
     this.props.fetchGame(this.props.match.params.id);
+    this.widget = window.cloudinary.createUploadWidget(
+      { cloudName: 'trivializer', uploadPreset: 'ntufdwhu' },
+      (err, result) => {
+        if (result && result.event === 'success') {
+          console.log('Widget upload complete?', result);
+          this.props.editProfile({
+            logo_id: result.info.public_id
+          });
+        }
+      }
+    );
+  };
+
+  displayWidget = () => {
+    this.widget.open();
   };
 
   handleAddNewRound = async () => {
@@ -248,7 +281,28 @@ class Game extends Component {
               </Typography>
             </Grid>
             <Grid item xs={12} sm={4} className={classes.buttonContainer}>
-              <PrintGameQuestionsButton gameId={game.id} />
+              {this.props.logoId ? (
+                <Tilt className="Tilt" options={{ max: 30 }}>
+                  <figure onClick={this.displayWidget} className="Tilt-inner">
+                    <Image
+                      alt="Your Logo"
+                      cloudName="trivializer"
+                      publicId={this.props.logoId}
+                      className={classes.avatar}
+                    />
+                  </figure>
+                </Tilt>
+              ) : (
+                <Button
+                  aria-haspopup="true"
+                  variant="contained"
+                  color="primary"
+                  onClick={this.displayWidget}
+                >
+                  Upload Logo
+                </Button>
+              )}
+              <PrintGameQuestionsButton gameId={game.id} data="order" />
               <PrintGameQuestionsButton
                 label="Print Answers"
                 highlightAnswers
@@ -273,7 +327,8 @@ class Game extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   game: state.games.byId[ownProps.match.params.id],
-  roundLimit: state.profile.round_limit
+  roundLimit: state.profile.round_limit,
+  logoId: state.profile.logo_id
 });
 
 export default compose(
@@ -285,7 +340,8 @@ export default compose(
       deleteGame,
       addRound,
       withRouter,
-      deleteRound
+      deleteRound,
+      editProfile
     }
   ),
   withWidth(),
