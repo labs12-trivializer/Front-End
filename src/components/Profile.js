@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Link } from 'react-router-dom';
+import { Image } from 'cloudinary-react';
 
 // import { Container, Form, Avatar } from '../styles/profile.css';
 // import { Background, Button } from '../styles/shared.css';
@@ -35,6 +36,8 @@ const useStyles = makeStyles(theme => ({
     margin: '.5rem',
     width: 100,
     height: 100,
+    cursor: 'pointer',
+    borderRadius: '50%'
   },
   paper: {
     display: 'flex',
@@ -58,11 +61,8 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
     setValues({ ...values, [prop]: !values[prop]})
   }
 
-  const handleUpdateSettings = updates => {
-    editProfile({
-      ...updates
-    })
-
+  const handleUpdateSettings = async updates => {
+    await editProfile({ ...updates });
     setValues({ ...values, isEditing: !values['isEditing']})
   }
 
@@ -92,17 +92,17 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
       <Paper className={classes.paper}>
         <Tilt className="Tilt" options={{ max: 30 }}>
           <figure onClick={displayWidget} className="Tilt-inner" avatar={profile.avatar_id}>
-            {profile.avatar_id 
-              ? <Avatar
+            {profile.avatar_id
+              ? <Image
                   alt="Your Avatar"
                   cloudName="trivializer"
                   publicId={profile.avatar_id}
                   className={classes.avatar}
                 />
-              : <Avatar 
-                  alt="Placeholder Avatar" 
-                  src="https://picsum.photos/100" 
-                  className={classes.avatar} 
+              : <Avatar
+                  alt="Placeholder Avatar"
+                  src="https://picsum.photos/100"
+                  className={classes.avatar}
                 />
             }
           </figure>
@@ -124,7 +124,7 @@ const Profile = ({ profile, fetchProfile, editProfile }) => {
           </Button>
         }
       </Paper>
-      {values.isEditing 
+      {values.isEditing
         ? <ProfileEditForm updateSettings={handleUpdateSettings} toggleView={handleToggleView('isEditing')}/>
         : <ProfileList toggleView={handleToggleView}/>
       }
