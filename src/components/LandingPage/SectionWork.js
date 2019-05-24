@@ -26,24 +26,34 @@ class SectionWork extends React.Component {
   };
 
   handleSubmit = async () => {
-    axios
-      .post('https://lambda-trivializer.herokuapp.com/api/contact', {
-        ...this.state
-      })
-      .then(res => {
-        if (res.status === 200) {
-          toast.success(`Message Sent!`, {
-            position: toast.POSITION.TOP_CENTER,
-            textAlign: 'center'
-          });
+    if (!this.state.name || !this.state.email || !this.state.message) {
+      toast.error(
+        `Make sure to include a name, email and message before sending!`,
+        {
+          position: toast.POSITION.TOP_CENTER,
+          textAlign: 'center'
         }
-      })
-      .catch(err => console.log(err));
-    this.setState({
-      message: '',
-      email: '',
-      name: ''
-    });
+      );
+    } else {
+      axios
+        .post('https://lambda-trivializer.herokuapp.com/api/contact', {
+          ...this.state
+        })
+        .then(res => {
+          if (res.status === 200) {
+            toast.success(`Message Sent!`, {
+              position: toast.POSITION.TOP_CENTER,
+              textAlign: 'center'
+            });
+          }
+        })
+        .catch(err => console.log(err));
+      this.setState({
+        message: '',
+        email: '',
+        name: ''
+      });
+    }
   };
 
   render() {
