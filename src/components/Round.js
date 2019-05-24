@@ -8,7 +8,8 @@ import {
   withStyles,
   CardHeader,
   IconButton,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@material-ui/core';
 import { deleteRound } from '../actions';
 import { compose } from 'redux';
@@ -34,6 +35,13 @@ const styles = theme => ({
   },
   cardContent: {
     minHeight: '10rem'
+  },
+  roundInfo: {
+    position: 'absolute',
+    bottom: 3,
+    right: 8,
+    fontSize: '0.8rem',
+    color: theme.palette.grey[400]
   }
 });
 
@@ -67,6 +75,13 @@ const Round = ({ classes, index, round, deleteRound }) => {
             />
           )}
         </CardContent>
+        <Tooltip
+          title={`Questions: ${round.questions ? round.questions.length : 0}`}
+        >
+          <Typography className={classes.roundInfo}>
+            Q{round.questions ? round.questions.length : 0}
+          </Typography>
+        </Tooltip>
       </CardActionArea>
     </Card>
   );
