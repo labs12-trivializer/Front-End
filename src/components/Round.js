@@ -31,10 +31,11 @@ const styles = theme => ({
       backgroundColor: '#FFF',
       boxShadow: theme.shadows[20],
       transform: 'translateY(-3px)'
-    }
+    },
+    minHeight: 172
   },
   cardContent: {
-    minHeight: '10rem'
+    minHeight: 172
   },
   roundInfo: {
     position: 'absolute',
@@ -42,23 +43,38 @@ const styles = theme => ({
     right: 8,
     fontSize: '0.8rem',
     color: theme.palette.grey[400]
+  },
+  icon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 100
+  },
+  actionArea: {
+    height: '100%'
   }
 });
 
 const Round = ({ classes, index, round, deleteRound }) => {
   return (
     <Card className={classes.card} key={`rnd${round.id}`}>
-      <CardActionArea component={Link} to={`/rounds/${round.id}`}>
-        <CardHeader
-          action={
-            <Tooltip title="Delete Round" aria-label="Delete">
-              <IconButton onClick={() => deleteRound(round.id, round.game_id)}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-          }
-          title={`Round ${index || round.number}`}
-        />
+      <Tooltip title="Delete Round" aria-label="Delete">
+        <IconButton
+          className={classes.icon}
+          onClick={e => {
+            e.stopPropagation();
+            deleteRound(round.id, round.game_id);
+          }}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
+      <CardActionArea
+        className={classes.actionArea}
+        component={Link}
+        to={`/rounds/${round.id}`}
+      >
+        <CardHeader title={`Round ${index || round.number}`} />
         <CardContent className={classes.cardContent}>
           {round.category_counts && (
             <TagCloud
