@@ -29,7 +29,7 @@ class LandingPage extends React.Component {
     document.body.scrollTop = 0;
   }
   render() {
-    const { classes } = this.props;
+    const { classes, auth } = this.props;
     return (
       <div id="about">
         <Parallax image={require('./assets/img/bar.jpg')} filter="dark">
@@ -46,11 +46,10 @@ class LandingPage extends React.Component {
                 <Button
                   color="danger"
                   size="lg"
-                  target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => auth.login()}
                 >
-                  <i className="fas fa-play" />
-                  Watch video
+                  Get Started
                 </Button>
               </GridItem>
             </GridContainer>
