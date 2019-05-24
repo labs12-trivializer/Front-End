@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import {
   fetchGame,
@@ -117,6 +117,12 @@ const styles = theme => ({
     height: 100,
     cursor: 'pointer',
     borderRadius: '50%'
+  },
+  link: {
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
   }
 });
 
@@ -268,7 +274,13 @@ class Game extends Component {
 
           <Grid container>
             <Grid item xs={12} sm={8}>
-              <Typography component="h3" variant="h6">
+              <Typography
+                variant="h6"
+                component={Link}
+                color="primary"
+                to={'/games'}
+                className={classes.link}
+              >
                 {game.name}
               </Typography>
               <Typography
