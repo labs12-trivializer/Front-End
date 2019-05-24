@@ -45,7 +45,16 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     width: '100%',
     padding: '.5rem 0',
-    margin: '0 0 1rem'
+    margin: '0 0 1rem',
+    [theme.breakpoints.up('sm')]: {
+      width: '80vw',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '60vw',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '40vw',
+    }
   }
 }));
 

@@ -34,7 +34,16 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     width: '100%',
     padding: 0,
-    margin: 0
+    margin: 0,
+    [theme.breakpoints.up('sm')]: {
+      width: '80vw',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '60vw',
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: '40vw',
+    }
   }
 }));
 
