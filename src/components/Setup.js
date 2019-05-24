@@ -15,7 +15,9 @@ import {
 const mapStateToProps = state => ({
   haveProfile: state.profile.tier_name ? true : false,
   loggedIn: state.auth.loggedIn,
-  email: state.profile.email
+  sub: state.profile.sub,
+  email: state.profile.email,
+  nickname: state.profile.nickname
 });
 
 // Functional component with destructured props, wrapped with redux's connect
@@ -35,7 +37,9 @@ export default connect(
     fetchCategories,
     loginSuccess,
     loggedIn,
+    sub,
     email,
+    nickname,
     addProfile,
     fetchQuestionTypes
   }) => {
@@ -51,7 +55,11 @@ export default connect(
         }
       } else {
         if (!haveProfile && email) {
-          addProfile({ email }).then(() =>
+          addProfile({
+            auth0_id: sub,
+            email,
+            nickname
+          }).then(() =>
             Promise.all([fetchCategories(), fetchQuestionTypes()])
           );
         }
@@ -64,7 +72,9 @@ export default connect(
       loggedIn,
       loginSuccess,
       addProfile,
-      email
+      sub,
+      email,
+      nickname
     ]);
 
     return null;
