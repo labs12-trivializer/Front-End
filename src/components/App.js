@@ -48,7 +48,10 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    '@media (max-width: 500px)': {
+      padding: 0
+    }
   },
   inlineBlock: {
     display: 'inline-block',
